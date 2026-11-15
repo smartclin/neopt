@@ -1,0 +1,44 @@
+@import "@fontsource-variable/noto-sans";
+@import "@fontsource-variable/nunito-sans";
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/inter-latin-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Alyamama";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/alyamama-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/fraunces-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Caveat";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/caveat-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src:
+    url("/fonts/geist-mono-latin-wght-normal.woff2") format("woff2"),
+    url("/fonts/geist-mono-regular.woff2") format("woff2");
+}

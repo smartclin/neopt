@@ -1,0 +1,352 @@
+// src/features/growth/components/EgyptianGrowthChart.test.tsx
+import { render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
+
+import {
+	ChartBand,
+	ChartCurves,
+	EgyptianGrowthChart,
+	type GrowthPoint
+} from "@/features/growth";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Types
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * The shape of a single `lineY` mark as produced by `@tanstack/charts`.
+ * Only the fields the tests actually inspect are typed; the rest are `unknown`
+ * to avoid coupling the test to the library's full (internal) mark type.
+ */
+type LineYMark = {
+	type: "lineY";
+	data: Array<Record<string, unknown>>;
+	opts: Record<string, unknown>;
+};
+
+type DotMark = {
+	type: "dot";
+	data: GrowthPoint[];
+	opts: Record<string, unknown>;
+};
+
+type ChartDefinition = {
+	marks: Array<LineYMark | DotMark>;
+	scales: {
+		x: { axis: { label?: string } };
+		y: { axis: { label?: string } };
+	};
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Fixtures — MUST match the app's `ChartCurves` / `ChartBand` types
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Three canonical curves. Note the keys: `sd1`, `sd2`, `sd3` (not `sd1pos`).
+ * This mirrors `ChartPointValues` in `features/growth/types.ts`.
+ */
+function makeCurves(): ChartCurves {
+	const points = [0, 3, 6, 9, 12, 18, 24].map(x => ({
+		x,
+		median: 3.5 + x * 0.5,
+		sd3neg: 2.1 + x * 0.4,
+		sd2neg: 2.6 + x * 0.42,
+		sd1neg: 3.0 + x * 0.45,
+		sd1: 4.0 + x * 0.55,
+		sd2: 4.6 + x * 0.6,
+		sd3: 5.3 + x * 0.65
+	}));
+
+	return {
+		indicator: "weight-for-age",
+		sex: "male",
+		xAxis: "age",
+		points
+	};
+}
+
+const CURVES: ChartCurves = makeCurves();
+
+const BAND: ChartBand = {
+	x: 6,
+	median: 6.5,
+	sd3neg: 4.7,
+	sd2neg: 5.2,
+	sd1neg: 5.7,
+	sd1: 7.3,
+	sd2: 7.8,
+	sd3: 8.3
+};
+
+/** Marker at a non-tabulated x — the component must still render it. */
+const INTERPOLATED_BAND: ChartBand = {
+	x: 0.5,
+	median: 3.8,
+	sd3neg: 2.4,
+	sd2neg: 2.85,
+	sd1neg: 3.25,
+	sd1: 4.35,
+	sd2: 4.9,
+	sd3: 5.6
+};
+
+const POINTS: GrowthPoint[] = [
+	{ x: 0, y: 3.4 },
+	{ x: 6, y: 6.5 },
+	{ x: 12, y: 7.9 }
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Mocks
+// ─────────────────────────────────────────────────────────────────────────────
+
+// A place to stash the `definition` the component passes to `<Chart>`.
+let capturedDefinition: ChartDefinition | null = null;
+
+vi.mock("@tanstack/charts", () => ({
+	defineChart: (def: ChartDefinition) => def,
+	lineY: (data: LineYMark["data"], opts: LineYMark["opts"]) => ({
+		type: "lineY",
+		data,
+		opts
+	}),
+	dot: (data: DotMark["data"], opts: DotMark["opts"]) => ({
+		type: "dot",
+		data,
+		opts
+	})
+}));
+
+vi.mock("@tanstack/charts/scales/linear", () => ({
+	scaleLinear: { __isLinear: true }
+}));
+
+vi.mock("@tanstack/charts/tooltip", () => ({ tooltip: {} }));
+
+/**
+ * We only mock `<Chart>` so we can grab the `definition` prop. Asserting on
+ * the definition (marks + scales) is the stable contract for `@tanstack/charts`;
+ * asserting on rendered SVG geometry would couple the test to internals.
+ */
+vi.mock("@tanstack/charts/react", () => ({
+	Chart: (props: { definition: ChartDefinition; ariaLabel: string }) => {
+		capturedDefinition = props.definition;
+		return (
+			<div
+				aria-label={props.ariaLabel}
+				data-testid='chart'
+			/>
+		);
+	}
+}));
+
+function readDefinition(): ChartDefinition {
+	if (!capturedDefinition) {
+		throw new Error(
+			"Chart definition was not captured — did the component render?"
+		);
+	}
+	return capturedDefinition;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Test setup
+// ─────────────────────────────────────────────────────────────────────────────
+
+afterEach(() => {
+	capturedDefinition = null;
+	vi.restoreAllMocks();
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe("EgyptianGrowthChart", () => {
+	it("renders exactly seven reference lines", () => {
+		render(
+			<EgyptianGrowthChart
+				curves={CURVES}
+				indicator='weight-for-age'
+				points={[]}
+				sex='male'
+				showTooltip={false}
+			/>
+		);
+
+		const def = readDefinition();
+		const bandLines = def.marks.filter(
+			(m): m is LineYMark => m.type === "lineY"
+		);
+
+		// 7 bands: sd3neg, sd2neg, sd1neg, median, sd1, sd2, sd3
+		expect(bandLines).toHaveLength(7);
+	});
+
+	it("renders a single scatter mark carrying one entry per patient point", () => {
+		render(
+			<EgyptianGrowthChart
+				curves={CURVES}
+				indicator='weight-for-age'
+				points={POINTS}
+				sex='male'
+				showTooltip={false}
+			/>
+		);
+
+		const def = readDefinition();
+		const dots = def.marks.filter((m): m is DotMark => m.type === "dot");
+
+		// The component emits ONE `dot()` mark for the whole series, not one per point.
+		expect(dots).toHaveLength(1);
+		expect(dots[0]?.data).toHaveLength(POINTS.length);
+		expect(dots[0]?.data.map(p => p.x)).toEqual([0, 6, 12]);
+	});
+
+	it("emits no scatter mark when there are no patient points", () => {
+		render(
+			<EgyptianGrowthChart
+				curves={CURVES}
+				indicator='weight-for-age'
+				points={[]}
+				sex='male'
+				showTooltip={false}
+			/>
+		);
+
+		const def = readDefinition();
+		expect(def.marks.filter(m => m.type === "dot")).toHaveLength(0);
+	});
+
+	it("places the marker on the currentBand's x, spanning the band's −3..+3 SD", () => {
+		render(
+			<EgyptianGrowthChart
+				currentBand={BAND}
+				curves={CURVES}
+				indicator='weight-for-age'
+				points={POINTS}
+				sex='male'
+				showTooltip={false}
+			/>
+		);
+
+		const def = readDefinition();
+		const lines = def.marks.filter((m): m is LineYMark => m.type === "lineY");
+
+		// The marker is the only `lineY` with exactly 2 data points.
+		const marker = lines.find(l => l.data.length === 2);
+		expect(marker).toBeDefined();
+
+		// Both endpoints share the band's x.
+		const [start, end] = marker!.data as Array<{ x: number; y: number }>;
+		expect(start?.x).toBe(BAND.x);
+		expect(end?.x).toBe(BAND.x);
+
+		// The vertical extent spans the −3 SD .. +3 SD of the band.
+		expect(start?.y).toBe(BAND.sd3neg);
+		expect(end?.y).toBe(BAND.sd3);
+
+		// It is styled as a dashed rule, not a solid band line.
+		expect(marker!.opts.strokeDasharray).toBe("3 3");
+	});
+
+	it("still renders a marker when currentBand.x is not a tabulated curve row", () => {
+		// Regression test: the old implementation did `rows.find(r => r.x === x)`
+		// and could fail to render a marker at interpolated x values.
+		const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+		render(
+			<EgyptianGrowthChart
+				currentBand={INTERPOLATED_BAND}
+				curves={CURVES}
+				indicator='weight-for-age'
+				points={[]}
+				sex='male'
+				showTooltip={false}
+			/>
+		);
+
+		const def = readDefinition();
+		const lines = def.marks.filter((m): m is LineYMark => m.type === "lineY");
+		const marker = lines.find(l => l.data.length === 2);
+
+		expect(marker).toBeDefined();
+		const [start, end] = marker!.data as Array<{ x: number; y: number }>;
+		expect(start?.x).toBe(INTERPOLATED_BAND.x);
+
+		// Even though `markerRow` is undefined, the marker must still span the
+		// interpolated band's own −3..+3 SD values (the `??` fallback).
+		expect(start?.y).toBe(INTERPOLATED_BAND.sd3neg);
+		expect(end?.y).toBe(INTERPOLATED_BAND.sd3);
+
+		// No developer warning should fire when the inputs are otherwise valid.
+		expect(warn).not.toHaveBeenCalled();
+	});
+
+	it("labels the axes according to xAxis and indicator", () => {
+		render(
+			<EgyptianGrowthChart
+				curves={CURVES}
+				indicator='weight-for-age'
+				points={[]}
+				sex='male'
+				showTooltip={false}
+			/>
+		);
+
+		const def = readDefinition();
+		expect(def.scales.x.axis.label).toBe("Age (months)");
+		expect(def.scales.y.axis.label).toBe("Weight (kg)");
+	});
+
+	it("honours an explicit xAxisLabel", () => {
+		render(
+			<EgyptianGrowthChart
+				curves={CURVES}
+				indicator='weight-for-age'
+				points={[]}
+				sex='male'
+				showTooltip={false}
+				xAxisLabel='Corrected age (months)'
+			/>
+		);
+
+		expect(readDefinition().scales.x.axis.label).toBe("Corrected age (months)");
+	});
+
+	it("warns (in non-production) when curves don't match the indicator/sex props", () => {
+		const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+		render(
+			<EgyptianGrowthChart
+				// CURVES is male/weight-for-age; we pass female to force a mismatch.
+				curves={CURVES}
+				indicator='weight-for-age'
+				points={[]}
+				sex='female'
+				showTooltip={false}
+			/>
+		);
+
+		expect(warn).toHaveBeenCalledWith(
+			expect.stringContaining("do not match props")
+		);
+	});
+
+	it("sets an accessible aria-label derived from indicator and sex", () => {
+		render(
+			<EgyptianGrowthChart
+				curves={CURVES}
+				indicator='weight-for-age'
+				points={[]}
+				sex='female'
+				showTooltip={false}
+			/>
+		);
+
+		expect(screen.getByTestId("chart").getAttribute("aria-label")).toBe(
+			"Egyptian 2021 weight-for-age reference chart for a girl"
+		);
+	});
+});

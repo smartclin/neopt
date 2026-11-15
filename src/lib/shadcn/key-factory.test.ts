@@ -1,0 +1,19 @@
+import { describe, expect, it } from "vite-plus/test";
+
+import { createQueryKeys } from "#/lib/shadcn/key-factory";
+
+describe("createQueryKeys", () => {
+  const keys = createQueryKeys("projects");
+
+  it("scopes every key under the feature name", () => {
+    expect(keys.all).toEqual(["projects"]);
+    expect(keys.lists()).toEqual(["projects", "list"]);
+    expect(keys.details()).toEqual(["projects", "detail"]);
+    expect(keys.detail("42")).toEqual(["projects", "detail", "42"]);
+  });
+
+  it("nests each key inside the broader one, so invalidating a parent covers its children", () => {
+    expect(keys.lists().slice(0, keys.all.length)).toEqual(keys.all);
+    expect(keys.detail("42").slice(0, keys.details().length)).toEqual(keys.details());
+  });
+});

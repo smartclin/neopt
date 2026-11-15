@@ -1,0 +1,430 @@
+:root {
+  /* ── BASE NEUTRALS — cool navy-tinted, hue 245 ─────────────────── */
+  --base-50: oklch(0.988 0.004 245);
+  --base-100: oklch(0.968 0.008 245);
+  --base-200: oklch(0.925 0.014 245);
+  --base-300: oklch(0.868 0.02 245);
+  --base-400: oklch(0.708 0.028 245);
+  --base-500: oklch(0.552 0.034 245);
+  --base-600: oklch(0.44 0.032 245);
+  --base-700: oklch(0.362 0.03 245);
+  --base-800: oklch(0.258 0.028 245);
+  --base-900: oklch(0.188 0.024 245);
+  --base-950: oklch(0.138 0.02 245);
+  --base-1000: oklch(0.092 0.016 245);
+
+  --bg-base: oklch(0.975 0.01 240);
+
+  /* ── BRAND RAMPS — baby blue with warm, gentle accents ────────── */
+  --color-brand-navy: oklch(0.32 0.062 250);
+  --color-brand-navy-deep: oklch(0.24 0.058 250);
+
+  --color-brand-primary: oklch(0.52 0.12 238);
+  --color-brand-primary-soft: oklch(0.76 0.09 230);
+  --color-brand-primary-deep: oklch(0.4 0.1 245);
+  --color-brand-primary-glow: oklch(0.72 0.1 230 / 0.35);
+
+  --color-brand-accent: oklch(0.78 0.075 78);
+  --color-brand-accent-soft: oklch(0.87 0.055 78);
+  --color-brand-accent-deep: oklch(0.68 0.09 72);
+  --color-brand-accent-glow: oklch(0.78 0.075 78 / 0.35);
+
+  --color-brand-lilac: oklch(0.78 0.06 290);
+  --color-brand-lilac-soft: oklch(0.87 0.045 290);
+  --color-brand-mint: oklch(0.78 0.08 170);
+  --color-brand-mint-soft: oklch(0.88 0.055 170);
+  --color-brand-success: oklch(0.52 0.14 155);
+  --color-brand-success-glow: oklch(0.72 0.09 160 / 0.3);
+
+  --color-brand-surface: oklch(0.96 0.012 240);
+  --color-brand-foam: oklch(0.99 0.008 240);
+
+  /* ── GLOW TOKENS ───────────────────────────────────────────────── */
+  --glow-primary: oklch(0.52 0.12 238 / 0.28) 0 0 0 3px, oklch(0.52 0.12 238 / 0.15) 0 0 20px;
+  --glow-accent: oklch(0.78 0.075 78 / 0.28) 0 0 0 3px, oklch(0.78 0.075 78 / 0.15) 0 0 20px;
+  --glow-success: oklch(0.72 0.09 160 / 0.25) 0 0 0 3px, oklch(0.72 0.09 160 / 0.12) 0 0 16px;
+  --glow-lilac: oklch(0.78 0.06 290 / 0.25) 0 0 0 3px, oklch(0.78 0.06 290 / 0.12) 0 0 16px;
+  --glow-card: oklch(0.52 0.12 238 / 0.1) 0 0 30px, oklch(0.52 0.12 238 / 0.06) 0 0 60px;
+  --glow-card-hover: oklch(0.52 0.12 238 / 0.18) 0 0 40px, oklch(0.52 0.12 238 / 0.06) 0 0 80px;
+
+  /* ── SURFACES ──────────────────────────────────────────────────── */
+  --surface: oklch(0.995 0.004 240 / 0.82);
+  --surface-strong: oklch(1 0 0 / 0.95);
+  --surface-hover: oklch(0.96 0.012 240 / 0.96);
+  --surface-glass: oklch(1 0 0 / 0.72);
+  --surface-frosted: oklch(0.98 0.008 240 / 0.88);
+
+  /* ── UI ELEMENTS ───────────────────────────────────────────────── */
+  --line: oklch(0.32 0.062 250 / 0.14);
+  --line-strong: oklch(0.32 0.062 250 / 0.26);
+  --line-accent: oklch(0.78 0.075 78 / 0.24);
+  --inset-glint: oklch(1 0 0 / 0.88);
+  --inset-glint-strong: oklch(1 0 0 / 0.96);
+  --kicker: oklch(0.32 0.062 250 / 0.92);
+  --header-bg: oklch(0.98 0.008 240 / 0.86);
+  --header-bg-blur: oklch(0.98 0.008 240 / 0.96);
+
+  /* ── GRADIENTS ─────────────────────────────────────────────────── */
+  --gradient-primary: linear-gradient(135deg, oklch(0.52 0.12 238) 0%, oklch(0.32 0.062 250) 100%);
+  --gradient-accent: linear-gradient(135deg, oklch(0.78 0.075 78) 0%, oklch(0.68 0.09 72) 100%);
+  --gradient-brand: linear-gradient(
+    135deg,
+    oklch(0.52 0.12 238) 0%,
+    oklch(0.78 0.06 290) 50%,
+    oklch(0.78 0.075 78) 100%
+  );
+  --gradient-card: linear-gradient(
+    165deg,
+    oklch(1 0 0 / 0.96) 0%,
+    oklch(0.975 0.01 240 / 0.88) 100%
+  );
+
+  --hero-a: oklch(0.52 0.12 238 / 0.28);
+  --hero-b: oklch(0.78 0.075 78 / 0.14);
+  --hero-c: oklch(0.78 0.08 170 / 0.12);
+
+  /* ── INTERACTIVE ───────────────────────────────────────────────── */
+  --chip-bg: oklch(1 0 0 / 0.86);
+  --chip-line: oklch(0.32 0.062 250 / 0.18);
+  --link-bg-hover: oklch(0.96 0.012 240 / 0.9);
+
+  /* ── SHADOWS — 3-stop scale ────────────────────────────────────── */
+  --shadow-sm: 0 1px 3px oklch(0.32 0.062 250 / 0.06);
+  --shadow-md: 0 4px 14px oklch(0.32 0.062 250 / 0.1);
+  --shadow-lg: 0 18px 44px oklch(0.32 0.062 250 / 0.17);
+
+  /* ── SHADCN SEMANTIC TOKENS ────────────────────────────────────── */
+  --background: var(--base-50);
+  --foreground: var(--base-800);
+
+  --card: oklch(1 0 0);
+  --card-foreground: var(--base-800);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--base-800);
+
+  --primary: oklch(0.52 0.12 238);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: var(--base-100);
+  --secondary-foreground: var(--base-800);
+  --muted: var(--base-100);
+  --muted-foreground: var(--base-600);
+  --accent: oklch(0.95 0.02 78);
+  --accent-foreground: oklch(0.32 0.06 60);
+
+  --border: var(--base-200);
+  --input: var(--base-300);
+  --ring: oklch(0.68 0.1 230);
+
+  /* ── FEEDBACK / STATUS ─────────────────────────────────────────── */
+  --destructive: oklch(0.62 0.22 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  --destructive-glow: oklch(0.62 0.22 25 / 0.25);
+  --warning: oklch(0.82 0.16 75);
+  --warning-foreground: oklch(0.25 0.04 60);
+  --warning-glow: oklch(0.82 0.16 75 / 0.25);
+  --success: oklch(0.52 0.14 155);
+  --success-foreground: oklch(0.99 0 0);
+  --info: oklch(0.66 0.12 230);
+  --info-foreground: oklch(0.99 0 0);
+
+  /* ── CHARTS ────────────────────────────────────────────────────── */
+  --chart-1: oklch(0.52 0.12 238);
+  --chart-2: oklch(0.78 0.075 78);
+  --chart-3: oklch(0.78 0.08 170);
+  --chart-4: oklch(0.82 0.13 85);
+  --chart-5: oklch(0.68 0.16 30);
+  --chart-6: oklch(0.78 0.06 290);
+
+  --chart-patient: oklch(0.55 0.16 245);
+  --chart-band-median: oklch(0.65 0.12 245);
+  --chart-band-inner: oklch(0.72 0.08 245);
+  --chart-band-outer: oklch(0.78 0.06 245);
+
+  /* ── MODULE ACCENTS ────────────────────────────────────────────── */
+  --module-patients: oklch(0.52 0.12 238);
+  --module-encounters: oklch(0.68 0.12 155);
+  --module-growth: oklch(0.78 0.06 290);
+  --module-immunizations: oklch(0.78 0.075 78);
+  --module-prescriptions: oklch(0.66 0.16 25);
+  --module-labs: oklch(0.58 0.11 265);
+
+  --module-patients-glow: oklch(0.52 0.12 238 / 0.2);
+  --module-encounters-glow: oklch(0.68 0.12 155 / 0.2);
+  --module-growth-glow: oklch(0.78 0.06 290 / 0.2);
+  --module-immunizations-glow: oklch(0.78 0.075 78 / 0.2);
+  --module-prescriptions-glow: oklch(0.66 0.16 25 / 0.2);
+  --module-labs-glow: oklch(0.58 0.11 265 / 0.2);
+
+  /* ── SIDEBAR ───────────────────────────────────────────────────── */
+  --sidebar: var(--base-100);
+  --sidebar-foreground: var(--base-800);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--base-200);
+  --sidebar-accent-foreground: var(--base-800);
+  --sidebar-border: var(--base-200);
+  --sidebar-ring: var(--ring);
+
+  /* ── SCROLLBAR ─────────────────────────────────────────────────── */
+  --scrollbar-width: 6px;
+  --scrollbar-bg: var(--base-100);
+  --scrollbar-thumb: var(--ring);
+
+  /* ── MOTION ────────────────────────────────────────────────────── */
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-base: 250ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ── MISC ──────────────────────────────────────────────────────── */
+  --backdrop-filter: blur(8px) saturate(180%);
+  --radius: 1rem;
+
+  color-scheme: light;
+}
+
+/* ==================================================================
+   DARK THEME — overrides only. Every token here shadows the :root
+   declaration above; nothing else changes.
+   ================================================================== */
+.dark {
+  /* shadcn semantic tokens */
+  --background: var(--base-950);
+  --foreground: var(--base-200);
+  --card: var(--base-950);
+  --card-foreground: var(--base-200);
+  --popover: var(--base-950);
+  --popover-foreground: var(--base-200);
+  --primary: oklch(0.78 0.1 230);
+  --primary-foreground: oklch(0.14 0.024 250);
+  --secondary: var(--base-800);
+  --secondary-foreground: var(--base-200);
+  --muted: var(--base-800);
+  --muted-foreground: var(--base-400);
+  --accent: oklch(0.22 0.04 60);
+  --accent-foreground: oklch(0.82 0.08 78);
+  --border: var(--base-800);
+  --input: var(--base-700);
+  --ring: oklch(0.78 0.1 230);
+
+  /* brand ramps */
+  --color-brand-navy: oklch(0.78 0.06 220);
+  --color-brand-navy-deep: oklch(0.88 0.05 220);
+  --color-brand-primary: oklch(0.78 0.1 230);
+  --color-brand-primary-soft: oklch(0.86 0.08 230);
+  --color-brand-primary-deep: oklch(0.92 0.05 230);
+  --color-brand-primary-glow: oklch(0.78 0.1 230 / 0.32);
+  --color-brand-accent: oklch(0.82 0.08 78);
+  --color-brand-accent-soft: oklch(0.89 0.06 78);
+  --color-brand-accent-deep: oklch(0.82 0.08 78);
+  --color-brand-accent-glow: oklch(0.82 0.08 78 / 0.32);
+  --color-brand-lilac: oklch(0.82 0.06 290);
+  --color-brand-mint: oklch(0.82 0.08 170);
+  --color-brand-success: oklch(0.78 0.1 160);
+  --color-brand-success-glow: oklch(0.78 0.1 160 / 0.28);
+  --color-brand-surface: oklch(0.18 0.03 250);
+  --color-brand-foam: oklch(0.14 0.026 250);
+
+  /* glows */
+  --glow-primary: oklch(0.78 0.1 230 / 0.32) 0 0 0 3px, oklch(0.78 0.1 230 / 0.2) 0 0 24px;
+  --glow-accent: oklch(0.82 0.08 78 / 0.32) 0 0 0 3px, oklch(0.82 0.08 78 / 0.18) 0 0 24px;
+  --glow-success: oklch(0.78 0.1 160 / 0.3) 0 0 0 3px, oklch(0.78 0.1 160 / 0.16) 0 0 20px;
+  --glow-lilac: oklch(0.82 0.06 290 / 0.3) 0 0 0 3px, oklch(0.82 0.06 290 / 0.16) 0 0 20px;
+  --glow-card: oklch(0.78 0.1 230 / 0.14) 0 0 40px, oklch(0.78 0.1 230 / 0.07) 0 0 80px;
+  --glow-card-hover: oklch(0.78 0.1 230 / 0.22) 0 0 50px, oklch(0.78 0.1 230 / 0.1) 0 0 100px;
+
+  /* surfaces */
+  --surface: oklch(0.16 0.026 250 / 0.84);
+  --surface-strong: oklch(0.14 0.022 250 / 0.95);
+  --surface-hover: oklch(0.2 0.03 250 / 0.86);
+  --surface-glass: oklch(0.18 0.028 250 / 0.72);
+  --surface-frosted: oklch(0.2 0.03 250 / 0.88);
+
+  /* UI */
+  --line: oklch(0.78 0.06 220 / 0.18);
+  --line-strong: oklch(0.78 0.06 220 / 0.32);
+  --line-accent: oklch(0.82 0.08 78 / 0.2);
+  --inset-glint: oklch(0.78 0.06 220 / 0.12);
+  --inset-glint-strong: oklch(0.78 0.06 220 / 0.2);
+  --kicker: oklch(0.88 0.05 220);
+  --bg-base: oklch(0.14 0.024 250);
+  --header-bg: oklch(0.16 0.026 250 / 0.84);
+  --header-bg-blur: oklch(0.16 0.026 250 / 0.96);
+
+  /* gradients */
+  --gradient-primary: linear-gradient(135deg, oklch(0.78 0.1 230) 0%, oklch(0.86 0.06 220) 100%);
+  --gradient-accent: linear-gradient(135deg, oklch(0.82 0.08 78) 0%, oklch(0.89 0.06 78) 100%);
+  --gradient-brand: linear-gradient(
+    135deg,
+    oklch(0.78 0.1 230) 0%,
+    oklch(0.82 0.06 290) 50%,
+    oklch(0.82 0.08 78) 100%
+  );
+  --gradient-card: linear-gradient(
+    165deg,
+    oklch(0.2 0.03 250 / 0.96) 0%,
+    oklch(0.14 0.022 250 / 0.88) 100%
+  );
+
+  --hero-a: oklch(0.78 0.1 230 / 0.16);
+  --hero-b: oklch(0.82 0.08 78 / 0.1);
+  --hero-c: oklch(0.82 0.08 170 / 0.08);
+
+  /* interactive */
+  --chip-bg: oklch(0.2 0.03 250 / 0.92);
+  --chip-line: oklch(0.78 0.1 230 / 0.24);
+  --link-bg-hover: oklch(0.2 0.03 250 / 0.86);
+
+  /* shadows */
+  --shadow-sm: 0 1px 3px oklch(0 0 0 / 0.28);
+  --shadow-md: 0 4px 14px oklch(0 0 0 / 0.38);
+  --shadow-lg: 0 18px 44px oklch(0 0 0 / 0.58);
+
+  /* feedback */
+  --destructive: oklch(0.72 0.19 22);
+  --destructive-foreground: var(--base-50);
+  --destructive-glow: oklch(0.72 0.19 22 / 0.3);
+  --warning: oklch(0.78 0.15 75);
+  --warning-foreground: var(--base-950);
+  --warning-glow: oklch(0.78 0.15 75 / 0.28);
+  --success: oklch(0.72 0.14 155);
+  --success-foreground: var(--base-950);
+  --info: oklch(0.72 0.11 230);
+  --info-foreground: var(--base-950);
+
+  /* charts */
+  --chart-1: oklch(0.78 0.1 230);
+  --chart-2: oklch(0.82 0.08 78);
+  --chart-3: oklch(0.78 0.1 160);
+  --chart-4: oklch(0.82 0.13 85);
+  --chart-5: oklch(0.72 0.16 30);
+  --chart-6: oklch(0.82 0.06 290);
+
+  --chart-patient: oklch(0.72 0.14 245);
+  --chart-band-median: oklch(0.6 0.1 245);
+  --chart-band-inner: oklch(0.5 0.07 245);
+  --chart-band-outer: oklch(0.42 0.05 245);
+
+  /* module accents */
+  --module-patients: oklch(0.78 0.1 230);
+  --module-encounters: oklch(0.78 0.1 155);
+  --module-growth: oklch(0.82 0.06 290);
+  --module-immunizations: oklch(0.82 0.08 78);
+  --module-prescriptions: oklch(0.76 0.13 25);
+  --module-labs: oklch(0.74 0.1 265);
+
+  --module-patients-glow: oklch(0.78 0.1 230 / 0.22);
+  --module-encounters-glow: oklch(0.78 0.1 155 / 0.22);
+  --module-growth-glow: oklch(0.82 0.06 290 / 0.22);
+  --module-immunizations-glow: oklch(0.82 0.08 78 / 0.22);
+  --module-prescriptions-glow: oklch(0.76 0.13 25 / 0.22);
+  --module-labs-glow: oklch(0.74 0.1 265 / 0.22);
+
+  /* sidebar */
+  --sidebar: var(--base-900);
+  --sidebar-foreground: var(--base-200);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: oklch(0.14 0.024 250);
+  --sidebar-accent: var(--base-800);
+  --sidebar-accent-foreground: var(--base-200);
+  --sidebar-border: var(--base-800);
+  --sidebar-ring: var(--ring);
+
+  /* scrollbar */
+  --scrollbar-bg: var(--base-800);
+  --scrollbar-thumb: var(--primary);
+
+  color-scheme: dark;
+}
+
+/* ==================================================================
+   TAILWIND THEME MAPPINGS — one mapping per token, no duplicates.
+   `inline` means Tailwind references these at build time rather than
+   inlining the `var()` — required for theme switching to work.
+   ================================================================== */
+@theme inline {
+  --font-heading: "Nunito Sans Variable", sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  /* semantic colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* base scale */
+  --color-base-50: var(--base-50);
+  --color-base-100: var(--base-100);
+  --color-base-200: var(--base-200);
+  --color-base-300: var(--base-300);
+  --color-base-400: var(--base-400);
+  --color-base-500: var(--base-500);
+  --color-base-600: var(--base-600);
+  --color-base-700: var(--base-700);
+  --color-base-800: var(--base-800);
+  --color-base-900: var(--base-900);
+  --color-base-950: var(--base-950);
+  --color-base-1000: var(--base-1000);
+
+  /* brand */
+  --color-brand-navy: var(--color-brand-navy);
+  --color-brand-navy-deep: var(--color-brand-navy-deep);
+  --color-brand-primary: var(--color-brand-primary);
+  --color-brand-primary-soft: var(--color-brand-primary-soft);
+  --color-brand-primary-deep: var(--color-brand-primary-deep);
+  --color-brand-accent: var(--color-brand-accent);
+  --color-brand-accent-soft: var(--color-brand-accent-soft);
+  --color-brand-accent-deep: var(--color-brand-accent-deep);
+  --color-brand-lilac: var(--color-brand-lilac);
+  --color-brand-mint: var(--color-brand-mint);
+  --color-brand-success: var(--color-brand-success);
+  --color-brand-surface: var(--color-brand-surface);
+  --color-brand-foam: var(--color-brand-foam);
+
+  /* charts */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+
+  /* sidebar */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* modules */
+  --color-module-patients: var(--module-patients);
+  --color-module-encounters: var(--module-encounters);
+  --color-module-growth: var(--module-growth);
+  --color-module-immunizations: var(--module-immunizations);
+  --color-module-prescriptions: var(--module-prescriptions);
+  --color-module-labs: var(--module-labs);
+}

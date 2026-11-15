@@ -1,0 +1,71 @@
+/* ============================================================================
+   UTILITIES
+   ============================================================================ */
+@layer utilities {
+  /* ─── Focus ring (Action #10) ─────────────────────────────────── */
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-brand-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* ─── Gradient text — one utility, var-driven (Action #23) ────── */
+  .text-gradient {
+    color: transparent;
+    background: var(--text-gradient-bg, var(--gradient-primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  /* ─── Glows ───────────────────────────────────────────────────── */
+  .glow-primary {
+    box-shadow: var(--glow-primary);
+  }
+  .glow-accent {
+    box-shadow: var(--glow-accent);
+  }
+  .glow-success {
+    box-shadow: var(--glow-success);
+  }
+  .glow-lilac {
+    box-shadow: var(--glow-lilac);
+  }
+  .glow-card {
+    box-shadow: var(--glow-card);
+  }
+
+  .glow-on-hover {
+    transition: box-shadow var(--transition-base);
+  }
+  .glow-on-hover:hover {
+    box-shadow: var(--glow-hover, var(--glow-card-hover));
+  }
+
+  /* ─── Interactive lift ────────────────────────────────────────── */
+  .lift {
+    transition:
+      transform var(--transition-base),
+      box-shadow var(--transition-base);
+  }
+  .lift:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+  }
+
+  .lift-sm {
+    transition:
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+  .lift-sm:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .press {
+    transition: transform var(--transition-fast);
+  }
+  .press:active {
+    transform: scale(0.97);
+  }
+}

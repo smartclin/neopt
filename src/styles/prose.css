@@ -1,0 +1,51 @@
+/* ============================================================================
+   PROSE — override @tailwindcss/typography defaults
+   ============================================================================ */
+@layer utilities {
+  .prose pre {
+    color: oklch(0.93 0.01 240);
+    background: oklch(0.22 0.03 250);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+
+  .growth-chart-skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--muted, #e5e7eb) 0%,
+      var(--muted-foreground, #d1d5db) 50%,
+      var(--muted, #e5e7eb) 100%
+    );
+    background-size: 200% 100%;
+    animation: growth-skeleton-pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes growth-skeleton-pulse {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+}
+@media print {
+  /* Hide navigation, filters, coverage strip, and devtools */
+  [data-slot="sidebar"],
+  [data-print="hide"],
+  .tanstack-router-devtools,
+  .tanstack-query-devtools,
+  .toaster {
+    display: none;
+  }
+  /* Show only the timeline */
+  [data-print="timeline"] {
+    display: block;
+  }
+
+  /* Checkbox glyph before each vaccine card */
+  [data-print-checkbox]::before {
+    margin-right: 0.25rem;
+    font-size: 1.1em;
+    content: "☐ ";
+  }
+}

@@ -1,0 +1,87 @@
+import { Link } from "@tanstack/react-router";
+import { ArrowRightIcon, RulerIcon } from "lucide-react";
+
+import { Button } from "#/components/ui/button.tsx";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "#/components/ui/card.tsx";
+import { useRecentGrowth } from "#/features/dashboard/use-recent-growth.ts";
+
+export function RecentGrowthCard({ clinicId }: { clinicId: string | undefined }) {
+  const { data: entries } = useRecentGrowth(clinicId);
+
+  return (
+    <Card className="h-full">
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+          <CardTitle className="text-base">Recent Growth</CardTitle>
+          <CardDescription className="text-xs">
+            Latest measurements logged at the clinic.
+          </CardDescription>
+        </div>
+        <div className="bg-primary/10 text-primary flex size-8 items-center justify-center rounded-md">
+          <RulerIcon className="size-4" />
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        {entries.length === 0 ? (
+          <p className="text-muted-foreground text-sm">No measurements logged yet.</p>
+        ) : (
+          <ul className="divide-border divide-y">
+            {entries.map((entry) => (
+              <li className="py-2 first:pt-0 last:pb-0" key={entry.patientId}>
+                <Link
+                  className="hover:bg-muted/50 -mx-2 flex items-center justify-between gap-3 rounded-md px-2 py-1.5 transition-colors"
+                  params={{ patientId: entry.patientId }}
+                  search={{ tab: "patients" }}
+                  to="/app/patients/$patientId/growth"
+                >
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium">{entry.patientName}</p>
+                    <p className="text-muted-foreground text-xs">
+                      {entry.ageLabel} · {formatDate(entry.measuredAt)}
+                    </p>
+                  </div>
+                  <div className="text-right text-xs tabular-nums">
+                    <p className="font-medium">
+                      {entry.weightKg.toFixed(1)} kg
+                      {entry.weightPercentile != null && (
+                        <span className="text-muted-foreground ml-1">
+                          ({entry.weightPercentile}th)
+                        </span>
+                      )}
+                    </p>
+                    <p className="text-muted-foreground">{entry.heightCm.toFixed(0)} cm</p>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </CardContent>
+      <div className="p-4 pt-0">
+        <Button
+          className="w-full justify-between gap-1 text-xs"
+          nativeButton={false}
+          render={<Link to="/app/patients" />}
+          size="xs"
+          variant="outline"
+        >
+          <span>All Measurements</span>
+          <ArrowRightIcon className="size-3" />
+        </Button>
+      </div>
+    </Card>
+  );
+}
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+  });
+}

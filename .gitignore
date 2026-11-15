@@ -1,0 +1,24 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+.env
+.nitro
+.tanstack
+.wrangler
+.output
+.vinxi
+__unconfig*
+todos.json
+data
+docs
+.aider*
+
+# Local SQLite databases — these hold PHI and must never be committed.
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.db
+*.db-*
+.vitest/

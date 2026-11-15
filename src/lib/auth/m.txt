@@ -1,0 +1,1907 @@
+Project Path: auth
+
+Source Tree:
+
+```txt
+auth
+├── admin.ts
+├── clinic-middleware.ts
+├── functions.server.ts
+├── functions.ts
+├── hooks.ts
+├── id.ts
+├── m.txt
+├── middleware.server.ts
+├── middleware.ts
+├── permissions.ts
+├── queries.ts
+├── role.ts
+└── utils.ts
+
+```
+
+`admin.ts`:
+
+```ts
+// scripts/seed-admin.ts
+import { APIError } from "better-auth";
+
+import { auth } from "../auth"; // Your auth config
+
+async function seedAdmin() {
+	try {
+		const newUser = await auth.api.createUser({
+			body: {
+				email: "clinysmar@gmail.com",
+				password: "HealthF26",
+				name: "Hazem Ali",
+				role: "admin", // Your custom role - must match your ac/roles config
+				data: {
+					// Additional custom fields (optional)
+					address: null,
+					phone: null,
+					clinicId: null
+				}
+			}
+		});
+
+		console.log("Admin user created:", newUser.user.id);
+	} catch (error) {
+		if (error instanceof APIError) {
+			console.error("API Error:", error.message, error.status);
+		} else {
+			console.error("Unexpected error:", error);
+		}
+		process.exit(1);
+	}
+}
+
+seedAdmin();
+
+```
+`clinic-middleware.ts`:
+
+```ts
+import { createMiddleware } from "@tanstack/react-start";
+import { setResponseStatus } from "@tanstack/react-start/server";
+
+import { db, eq } from "@/db";
+import { appointments, patients, visits } from "@/db/schema";
+
+import { freshAuthMiddleware } from "./middleware";
+
+/**
+ * Extracts the clinic id from a payload. Server functions must pass a
+ * `clinicId`, `patientId`, `visitId`, or `appointmentId`; this middleware
+ * resolves all four down to a clinic id.
+ */
+async function resolveClinicId(data: unknown): Promise<string | null> {
+	if (!data || typeof data !== "object") return null;
+	const d = data as Record<string, unknown>;
+
+	if (typeof d.clinicId === "string") return d.clinicId;
+
+	if (typeof d.patientId === "string") {
+		const [row] = await db
+			.select({ clinicId: patients.clinicId })
+			.from(patients)
+			.where(eq(patients.id, d.patientId))
+			.limit(1);
+		return row?.clinicId ?? null;
+	}
+
+	if (typeof d.visitId === "string") {
+		const [row] = await db
+			.select({ clinicId: visits.clinicId })
+			.from(visits)
+			.where(eq(visits.id, d.visitId))
+			.limit(1);
+		return row?.clinicId ?? null;
+	}
+
+	if (typeof d.appointmentId === "string") {
+		const [row] = await db
+			.select({ clinicId: appointments.clinicId })
+			.from(appointments)
+			.where(eq(appointments.id, d.appointmentId))
+			.limit(1);
+		return row?.clinicId ?? null;
+	}
+
+	// Mutations that accept a `patch` or `rows` array recurse.
+	if (d.patch) return resolveClinicId(d.patch);
+	if (Array.isArray(d.rows)) {
+		for (const row of d.rows) {
+			const id = await resolveClinicId(row);
+			if (id) return id;
+		}
+	}
+
+	return null;
+}
+
+/**
+ * Requires the caller to be authenticated AND to belong to the same clinic
+ * as the entity they're touching. Admins bypass the clinic check.
+ */
+export const clinicAccessMiddleware = createMiddleware({ type: "function" }) // ← Add this
+	.middleware([freshAuthMiddleware])
+	.server(async ({ next, data, context }) => {
+		const clinicId = await resolveClinicId(data);
+		if (!clinicId) {
+			setResponseStatus(400);
+			throw new Error("Cannot resolve a clinic from the request payload");
+		}
+		if (context.user.role !== "admin" && context.user.clinicId !== clinicId) {
+			setResponseStatus(403);
+			throw new Error("Forbidden: cross-clinic access denied");
+		}
+		return next({ context: { clinicId } });
+	});
+
+```
+`functions.server.ts`:
+
+```ts
+import "@tanstack/react-start/server-only";
+import { appendResponseHeader, getRequest } from "@tanstack/react-start/server";
+import { auth } from "#/lib/auth.ts";
+import type { GetUserServerQuery } from "./functions.ts";
+
+export const _getUserImpl = async (query?: GetUserServerQuery) => {
+	const session = await auth.api.getSession({
+		headers: getRequest().headers,
+		query,
+		returnHeaders: true
+	});
+
+	const cookies = session.headers?.getSetCookie();
+	if (cookies?.length) {
+		appendResponseHeader("Set-Cookie", cookies);
+	}
+
+	return session.response?.user || null;
+};
+
+```
+`functions.ts`:
+
+```ts
+import { createServerFn } from "@tanstack/react-start";
+
+// export interface GetUserServerQuery {
+// 	disableCookieCache?: boolean | undefined;
+// 	disableRefresh?: boolean | undefined;
+// }
+
+// export const _getUser = async (query?: GetUserServerQuery) => {
+// 	const { _getUserImpl } = await import("./functions.server.ts");
+// 	return _getUserImpl(query);
+// };
+
+export interface GetUserServerQuery {
+	disableCookieCache?: boolean | undefined;
+	disableRefresh?: boolean | undefined;
+}
+
+/**
+ * Client-callable RPC. The dynamic import of `.server.ts` is safe here
+ * because the entire `.handler()` body is stripped from the client
+ * bundle by TanStack Start's compiler — the import never reaches the
+ * browser.
+ */
+export const $getUser = createServerFn({ method: "GET" }).handler(
+	async (): Promise<User | null> => {
+		const { _getUserImpl } = await import("./functions.server.ts");
+		const user = await _getUserImpl();
+		if (!user) return null;
+		return user;
+	}
+);
+
+```
+`hooks.ts`:
+
+```ts
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+
+import { authQueryOptions } from "./queries";
+
+/**
+ * These hooks can be used in our components.
+ * They share the same deduped query as beforeLoad in the _auth layout,
+ * so these will not result in unnecessary duplicate calls.
+ *
+ * For reading auth data in loaders/beforeLoad,
+ * we can use `authQueryOptions` from queries.ts with `queryClient` from loader context.
+ */
+
+export function useAuth() {
+	const { data: user, isPending } = useQuery(authQueryOptions());
+	return { user, isPending };
+}
+
+export function useAuthSuspense() {
+	const { data: user } = useSuspenseQuery(authQueryOptions());
+	return {
+		user,
+		clinicId: user?.clinicId
+	};
+}
+
+```
+`id.ts`:
+
+```ts
+const prefixes = {
+	allergy: "ALG",
+	appointment: "APT",
+	audit: "AUD",
+	charge: "CHG",
+	clinic: "CLN",
+	cnote: "CNO",
+	condition: "CON",
+	doctor: "DOC",
+	encounter: "ENC",
+	expense: "EXP",
+	growth: "GRP",
+	guardian: "GRD",
+	immunization: "IMM",
+	invitem: "INVI",
+	invoice: "INV",
+	lab: "LAB",
+	lab_order: "LBO",
+	patient: "PAT",
+	payment: "PAY",
+	prescription: "PRC",
+	record: "REC",
+	rx: "RX",
+	staff: "STF",
+	template: "TMP",
+	user: "USR",
+	vital: "VIT",
+	who: "WHO"
+} as const;
+
+type Prefix = keyof typeof prefixes;
+
+interface GenerateIdOptions {
+	separator?: string;
+}
+
+export function createId(
+	prefixOrOptions?: Prefix | GenerateIdOptions,
+	inputOptions: GenerateIdOptions = {}
+): string {
+	const isOptions =
+		typeof prefixOrOptions === "object" && prefixOrOptions !== null;
+	const finalOptions = isOptions ? prefixOrOptions : inputOptions;
+	const prefix = isOptions ? undefined : prefixOrOptions;
+	const { separator = "_" } = finalOptions;
+	const id = crypto.randomUUID();
+
+	return prefix ? `${prefixes[prefix]}${separator}${id}` : id;
+}
+
+```
+`m.txt`:
+
+```txt
+Project Path: auth
+
+Source Tree:
+
+```txt
+auth
+├── admin.ts
+├── clinic-middleware.ts
+├── functions.server.ts
+├── functions.ts
+├── hooks.ts
+├── id.ts
+├── middleware.ts
+├── permissions.ts
+├── queries.ts
+├── role.ts
+└── utils.ts
+
+```
+
+`admin.ts`:
+
+```ts
+// scripts/seed-admin.ts
+import { APIError } from "better-auth";
+
+import { auth } from "../auth"; // Your auth config
+
+async function seedAdmin() {
+	try {
+		const newUser = await auth.api.createUser({
+			body: {
+				email: "clinysmar@gmail.com",
+				password: "HealthF26",
+				name: "Hazem Ali",
+				role: "admin", // Your custom role - must match your ac/roles config
+				data: {
+					// Additional custom fields (optional)
+					address: null,
+					phone: null,
+					clinicId: null
+				}
+			}
+		});
+
+		console.log("Admin user created:", newUser.user.id);
+	} catch (error) {
+		if (error instanceof APIError) {
+			console.error("API Error:", error.message, error.status);
+		} else {
+			console.error("Unexpected error:", error);
+		}
+		process.exit(1);
+	}
+}
+
+seedAdmin();
+
+```
+`clinic-middleware.ts`:
+
+```ts
+import { createMiddleware } from "@tanstack/react-start";
+import { setResponseStatus } from "@tanstack/react-start/server";
+
+import { db, eq } from "@/db";
+import { appointments, patients, visits } from "@/db/schema";
+
+import { freshAuthMiddleware } from "./middleware";
+
+/**
+ * Extracts the clinic id from a payload. Server functions must pass a
+ * `clinicId`, `patientId`, `visitId`, or `appointmentId`; this middleware
+ * resolves all four down to a clinic id.
+ */
+async function resolveClinicId(data: unknown): Promise<string | null> {
+	if (!data || typeof data !== "object") return null;
+	const d = data as Record<string, unknown>;
+
+	if (typeof d.clinicId === "string") return d.clinicId;
+
+	if (typeof d.patientId === "string") {
+		const [row] = await db
+			.select({ clinicId: patients.clinicId })
+			.from(patients)
+			.where(eq(patients.id, d.patientId))
+			.limit(1);
+		return row?.clinicId ?? null;
+	}
+
+	if (typeof d.visitId === "string") {
+		const [row] = await db
+			.select({ clinicId: visits.clinicId })
+			.from(visits)
+			.where(eq(visits.id, d.visitId))
+			.limit(1);
+		return row?.clinicId ?? null;
+	}
+
+	if (typeof d.appointmentId === "string") {
+		const [row] = await db
+			.select({ clinicId: appointments.clinicId })
+			.from(appointments)
+			.where(eq(appointments.id, d.appointmentId))
+			.limit(1);
+		return row?.clinicId ?? null;
+	}
+
+	// Mutations that accept a `patch` or `rows` array recurse.
+	if (d.patch) return resolveClinicId(d.patch);
+	if (Array.isArray(d.rows)) {
+		for (const row of d.rows) {
+			const id = await resolveClinicId(row);
+			if (id) return id;
+		}
+	}
+
+	return null;
+}
+
+/**
+ * Requires the caller to be authenticated AND to belong to the same clinic
+ * as the entity they're touching. Admins bypass the clinic check.
+ */
+export const clinicAccessMiddleware = createMiddleware({ type: "function" }) // ← Add this
+	.middleware([freshAuthMiddleware])
+	.server(async ({ next, data, context }) => {
+		const clinicId = await resolveClinicId(data);
+		if (!clinicId) {
+			setResponseStatus(400);
+			throw new Error("Cannot resolve a clinic from the request payload");
+		}
+		if (context.user.role !== "admin" && context.user.clinicId !== clinicId) {
+			setResponseStatus(403);
+			throw new Error("Forbidden: cross-clinic access denied");
+		}
+		return next({ context: { clinicId } });
+	});
+
+```
+`functions.server.ts`:
+
+```ts
+import "@tanstack/react-start/server-only";
+import { appendResponseHeader, getRequest } from "@tanstack/react-start/server";
+import { auth } from "#/lib/auth.ts";
+import type { GetUserServerQuery } from "./functions.ts";
+
+export const _getUserImpl = async (query?: GetUserServerQuery) => {
+	const session = await auth.api.getSession({
+		headers: getRequest().headers,
+		query,
+		returnHeaders: true
+	});
+
+	const cookies = session.headers?.getSetCookie();
+	if (cookies?.length) {
+		appendResponseHeader("Set-Cookie", cookies);
+	}
+
+	return session.response?.user || null;
+};
+
+```
+`functions.ts`:
+
+```ts
+import { createServerFn } from "@tanstack/react-start";
+
+// export interface GetUserServerQuery {
+// 	disableCookieCache?: boolean | undefined;
+// 	disableRefresh?: boolean | undefined;
+// }
+
+// export const _getUser = async (query?: GetUserServerQuery) => {
+// 	const { _getUserImpl } = await import("./functions.server.ts");
+// 	return _getUserImpl(query);
+// };
+
+export interface GetUserServerQuery {
+	disableCookieCache?: boolean | undefined;
+	disableRefresh?: boolean | undefined;
+}
+
+/**
+ * Client-callable RPC. The dynamic import of `.server.ts` is safe here
+ * because the entire `.handler()` body is stripped from the client
+ * bundle by TanStack Start's compiler — the import never reaches the
+ * browser.
+ */
+export const $getUser = createServerFn({ method: "GET" }).handler(
+	async (): Promise<User | null> => {
+		const { _getUserImpl } = await import("./functions.server.ts");
+		const user = await _getUserImpl();
+		if (!user) return null;
+		return user;
+	}
+);
+
+```
+`hooks.ts`:
+
+```ts
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+
+import { authQueryOptions } from "./queries";
+
+/**
+ * These hooks can be used in our components.
+ * They share the same deduped query as beforeLoad in the _auth layout,
+ * so these will not result in unnecessary duplicate calls.
+ *
+ * For reading auth data in loaders/beforeLoad,
+ * we can use `authQueryOptions` from queries.ts with `queryClient` from loader context.
+ */
+
+export function useAuth() {
+	const { data: user, isPending } = useQuery(authQueryOptions());
+	return { user, isPending };
+}
+
+export function useAuthSuspense() {
+	const { data: user } = useSuspenseQuery(authQueryOptions());
+	return {
+		user,
+		clinicId: user?.clinicId
+	};
+}
+
+```
+`id.ts`:
+
+```ts
+const prefixes = {
+	allergy: "ALG",
+	appointment: "APT",
+	audit: "AUD",
+	charge: "CHG",
+	clinic: "CLN",
+	cnote: "CNO",
+	condition: "CON",
+	doctor: "DOC",
+	encounter: "ENC",
+	expense: "EXP",
+	growth: "GRP",
+	guardian: "GRD",
+	immunization: "IMM",
+	invitem: "INVI",
+	invoice: "INV",
+	lab: "LAB",
+	lab_order: "LBO",
+	patient: "PAT",
+	payment: "PAY",
+	prescription: "PRC",
+	record: "REC",
+	rx: "RX",
+	staff: "STF",
+	template: "TMP",
+	user: "USR",
+	vital: "VIT",
+	who: "WHO"
+} as const;
+
+type Prefix = keyof typeof prefixes;
+
+interface GenerateIdOptions {
+	separator?: string;
+}
+
+export function createId(
+	prefixOrOptions?: Prefix | GenerateIdOptions,
+	inputOptions: GenerateIdOptions = {}
+): string {
+	const isOptions =
+		typeof prefixOrOptions === "object" && prefixOrOptions !== null;
+	const finalOptions = isOptions ? prefixOrOptions : inputOptions;
+	const prefix = isOptions ? undefined : prefixOrOptions;
+	const { separator = "_" } = finalOptions;
+	const id = crypto.randomUUID();
+
+	return prefix ? `${prefixes[prefix]}${separator}${id}` : id;
+}
+
+```
+`middleware.ts`:
+
+```ts
+import { createMiddleware } from "@tanstack/react-start";
+import { setResponseStatus } from "@tanstack/react-start/server";
+
+import { _getUser } from "#/lib/auth/functions.ts";
+
+// https://tanstack.com/start/latest/docs/framework/react/guide/middleware
+
+/**
+ * Middleware to force authentication on server requests (including server functions), and add the user to the context.
+ *
+ * Follows the cookieCache option in the auth config (template default: 5 mins).
+ * This is recommended for most cases, like route-level data fetching operations where some staleness may be acceptable and reduced database load is beneficial.
+ *
+ * @see https://better-auth.com/docs/concepts/session-management#cookie-cache
+ */
+export const authMiddleware = createMiddleware().server(async ({ next }) => {
+	const user = await _getUser();
+
+	if (!user) {
+		setResponseStatus(401);
+		throw new Error("Unauthorized");
+	}
+
+	return next({ context: { user } });
+});
+
+/**
+ * Middleware to force authentication on server requests (including server functions), and add the user to the context.
+ *
+ * Auth cookie cache is disabled, and fresh user session is always fetched from database.
+ * This is recommended for sensitive/destructive operations and mutations that require the freshest auth state, e.g. to prevent a user from performing an action after their session has expired or been revoked.
+ *
+ * @see https://better-auth.com/docs/concepts/session-management#cookie-cache
+ */
+export const freshAuthMiddleware = createMiddleware().server(
+	async ({ next }) => {
+		const user = await _getUser({
+			// ensure session is fresh
+			// https://better-auth.com/docs/concepts/session-management#cookie-cache
+			disableCookieCache: true
+		});
+
+		if (!user) {
+			setResponseStatus(401);
+			throw new Error("Unauthorized");
+		}
+
+		return next({ context: { user } });
+	}
+);
+
+```
+`permissions.ts`:
+
+```ts
+import { createAccessControl } from "better-auth/plugins/access";
+import {
+	adminAc,
+	defaultStatements,
+	userAc
+} from "better-auth/plugins/admin/access";
+
+import { ROLES_MAP } from "./role";
+
+// Packages/auth/src/permissions.ts (adjust path to match your repo)
+
+// ============================================================
+// Statements
+// ============================================================
+//
+// `defaultStatements` from Better Auth gives us the admin-plugin resources:
+//   User, session, impersonate
+//
+// We add the clinic-domain resources on top. Every resource is a list of
+// Actions; `ac.newRole(...)` below grants a subset per role.
+//
+// Keep this object in sync with `ROLES_MAP` — adding a new role there
+// Without adding it to `roles` below will let `ac.newRole` silently accept
+// Any statement, which is exactly the failure mode access control is
+// Supposed to prevent.
+
+export const statements = {
+	...defaultStatements,
+
+	// ----------------------------------------------------------
+	// Admissions & beds
+	// ----------------------------------------------------------
+	admission: [
+		"create",
+		"read",
+		"update",
+		"delete",
+		"discharge",
+		"transfer"
+	] as const,
+
+	appointment: [
+		"create",
+		"read",
+		"update",
+		"delete",
+		"cancel",
+		"check-in",
+		"reschedule"
+	] as const,
+
+	// ----------------------------------------------------------
+	// Auditing & reporting
+	// ----------------------------------------------------------
+	auditLog: ["read", "export"] as const,
+
+	bed: ["create", "read", "update", "delete", "allocate", "release"] as const,
+
+	chargeCatalog: ["create", "read", "update", "delete"] as const,
+
+	clinicalNote: ["create", "read", "update", "delete"] as const,
+
+	clinicSettings: ["read", "update"] as const,
+
+	dashboard: ["read"] as const,
+
+	department: ["create", "read", "update", "delete"] as const,
+
+	diagnosis: ["create", "read", "update", "delete"] as const,
+
+	doctor: ["create", "read", "update", "delete"] as const,
+
+	document: ["create", "read", "update", "delete"] as const,
+
+	encounter: [
+		"create",
+		"read",
+		"update",
+		"delete",
+		"complete",
+		"cancel"
+	] as const,
+
+	expense: ["create", "read", "update", "delete"] as const,
+
+	growth: ["create", "read", "update", "delete"] as const,
+
+	guardian: ["create", "read", "update", "delete"] as const,
+
+	immunization: [
+		"create",
+		"read",
+		"update",
+		"delete",
+		"administer",
+		"defer",
+		"refuse"
+	] as const,
+
+	inventory: ["read", "adjust", "receive", "dispense"] as const,
+
+	// ----------------------------------------------------------
+	// Billing
+	// ----------------------------------------------------------
+	invoice: [
+		"create",
+		"read",
+		"update",
+		"delete",
+		"issue",
+		"void",
+		"refund"
+	] as const,
+
+	// ----------------------------------------------------------
+	// Labs
+	// ----------------------------------------------------------
+	labOrder: [
+		"create",
+		"read",
+		"update",
+		"delete",
+		"collect",
+		"result",
+		"cancel"
+	] as const,
+
+	labTest: ["create", "read", "update", "delete"] as const,
+
+	// ----------------------------------------------------------
+	// Records & documents
+	// ----------------------------------------------------------
+	medicalRecord: ["create", "read", "update", "delete"] as const,
+
+	medicine: ["create", "read", "update", "delete"] as const,
+
+	// ----------------------------------------------------------
+	// Clinical
+	// ----------------------------------------------------------
+	patient: [
+		"create",
+		"read",
+		"update",
+		"delete",
+		"archive",
+		"merge",
+		"export"
+	] as const,
+
+	payment: ["create", "read", "update", "delete", "refund"] as const,
+
+	// ----------------------------------------------------------
+	// Prescriptions & pharmacy
+	// ----------------------------------------------------------
+	prescription: [
+		"create",
+		"read",
+		"update",
+		"delete",
+		"fill",
+		"discontinue",
+		"renew"
+	] as const,
+
+	report: ["read", "export"] as const,
+
+	schedule: ["create", "read", "update", "delete"] as const,
+
+	// ----------------------------------------------------------
+	// Staff & org
+	// ----------------------------------------------------------
+	staff: ["create", "read", "update", "delete", "deactivate"] as const,
+
+	vital: ["create", "read", "update", "delete"] as const
+} as const;
+
+export const ac = createAccessControl(statements);
+
+// ============================================================
+// Roles
+// ============================================================
+//
+// Principle of least privilege:
+//   - admin   → everything
+//   - doctor  → full clinical + prescribing + labs, read-only billing
+//   - staff   → front-desk / nursing: scheduling, vitals, immunization
+//               Administration, dispensing, billing, no clinical edits
+//   - patient → own records only (row-level scoping is enforced in the API
+//               Layer; this map only grants the *actions*)
+
+export const roles = {
+	// ----------------------------------------------------------
+	// Admin — full control
+	// ----------------------------------------------------------
+	[ROLES_MAP.ADMIN]: ac.newRole({
+		...adminAc.statements,
+
+		admission: ["create", "read", "update", "delete", "discharge", "transfer"],
+
+		appointment: [
+			"create",
+			"read",
+			"update",
+			"delete",
+			"cancel",
+			"check-in",
+			"reschedule"
+		],
+
+		auditLog: ["read", "export"],
+
+		bed: ["create", "read", "update", "delete", "allocate", "release"],
+
+		chargeCatalog: ["create", "read", "update", "delete"],
+
+		clinicSettings: ["read", "update"],
+
+		clinicalNote: ["create", "read", "update", "delete"],
+
+		dashboard: ["read"],
+
+		department: ["create", "read", "update", "delete"],
+
+		diagnosis: ["create", "read", "update", "delete"],
+
+		doctor: ["create", "read", "update", "delete"],
+
+		document: ["create", "read", "update", "delete"],
+
+		encounter: ["create", "read", "update", "delete", "complete", "cancel"],
+
+		expense: ["create", "read", "update", "delete"],
+
+		growth: ["create", "read", "update", "delete"],
+
+		guardian: ["create", "read", "update", "delete"],
+
+		immunization: [
+			"create",
+			"read",
+			"update",
+			"delete",
+			"administer",
+			"defer",
+			"refuse"
+		],
+
+		inventory: ["read", "adjust", "receive", "dispense"],
+
+		invoice: ["create", "read", "update", "delete", "issue", "void", "refund"],
+
+		labOrder: [
+			"create",
+			"read",
+			"update",
+			"delete",
+			"collect",
+			"result",
+			"cancel"
+		],
+
+		labTest: ["create", "read", "update", "delete"],
+
+		medicalRecord: ["create", "read", "update", "delete"],
+
+		medicine: ["create", "read", "update", "delete"],
+
+		patient: [
+			"create",
+			"read",
+			"update",
+			"delete",
+			"archive",
+			"merge",
+			"export"
+		],
+
+		payment: ["create", "read", "update", "delete", "refund"],
+
+		prescription: [
+			"create",
+			"read",
+			"update",
+			"delete",
+			"fill",
+			"discontinue",
+			"renew"
+		],
+
+		report: ["read", "export"],
+
+		schedule: ["create", "read", "update", "delete"],
+
+		staff: ["create", "read", "update", "delete", "deactivate"],
+
+		vital: ["create", "read", "update", "delete"]
+	}),
+
+	// ----------------------------------------------------------
+	// Doctor — full clinical, read-only billing
+	// ----------------------------------------------------------
+	[ROLES_MAP.DOCTOR]: ac.newRole({
+		...userAc.statements,
+
+		admission: ["create", "read", "update", "discharge", "transfer"],
+
+		appointment: [
+			"create",
+			"read",
+			"update",
+			"cancel",
+			"check-in",
+			"reschedule"
+		],
+
+		bed: ["read", "allocate", "release"],
+
+		chargeCatalog: ["read"],
+
+		clinicSettings: ["read"],
+
+		clinicalNote: ["create", "read", "update"],
+
+		dashboard: ["read"],
+
+		department: ["read"],
+
+		diagnosis: ["create", "read", "update", "delete"],
+
+		doctor: ["read"],
+
+		document: ["create", "read", "update"],
+
+		encounter: ["create", "read", "update", "complete", "cancel"],
+
+		growth: ["create", "read", "update"],
+
+		guardian: ["create", "read", "update"],
+
+		immunization: ["create", "read", "update", "administer", "defer", "refuse"],
+
+		inventory: ["read"],
+
+		invoice: ["read"],
+
+		labOrder: ["create", "read", "update", "collect", "result", "cancel"],
+
+		labTest: ["read"],
+
+		medicalRecord: ["create", "read", "update"],
+
+		medicine: ["read"],
+
+		patient: ["create", "read", "update", "archive", "export"],
+
+		payment: ["read"],
+
+		prescription: ["create", "read", "update", "fill", "discontinue", "renew"],
+
+		report: ["read", "export"],
+
+		schedule: ["read", "update"],
+
+		staff: ["read"],
+
+		vital: ["create", "read", "update"]
+	}),
+
+	// ----------------------------------------------------------
+	// Staff — front desk / nursing: scheduling, vitals, dispensing,
+	// Billing. No clinical notes, no prescribing, no diagnoses.
+	// ----------------------------------------------------------
+	[ROLES_MAP.STAFF]: ac.newRole({
+		...userAc.statements,
+
+		admission: ["read", "create"],
+
+		appointment: [
+			"create",
+			"read",
+			"update",
+			"cancel",
+			"check-in",
+			"reschedule"
+		],
+		bed: ["read", "allocate", "release"],
+		chargeCatalog: ["read"],
+		clinicSettings: ["read"],
+
+		dashboard: ["read"],
+		department: ["read"],
+		doctor: ["read"],
+		document: ["create", "read"],
+		encounter: ["read", "create"],
+		growth: ["create", "read", "update"],
+		guardian: ["create", "read", "update"],
+		immunization: ["read", "create", "administer", "defer", "refuse"],
+		inventory: ["read", "adjust", "receive", "dispense"],
+
+		invoice: ["create", "read", "update", "issue"],
+
+		labOrder: ["read", "create", "collect"],
+		labTest: ["read"],
+
+		medicalRecord: ["create", "read"],
+		medicine: ["read"],
+
+		patient: ["create", "read", "update"],
+		payment: ["create", "read"],
+
+		prescription: ["read", "fill"],
+		schedule: ["read"],
+
+		staff: ["read"],
+		vital: ["create", "read", "update"]
+	}),
+
+	// ----------------------------------------------------------
+	// Patient — read-only access to their own data. Row-level scoping
+	// (e.g. "this patient may only read rows where patientId = self")
+	// Is enforced in the API layer; this map grants only the actions.
+	// ----------------------------------------------------------
+	[ROLES_MAP.PATIENT]: ac.newRole({
+		...userAc.statements,
+
+		admission: ["read"],
+
+		appointment: ["read", "cancel", "reschedule"],
+		bed: ["read"],
+		clinicSettings: ["read"],
+
+		dashboard: ["read"],
+		department: ["read"],
+		diagnosis: ["read"],
+
+		doctor: ["read"],
+		document: ["read"],
+		encounter: ["read"],
+		growth: ["read"],
+		guardian: ["read"],
+		immunization: ["read"],
+
+		invoice: ["read"],
+
+		labOrder: ["read"],
+		labTest: ["read"],
+
+		medicalRecord: ["read"],
+		medicine: ["read"],
+
+		patient: ["read"],
+		payment: ["read"],
+
+		prescription: ["read"],
+		schedule: ["read"],
+		vital: ["read"]
+	})
+};
+
+```
+`queries.ts`:
+
+```ts
+import { queryOptions } from "@tanstack/react-query";
+
+import { $getUser } from "./functions";
+
+/**
+ * This query is mainly used in _auth/route.tsx, which is the _auth layout
+ * that protects all child routes under it (e.g. _auth/app/*)
+ */
+export const authQueryOptions = () =>
+	queryOptions({
+		queryKey: ["auth"],
+		queryFn: ({ signal }) => $getUser({ signal })
+	});
+
+```
+`role.ts`:
+
+```ts
+import { z } from "zod";
+
+/**
+ * Canonical role vocabulary.
+ *
+ * ⚠️ This is the single source of truth for user roles. `schemas/enums.ts`
+ * re-exports `USER_ROLES` and `userRoleSchema` from here — do NOT define a
+ * second list there. Two enums with the same members but different order
+ * are structurally identical but nominally distinct under TypeScript, and
+ * `UserRole`/`Role` would stop being assignable to each other.
+ */
+export const USER_ROLES = ["admin", "doctor", "patient", "staff"] as const;
+
+export const userRoleSchema = z.enum(USER_ROLES);
+export type Role = z.infer<typeof userRoleSchema>;
+
+export const rolesMapSchema = z.record(z.string(), userRoleSchema);
+export type RolesMap = z.infer<typeof rolesMapSchema>;
+
+export const ROLES_MAP = {
+	ADMIN: "admin",
+	DOCTOR: "doctor",
+	PATIENT: "patient",
+	STAFF: "staff"
+} as const satisfies RolesMap;
+
+// export const DEFAULT_ROLE: Role = "doctor";
+// export const ADMIN_ROLES: Role[] = ["admin"];
+
+```
+`utils.ts`:
+
+```ts
+import type { Role } from "./role";
+
+// Utils.ts (dev-only branch, keep the warn in prod path)
+export function sendPasswordResetEmail(email: string, url: string): void {
+	if (process.env.NODE_ENV !== "production") {
+		// Dev has no mailer — surface the reset URL so the flow is testable.
+		console.warn({
+			email,
+			level: "info",
+			msg: "Password reset URL (dev)",
+			url
+		});
+		return;
+	}
+	console.warn({
+		email,
+		level: "info",
+		msg: "Password reset email dispatched"
+	});
+}
+interface CachedRole {
+	role: Role;
+	banned: boolean;
+	banReason: string | null;
+	clinicId: string | null;
+	banExpires: Date | null;
+	expiresAt: number;
+}
+
+const ROLE_CACHE_TTL_MS = 60_000;
+const roleCache = new Map<string, CachedRole>();
+
+export function getCachedRole(userId: string) {
+	const entry = roleCache.get(userId);
+	if (!entry) {
+		return;
+	}
+	if (entry.expiresAt <= Date.now()) {
+		roleCache.delete(userId);
+		return;
+	}
+	return {
+		banExpires: entry.banExpires,
+		banReason: entry.banReason,
+		banned: entry.banned,
+		clinicId: entry.clinicId,
+		role: entry.role
+	};
+}
+
+export function setCachedRole(
+	userId: string,
+	role: Role,
+	clinicId: string | null, // ← was `string`; preserves null
+	banned = false,
+	banReason: string | null = null,
+	banExpires: Date | null = null
+): void {
+	if (!userId) {
+		return;
+	}
+	if (!role) {
+		roleCache.delete(userId);
+		return;
+	}
+	roleCache.set(userId, {
+		banExpires,
+		banReason,
+		banned,
+		clinicId, // ← store as-is; don't coerce "" ← null
+		expiresAt: Date.now() + ROLE_CACHE_TTL_MS,
+		role
+	});
+}
+
+/** Evict expired entries. Safe to call from a timer or manually. */
+export function sweepRoleCache(): void {
+	const now = Date.now();
+	for (const [userId, entry] of roleCache) {
+		if (entry.expiresAt <= now) {
+			roleCache.delete(userId);
+		}
+	}
+}
+
+/** Invalidate one user (used by role updates, bans, deletes). */
+export function invalidateCachedRole(userId: string): void {
+	roleCache.delete(userId);
+}
+
+export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+```
+```
+`middleware.server.ts`:
+
+```ts
+// lib/auth/middleware.server.ts
+import { createMiddleware } from "@tanstack/react-start";
+import { setResponseStatus } from "@tanstack/react-start/server";
+import { _getUserImpl } from "./functions.server.ts";
+
+export const authMiddleware = createMiddleware().server(async ({ next }) => {
+	const user = await _getUserImpl();
+	if (!user) {
+		setResponseStatus(401);
+		throw new Error("Unauthorized");
+	}
+	return next({ context: { user } });
+});
+
+export const freshAuthMiddleware = createMiddleware().server(
+	async ({ next }) => {
+		const user = await _getUserImpl({ disableCookieCache: true });
+		if (!user) {
+			setResponseStatus(401);
+			throw new Error("Unauthorized");
+		}
+		return next({ context: { user } });
+	}
+);
+
+```
+`middleware.ts`:
+
+```ts
+// lib/auth/middleware.ts
+import { createMiddleware } from "@tanstack/react-start";
+import { setResponseStatus } from "@tanstack/react-start/server";
+import { _getUserImpl } from "./functions.server.ts";
+
+export const authMiddleware = createMiddleware().server(async ({ next }) => {
+	const user = await _getUserImpl();
+	if (!user) {
+		setResponseStatus(401);
+		throw new Error("Unauthorized");
+	}
+	return next({ context: { user } });
+});
+
+export const freshAuthMiddleware = createMiddleware().server(
+	async ({ next }) => {
+		const user = await _getUserImpl({ disableCookieCache: true });
+		if (!user) {
+			setResponseStatus(401);
+			throw new Error("Unauthorized");
+		}
+		return next({ context: { user } });
+	}
+);
+
+```
+`permissions.ts`:
+
+```ts
+import { createAccessControl } from "better-auth/plugins/access";
+import {
+	adminAc,
+	defaultStatements,
+	userAc
+} from "better-auth/plugins/admin/access";
+
+import { ROLES_MAP } from "./role";
+
+// Packages/auth/src/permissions.ts (adjust path to match your repo)
+
+// ============================================================
+// Statements
+// ============================================================
+//
+// `defaultStatements` from Better Auth gives us the admin-plugin resources:
+//   User, session, impersonate
+//
+// We add the clinic-domain resources on top. Every resource is a list of
+// Actions; `ac.newRole(...)` below grants a subset per role.
+//
+// Keep this object in sync with `ROLES_MAP` — adding a new role there
+// Without adding it to `roles` below will let `ac.newRole` silently accept
+// Any statement, which is exactly the failure mode access control is
+// Supposed to prevent.
+
+export const statements = {
+	...defaultStatements,
+
+	// ----------------------------------------------------------
+	// Admissions & beds
+	// ----------------------------------------------------------
+	admission: [
+		"create",
+		"read",
+		"update",
+		"delete",
+		"discharge",
+		"transfer"
+	] as const,
+
+	appointment: [
+		"create",
+		"read",
+		"update",
+		"delete",
+		"cancel",
+		"check-in",
+		"reschedule"
+	] as const,
+
+	// ----------------------------------------------------------
+	// Auditing & reporting
+	// ----------------------------------------------------------
+	auditLog: ["read", "export"] as const,
+
+	bed: ["create", "read", "update", "delete", "allocate", "release"] as const,
+
+	chargeCatalog: ["create", "read", "update", "delete"] as const,
+
+	clinicalNote: ["create", "read", "update", "delete"] as const,
+
+	clinicSettings: ["read", "update"] as const,
+
+	dashboard: ["read"] as const,
+
+	department: ["create", "read", "update", "delete"] as const,
+
+	diagnosis: ["create", "read", "update", "delete"] as const,
+
+	doctor: ["create", "read", "update", "delete"] as const,
+
+	document: ["create", "read", "update", "delete"] as const,
+
+	encounter: [
+		"create",
+		"read",
+		"update",
+		"delete",
+		"complete",
+		"cancel"
+	] as const,
+
+	expense: ["create", "read", "update", "delete"] as const,
+
+	growth: ["create", "read", "update", "delete"] as const,
+
+	guardian: ["create", "read", "update", "delete"] as const,
+
+	immunization: [
+		"create",
+		"read",
+		"update",
+		"delete",
+		"administer",
+		"defer",
+		"refuse"
+	] as const,
+
+	inventory: ["read", "adjust", "receive", "dispense"] as const,
+
+	// ----------------------------------------------------------
+	// Billing
+	// ----------------------------------------------------------
+	invoice: [
+		"create",
+		"read",
+		"update",
+		"delete",
+		"issue",
+		"void",
+		"refund"
+	] as const,
+
+	// ----------------------------------------------------------
+	// Labs
+	// ----------------------------------------------------------
+	labOrder: [
+		"create",
+		"read",
+		"update",
+		"delete",
+		"collect",
+		"result",
+		"cancel"
+	] as const,
+
+	labTest: ["create", "read", "update", "delete"] as const,
+
+	// ----------------------------------------------------------
+	// Records & documents
+	// ----------------------------------------------------------
+	medicalRecord: ["create", "read", "update", "delete"] as const,
+
+	medicine: ["create", "read", "update", "delete"] as const,
+
+	// ----------------------------------------------------------
+	// Clinical
+	// ----------------------------------------------------------
+	patient: [
+		"create",
+		"read",
+		"update",
+		"delete",
+		"archive",
+		"merge",
+		"export"
+	] as const,
+
+	payment: ["create", "read", "update", "delete", "refund"] as const,
+
+	// ----------------------------------------------------------
+	// Prescriptions & pharmacy
+	// ----------------------------------------------------------
+	prescription: [
+		"create",
+		"read",
+		"update",
+		"delete",
+		"fill",
+		"discontinue",
+		"renew"
+	] as const,
+
+	report: ["read", "export"] as const,
+
+	schedule: ["create", "read", "update", "delete"] as const,
+
+	// ----------------------------------------------------------
+	// Staff & org
+	// ----------------------------------------------------------
+	staff: ["create", "read", "update", "delete", "deactivate"] as const,
+
+	vital: ["create", "read", "update", "delete"] as const
+} as const;
+
+export const ac = createAccessControl(statements);
+
+// ============================================================
+// Roles
+// ============================================================
+//
+// Principle of least privilege:
+//   - admin   → everything
+//   - doctor  → full clinical + prescribing + labs, read-only billing
+//   - staff   → front-desk / nursing: scheduling, vitals, immunization
+//               Administration, dispensing, billing, no clinical edits
+//   - patient → own records only (row-level scoping is enforced in the API
+//               Layer; this map only grants the *actions*)
+
+export const roles = {
+	// ----------------------------------------------------------
+	// Admin — full control
+	// ----------------------------------------------------------
+	[ROLES_MAP.ADMIN]: ac.newRole({
+		...adminAc.statements,
+
+		admission: ["create", "read", "update", "delete", "discharge", "transfer"],
+
+		appointment: [
+			"create",
+			"read",
+			"update",
+			"delete",
+			"cancel",
+			"check-in",
+			"reschedule"
+		],
+
+		auditLog: ["read", "export"],
+
+		bed: ["create", "read", "update", "delete", "allocate", "release"],
+
+		chargeCatalog: ["create", "read", "update", "delete"],
+
+		clinicSettings: ["read", "update"],
+
+		clinicalNote: ["create", "read", "update", "delete"],
+
+		dashboard: ["read"],
+
+		department: ["create", "read", "update", "delete"],
+
+		diagnosis: ["create", "read", "update", "delete"],
+
+		doctor: ["create", "read", "update", "delete"],
+
+		document: ["create", "read", "update", "delete"],
+
+		encounter: ["create", "read", "update", "delete", "complete", "cancel"],
+
+		expense: ["create", "read", "update", "delete"],
+
+		growth: ["create", "read", "update", "delete"],
+
+		guardian: ["create", "read", "update", "delete"],
+
+		immunization: [
+			"create",
+			"read",
+			"update",
+			"delete",
+			"administer",
+			"defer",
+			"refuse"
+		],
+
+		inventory: ["read", "adjust", "receive", "dispense"],
+
+		invoice: ["create", "read", "update", "delete", "issue", "void", "refund"],
+
+		labOrder: [
+			"create",
+			"read",
+			"update",
+			"delete",
+			"collect",
+			"result",
+			"cancel"
+		],
+
+		labTest: ["create", "read", "update", "delete"],
+
+		medicalRecord: ["create", "read", "update", "delete"],
+
+		medicine: ["create", "read", "update", "delete"],
+
+		patient: [
+			"create",
+			"read",
+			"update",
+			"delete",
+			"archive",
+			"merge",
+			"export"
+		],
+
+		payment: ["create", "read", "update", "delete", "refund"],
+
+		prescription: [
+			"create",
+			"read",
+			"update",
+			"delete",
+			"fill",
+			"discontinue",
+			"renew"
+		],
+
+		report: ["read", "export"],
+
+		schedule: ["create", "read", "update", "delete"],
+
+		staff: ["create", "read", "update", "delete", "deactivate"],
+
+		vital: ["create", "read", "update", "delete"]
+	}),
+
+	// ----------------------------------------------------------
+	// Doctor — full clinical, read-only billing
+	// ----------------------------------------------------------
+	[ROLES_MAP.DOCTOR]: ac.newRole({
+		...userAc.statements,
+
+		admission: ["create", "read", "update", "discharge", "transfer"],
+
+		appointment: [
+			"create",
+			"read",
+			"update",
+			"cancel",
+			"check-in",
+			"reschedule"
+		],
+
+		bed: ["read", "allocate", "release"],
+
+		chargeCatalog: ["read"],
+
+		clinicSettings: ["read"],
+
+		clinicalNote: ["create", "read", "update"],
+
+		dashboard: ["read"],
+
+		department: ["read"],
+
+		diagnosis: ["create", "read", "update", "delete"],
+
+		doctor: ["read"],
+
+		document: ["create", "read", "update"],
+
+		encounter: ["create", "read", "update", "complete", "cancel"],
+
+		growth: ["create", "read", "update"],
+
+		guardian: ["create", "read", "update"],
+
+		immunization: ["create", "read", "update", "administer", "defer", "refuse"],
+
+		inventory: ["read"],
+
+		invoice: ["read"],
+
+		labOrder: ["create", "read", "update", "collect", "result", "cancel"],
+
+		labTest: ["read"],
+
+		medicalRecord: ["create", "read", "update"],
+
+		medicine: ["read"],
+
+		patient: ["create", "read", "update", "archive", "export"],
+
+		payment: ["read"],
+
+		prescription: ["create", "read", "update", "fill", "discontinue", "renew"],
+
+		report: ["read", "export"],
+
+		schedule: ["read", "update"],
+
+		staff: ["read"],
+
+		vital: ["create", "read", "update"]
+	}),
+
+	// ----------------------------------------------------------
+	// Staff — front desk / nursing: scheduling, vitals, dispensing,
+	// Billing. No clinical notes, no prescribing, no diagnoses.
+	// ----------------------------------------------------------
+	[ROLES_MAP.STAFF]: ac.newRole({
+		...userAc.statements,
+
+		admission: ["read", "create"],
+
+		appointment: [
+			"create",
+			"read",
+			"update",
+			"cancel",
+			"check-in",
+			"reschedule"
+		],
+		bed: ["read", "allocate", "release"],
+		chargeCatalog: ["read"],
+		clinicSettings: ["read"],
+
+		dashboard: ["read"],
+		department: ["read"],
+		doctor: ["read"],
+		document: ["create", "read"],
+		encounter: ["read", "create"],
+		growth: ["create", "read", "update"],
+		guardian: ["create", "read", "update"],
+		immunization: ["read", "create", "administer", "defer", "refuse"],
+		inventory: ["read", "adjust", "receive", "dispense"],
+
+		invoice: ["create", "read", "update", "issue"],
+
+		labOrder: ["read", "create", "collect"],
+		labTest: ["read"],
+
+		medicalRecord: ["create", "read"],
+		medicine: ["read"],
+
+		patient: ["create", "read", "update"],
+		payment: ["create", "read"],
+
+		prescription: ["read", "fill"],
+		schedule: ["read"],
+
+		staff: ["read"],
+		vital: ["create", "read", "update"]
+	}),
+
+	// ----------------------------------------------------------
+	// Patient — read-only access to their own data. Row-level scoping
+	// (e.g. "this patient may only read rows where patientId = self")
+	// Is enforced in the API layer; this map grants only the actions.
+	// ----------------------------------------------------------
+	[ROLES_MAP.PATIENT]: ac.newRole({
+		...userAc.statements,
+
+		admission: ["read"],
+
+		appointment: ["read", "cancel", "reschedule"],
+		bed: ["read"],
+		clinicSettings: ["read"],
+
+		dashboard: ["read"],
+		department: ["read"],
+		diagnosis: ["read"],
+
+		doctor: ["read"],
+		document: ["read"],
+		encounter: ["read"],
+		growth: ["read"],
+		guardian: ["read"],
+		immunization: ["read"],
+
+		invoice: ["read"],
+
+		labOrder: ["read"],
+		labTest: ["read"],
+
+		medicalRecord: ["read"],
+		medicine: ["read"],
+
+		patient: ["read"],
+		payment: ["read"],
+
+		prescription: ["read"],
+		schedule: ["read"],
+		vital: ["read"]
+	})
+};
+
+```
+`queries.ts`:
+
+```ts
+import { queryOptions } from "@tanstack/react-query";
+
+import { $getUser } from "./functions";
+
+/**
+ * This query is mainly used in _auth/route.tsx, which is the _auth layout
+ * that protects all child routes under it (e.g. _auth/app/*)
+ */
+export const authQueryOptions = () =>
+	queryOptions({
+		queryKey: ["auth"],
+		queryFn: ({ signal }) => $getUser({ signal })
+	});
+
+```
+`role.ts`:
+
+```ts
+import { z } from "zod";
+
+/**
+ * Canonical role vocabulary.
+ *
+ * ⚠️ This is the single source of truth for user roles. `schemas/enums.ts`
+ * re-exports `USER_ROLES` and `userRoleSchema` from here — do NOT define a
+ * second list there. Two enums with the same members but different order
+ * are structurally identical but nominally distinct under TypeScript, and
+ * `UserRole`/`Role` would stop being assignable to each other.
+ */
+export const USER_ROLES = ["admin", "doctor", "patient", "staff"] as const;
+
+export const userRoleSchema = z.enum(USER_ROLES);
+export type Role = z.infer<typeof userRoleSchema>;
+
+export const rolesMapSchema = z.record(z.string(), userRoleSchema);
+export type RolesMap = z.infer<typeof rolesMapSchema>;
+
+export const ROLES_MAP = {
+	ADMIN: "admin",
+	DOCTOR: "doctor",
+	PATIENT: "patient",
+	STAFF: "staff"
+} as const satisfies RolesMap;
+
+// export const DEFAULT_ROLE: Role = "doctor";
+// export const ADMIN_ROLES: Role[] = ["admin"];
+
+```
+`utils.ts`:
+
+```ts
+import type { Role } from "./role";
+
+// Utils.ts (dev-only branch, keep the warn in prod path)
+export function sendPasswordResetEmail(email: string, url: string): void {
+	if (process.env.NODE_ENV !== "production") {
+		// Dev has no mailer — surface the reset URL so the flow is testable.
+		console.warn({
+			email,
+			level: "info",
+			msg: "Password reset URL (dev)",
+			url
+		});
+		return;
+	}
+	console.warn({
+		email,
+		level: "info",
+		msg: "Password reset email dispatched"
+	});
+}
+interface CachedRole {
+	role: Role;
+	banned: boolean;
+	banReason: string | null;
+	clinicId: string | null;
+	banExpires: Date | null;
+	expiresAt: number;
+}
+
+const ROLE_CACHE_TTL_MS = 60_000;
+const roleCache = new Map<string, CachedRole>();
+
+export function getCachedRole(userId: string) {
+	const entry = roleCache.get(userId);
+	if (!entry) {
+		return;
+	}
+	if (entry.expiresAt <= Date.now()) {
+		roleCache.delete(userId);
+		return;
+	}
+	return {
+		banExpires: entry.banExpires,
+		banReason: entry.banReason,
+		banned: entry.banned,
+		clinicId: entry.clinicId,
+		role: entry.role
+	};
+}
+
+export function setCachedRole(
+	userId: string,
+	role: Role,
+	clinicId: string | null, // ← was `string`; preserves null
+	banned = false,
+	banReason: string | null = null,
+	banExpires: Date | null = null
+): void {
+	if (!userId) {
+		return;
+	}
+	if (!role) {
+		roleCache.delete(userId);
+		return;
+	}
+	roleCache.set(userId, {
+		banExpires,
+		banReason,
+		banned,
+		clinicId, // ← store as-is; don't coerce "" ← null
+		expiresAt: Date.now() + ROLE_CACHE_TTL_MS,
+		role
+	});
+}
+
+/** Evict expired entries. Safe to call from a timer or manually. */
+export function sweepRoleCache(): void {
+	const now = Date.now();
+	for (const [userId, entry] of roleCache) {
+		if (entry.expiresAt <= now) {
+			roleCache.delete(userId);
+		}
+	}
+}
+
+/** Invalidate one user (used by role updates, bans, deletes). */
+export function invalidateCachedRole(userId: string): void {
+	roleCache.delete(userId);
+}
+
+export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+```
