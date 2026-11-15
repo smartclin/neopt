@@ -1,8 +1,9 @@
 import { ChevronDownIcon, SearchIcon } from "lucide-react";
 import * as React from "react";
 
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
+import { Badge } from "#/components/ui/badge";
+import { Button } from "#/components/ui/button";
+import { Input } from "#/components/ui/input";
 import { cn } from "@/lib/utils";
 
 import { COMPOSER_DRUGS, type ComposerDrug } from "../formulary";
@@ -25,15 +26,12 @@ const INITIAL_RESULTS = 8;
 
 export function MedicationAutocomplete({ value, onSelect, disabled }: MedicationAutocompleteProps) {
   const listboxId = React.useId();
+  const inputId = `${listboxId}-input`;
   const [open, setOpen] = React.useState(false);
-  const [query, setQuery] = React.useState(value);
+  const [queryState, setQueryState] = React.useState({ value, query: value });
+  const query = queryState.value === value ? queryState.query : value;
   const [activeIndex, setActiveIndex] = React.useState(0);
   const inputRef = React.useRef<HTMLInputElement>(null);
-
-  // Keep the input synced when the parent resets `value` (e.g. after save).
-  React.useEffect(() => {
-    setQuery(value);
-  }, [value]);
 
   const filtered = React.useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -46,27 +44,21 @@ export function MedicationAutocomplete({ value, onSelect, disabled }: Medication
     ).slice(0, MAX_RESULTS);
   }, [query]);
 
-  // Reset active index whenever the list changes so we never point past
-  // the end of a shrunken list.
-  React.useEffect(() => {
-    setActiveIndex(0);
-  }, []);
+  const hasResults = filtered.length > 0;
 
   const choose = React.useCallback(
     (drug: ComposerDrug) => {
       onSelect(drug);
-      setQuery(drug.genericName);
+      setQueryState({ value, query: drug.genericName });
       setOpen(false);
-      // Return focus to the input so the user can keep typing or submit.
       inputRef.current?.focus();
     },
-    [onSelect],
+    [onSelect, value],
   );
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (disabled) return;
 
-    // Open on any printable key or ArrowDown when closed.
     if (!open) {
       if (event.key === "ArrowDown" || event.key === "ArrowUp" || event.key === "Enter") {
         event.preventDefault();
@@ -78,7 +70,7 @@ export function MedicationAutocomplete({ value, onSelect, disabled }: Medication
     switch (event.key) {
       case "ArrowDown":
         event.preventDefault();
-        setActiveIndex((i) => Math.min(i + 1, filtered.length - 1));
+        setActiveIndex((i) => Math.min(i + 1, Math.max(filtered.length - 1, 0)));
         return;
       case "ArrowUp":
         event.preventDefault();
@@ -90,7 +82,7 @@ export function MedicationAutocomplete({ value, onSelect, disabled }: Medication
         return;
       case "End":
         event.preventDefault();
-        setActiveIndex(filtered.length - 1);
+        setActiveIndex(Math.max(filtered.length - 1, 0));
         return;
       case "Enter": {
         event.preventDefault();
@@ -103,36 +95,34 @@ export function MedicationAutocomplete({ value, onSelect, disabled }: Medication
         setOpen(false);
         return;
       case "Tab":
-        // Let focus leave; close the popover.
         setOpen(false);
         return;
     }
   };
 
-  const hasResults = filtered.length > 0;
-  const activeOptionId = hasResults ? `${listboxId}-opt-${activeIndex}` : undefined;
+  const activeOptionId = open && hasResults ? `${listboxId}-opt-${activeIndex}` : undefined;
 
   return (
     <div className="relative">
       <div className="relative">
         <SearchIcon
           aria-hidden="true"
-          className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2"
+          className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
         />
         <Input
-          aria-activedescendant={open ? activeOptionId : undefined}
+          aria-activedescendant={activeOptionId}
           aria-autocomplete="list"
           aria-controls={open ? listboxId : undefined}
           aria-expanded={open}
           aria-haspopup="listbox"
           aria-label="Search medications"
           autoComplete="off"
-          className="pr-8 pl-9"
+          className="pl-9 pr-8"
           disabled={disabled}
-          id={`${listboxId}-input`}
+          id={inputId}
           onBlur={() => setOpen(false)}
           onChange={(event) => {
-            setQuery(event.target.value);
+            setQueryState({ value, query: event.target.value });
             setOpen(true);
           }}
           onFocus={() => {
@@ -145,11 +135,11 @@ export function MedicationAutocomplete({ value, onSelect, disabled }: Medication
           type="text"
           value={query}
         />
-        <button
+        <Button
           aria-controls={open ? listboxId : undefined}
           aria-expanded={open}
           aria-label={open ? "Close medication list" : "Open medication list"}
-          className="text-muted-foreground hover:text-foreground focus-visible:ring-ring absolute top-1/2 right-1 -translate-y-1/2 rounded-md p-1.5 transition-colors outline-none focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50"
+          className="absolute top-1/2 right-1 -translate-y-1/2"
           disabled={disabled}
           onClick={() => {
             if (open) {
@@ -160,20 +150,22 @@ export function MedicationAutocomplete({ value, onSelect, disabled }: Medication
             }
           }}
           onMouseDown={(event) => event.preventDefault()}
+          size="icon-xs"
           tabIndex={-1}
           type="button"
+          variant="ghost"
         >
           <ChevronDownIcon
             aria-hidden="true"
             className={cn("size-4 transition-transform", open && "rotate-180")}
           />
-        </button>
+        </Button>
       </div>
 
       {open && (
-        <ul
+        <div
           aria-label="Medication results"
-          className="bg-popover ring-foreground/10 absolute z-20 mt-1 max-h-72 w-full overflow-y-auto rounded-md p-1 shadow-md ring-1"
+          className="absolute z-20 mt-1 max-h-72 w-full overflow-y-auto rounded-md bg-popover p-1 shadow-md ring-1 ring-foreground/10"
           id={listboxId}
           role="listbox"
         >
@@ -181,55 +173,59 @@ export function MedicationAutocomplete({ value, onSelect, disabled }: Medication
             filtered.map((drug, index) => {
               const isActive = index === activeIndex;
               return (
-                <li
-                  aria-selected={isActive}
-                  className={cn(
-                    "flex cursor-pointer flex-col gap-0.5 rounded-sm p-2",
-                    isActive ? "bg-muted text-foreground" : "hover:bg-muted/60",
-                  )}
-                  id={`${listboxId}-opt-${index}`}
-                  key={drug.key}
-                  // Use onMouseDown so the selection fires before
-                  // the input's onBlur closes the popover. `onClick`
-                  // would be too late.
-                  onMouseDown={(event) => {
-                    event.preventDefault();
-                    choose(drug);
-                  }}
-                  onMouseEnter={() => setActiveIndex(index)}
-                  role="option"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium">{drug.genericName}</span>
-                    <Badge variant={AWARE_VARIANT[drug.aware]}>{drug.aware}</Badge>
-                  </div>
-                  {drug.brandNames.length > 0 && (
-                    <div className="flex flex-wrap gap-1">
-                      {drug.brandNames.slice(0, 3).map((b) => (
-                        <span
-                          className="bg-muted text-muted-foreground rounded px-1.5 py-0.5 text-[10px]"
-                          key={b}
-                        >
-                          {b}
+                <div key={drug.key} role="presentation">
+                  <Button
+                    aria-selected={isActive}
+                    className={cn(
+                      "h-auto w-full justify-start whitespace-normal",
+                      isActive ? "bg-muted text-foreground" : "hover:bg-muted/60",
+                    )}
+                    id={`${listboxId}-opt-${index}`}
+                    onMouseDown={(event) => {
+                      event.preventDefault();
+                      choose(drug);
+                    }}
+                    onMouseEnter={() => setActiveIndex(index)}
+                    role="option"
+                    tabIndex={-1}
+                    type="button"
+                    variant="ghost"
+                  >
+                    <span className="flex w-full flex-col gap-0.5 text-left">
+                      <span className="flex items-center gap-2">
+                        <span className="font-medium">{drug.genericName}</span>
+                        <Badge variant={AWARE_VARIANT[drug.aware]}>{drug.aware}</Badge>
+                      </span>
+                      {drug.brandNames.length > 0 && (
+                        <span className="flex flex-wrap gap-1">
+                          {drug.brandNames.slice(0, 3).map((b) => (
+                            <span
+                              className="bg-muted text-muted-foreground rounded px-1.5 py-0.5 text-xsss"
+                              key={b}
+                            >
+                              {b}
+                            </span>
+                          ))}
                         </span>
-                      ))}
-                    </div>
-                  )}
-                  <span className="text-muted-foreground truncate text-xs">{drug.indication}</span>
-                </li>
+                      )}
+                      <span className="truncate text-xs text-muted-foreground">
+                        {drug.indication}
+                      </span>
+                    </span>
+                  </Button>
+                </div>
               );
             })
           ) : (
-            <li
-              aria-disabled="true"
+            <div
               aria-live="polite"
-              className="text-muted-foreground px-3 py-2 text-sm"
-              role="option"
+              className="px-3 py-2 text-sm text-muted-foreground"
+              role="status"
             >
               No results found.
-            </li>
+            </div>
           )}
-        </ul>
+        </div>
       )}
     </div>
   );

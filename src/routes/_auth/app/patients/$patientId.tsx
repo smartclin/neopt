@@ -69,6 +69,16 @@ function PatientLayout() {
   const patientQ = useQuery(patientHistoryQuery(patientId));
   const visitsQ = useQuery(patientVisitsQuery(patientId));
 
+  const patient = patientQ.data;
+  const visits = visitsQ.data ?? [];
+  const latestVisit = visits[0];
+
+  const ageMonths = useMemo(() => {
+    if (!patient?.dateOfBirth) return undefined;
+    const days = (Date.now() - new Date(`${patient.dateOfBirth}T00:00:00Z`).getTime()) / 86_400_000;
+    return days / 30.4375;
+  }, [patient?.dateOfBirth]);
+
   // Safety-critical: never render a partial chart while the primary
   // record is unresolved.
   if (patientQ.isPending) return <PatientDetailSkeleton />;
@@ -84,17 +94,6 @@ function PatientLayout() {
   }
   if (!patientQ.data) return <RouteNotFound title="Patient not found" />;
 
-  const patient = patientQ.data;
-  const visits = visitsQ.data ?? [];
-  const latestVisit = visits[0];
-
-  // Hooks must be called unconditionally.
-  const ageMonths = useMemo(() => {
-    if (!patient.dateOfBirth) return undefined;
-    const days = (Date.now() - new Date(`${patient.dateOfBirth}T00:00:00Z`).getTime()) / 86_400_000;
-    return days / 30.4375;
-  }, [patient.dateOfBirth]);
-
   if (!user?.clinicId) {
     return (
       <PageHeader
@@ -103,6 +102,7 @@ function PatientLayout() {
       />
     );
   }
+  if (!patient) return <RouteNotFound title="Patient not found" />;
 
   const clinicId = user.clinicId;
 
@@ -112,6 +112,7 @@ function PatientLayout() {
         <InlineBanner tone="warning">
           Visits failed to refresh. Showing last loaded data.{" "}
           <button
+
             className="underline underline-offset-2"
             onClick={() => void visitsQ.refetch()}
             type="button"
@@ -307,8 +308,8 @@ function PatientLayout() {
 function InlineBanner({ tone, children }: { tone: "warning" | "info"; children: React.ReactNode }) {
   const toneClass =
     tone === "warning"
-      ? "border-amber-500/30 bg-amber-500/5 text-amber-900 dark:text-amber-200"
-      : "border-sky-500/30 bg-sky-500/5 text-sky-900 dark:text-sky-200";
+      ? "border-warning/30 bg-warning/5 text-accent-foreground dark:text-accent"
+      : "border-ring/30 bg-sidebar-ring/5 text-muted-foreground dark:text-sidebar-border";
   return (
     <div
       className={`flex items-center justify-between gap-3 rounded-md border px-3 py-2 text-xs ${toneClass}`}

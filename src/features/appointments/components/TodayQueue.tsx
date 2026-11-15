@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
+import { formatTime } from "@/lib/dates";
 // ── Row type — derived from the server fn ──────────────────────────────
 import type { fetchTodayAppointments } from "../functions";
 // ── reads + mutations ──────────────────────────────────────────────────
@@ -25,15 +26,9 @@ type QueueAppointment = Awaited<ReturnType<typeof fetchTodayAppointments>>[numbe
 
 // ── Time helpers ───────────────────────────────────────────────────────
 
-const TIME_FMT = new Intl.DateTimeFormat("en-GB", {
-  hour: "2-digit",
-  minute: "2-digit",
-  hour12: false,
-});
-
 function timeStr(value: Date | string): string {
   const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? "—" : TIME_FMT.format(date);
+  return Number.isNaN(date.getTime()) ? "—" : formatTime(date);
 }
 
 function isEditableTarget(el: Element | null): boolean {
@@ -119,14 +114,14 @@ function QueueItem({ appt, isActive, rowRef, onFocus, onEdit, actions }: QueueIt
           <ActionButton
             disabled={actions.complete.isPending}
             icon={CheckIcon}
-            iconClassName="text-emerald-600"
+            iconClassName="text-module-encounters"
             label="Complete"
             onClick={() => actions.complete.mutate(appt.id)}
           />
           <ActionButton
             disabled={actions.noShow.isPending}
             icon={UserXIcon}
-            iconClassName="text-amber-600"
+            iconClassName="text-warning"
             label="No-show"
             onClick={() => actions.noShow.mutate(appt.id)}
           />
@@ -288,13 +283,14 @@ export function TodayQueue({ clinicId, onEdit, onNew }: TodayQueueProps) {
     refetchInterval: 60_000,
   });
 
-  const appointments = query.data ?? [];
+  const appointmentsData = query.data;
+  const appointments = appointmentsData ?? [];
   const actions = useQueueActions();
 
   const activeIdx = React.useMemo(() => {
     if (!activeId) return -1;
-    return appointments.findIndex((a) => a.id === activeId);
-  }, [activeId, appointments]);
+    return (appointmentsData ?? []).findIndex((a) => a.id === activeId);
+  }, [activeId, appointmentsData]);
 
   React.useEffect(() => {
     if (activeId && activeIdx === -1) setActiveId(null);
@@ -313,8 +309,8 @@ export function TodayQueue({ clinicId, onEdit, onNew }: TodayQueueProps) {
 
   const idsRef = React.useRef<string[]>([]);
   React.useEffect(() => {
-    idsRef.current = appointments.map((a) => a.id);
-  }, [appointments]);
+    idsRef.current = (appointmentsData ?? []).map((a) => a.id);
+  }, [appointmentsData]);
 
   React.useEffect(() => {
     function handleKey(e: KeyboardEvent) {
@@ -357,12 +353,12 @@ export function TodayQueue({ clinicId, onEdit, onNew }: TodayQueueProps) {
       cancelled: 0,
       "no-show": 0,
     };
-    for (const a of appointments) {
+    for (const a of appointmentsData ?? []) {
       const s = normalizeStatus(a.status);
       c[s]++;
     }
     return c;
-  }, [appointments]);
+  }, [appointmentsData]);
 
   const setRowRef = React.useCallback(
     (id: string) => (el: HTMLDivElement | null) => {
@@ -377,13 +373,7 @@ export function TodayQueue({ clinicId, onEdit, onNew }: TodayQueueProps) {
       <div className="flex items-center justify-between pb-3">
         <div className="flex flex-col gap-0.5">
           <h2 className="text-sm font-semibold">Today&rsquo;s Queue</h2>
-          <p className="text-muted-foreground text-xs">
-            {new Date().toLocaleDateString("en-GB", {
-              weekday: "long",
-              day: "numeric",
-              month: "long",
-            })}
-          </p>
+          <p className="text-muted-foreground text-xs">{formatDayHeading(new Date())}</p>
         </div>
         <Button onClick={onNew} size="xs" title="New appointment (N)" variant="outline">
           New

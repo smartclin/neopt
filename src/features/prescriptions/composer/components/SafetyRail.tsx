@@ -1,4 +1,3 @@
-import { AlertTriangleIcon, ShieldAlertIcon } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -7,6 +6,8 @@ import {
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatDate } from "@/lib/dates";
+import { AlertTriangleIcon, ShieldAlertIcon } from "lucide-react";
 
 import type { ComposerDrug } from "../formulary";
 
@@ -37,48 +38,50 @@ export function SafetyRail({ warnings, drug, previous, mode }: SafetyRailProps) 
     <div className="flex flex-col gap-4">
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-sm">
-            <ShieldAlertIcon className="size-4" />
-            Interaction check
+          <CardTitle>
+            <span className="flex items-center gap-2 text-sm">
+              <ShieldAlertIcon className="size-4" />
+              Interaction check
+            </span>
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-2">
-          {warnings.length === 0 && (
-            <p className="text-muted-foreground text-sm">
-              No interactions detected against the patient&rsquo;s allergies or active
-              prescriptions.
-            </p>
-          )}
-          {critical.map((w) => (
-            <div
-              className="border-destructive/40 bg-destructive/5 rounded-md border p-2"
-              key={w.title}
-            >
-              <div className="flex items-center gap-2">
-                <AlertTriangleIcon className="text-destructive size-4" />
-                <span className="text-destructive text-sm font-semibold">{w.title}</span>
+        <CardContent>
+          <div className="flex flex-col gap-2">
+            {warnings.length === 0 && (
+              <p className="text-muted-foreground text-sm">
+                No interactions detected against the patient&rsquo;s allergies or active
+                prescriptions.
+              </p>
+            )}
+            {critical.map((w) => (
+              <div
+                className="border-destructive/40 bg-destructive/5 rounded-md border p-2"
+                key={w.title}
+              >
+                <div className="flex items-center gap-2">
+                  <AlertTriangleIcon className="text-destructive size-4" />
+                  <span className="text-destructive text-sm font-semibold">{w.title}</span>
+                </div>
+                <p className="text-muted-foreground mt-1 text-xs">{w.detail}</p>
               </div>
-              <p className="text-muted-foreground mt-1 text-xs">{w.detail}</p>
-            </div>
-          ))}
-          {caution.map((w) => (
-            <div className="rounded-md border border-amber-500/40 bg-amber-500/5 p-2" key={w.title}>
-              <div className="flex items-center gap-2">
-                <AlertTriangleIcon className="size-4 text-amber-600" />
-                <span className="text-sm font-semibold text-amber-700 dark:text-amber-400">
-                  {w.title}
-                </span>
+            ))}
+            {caution.map((w) => (
+              <div className="rounded-md border border-warning/40 bg-warning/5 p-2" key={w.title}>
+                <div className="flex items-center gap-2">
+                  <AlertTriangleIcon className="text-warning size-4" />
+                  <span className="text-warning text-sm font-semibold">{w.title}</span>
+                </div>
+                <p className="text-muted-foreground mt-1 text-xs">{w.detail}</p>
               </div>
-              <p className="text-muted-foreground mt-1 text-xs">{w.detail}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </CardContent>
       </Card>
 
       {drug && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm">Formulary reference</CardTitle>
+            <CardTitle>Formulary reference</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
             <Accordion>
@@ -126,28 +129,30 @@ export function SafetyRail({ warnings, drug, previous, mode }: SafetyRailProps) 
       {mode !== "create" && previous.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm">Previous prescriptions</CardTitle>
+            <CardTitle>Previous prescriptions</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
-            {previous
-              .slice(-3)
-              .reverse()
-              .map((p) => (
-                <div className="flex items-center justify-between gap-2 text-xs" key={p.id}>
-                  <div className="flex min-w-0 flex-col">
-                    <span className="truncate font-medium">{p.medicationName}</span>
-                    <span className="text-muted-foreground font-mono text-[11px] tabular-nums">
-                      {p.dosage} · {new Date(p.prescribedAt).toLocaleDateString()}
-                    </span>
+          <CardContent>
+            <div className="flex flex-col gap-2">
+              {previous
+                .slice(-3)
+                .reverse()
+                .map((p) => (
+                  <div className="flex items-center justify-between gap-2 text-xs" key={p.id}>
+                    <div className="flex min-w-0 flex-col">
+                      <span className="truncate font-medium">{p.medicationName}</span>
+                      <span className="text-muted-foreground font-mono text-xss tabular-nums">
+                        {p.dosage} · {formatDate(new Date(p.prescribedAt))}
+                      </span>
+                    </div>
+                    <Badge
+                      className="shrink-0"
+                      variant={p.status === "active" ? "default" : "secondary"}
+                    >
+                      {p.status}
+                    </Badge>
                   </div>
-                  <Badge
-                    className="shrink-0"
-                    variant={p.status === "active" ? "default" : "secondary"}
-                  >
-                    {p.status}
-                  </Badge>
-                </div>
-              ))}
+                ))}
+            </div>
           </CardContent>
         </Card>
       )}

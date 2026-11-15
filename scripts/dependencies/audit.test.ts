@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { compareAdvisories, formatAdvisory, parseAuditReport } from "./audit.mjs";
-
+ 
 function advisory(ghsa: string, overrides: Record<string, unknown> = {}) {
   return {
     id: 1102341,

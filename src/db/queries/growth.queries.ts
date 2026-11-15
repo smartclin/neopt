@@ -1,23 +1,23 @@
 // growth/queries.ts — fixes only (imports + bandFor + fetchChildMeasurements)
 
 // 1. z comes from zod, not better-auth
-import type { z } from "zod";
 import { growthStandards } from "#/db/schema.ts";
 import { and, db, eq } from "@/db";
+import type { z } from "zod";
 import type { fetchGrowthStandardsSchema } from "../../features/growth/schema";
 import {
-  type ChartBand,
-  type ChartCurves,
-  type ChartPoint,
-  type ChartPointValues,
-  type Indicator,
-  type IndicatorSeriesRow,
-  LmsDomainError,
-  type LmsTriple,
-  type Sex,
-} from "../../features/growth/types";
+    type ChartBand,
+    type ChartCurves,
+    type ChartPoint,
+    type ChartPointValues,
+    type Indicator,
+    type IndicatorSeriesRow,
+    LmsDomainError,
+    type LmsTriple,
+    type Sex,
+} from "#/features/growth/types";
+import { interpolateLms, valueAtZScore } from "#/features/growth/types/lms";
 import { DOMAIN, type DomainEntry, type RangeFor } from "../../features/growth/types/sheets";
-import { interpolateLms, valueAtZScore } from "../../features/measurements";
 
 const REFERENCE_VERSION = "egyptian-2021" as const;
 

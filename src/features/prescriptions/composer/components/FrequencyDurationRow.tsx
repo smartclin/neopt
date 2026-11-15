@@ -1,5 +1,6 @@
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "#/components/ui/button";
+import { Input } from "#/components/ui/input";
+import { Label } from "#/components/ui/label";
 
 const QUICK = [
   { value: "OD", label: "OD" },
@@ -38,14 +39,15 @@ export function FrequencyDurationRow({
         />
         <div className="flex flex-wrap gap-1">
           {QUICK.map((q) => (
-            <button
-              className="bg-muted text-muted-foreground hover:bg-muted/80 rounded-full px-2 py-0.5 text-[11px] font-medium"
+            <Button
               key={q.value}
               onClick={() => onChange({ frequency: q.value })}
+              size="xs"
               type="button"
+              variant="secondary"
             >
               {q.label}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -68,14 +70,15 @@ export function FrequencyDurationRow({
         />
         <div className="flex flex-wrap gap-1">
           {DURATION_CHIPS.map((d) => (
-            <button
-              className="bg-muted text-muted-foreground hover:bg-muted/80 rounded-full px-2 py-0.5 text-[11px] font-medium"
+            <Button
               key={d.days}
               onClick={() => onChange({ durationDays: d.days })}
+              size="xs"
               type="button"
+              variant="secondary"
             >
               {d.label}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

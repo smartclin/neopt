@@ -123,13 +123,7 @@ const columns = column.columns([
       }
       return (
         <div className="flex flex-col gap-0.5 py-1">
-          <span className="font-medium tabular-nums">
-            {date.toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </span>
+          <span className="font-medium tabular-nums">{formatDate(date)}</span>
           {ageMonths != null && (
             <span className="text-muted-foreground text-xs tabular-nums">
               {MONTH_LABEL(ageMonths)}
@@ -254,13 +248,14 @@ export function MeasurementsTable<TRoute extends AnyRoute>({
     initialDataUpdatedAt,
   });
 
-  const all = query.data ?? [];
+  const queryData = query.data;
+  const all = queryData ?? [];
   const total = all.length;
   const pageCount = Math.max(1, Math.ceil(total / size));
 
   const pageRows = React.useMemo(
-    () => all.slice((page - 1) * size, page * size),
-    [all, page, size],
+    () => (queryData ?? []).slice((page - 1) * size, page * size),
+    [queryData, page, size],
   );
 
   const unit = INDICATOR_UNIT[indicator];

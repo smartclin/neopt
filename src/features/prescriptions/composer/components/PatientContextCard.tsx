@@ -1,7 +1,8 @@
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useMemo, useState } from "react";
 
+import { Badge } from "#/components/ui/badge";
+import { Input } from "#/components/ui/input";
+import { Label } from "#/components/ui/label";
 import { ageInMonths } from "@/features/shared/helpers";
 
 export interface PatientContext {
@@ -28,18 +29,22 @@ export function PatientContextCard({
   onWeightChange,
   mode,
 }: PatientContextCardProps) {
-  const ageMonths = ageInMonths(new Date(patient.dateOfBirth), new Date());
+  const [referenceDate] = useState(() => new Date());
+  const ageMonths = useMemo(
+    () => ageInMonths(new Date(patient.dateOfBirth), referenceDate),
+    [patient.dateOfBirth, referenceDate],
+  );
   const ageLabel =
     ageMonths < 24
       ? `${ageMonths.toFixed(1)} mo`
       : `${Math.floor(ageMonths / 12)}y ${Math.round(ageMonths % 12)}m`;
 
   return (
-    <div className="bg-card flex flex-col gap-3 rounded-xl border p-4">
+    <div className="flex flex-col gap-3 rounded-xl border bg-card p-4">
       <div className="flex items-center gap-3">
         <span
           aria-hidden="true"
-          className="bg-secondary text-secondary-foreground grid size-11 place-items-center rounded-full text-sm font-semibold uppercase"
+          className="grid size-11 place-items-center rounded-full bg-secondary text-sm font-semibold text-secondary-foreground uppercase"
         >
           {patient.firstName.charAt(0)}
           {patient.lastName.charAt(0)}
@@ -48,7 +53,7 @@ export function PatientContextCard({
           <span className="truncate font-semibold">
             {patient.firstName} {patient.lastName}
           </span>
-          <span className="text-muted-foreground font-mono text-xs tabular-nums">
+          <span className="font-mono text-xs text-muted-foreground tabular-nums">
             {patient.mrn} · {ageLabel} · {patient.sex === "male" ? "Boy" : "Girl"}
           </span>
         </div>
@@ -75,7 +80,7 @@ export function PatientContextCard({
               value={weightKg ?? ""}
             />
           )}
-          <p className="text-muted-foreground text-[11px]">Drives mg/kg calculation.</p>
+          <p className="text-muted-foreground text-xss">Drives mg/kg calculation.</p>
         </div>
 
         <div className="grid gap-1">
@@ -93,7 +98,7 @@ export function PatientContextCard({
                 ))}
             </div>
           ) : (
-            <span className="text-muted-foreground text-xs">None recorded</span>
+            <span className="text-xs text-muted-foreground">None recorded</span>
           )}
         </div>
       </div>

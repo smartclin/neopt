@@ -417,7 +417,7 @@
   // ==========================================================================
   // WORKBENCH
   // ==========================================================================
-  "workbench.colorTheme": "Light 2026",
+  "workbench.colorTheme": "Kiro Dark",
   "workbench.editor.closeOnFileDelete": true,
   "workbench.editor.customLabels.enabled": true,
   "workbench.editor.customLabels.patterns": {
