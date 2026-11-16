@@ -16,6 +16,7 @@ import {
   RefreshCwIcon,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+
 import { PageHeader } from "@/components/blocks/page-header";
 import { SectionState } from "@/components/blocks/state-view";
 import { TableColGroup } from "@/components/blocks/table-columns";
@@ -685,21 +686,22 @@ function RenewButton({
   });
 
   return (
-    <Button
-      className="opacity-0 transition-opacity group-hover/cell:opacity-100 focus-visible:opacity-100"
-      disabled={mutation.isPending}
-      nativeButton
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        mutation.mutate();
-      }}
-      size="xs"
-      variant="ghost"
-    >
-      <RefreshCwIcon aria-hidden="true" className={mutation.isPending ? "animate-spin" : ""} />
-      {mutation.isPending ? "Renewing…" : "Renew"}
-    </Button>
+    <div className="opacity-0 transition-opacity group-hover/cell:opacity-100 focus-within:opacity-100">
+      <Button
+        disabled={mutation.isPending}
+        nativeButton
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          mutation.mutate();
+        }}
+        size="xs"
+        variant="ghost"
+      >
+        <RefreshCwIcon aria-hidden="true" className={mutation.isPending ? "animate-spin" : ""} />
+        {mutation.isPending ? "Renewing…" : "Renew"}
+      </Button>
+    </div>
   );
 }
 

@@ -111,14 +111,9 @@ function PatientLayout() {
       {visitsQ.isError && (
         <InlineBanner tone="warning">
           Visits failed to refresh. Showing last loaded data.{" "}
-          <button
-
-            className="underline underline-offset-2"
-            onClick={() => void visitsQ.refetch()}
-            type="button"
-          >
+          <Button onClick={() => void visitsQ.refetch()} size="xs" variant="link">
             Retry
-          </button>
+          </Button>
         </InlineBanner>
       )}
 
@@ -248,7 +243,7 @@ function PatientLayout() {
 
         <TabsContent value="growth">
           <Card>
-            <CardContent className="pt-6">
+            <CardContent>
               <PatientGrowthPanel patientId={patientId} />
             </CardContent>
           </Card>
@@ -257,7 +252,7 @@ function PatientLayout() {
         <TabsContent value="development">
           <div className="flex flex-col gap-4">
             <Card>
-              <CardContent className="pt-6">
+              <CardContent>
                 <MilestoneChecklist childAgeMonths={ageMonths ?? 0} />
               </CardContent>
             </Card>

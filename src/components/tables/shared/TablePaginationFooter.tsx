@@ -1,5 +1,6 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import type React from "react";
+
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export interface TablePaginationFooterProps {
   pageIndex: number;

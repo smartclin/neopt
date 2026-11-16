@@ -1,6 +1,6 @@
 import { auth } from "#/lib/auth.ts";
-
 import { closeDb, type DB, db, eq } from "@/db";
+
 import * as schema from "../schema";
 import { CLINIC_HURGHADA_ID } from "./seed-config";
 

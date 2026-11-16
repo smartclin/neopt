@@ -7,7 +7,6 @@ import { Section } from "#/components/blocks/section.tsx";
 import { Button } from "#/components/ui/button.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "#/components/ui/card.tsx";
 import { InfoRow } from "#/components/ui/info-row.tsx";
-
 // ── read: query factory from queries.ts ────────────────────────────────
 import { clinicWithStatsQuery } from "#/features/clinics/queries";
 import { useAuthSuspense } from "#/lib/auth/hooks.ts";

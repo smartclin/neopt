@@ -1,6 +1,7 @@
 // lib/auth/middleware.ts
 import { createMiddleware } from "@tanstack/react-start";
 import { setResponseStatus } from "@tanstack/react-start/server";
+
 import { _getUserImpl } from "./functions.server.ts";
 
 export const authMiddleware = createMiddleware().server(async ({ next }) => {

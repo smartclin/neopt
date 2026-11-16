@@ -1,5 +1,6 @@
-import { cn } from "cn";
 import type * as React from "react";
+
+import { cn } from "cn";
 
 interface TableProps extends React.ComponentProps<"table"> {
   layout?: "fixed" | "auto";

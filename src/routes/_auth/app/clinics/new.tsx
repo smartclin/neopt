@@ -34,16 +34,18 @@ function NewClinicPage() {
         title="New Clinic"
       />
       <Card>
-        <CardContent className="pt-6">
-          <ClinicForm
-            inline
-            onSuccess={(clinic) => {
-              void navigate({
-                to: "/app/clinics/$clinicId",
-                params: { clinicId: clinic.id },
-              });
-            }}
-          />
+        <CardContent>
+          <div className="mt-6">
+            <ClinicForm
+              inline
+              onSuccess={(clinic) => {
+                void navigate({
+                  to: "/app/clinics/$clinicId",
+                  params: { clinicId: clinic.id },
+                });
+              }}
+            />
+          </div>
         </CardContent>
       </Card>
     </div>

@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
+import type { VisitComposerValues } from "@/features/visits/composer/schema";
+
 import { PageHeader } from "@/components/blocks/page-header";
 import { toast } from "@/components/ui/toast";
 import { visitSnapshotQuery } from "@/features/visits/composer/queries";
-import type { VisitComposerValues } from "@/features/visits/composer/schema";
 import { VisitComposer } from "@/features/visits/composer/VisitComposer";
 import { useDeleteVisitMutation, visitWithDetailsQuery } from "@/features/visits/queries";
 

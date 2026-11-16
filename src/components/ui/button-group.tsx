@@ -1,9 +1,11 @@
+import type { VariantProps } from "class-variance-authority";
+
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import type { VariantProps } from "class-variance-authority";
 import { cn } from "cn";
 
 import { Separator } from "#/components/ui/separator";
+
 import { buttonGroupVariants } from "./button-variants";
 
 function ButtonGroup({

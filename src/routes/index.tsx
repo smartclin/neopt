@@ -1,4 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
+
 import { ServicesGrid } from "#/components/landing/services-grid.tsx";
 import { authQueryOptions } from "#/lib/auth/queries.ts";
 import { CtaSection } from "@/components/landing/cta-section";

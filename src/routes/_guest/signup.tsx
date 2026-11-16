@@ -8,11 +8,11 @@ import { z } from "zod";
 
 import { SocialSignInButtons } from "#/components/sign-in-social-buttons.tsx";
 import { Button } from "#/components/ui/button.tsx";
+import { Field, FieldLabel } from "#/components/ui/field.tsx";
 import { Input } from "#/components/ui/input.tsx";
-import { Label } from "#/components/ui/label.tsx";
 import { toast } from "#/components/ui/toast.tsx";
-import { authQueryOptions } from "#/lib/auth/queries.ts";
 import { authClient } from "#/lib/auth-client.ts";
+import { authQueryOptions } from "#/lib/auth/queries.ts";
 
 export const Route = createFileRoute("/_guest/signup")({
   component: SignupForm,
@@ -144,8 +144,8 @@ function SignupForm() {
             {(field) => {
               const err = field.state.meta.errors[0];
               return (
-                <div className="grid gap-2">
-                  <Label htmlFor="signup-name">Full name</Label>
+                <Field>
+                  <FieldLabel htmlFor="signup-name">Full name</FieldLabel>
                   <Input
                     aria-describedby={err ? "signup-name-error" : undefined}
                     aria-invalid={Boolean(err) || Boolean(error)}
@@ -166,7 +166,7 @@ function SignupForm() {
                       {errorMessage(err)}
                     </p>
                   )}
-                </div>
+                </Field>
               );
             }}
           </form.Field>
@@ -175,8 +175,8 @@ function SignupForm() {
             {(field) => {
               const err = field.state.meta.errors[0];
               return (
-                <div className="grid gap-2">
-                  <Label htmlFor="signup-email">Email address</Label>
+                <Field>
+                  <FieldLabel htmlFor="signup-email">Email address</FieldLabel>
                   <Input
                     aria-describedby={err ? "signup-email-error" : undefined}
                     aria-invalid={Boolean(err) || Boolean(error)}
@@ -197,7 +197,7 @@ function SignupForm() {
                       {errorMessage(err)}
                     </p>
                   )}
-                </div>
+                </Field>
               );
             }}
           </form.Field>
@@ -211,14 +211,14 @@ function SignupForm() {
                   .join(" ") || undefined;
 
               return (
-                <div className="grid gap-2">
-                  <Label htmlFor="signup-password">Password</Label>
+                <Field>
+                  <FieldLabel htmlFor="signup-password">Password</FieldLabel>
                   <div className="relative">
                     <Input
                       aria-describedby={describedBy}
                       aria-invalid={Boolean(err) || Boolean(error)}
                       autoComplete="new-password"
-                      className="h-11 pr-11"
+                      className="h-11"
                       disabled={isPending}
                       id="signup-password"
                       name={field.name}
@@ -259,7 +259,7 @@ function SignupForm() {
                       {errorMessage(err)}
                     </p>
                   )}
-                </div>
+                </Field>
               );
             }}
           </form.Field>
@@ -268,14 +268,14 @@ function SignupForm() {
             {(field) => {
               const err = field.state.meta.errors[0];
               return (
-                <div className="grid gap-2">
-                  <Label htmlFor="signup-confirm">Confirm password</Label>
+                <Field>
+                  <FieldLabel htmlFor="signup-confirm">Confirm password</FieldLabel>
                   <div className="relative">
                     <Input
                       aria-describedby={err ? "signup-confirm-error" : undefined}
                       aria-invalid={Boolean(err) || Boolean(error)}
                       autoComplete="new-password"
-                      className="h-11 pr-11"
+                      className="h-11"
                       disabled={isPending}
                       id="signup-confirm"
                       name={field.name}
@@ -312,7 +312,7 @@ function SignupForm() {
                       {errorMessage(err)}
                     </p>
                   )}
-                </div>
+                </Field>
               );
             }}
           </form.Field>
@@ -327,11 +327,7 @@ function SignupForm() {
             </p>
           )}
 
-          <Button
-            className="mt-2 h-11 w-full text-base font-semibold"
-            disabled={isPending}
-            type="submit"
-          >
+          <Button className="mt-2 h-11 w-full" disabled={isPending} type="submit">
             {isPending ? (
               <LoaderCircleIcon aria-hidden="true" className="size-5 animate-spin" />
             ) : (

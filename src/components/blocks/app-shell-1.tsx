@@ -2,6 +2,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { CalendarPlusIcon, ExternalLinkIcon, MoonIcon, SearchIcon, SunIcon } from "lucide-react";
 import * as React from "react";
+
 // ✅ Verify this path matches your real auth hook location.
 import { useAuthSuspense } from "#/lib/auth/hooks.ts";
 import { LazyMount } from "@/components/blocks/lazy-mount";
@@ -26,6 +27,7 @@ import {
 import { useLazyDialog } from "@/hooks/use-lazy-dialog";
 import { useTheme } from "@/hooks/use-theme";
 import { NAV_ITEMS, RESOURCES } from "@/lib/shadcn/navigation";
+
 import { useSignOut } from "../sign-out-button";
 
 const loadCommandMenu = () => import("@/components/blocks/command-menu");

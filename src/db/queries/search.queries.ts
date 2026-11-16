@@ -1,10 +1,11 @@
 // src/db/queries/search.queries.ts
 import { and, desc, eq, ilike, or, sql } from "drizzle-orm";
 
+import type { SearchCategory, SearchResponse, SearchResult } from "@/features/search/schema";
+
 import { db } from "@/db";
 import { diagnoses, patients, prescriptions, visits } from "@/db/schema";
-
-import type { SearchCategory, SearchResponse, SearchResult } from "@/features/search/schema";
+import { formatDate, formatTime } from "@/lib/dates";
 
 const PATIENT_LIMIT = 8;
 const APPOINTMENT_LIMIT = 5;
@@ -147,15 +148,12 @@ export async function searchAcrossEntities({
     results.push({
       category: "appointment",
       id: a.id,
-      title: `${a.patient?.firstName ?? "?"} ${a.patient?.lastName ?? ""} — ${when.toLocaleDateString("en-GB")}`,
+      title: `${a.patient?.firstName ?? "?"} ${a.patient?.lastName ?? ""} — ${formatDate(when)}`,
       subtitle: a.reason ?? null,
       href: `/app/appointments?date=${when.toISOString().slice(0, 10)}`,
       score: 50,
       meta: {
-        time: when.toLocaleTimeString("en-GB", {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        time: formatTime(when),
       },
     });
   }

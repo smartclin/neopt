@@ -2,6 +2,7 @@
 "use client";
 
 import { type ReactNode, useEffect, useSyncExternalStore } from "react";
+
 import { clinicActions } from "#/features/clinics/clinic-store.ts";
 import { useAuth } from "#/lib/auth/hooks";
 

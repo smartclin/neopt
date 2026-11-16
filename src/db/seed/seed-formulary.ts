@@ -1,6 +1,8 @@
 import { EGYPTIAN_NATIONAL_FORMULARY } from "@data/formulary/egyptianNationalFormulary";
 import { NEONATAL_PEDIATRIC_FORMULARY } from "@data/formulary/neonatalDrugs";
+
 import { db } from "@/db";
+
 import * as schema from "../schema";
 
 async function seedDrugFormulary() {

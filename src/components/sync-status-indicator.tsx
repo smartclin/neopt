@@ -25,12 +25,7 @@ export function SyncStatusIndicator({ status, className }: SyncStatusIndicatorPr
   }
 
   if (status === "pending") {
-    return (
-      <Spinner
-        aria-label="Pending sync"
-        className={cn("text-muted-foreground size-3", className)}
-      />
-    );
+    return <Spinner aria-label="Pending sync" className={cn(" size-3", className)} />;
   }
 
   return (

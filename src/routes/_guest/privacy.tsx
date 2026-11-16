@@ -178,7 +178,7 @@ function PrivacyPage() {
     <main className="page-wrap space-y-20 px-4 py-16 sm:py-20">
       {/* Header */}
       <header className="max-w-3xl">
-        <p className="island-kicker mb-3">{SUMMARY.eyebrow}</p>
+        <p className=" mb-3">{SUMMARY.eyebrow}</p>
         <h1 className="display-title mb-6 text-4xl leading-tight font-bold tracking-tight text-[var(--sea-ink)] sm:text-5xl">
           {SUMMARY.headline}
         </h1>
@@ -252,7 +252,7 @@ function TrustBar() {
 function SectionBlock({ section }: { section: Section }) {
   return (
     <section className="max-w-3xl" id={section.id}>
-      <p className="island-kicker mb-2">{section.kicker}</p>
+      <p className="mb-2">{section.kicker}</p>
       <h2 className="display-title mb-4 text-2xl font-bold tracking-tight text-[var(--sea-ink)] sm:text-3xl">
         {section.title}
       </h2>
@@ -273,7 +273,7 @@ function FooterCta() {
   return (
     <section className="island-shell rounded-3xl px-8 py-12 text-center sm:px-12">
       <div className="mx-auto max-w-2xl">
-        <Badge className="mb-4 gap-1.5 rounded-full px-3 py-1" variant="outline">
+        <Badge className="mb-4" variant="outline">
           <CheckCircle2 aria-hidden="true" className="size-3" />
           Questions? We answer them.
         </Badge>
@@ -290,7 +290,7 @@ function FooterCta() {
             render={
               <a
                 aria-label="Email privacy@smartclinic.example"
-                className="inline-flex items-center gap-2"
+                className="inline-flex items-center "
                 href="mailto:privacy@smartclinic.example"
               />
             }
@@ -300,14 +300,15 @@ function FooterCta() {
             Contact privacy team
           </Button>
           <Button
-            render={<Link className="inline-flex items-center gap-2" to="/about" />}
+            render={<Link className="inline-flex items-center " to="/about" />}
             size="lg"
             variant="outline"
           >
             About Smart Clinic
           </Button>
           <Button
-            render={<Link className="inline-flex items-center gap-2" to="/terms" />}
+            nativeButton={false}
+            render={<Link className="inline-flex items-center " to="/terms" />}
             size="lg"
             variant="outline"
           >

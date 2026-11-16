@@ -7,9 +7,9 @@ import { z } from "zod";
 
 import { Button } from "#/components/ui/button.tsx";
 import { Input } from "#/components/ui/input.tsx";
-import { Label } from "#/components/ui/label.tsx";
 import { toast } from "#/components/ui/toast.tsx";
 import { authClient } from "#/lib/auth-client.ts";
+import { FieldLabel } from "@/components/ui/field";
 
 export const Route = createFileRoute("/_guest/reset-password")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -87,9 +87,10 @@ function ResetPasswordForm() {
           </p>
         </div>
         <Button
-          className="h-11 w-full text-base font-semibold"
+          className="w-full"
           nativeButton={false}
           render={<Link to="/forgot-password" />}
+          size="lg"
         >
           Request a new link
         </Button>
@@ -131,7 +132,7 @@ function ResetPasswordForm() {
                     : undefined;
               return (
                 <div className="grid gap-2">
-                  <Label htmlFor="reset-password">New password</Label>
+                  <FieldLabel htmlFor="reset-password">New password</FieldLabel>
                   <Input
                     aria-describedby={message ? "reset-password-error" : undefined}
                     aria-invalid={Boolean(message) || Boolean(error)}
@@ -168,7 +169,7 @@ function ResetPasswordForm() {
                     : undefined;
               return (
                 <div className="grid gap-2">
-                  <Label htmlFor="reset-confirm">Confirm new password</Label>
+                  <FieldLabel htmlFor="reset-confirm">Confirm new password</FieldLabel>
                   <Input
                     aria-describedby={message ? "reset-confirm-error" : undefined}
                     aria-invalid={Boolean(message) || Boolean(error)}
@@ -200,7 +201,7 @@ function ResetPasswordForm() {
             </p>
           )}
 
-          <Button className="h-11 w-full text-base font-semibold" disabled={pending} type="submit">
+          <Button className="w-full" disabled={pending} size="lg" type="submit">
             {pending ? (
               <LoaderCircleIcon aria-hidden="true" className="size-5 animate-spin" />
             ) : (

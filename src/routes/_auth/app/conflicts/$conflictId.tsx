@@ -1,5 +1,6 @@
 // src/routes/_auth/app/conflicts/$conflictId.tsx
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useOutboxEntry, useResolveConflict } from "@/features/outbox/use-outbox";

@@ -3,10 +3,10 @@
 // Pure DB layer for the visit composer. No TanStack Start, no React,
 // no queryOptions. Only Drizzle + your domain helpers.
 
+import type { AuthUser, SaveVisitInput, SaveVisitResult } from "@/features/visits/composer/schema";
+
 import { db, eq } from "#/db/index.ts";
 import { diagnoses, measurements, patients, prescriptions, visits } from "#/db/schema.ts";
-
-import type { AuthUser, SaveVisitInput, SaveVisitResult } from "@/features/visits/composer/schema";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Snapshot reads
@@ -44,7 +44,10 @@ export async function fetchPatientSnapshot(patientId: string) {
   return {
     patient,
     lastVisitAt: lastVisit?.visitedAt ?? null,
-    weightSeries: weightSeries.map((w) => ({ value: w.value, at: w.measuredAt })),
+    weightSeries: weightSeries.map((w) => ({
+      value: w.value,
+      at: w.measuredAt,
+    })),
   };
 }
 

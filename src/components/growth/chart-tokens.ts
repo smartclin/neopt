@@ -1,4 +1,4 @@
-import type { Indicator, Sex, XAxis } from "@/features/growth/types";
+import type { Indicator, Sex, XAxis } from "#/features/growth/types/types.ts";
 
 /** A single measured point to overlay on the reference curves. */
 export interface GrowthPoint {

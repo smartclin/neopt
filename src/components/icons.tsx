@@ -1,3 +1,5 @@
+import type { ComponentType, ReactNode, SVGProps } from "react";
+
 import {
   AlertCircle,
   AlertTriangle,
@@ -104,7 +106,7 @@ import {
   X,
   Zap,
 } from "lucide-react";
-import type { ComponentType, ReactNode, SVGProps } from "react";
+
 import Logo from "./ui/logo";
 
 type IconProps = SVGProps<SVGSVGElement>;

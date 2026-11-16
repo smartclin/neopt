@@ -1,7 +1,8 @@
+import type { UserEvent } from "@testing-library/user-event";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "@tanstack/react-router";
 import { render, screen, within } from "@testing-library/react";
-import type { UserEvent } from "@testing-library/user-event";
 import { vi } from "vite-plus/test";
 
 import { ThemeProvider } from "./shadcn/theme";

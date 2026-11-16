@@ -1,4 +1,3 @@
-import { SERVICES } from "@data/services";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowLeftIcon,
@@ -8,6 +7,8 @@ import {
   StethoscopeIcon,
   SyringeIcon,
 } from "lucide-react";
+
+import { SERVICES } from "#/components/services.tsx";
 
 export const Route = createFileRoute("/_guest/services/")({
   head: () => ({

@@ -3,7 +3,6 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
-
 import { loadEnv } from "vite-plus";
 
 // A worktree's own dev server port, so concurrent sessions' dev servers and

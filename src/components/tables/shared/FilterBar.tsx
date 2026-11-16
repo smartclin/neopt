@@ -1,5 +1,6 @@
-import { Search, X } from "lucide-react";
 import type React from "react";
+
+import { Search, X } from "lucide-react";
 
 export interface FilterConfig {
   /** Current selected value, e.g. "All" | "Scheduled" | ... */

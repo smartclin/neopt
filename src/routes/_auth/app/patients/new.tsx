@@ -39,18 +39,20 @@ function NewPatientPage() {
         title="New Patient"
       />
       <Card>
-        <CardContent className="pt-6">
-          <PatientForm
-            clinicId={user.clinicId}
-            inline
-            onSuccess={(patient) => {
-              void navigate({
-                to: "/app/patients/$patientId",
-                params: { patientId: patient.id },
-                search: { tab: "overview" },
-              });
-            }}
-          />
+        <CardContent>
+          <div className="mt-6">
+            <PatientForm
+              clinicId={user.clinicId}
+              inline
+              onSuccess={(patient) => {
+                void navigate({
+                  to: "/app/patients/$patientId",
+                  params: { patientId: patient.id },
+                  search: { tab: "overview" },
+                });
+              }}
+            />
+          </div>
         </CardContent>
       </Card>
     </div>

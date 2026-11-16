@@ -1,3 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import React from "react";
+import { z } from "zod";
+
 import { PageHeader } from "@/components/blocks/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
 import { visitSnapshotQuery } from "@/features/visits/composer/queries";
@@ -7,10 +12,6 @@ import {
 } from "@/features/visits/composer/schema";
 import { VisitComposer } from "@/features/visits/composer/VisitComposer";
 import { useAuthSuspense } from "@/lib/auth/hooks";
-import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import React from "react";
-import { z } from "zod";
 
 export const Route = createFileRoute("/_auth/app/visits/new")({
   validateSearch: z.object({ patientId: z.string() }),

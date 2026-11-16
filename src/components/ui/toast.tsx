@@ -1,3 +1,5 @@
+import type * as React from "react";
+
 import { Toast as ToastPrimitive } from "@base-ui/react/toast";
 import { cn } from "cn";
 import {
@@ -8,7 +10,6 @@ import {
   TriangleAlertIcon,
   XIcon,
 } from "lucide-react";
-import type * as React from "react";
 
 import { Button } from "#/components/ui/button.tsx";
 

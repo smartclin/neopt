@@ -1,7 +1,9 @@
+import type { ReactNode } from "react";
+
 // src/components/tables/table-pagination.tsx
 import { type AnyRoute, Link } from "@tanstack/react-router";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import type { ReactNode } from "react";
+
 import { Button } from "#/components/ui/button";
 import { buttonVariants } from "#/components/ui/button-variants";
 import {

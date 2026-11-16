@@ -8,7 +8,12 @@ describe("file-token ceiling", () => {
   test("reports a source file over the ceiling, with its estimate", () => {
     expect(
       findOversizedFiles([{ byteLength: overCeiling, filePath: "src/server/patients.ts" }]),
-    ).toEqual([{ estimatedTokens: maxEstimatedTokens + 1, filePath: "src/server/patients.ts" }]);
+    ).toEqual([
+      {
+        estimatedTokens: maxEstimatedTokens + 1,
+        filePath: "src/server/patients.ts",
+      },
+    ]);
   });
 
   test("passes a file exactly at the ceiling", () => {

@@ -3,6 +3,11 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod/v4";
 
+import type {
+  ComposerUnit,
+  PrescriptionComposerValues,
+} from "@/features/prescriptions/composer/types";
+
 import { PageHeader } from "@/components/blocks/page-header";
 import { toast } from "@/components/ui/toast";
 // ── composer components ───────────────────────────────────────────────
@@ -14,10 +19,6 @@ import {
   useDiscontinuePrescriptionMutation,
   useSavePrescriptionMutation,
 } from "@/features/prescriptions/composer/queries";
-import type {
-  ComposerUnit,
-  PrescriptionComposerValues,
-} from "@/features/prescriptions/composer/types";
 // ── reads ─────────────────────────────────────────────────────────────
 import {
   activePrescriptionsQuery,

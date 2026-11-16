@@ -29,3 +29,11 @@ release. Add a tool name to select part of the graph. For example, run
 - [ ] If setup, runtime, or package-manager behavior looks wrong, run `vp env doctor` and include its output when asking for help.
 
 <!--VITE PLUS END-->
+
+## Project conventions
+
+- Stack: React 19, TanStack Start/Router and Query, Drizzle ORM, Zod, Tailwind CSS 4, shadcn, and Vite+. Use the existing Bun scripts and Vite+ toolchain; do not introduce a competing formatter or linter.
+- Keep route modules in `src/routes` focused on routing and composition. Put domain behavior in `src/features`, and keep database access in server-side code under `src/db` or feature server functions. Never import database connections or server-only modules into browser-facing components.
+- Reuse feature-owned query keys, query-option factories, and mutation hooks. Keep cache invalidation with the feature that owns the write; avoid ad-hoc query-key arrays and duplicate cache entries.
+- Reuse existing Zod schemas and inferred types instead of defining parallel shapes. Follow established shadcn components and styling conventions; do not restyle component internals or add design tokens without a clear need.
+- Run the narrowest relevant tests and type checks. `bun run check` invokes `vp check --fix`, so review its changes, especially when the worktree already contains edits.

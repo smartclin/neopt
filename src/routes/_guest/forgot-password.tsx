@@ -6,8 +6,8 @@ import * as React from "react";
 import { z } from "zod";
 
 import { Button } from "#/components/ui/button.tsx";
+import { Field, FieldLabel } from "#/components/ui/field.tsx";
 import { Input } from "#/components/ui/input.tsx";
-import { Label } from "#/components/ui/label.tsx";
 import { toast } from "#/components/ui/toast.tsx";
 import { authClient } from "#/lib/auth-client.ts";
 
@@ -72,11 +72,7 @@ function ForgotPasswordForm() {
             15 minutes.
           </p>
         </div>
-        <Button
-          className="h-11 w-full text-base font-semibold"
-          nativeButton={false}
-          render={<Link to="/login" />}
-        >
+        <Button className="h-11 w-full" nativeButton={false} render={<Link to="/login" />}>
           <ArrowLeftIcon aria-hidden="true" className="size-4" />
           Back to sign in
         </Button>
@@ -116,8 +112,8 @@ function ForgotPasswordForm() {
                   ? String((err as { message: unknown }).message)
                   : undefined;
             return (
-              <div className="grid gap-2">
-                <Label htmlFor="forgot-email">Email address</Label>
+              <Field>
+                <FieldLabel htmlFor="forgot-email">Email address</FieldLabel>
                 <Input
                   aria-describedby={message ? "forgot-email-error" : undefined}
                   aria-invalid={Boolean(message) || Boolean(error)}
@@ -138,7 +134,7 @@ function ForgotPasswordForm() {
                     {message}
                   </p>
                 )}
-              </div>
+              </Field>
             );
           }}
         </form.Field>
@@ -149,7 +145,7 @@ function ForgotPasswordForm() {
           </p>
         )}
 
-        <Button className="h-11 w-full text-base font-semibold" disabled={pending} type="submit">
+        <Button className="h-11 w-full" disabled={pending} type="submit">
           {pending ? (
             <LoaderCircleIcon aria-hidden="true" className="size-5 animate-spin" />
           ) : (

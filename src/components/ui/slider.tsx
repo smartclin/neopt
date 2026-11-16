@@ -1,25 +1,13 @@
 import { Slider as SliderPrimitive } from "@base-ui/react/slider";
 import { cn } from "cn";
 
-function Slider({
-  className,
-  defaultValue,
-  value,
-  min = 0,
-  max = 100,
-  ...props
-}: SliderPrimitive.Root.Props) {
-  const _values = Array.isArray(value)
-    ? value
-    : Array.isArray(defaultValue)
-      ? defaultValue
-      : [min, max];
+function Slider({ className, value, min = 0, max = 100, ...props }: SliderPrimitive.Root.Props) {
+  const _values = Array.isArray(value) ? value : [min, max];
 
   return (
     <SliderPrimitive.Root
       className={cn("data-horizontal:w-full data-vertical:h-full", className)}
       data-slot="slider"
-      defaultValue={defaultValue}
       max={max}
       min={min}
       thumbAlignment="edge"
@@ -47,5 +35,7 @@ function Slider({
     </SliderPrimitive.Root>
   );
 }
+
+<Slider />;
 
 export { Slider };

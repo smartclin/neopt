@@ -2,8 +2,8 @@ import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vite-plus/test";
 
-import { ThemeProvider } from "#/lib/shadcn/theme.tsx";
 import { THEME_STORAGE_KEY } from "#/lib/shadcn/theme-utils.ts";
+import { ThemeProvider } from "#/lib/shadcn/theme.tsx";
 import { useTheme } from "@/hooks/use-theme";
 
 function ThemeProbe() {

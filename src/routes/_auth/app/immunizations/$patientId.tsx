@@ -3,6 +3,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CheckIcon, CircleAlertIcon, CircleIcon, PrinterIcon } from "lucide-react";
 import { useState } from "react";
 
+// ── types ──────────────────────────────────────────────────────────────
+import type { PatientVaccinationRecord } from "@/features/immunizations/types";
+
 import { PageHeader } from "@/components/blocks/page-header";
 import { Section } from "@/components/blocks/section";
 import { Badge } from "@/components/ui/badge";
@@ -24,8 +27,6 @@ import {
   patientImmunizationsQuery,
   useRecordImmunizationMutation,
 } from "@/features/immunizations/queries";
-// ── types ──────────────────────────────────────────────────────────────
-import type { PatientVaccinationRecord } from "@/features/immunizations/types";
 
 export const Route = createFileRoute("/_auth/app/immunizations/$patientId")({
   component: PatientImmunizationsPage,

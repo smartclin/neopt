@@ -8,6 +8,7 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
+        pill: "rounded-full border border-border bg-transparent px-3 py-1 gap-1.5 text-muted-foreground",
         default: "text-foreground [a]:hover:text-foreground/70",
         secondary: "text-muted-foreground [a]:hover:text-foreground",
         destructive:
@@ -15,9 +16,10 @@ const badgeVariants = cva(
         outline: "text-foreground [a]:hover:text-foreground/70",
         ghost: "text-muted-foreground hover:text-foreground",
         link: "text-foreground underline-offset-4 hover:underline",
-        success: "text-emerald-600 dark:text-emerald-400 [a]:hover:text-emerald-700",
-        warning: "text-amber-600 dark:text-amber-400 [a]:hover:text-amber-700",
-        info: "text-sky-600 dark:text-sky-400 [a]:hover:text-sky-700",
+        success:
+          "text-module-encounters dark:text-module-encounters [a]:hover:text-module-encounters/70",
+        warning: "text-warning dark:text-warning [a]:hover:text-warning/70",
+        info: "text-module-labs dark:text-module-labs [a]:hover:text-module-labs/70",
         subtle: "text-muted-foreground bg-muted/50 [a]:hover:bg-muted",
       },
       size: {

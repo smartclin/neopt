@@ -18,8 +18,10 @@ function GrowthPage() {
         title="Growth Chart"
       />
       <Card>
-        <CardContent className="pt-6">
-          <PatientGrowthPanel patientId={patientId} />
+        <CardContent>
+          <div className="mt-6">
+            <PatientGrowthPanel patientId={patientId} />
+          </div>
         </CardContent>
       </Card>
     </div>

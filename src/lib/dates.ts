@@ -130,3 +130,6 @@ export function formatPromptNow(date: Date = new Date()): string {
     hour12: false,
   }).format(date);
 }
+export function formatStatusLabel(status: string): string {
+  return status.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}

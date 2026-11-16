@@ -42,6 +42,7 @@ export const measurementIndicators = [
   "bmi-for-age",
   "head-circumference-for-age",
 ] as const;
+export type Indicator = (typeof measurementIndicators)[number];
 export const lmsIndicators = measurementIndicators;
 export const lmsSexes = patientSexes;
 export const lmsXAxes = ["age", "length"] as const;

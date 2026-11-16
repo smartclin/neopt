@@ -28,7 +28,7 @@ export default function NotFound() {
           <Compass aria-hidden="true" className="size-7" />
         </div>
 
-        <p className="island-kicker mb-2">Error 404</p>
+        <p className="mb-2">Error 404</p>
         <h1 className="display-title text-3xl font-bold tracking-tight text-[var(--sea-ink)] sm:text-4xl">
           We couldn't find that page.
         </h1>
@@ -38,14 +38,14 @@ export default function NotFound() {
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Button render={<Link className="inline-flex items-center gap-2" to="/" />} size="lg">
+          <Button render={<Link className="inline-flex items-center " to="/" />} size="lg">
             <Home aria-hidden="true" className="size-4" />
             Go to dashboard
           </Button>
 
           {canGoBack ? (
             <Button
-              className="inline-flex items-center gap-2"
+              className="inline-flex items-center"
               onClick={() => {
                 router.history.back();
               }}

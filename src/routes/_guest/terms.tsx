@@ -157,7 +157,7 @@ function TermsPage() {
     <main className="page-wrap px-4 py-16 sm:py-20">
       {/* Header */}
       <header className="max-w-3xl">
-        <Badge className="mb-6 gap-1.5 rounded-full px-3 py-1" variant="outline">
+        <Badge variant="outline">
           <ShieldCheck aria-hidden="true" className="size-3" />
           Plain language · not a substitute for a signed agreement
         </Badge>
@@ -184,9 +184,7 @@ function TermsPage() {
             key={section.id}
           >
             <header>
-              <p className="island-kicker text-[var(--sea-ink-soft)]">
-                {String(index + 1).padStart(2, "0")}
-              </p>
+              <p>{String(index + 1).padStart(2, "0")}</p>
               <h2
                 className="mt-1 text-lg font-semibold text-[var(--sea-ink)]"
                 id={`terms-section-${section.id}`}
@@ -217,9 +215,7 @@ function TermsPage() {
           className="grid gap-6 sm:grid-cols-[200px_1fr] sm:gap-10"
         >
           <header>
-            <p className="island-kicker text-[var(--sea-ink-soft)]">
-              {String(SECTIONS.length + 1).padStart(2, "0")}
-            </p>
+            <p>{String(SECTIONS.length + 1).padStart(2, "0")}</p>
             <h2
               className="mt-1 text-lg font-semibold text-[var(--sea-ink)]"
               id="terms-section-contact"
@@ -233,7 +229,6 @@ function TermsPage() {
               Questions about these terms, or about a specific clause? Email the legal team:
             </p>
             <Button
-              className="inline-flex items-center gap-2"
               render={
                 <a
                   aria-label="Email legal@smartclinic.example"
@@ -253,16 +248,10 @@ function TermsPage() {
       {/* Footer CTA */}
       <footer className="mt-20 border-t border-[var(--line)] pt-10">
         <div className="flex flex-wrap items-center gap-3">
-          <Button
-            render={<Link className="inline-flex items-center gap-2" to="/privacy" />}
-            variant="outline"
-          >
+          <Button render={<Link to="/privacy" />} variant="outline">
             Privacy Policy
           </Button>
-          <Button
-            render={<Link className="inline-flex items-center gap-2" to="/about" />}
-            variant="ghost"
-          >
+          <Button render={<Link to="/about" />} variant="ghost">
             About Smart Clinic
             <ArrowRight aria-hidden="true" className="size-4" />
           </Button>

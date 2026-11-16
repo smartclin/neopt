@@ -1,4 +1,12 @@
 {
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.formatOnSave": false, // disable default behavior
+  "editor.codeActionsOnSave": {
+    "source.format.oxc": "explicit", // run formatter first
+    "source.fixAll.oxc": "explicit", // run lint fixes after
+    "source.removeUnusedImports": "explicit",
+    "source.organizeLinkDefinitions": "explicit"
+  },
   "[css]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
@@ -64,18 +72,13 @@
   "editor.acceptSuggestionOnCommitCharacter": true,
   "editor.acceptSuggestionOnEnter": "on",
   "editor.bracketPairColorization.enabled": true,
-  // Oxlint fix-on-save. "explicit" avoids silent rewrites on every keystroke save.
-  "editor.codeActionsOnSave": {
-    "source.fixAll.oxc": "explicit",
-    "source.organizeImports": "explicit",
-    "source.sort.json": "explicit"
-  },
+
+  // Oxfmt formats via formatOnSave; TypeScript organizes imports on save.
   "editor.codeLens": false,
   "editor.colorDecorators": false,
   "editor.cursorBlinking": "phase",
   // set oxfmt as default formatter
-  "editor.defaultFormatter": "oxc.oxc-vscode",
-  "editor.detectIndentation": true,
+
   "editor.dragAndDrop": true,
   "editor.find.autoFindInSelection": "multiline",
   "editor.folding": true,
@@ -90,7 +93,6 @@
   "editor.fontLigatures": true,
   "editor.fontSize": 14,
   "editor.formatOnPaste": false,
-  "editor.formatOnSave": true,
   // format on save and paste
   "editor.formatOnSaveMode": "file",
   "editor.formatOnType": false,
@@ -147,7 +149,6 @@
   "emmet.showExpandedAbbreviation": "always",
   "emmet.showSuggestionsAsSnippets": true,
   "emmet.triggerExpansionOnTab": true,
-  "eslint.enable": false,
   "explorer.autoReveal": true,
   "explorer.compactFolders": false,
   "explorer.confirmDelete": true,
@@ -222,10 +223,10 @@
   "git.mergeEditor": true,
   "js/ts.autoClosingTags.enabled": true,
   "js/ts.experimental.useTsgo": true,
-  "js/ts.format.enabled": true,
   "js/ts.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
   "js/ts.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": false,
   "js/ts.implicitProjectConfig.experimentalDecorators": true,
+  "js/ts.implicitProjectConfig.target": "ES2024",
   "js/ts.locale": "en",
   "js/ts.preferences.autoImportFileExcludePatterns": [
     "**/dist/**",
@@ -241,13 +242,16 @@
     "sortImportSpecifiers": true,
     "typeOrder": "auto"
   },
+  "js/ts.preferences.preferTypeOnlyAutoImports": false,
   "js/ts.preferences.quoteStyle": "single",
   "js/ts.preferGoToSourceDefinition": true,
+  "js/ts.server.goMemLimit": "4096",
   "js/ts.server.showFailedResponses": "auto",
+
   "js/ts.suggest.autoImports": true,
   "js/ts.suggest.completeFunctionCalls": true,
   "js/ts.tsc.autoDetect": "on",
-  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.tsdk.path": "node_modules/typescript",
   "js/ts.tsdk.promptToUseWorkspaceVersion": true,
   "js/ts.tsserver.automaticTypeAcquisition.enabled": true,
   "js/ts.tsserver.experimental.enableProjectDiagnostics": true,
@@ -260,7 +264,7 @@
     "watchFile": "useFsEvents"
   },
   "js/ts.updateImportsOnFileMove.enabled": "always",
-  "json.format.enable": true,
+  "js/ts.validate.enabled": true,
   // JSON Schemas for your specific files
   "json.schemas": [
     {
@@ -284,16 +288,12 @@
   // Misc
   "outline.problems.enabled": true,
   "output.smartScroll.enabled": true,
-  "oxc.disableNestedConfig": true,
-  // enable oxlint + oxfmt
+  "oxc.configPath": ".",
+  "oxc.disableNestedConfig": false,
   "oxc.enable": true,
-  "oxc.enable.oxfmt": true,
-  "oxc.enable.oxlint": true,
-  // oxfmt via vite+
-  "oxc.fmt.configPath": "./vite.config.ts",
-  "oxc.fmt.disableNestedConfig": true,
-  "oxc.typeAware": true, // requires oxlint-tsgolint + TS 7+
-  "pnpm-lock.yaml": true,
+  "oxc.fmt.configPath": ".",
+  "oxc.fmt.disableNestedConfig": false,
+  "oxc.typeAware": false,
   // disable prettier, eslint, biome
   "prettier.enable": false,
   "problems.autoReveal": true,
@@ -338,8 +338,7 @@
     ["clsx\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["twMerge\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
   ],
-  // Do NOT double-sort imports — Oxfmt owns this.
-  // "js/ts.preferences.organizeImports": { ... },  // REMOVED
+  // TypeScript's organize-imports action owns import sorting on save.
   // ==========================================================================
   // TAILWIND (keep — valid for v4)
   // ==========================================================================
@@ -405,7 +404,6 @@
   },
   "testing.automaticallyOpenPeekView": "never",
   "testing.automaticallyOpenTestResults": "openOnTestStart",
-  "typescript.native-preview.enabled": false,
   "vitest.nodeEnv": {
     "IS_BUILD": "false",
     "NODE_ENV": "test",
@@ -417,7 +415,7 @@
   // ==========================================================================
   // WORKBENCH
   // ==========================================================================
-  "workbench.colorTheme": "Kiro Dark",
+  "workbench.colorTheme": "Visual Studio Dark",
   "workbench.editor.closeOnFileDelete": true,
   "workbench.editor.customLabels.enabled": true,
   "workbench.editor.customLabels.patterns": {

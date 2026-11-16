@@ -1,7 +1,8 @@
 // src/integrations/tanstack-query/root-provider.tsx
 
-import { QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
+
+import { QueryClientProvider } from "@tanstack/react-query";
 
 import { getQueryClient } from "./query-client";
 

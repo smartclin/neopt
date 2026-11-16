@@ -36,7 +36,10 @@ if (!secret) {
 
 const response = await fetch(new URL("/api/setup", url), {
   method: "POST",
-  headers: { authorization: `Bearer ${secret}`, "content-type": "application/json" },
+  headers: {
+    authorization: `Bearer ${secret}`,
+    "content-type": "application/json",
+  },
   body: JSON.stringify({
     organizationName: organization,
     adminName: name,

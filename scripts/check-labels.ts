@@ -146,7 +146,10 @@ function readScannedFiles(rootDirectory: string): { contents: string; filePath: 
       )
       .map((relativePath) => {
         const filePath = path.join(directory, relativePath);
-        return { contents: readFileSync(path.join(rootDirectory, filePath), "utf8"), filePath };
+        return {
+          contents: readFileSync(path.join(rootDirectory, filePath), "utf8"),
+          filePath,
+        };
       }),
   );
 }

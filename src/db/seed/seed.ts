@@ -12,6 +12,7 @@ import { closeDb, db } from "@/db";
 import { DEVELOPMENTAL_MILESTONES } from "@/features/development/types";
 // TODO: Run `pnpm exec tsx scripts/parse-lms.ts` to generate the full seed file
 import { type Indicator, LMS_SEED, LMS_VERSION, type Sex } from "@/features/growth/types/lms-seed";
+
 import * as schema from "../schema";
 import { CLINIC_HURGHADA_ID } from "./seed-config";
 import { seedFormulary } from "./seed-formulary";
@@ -1105,6 +1106,6 @@ main()
     console.error("\n❌ Seed failed:", err);
     process.exitCode = 1;
   })
-  .finally(async () => {
-    await closeDb();
+  .finally(() => {
+    void closeDb();
   });

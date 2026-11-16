@@ -769,7 +769,11 @@ function blankMarkdownDataSpans(contents: string): string {
  * around it.
  */
 function hashCommentAt(line: string): string | null {
-  return lineCommentAt(line, { marker: "#", markerFollows: /\s/, quotes: ['"', "'"] });
+  return lineCommentAt(line, {
+    marker: "#",
+    markerFollows: /\s/,
+    quotes: ['"', "'"],
+  });
 }
 
 /**
@@ -777,7 +781,11 @@ function hashCommentAt(line: string): string | null {
  * opens anywhere, `;-- note` included, unlike a `#` that must follow whitespace.
  */
 function sqlCommentAt(line: string): string | null {
-  return lineCommentAt(line, { marker: "--", markerFollows: /[^]/u, quotes: ["'"] });
+  return lineCommentAt(line, {
+    marker: "--",
+    markerFollows: /[^]/u,
+    quotes: ["'"],
+  });
 }
 
 function lineCommentAt(
@@ -1034,7 +1042,10 @@ export function scannedFilesIn(rootDirectory: string): { filePath: string; scan:
   ];
 
   return byScanner.flatMap(([files, scan]) =>
-    files.map((filePath) => ({ filePath: path.relative(rootDirectory, filePath), scan })),
+    files.map((filePath) => ({
+      filePath: path.relative(rootDirectory, filePath),
+      scan,
+    })),
   );
 }
 

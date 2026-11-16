@@ -2,6 +2,7 @@ import { cn } from "cn";
 import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import * as React from "react";
+
 import { Button } from "#/components/ui/button";
 
 type CarouselApi = UseEmblaCarouselType[1];
@@ -69,6 +70,15 @@ function Carousel({
   const scrollNext = React.useCallback(() => {
     api?.scrollNext();
   }, [api]);
+  const prevApiRef = React.useRef<CarouselApi | null>(null);
+
+  React.useEffect(() => {
+    if (!api || !setApi) return;
+    if (prevApiRef.current !== api) {
+      prevApiRef.current = api;
+      setApi(api);
+    }
+  }, [api, setApi]);
 
   const handleKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -84,17 +94,14 @@ function Carousel({
   );
 
   React.useEffect(() => {
-    if (!api || !setApi) return;
-    setApi(api);
-  }, [api, setApi]);
-
-  React.useEffect(() => {
     if (!api) return;
-    onSelect(api);
+    api.on("init", onSelect);
     api.on("reInit", onSelect);
     api.on("select", onSelect);
 
     return () => {
+      api?.off("init", onSelect);
+      api?.off("reInit", onSelect);
       api?.off("select", onSelect);
     };
   }, [api, onSelect]);
@@ -219,10 +226,10 @@ function CarouselNext({
 
 export {
   Carousel,
-  type CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
   useCarousel,
+  type CarouselApi,
 };

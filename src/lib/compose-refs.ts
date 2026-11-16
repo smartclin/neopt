@@ -13,6 +13,7 @@ export function composeRefs<T>(...refs: Array<React.Ref<T> | undefined>): React.
 }
 
 export function useComposedRefs<T>(...refs: Array<React.Ref<T> | undefined>): React.RefCallback<T> {
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- refs is a rest param, memoized per call site
   return React.useCallback(composeRefs(...refs), [...refs]);
 }
 

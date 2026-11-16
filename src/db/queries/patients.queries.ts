@@ -24,7 +24,9 @@ export async function getPatientById(id: string) {
 }
 
 export async function getPatientByMrn(clinicId: string, mrn: string) {
-  return db.query.patients.findFirst({ where: { clinicId, mrn, ...activeOnly } });
+  return db.query.patients.findFirst({
+    where: { clinicId, mrn, ...activeOnly },
+  });
 }
 
 export async function listPatientsByClinic(clinicId: string) {

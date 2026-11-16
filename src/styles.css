@@ -60,3 +60,19 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 }
+
+/* ── Custom utilities ─────────────────────────────────────────────────── */
+
+@utility animate-pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@utility cn-input-otp {
+  display: flex;
+  align-items: center;
+}
+
+/* ── soft-foreground: maps to muted-foreground ───────────────────────── */
+@theme inline {
+  --color-soft-foreground: var(--muted-foreground);
+}

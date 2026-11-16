@@ -16,8 +16,10 @@ function NeonatalDoseCalculatorPage() {
         title="Neonatal dose calculator"
       />
       <Card>
-        <CardContent className="pt-6">
-          <PediatricDosingCalculator standalone />
+        <CardContent>
+          <div className="pt-6">
+            <PediatricDosingCalculator standalone />
+          </div>
         </CardContent>
       </Card>
     </div>

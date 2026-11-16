@@ -38,18 +38,19 @@
  * ──────────────────────────────────────────────────────────────────────────
  */
 
-import { createFormHookContexts, useSelector } from "@tanstack/react-form";
 import type { VariantProps } from "class-variance-authority";
+
+import { createFormHookContexts, useSelector } from "@tanstack/react-form";
 import * as React from "react";
 
 import type { fieldVariants } from "@/components/ui/field";
+import type { FieldConfig, FormFieldSlot, FormItemContextValue, WithTypedName } from "@/types/form";
+
 import {
   Field as DefaultField,
   FieldError as DefaultFieldError,
   FieldSet as DefaultFieldSet,
 } from "@/components/ui/field";
-import { cn } from "@/lib/utils";
-import type { FieldConfig, FormFieldSlot, FormItemContextValue, WithTypedName } from "@/types/form";
 
 /* ------------------------------------------------------------------ */
 /* Small type guard — avoids `as Record<string, unknown>` casts        */
@@ -151,7 +152,7 @@ function FieldSetInner({
 
   return (
     <FormItemContext.Provider value={contextValue}>
-      <DefaultFieldSet className={cn("grid gap-1", className)} {...props}>
+      <DefaultFieldSet className={className} {...props}>
         {children}
       </DefaultFieldSet>
     </FormItemContext.Provider>
@@ -193,7 +194,7 @@ function FieldError({ className, ...props }: React.ComponentProps<"p">) {
 
   return (
     <DefaultFieldError
-      className={cn("text-destructive text-sm", className)}
+      className={className}
       data-slot="form-message"
       id={formMessageId}
       {...props}
@@ -342,6 +343,7 @@ function createFormField<P extends object>(FieldComponent: React.ComponentType<P
     return (
       <FieldSlot
         asyncDebounceMs={asyncDebounceMs}
+        // oxlint-disable-next-line ui/no-uncontrolled-input -- defaultValue is a TanStack Form field API prop, not an uncontrolled input default
         defaultValue={defaultValue}
         listeners={listeners}
         mode={mode}
@@ -406,13 +408,13 @@ function typedField<TValues extends Record<string, unknown>>() {
 
 export {
   createFormField,
+  fieldContext,
+  formContext,
+  FormErrors,
   Field as FormField,
   FieldError as FormFieldError,
   FieldSet as FormFieldSet,
-  FormErrors,
   FormItemContext,
-  fieldContext,
-  formContext,
   scrollToFirstError,
   typedField,
   useFieldContext,

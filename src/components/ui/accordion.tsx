@@ -1,5 +1,7 @@
-import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion";
 import type * as React from "react";
+
+import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion";
+
 import { cn } from "@/lib/utils";
 
 function Accordion({ className, ...props }: React.ComponentProps<typeof AccordionPrimitive.Root>) {

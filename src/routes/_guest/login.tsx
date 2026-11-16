@@ -8,11 +8,11 @@ import { z } from "zod";
 
 import { SocialSignInButtons } from "#/components/sign-in-social-buttons.tsx";
 import { Button } from "#/components/ui/button.tsx";
+import { Field, FieldLabel } from "#/components/ui/field.tsx";
 import { Input } from "#/components/ui/input.tsx";
-import { Label } from "#/components/ui/label.tsx";
 import { toast } from "#/components/ui/toast.tsx";
-import { authQueryOptions } from "#/lib/auth/queries.ts";
 import { authClient } from "#/lib/auth-client.ts";
+import { authQueryOptions } from "#/lib/auth/queries.ts";
 
 export const Route = createFileRoute("/_guest/login")({
   component: LoginForm,
@@ -109,8 +109,8 @@ function LoginForm() {
             {(field) => {
               const message = fieldErrorMessage(field.state.meta.errors[0]);
               return (
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email address</Label>
+                <Field>
+                  <FieldLabel htmlFor="email">Email address</FieldLabel>
                   <Input
                     aria-describedby={error ? errorId : undefined}
                     aria-invalid={Boolean(message) || Boolean(error)}
@@ -131,7 +131,7 @@ function LoginForm() {
                       {message}
                     </p>
                   )}
-                </div>
+                </Field>
               );
             }}
           </form.Field>
@@ -149,9 +149,9 @@ function LoginForm() {
                   .join(" ") || undefined;
 
               return (
-                <div className="grid gap-2">
+                <Field>
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="password">Password</Label>
+                    <FieldLabel htmlFor="password">Password</FieldLabel>
                     <Link
                       className="text-primary text-xs font-medium hover:underline"
                       to="/forgot-password"
@@ -160,13 +160,12 @@ function LoginForm() {
                     </Link>
                   </div>
 
-                  {/* Relative wrapper so the eye button can sit on the right edge. */}
-                  <div className="relative">
+                  {/* Flex wrapper: input fills the row, eye button sits on the right edge. */}
+                  <div className="flex items-center gap-1">
                     <Input
                       aria-describedby={describedBy}
                       aria-invalid={Boolean(message) || Boolean(error)}
                       autoComplete="current-password"
-                      className="h-11 pr-11"
                       id="password"
                       name={field.name}
                       onBlur={field.handleBlur}
@@ -183,7 +182,7 @@ function LoginForm() {
                       aria-controls="password"
                       aria-label={showPassword ? "Hide password" : "Show password"}
                       aria-pressed={showPassword}
-                      className="text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background absolute top-1/2 right-1 -translate-y-1/2 rounded-md p-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                      className="text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background shrink-0 rounded-md p-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                       disabled={isPending}
                       onClick={() => setShowPassword((v) => !v)}
                       tabIndex={-1}
@@ -208,7 +207,7 @@ function LoginForm() {
                       {message}
                     </p>
                   )}
-                </div>
+                </Field>
               );
             }}
           </form.Field>
@@ -223,11 +222,7 @@ function LoginForm() {
             </p>
           )}
 
-          <Button
-            className="mt-2 h-11 w-full text-base font-semibold"
-            disabled={isPending}
-            type="submit"
-          >
+          <Button className="mt-2 h-11 w-full" disabled={isPending} type="submit">
             {isPending ? (
               <LoaderCircleIcon aria-hidden="true" className="size-5 animate-spin" />
             ) : (

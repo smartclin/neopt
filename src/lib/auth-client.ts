@@ -8,6 +8,7 @@ import { createAuthClient } from "better-auth/react";
 import { env } from "#/env.ts";
 
 import type { auth } from "./auth";
+
 import { ac, roles } from "./auth/permissions";
 
 const getBaseURL = () => {

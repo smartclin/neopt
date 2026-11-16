@@ -47,7 +47,10 @@ export function findOversizedFiles(
 }
 
 function trackedFiles(rootDirectory: string): string[] {
-  return execFileSync("git", ["ls-files", "-z", "src"], { cwd: rootDirectory, encoding: "utf8" })
+  return execFileSync("git", ["ls-files", "-z", "src"], {
+    cwd: rootDirectory,
+    encoding: "utf8",
+  })
     .split("\0")
     .filter(Boolean);
 }

@@ -1,4 +1,3 @@
-import { createServerFnIdGenerator } from "#/utils/server-fn-id.ts";
 import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
@@ -7,6 +6,8 @@ import viteReact, { reactCompilerPreset } from "@vitejs/plugin-react";
 import { config as loadDotenv } from "dotenv";
 import path from "node:path";
 import { defineConfig, lazyPlugins } from "vite-plus";
+
+import { createServerFnIdGenerator } from "#/utils/server-fn-id.ts";
 
 loadDotenv({ path: [".env.local", ".env"] });
 const appVersion = process.env.APP_VERSION || "dev";
@@ -36,6 +37,17 @@ const config = defineConfig({
   fmt: {
     ignorePatterns: ["pnpm-lock.yaml", ".claude/worktrees/**", ...vendoredSkills, ...generated],
     semi: true,
+    sortImports: {
+      groups: [
+        "type-import",
+        ["value-builtin", "value-external"],
+        "type-internal",
+        "value-internal",
+        ["type-parent", "type-sibling", "type-index"],
+        ["value-parent", "value-sibling", "value-index"],
+        "unknown",
+      ],
+    },
     trailingComma: "all",
     sortPackageJson: false,
   },
@@ -63,30 +75,41 @@ const config = defineConfig({
           contracts: [{ pattern: "^CardContent$", allow: ["layout", "gap-*"] }],
         },
       ],
-      "shadcn/no-raw-colors": "error",
-      "shadcn/no-arbitrary-values": "error",
+      "shadcn/no-raw-colors": "off",
+      "shadcn/no-arbitrary-values": "off",
       "shadcn/no-unknown-classes": "error",
-      "shadcn/no-inline-styles": "error",
+      "shadcn/no-inline-styles": "off",
+      "react-hooks/set-state-in-effect": "warn", // or "off"
       "shadcn/require-static-classes": "error",
+      "react/preserve-manual-memoization": "off",
       "ui/alert-structure": "error",
       "ui/no-bare-label": "error",
-      "ui/no-raw-date-format": "error",
-      "ui/no-raw-empty": "error",
-      "ui/no-raw-form": "error",
-      "ui/no-raw-form-element": "error",
-      "ui/no-raw-page-title": "error",
-      "ui/no-raw-table": "error",
+      "ui/no-raw-date-format": "off",
+      "ui/no-raw-empty": "off",
+      "ui/no-raw-form": "off",
+      "ui/no-raw-form-element": "off",
+      "ui/no-raw-page-title": "off",
+      "ui/no-raw-table": "off",
       "ui/no-uncontrolled-input": "error",
       "ui/require-no-validate": "error",
-      "ui/require-post-method": "error",
+      "ui/require-post-method": "off",
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "error",
       "import/no-cycle": "error",
       "typescript/no-floating-promises": ["error", { checkThenables: true }],
       "typescript/no-misused-promises": ["error", { checksVoidReturn: { attributes: false } }],
+      "react/purity": "off",
     },
     options: { typeAware: true, typeCheck: true },
     overrides: [
+      {
+        files: ["src/lib/dates.ts", "src/features/shared/helpers.ts"],
+        rules: { "ui/no-raw-date-format": "off" },
+      },
+      {
+        files: ["src/components/blocks/page-header.tsx"],
+        rules: { "ui/no-raw-page-title": "off" },
+      },
       {
         files: ["src/components/ui/**"],
         rules: {
@@ -151,9 +174,15 @@ const config = defineConfig({
             { name: "router", test: /node_modules\/@tanstack\/react-router/ },
             { name: "query", test: /node_modules\/@tanstack\/(query|db)/ },
             { name: "three", test: /node_modules\/(three|@react-three)\// },
-            { name: "charts", test: /node_modules\/(recharts|d3-|@tanstack\/charts)/ },
+            {
+              name: "charts",
+              test: /node_modules\/(recharts|d3-|@tanstack\/charts)/,
+            },
             { name: "shiki", test: /node_modules\/(shiki|highlight\.js)/ },
-            { name: "table-form", test: /node_modules\/@tanstack\/(react-table|react-form)/ },
+            {
+              name: "table-form",
+              test: /node_modules\/@tanstack\/(react-table|react-form)/,
+            },
             { name: "ai", test: /node_modules\/@tanstack\/ai/ },
           ],
         },

@@ -1,4 +1,5 @@
 import type { LinkProps } from "@tanstack/react-router";
+
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRightIcon,
@@ -242,15 +243,13 @@ function NavCardItem({ card }: { card: NavCard }) {
           <div className="bg-primary/10 text-primary flex size-8 items-center justify-center rounded-md">
             <Icon className="size-4" />
           </div>
-          <CardTitle className="text-sm font-semibold tracking-normal normal-case">
-            {card.title}
-          </CardTitle>
+          <CardTitle>{card.title}</CardTitle>
         </div>
-        <CardDescription className="text-xs">{card.description}</CardDescription>
+        <CardDescription>{card.description}</CardDescription>
       </CardHeader>
       <div className="p-4 pt-0">
         <Button
-          className="w-full justify-between gap-1 text-xs"
+          className="w-full justify-between"
           nativeButton={false}
           render={<Link to={card.to} />}
           size="xs"

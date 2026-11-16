@@ -1,7 +1,6 @@
 // src/db/index.ts
 import "@tanstack/react-start/server-only";
 import { Database } from "bun:sqlite";
-
 import {
   and,
   asc,

@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import * as React from "react";
 
+import type { SearchCategory, SearchResult } from "@/features/search/schema";
+
 import {
   Command,
   CommandDialog,
@@ -26,7 +28,6 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import { globalSearchQuery } from "@/features/search/queries";
-import type { SearchCategory, SearchResult } from "@/features/search/schema";
 import { useTheme } from "@/hooks/use-theme";
 import { NAV_ITEMS, RESOURCES } from "@/lib/shadcn/navigation";
 

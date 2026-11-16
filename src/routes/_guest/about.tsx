@@ -204,7 +204,9 @@ function About() {
 function MissionSection() {
   return (
     <section className="max-w-3xl">
-      <p className="island-kicker mb-3">{MISSION.eyebrow}</p>
+      <p className="mb-3 text-xs font-medium tracking-wider text-[var(--sea-ink-soft)] uppercase">
+        {MISSION.eyebrow}
+      </p>
       <h1 className="display-title mb-6 text-4xl leading-tight font-bold tracking-tight text-[var(--sea-ink)] sm:text-5xl">
         {MISSION.headline}
       </h1>
@@ -236,7 +238,9 @@ function AudienceSection() {
   return (
     <section>
       <header className="mb-10 max-w-2xl">
-        <p className="island-kicker mb-2">Who it's for</p>
+        <p className="mb-2 text-xs font-medium tracking-wider text-[var(--sea-ink-soft)] uppercase">
+          Who it's for
+        </p>
         <h2 className="display-title text-3xl font-bold tracking-tight sm:text-4xl">
           From one pediatrician to ten clinics.
         </h2>
@@ -249,8 +253,8 @@ function AudienceSection() {
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {AUDIENCES.map(({ icon: Icon, title, body, accent }) => (
           <li key={title}>
-            <Card className="island-shell h-full">
-              <CardContent className="space-y-3 pt-6">
+            <Card className="h-full">
+              <CardContent>
                 <span className={`flex size-10 items-center justify-center rounded-xl ${accent}`}>
                   <Icon aria-hidden="true" className="size-5" />
                 </span>
@@ -271,7 +275,9 @@ function DifferentiatorsSection() {
   return (
     <section>
       <header className="mb-10 max-w-2xl">
-        <p className="island-kicker mb-2">What's different</p>
+        <p className="mb-2 text-xs font-medium tracking-wider text-[var(--sea-ink-soft)] uppercase">
+          What's different
+        </p>
         <h2 className="display-title text-3xl font-bold tracking-tight sm:text-4xl">
           Six decisions that shaped the product.
         </h2>
@@ -284,12 +290,12 @@ function DifferentiatorsSection() {
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {DIFFERENTIATORS.map(({ icon: Icon, title, body }) => (
           <li key={title}>
-            <Card className="island-shell h-full">
-              <CardHeader className="pb-2">
+            <Card className="h-full">
+              <CardHeader>
                 <span className="bg-primary/10 text-primary flex size-9 items-center justify-center rounded-lg">
                   <Icon aria-hidden="true" className="size-4" />
                 </span>
-                <CardTitle className="mt-3 text-base">{title}</CardTitle>
+                <CardTitle>{title}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm leading-relaxed text-[var(--sea-ink-soft)]">{body}</p>
@@ -308,7 +314,9 @@ function StandardsSection() {
   return (
     <section>
       <header className="mb-10 max-w-2xl">
-        <p className="island-kicker mb-2">Clinical standards</p>
+        <p className="mb-2 text-xs font-medium tracking-wider text-[var(--sea-ink-soft)] uppercase">
+          Clinical standards
+        </p>
         <h2 className="display-title text-3xl font-bold tracking-tight sm:text-4xl">
           Every formula has a citation.
         </h2>
@@ -317,11 +325,11 @@ function StandardsSection() {
         </p>
       </header>
 
-      <Card className="island-shell overflow-hidden">
-        <CardContent className="p-0">
+      <Card className="overflow-hidden">
+        <CardContent>
           <dl className="divide-y divide-[var(--line)]">
             {STANDARDS.map(({ label, value, detail }) => (
-              <div className="grid gap-2 p-5 sm:grid-cols-[140px_1fr] sm:gap-6 sm:p-6" key={label}>
+              <div className="grid gap-2 py-4 sm:grid-cols-[140px_1fr] sm:gap-6" key={label}>
                 <dt className="text-xs font-medium tracking-wider text-[var(--sea-ink-soft)] uppercase">
                   {label}
                 </dt>
@@ -344,7 +352,9 @@ function SecuritySection() {
   return (
     <section>
       <header className="mb-10 max-w-2xl">
-        <p className="island-kicker mb-2">Security & data</p>
+        <p className="mb-2 text-xs font-medium tracking-wider text-[var(--sea-ink-soft)] uppercase">
+          Security & data
+        </p>
         <h2 className="display-title text-3xl font-bold tracking-tight sm:text-4xl">
           The questions every clinic admin asks.
         </h2>
@@ -353,14 +363,16 @@ function SecuritySection() {
       <ul className="grid gap-4 sm:grid-cols-2">
         {SECURITY.map(({ icon: Icon, title, body }) => (
           <li key={title}>
-            <Card className="island-shell h-full">
-              <CardContent className="flex gap-4 pt-6">
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600">
-                  <Icon aria-hidden="true" className="size-4" />
-                </span>
-                <div className="space-y-1.5">
-                  <h3 className="text-sm font-semibold">{title}</h3>
-                  <p className="text-sm leading-relaxed text-[var(--sea-ink-soft)]">{body}</p>
+            <Card className="h-full">
+              <CardContent>
+                <div className="flex gap-4">
+                  <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600">
+                    <Icon aria-hidden="true" className="size-4" />
+                  </span>
+                  <div className="space-y-1.5">
+                    <h3 className="text-sm font-semibold">{title}</h3>
+                    <p className="text-sm leading-relaxed text-[var(--sea-ink-soft)]">{body}</p>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -375,7 +387,7 @@ function SecuritySection() {
 
 function OriginSection() {
   return (
-    <section className="island-shell rounded-3xl px-8 py-14 sm:px-12 sm:py-16">
+    <section className="rounded-3xl border border-[var(--line)] px-8 py-14 sm:px-12 sm:py-16">
       <div className="mx-auto grid max-w-4xl gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
         <div>
           <h2 className="display-title mb-4 text-2xl font-bold tracking-tight sm:text-3xl">
@@ -409,9 +421,9 @@ function OriginSection() {
 
 function FinalCta() {
   return (
-    <section className="island-shell rounded-3xl px-8 py-16 text-center sm:px-16">
+    <section className="rounded-3xl border border-[var(--line)] px-8 py-16 text-center sm:px-16">
       <div className="mx-auto max-w-2xl">
-        <Badge className="mb-5 gap-1.5 rounded-full px-3 py-1" variant="outline">
+        <Badge className="mb-5" variant="outline">
           <ClipboardCheck aria-hidden="true" className="size-3" />
           Onboarding in 15 minutes
         </Badge>
@@ -424,10 +436,7 @@ function FinalCta() {
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Button
-            render={<Link className="inline-flex items-center gap-2" to="/login" />}
-            size="lg"
-          >
+          <Button render={<Link to="/login" />} size="lg">
             Sign in to your clinic
             <ArrowRight aria-hidden="true" className="size-4" />
           </Button>
@@ -435,7 +444,6 @@ function FinalCta() {
             render={
               <a
                 aria-label="Email hello@smartclinic.example"
-                className="inline-flex items-center gap-2"
                 href="mailto:hello@smartclinic.example"
               />
             }

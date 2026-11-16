@@ -1,7 +1,9 @@
+import type * as React from "react";
+
 import { Command as CommandPrimitive } from "cmdk";
 import { cn } from "cn";
 import { CheckIcon, SearchIcon } from "lucide-react";
-import type * as React from "react";
+
 import {
   Dialog,
   DialogContent,

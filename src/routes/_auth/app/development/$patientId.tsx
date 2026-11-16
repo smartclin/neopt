@@ -31,7 +31,6 @@ import {
   patientDevelopmentQuery,
   useSetMilestoneAchievedMutation,
 } from "#/features/development/queries";
-
 // ── types + helpers ────────────────────────────────────────────────────
 import { milestoneStatus } from "#/features/development/status.ts";
 import {
@@ -40,7 +39,6 @@ import {
   type MilestoneDomain,
   type PatientMilestone,
 } from "#/features/development/types.ts";
-
 import { useAuthSuspense } from "#/lib/auth/hooks.ts";
 
 export const Route = createFileRoute("/_auth/app/development/$patientId")({

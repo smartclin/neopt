@@ -2,7 +2,6 @@ import { execFileSync } from "node:child_process";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-
 import { describe, expect, test } from "vite-plus/test";
 
 import {
@@ -570,7 +569,9 @@ describe("comment-language guardrail, files without a scannable extension", () =
   test("the default scan reads the git hooks, the env example and SQL", async () => {
     const root = mkdtempSync(path.join(tmpdir(), "comment-language-"));
     const write = (relativePath: string, contents: string) => {
-      mkdirSync(path.dirname(path.join(root, relativePath)), { recursive: true });
+      mkdirSync(path.dirname(path.join(root, relativePath)), {
+        recursive: true,
+      });
       writeFileSync(path.join(root, relativePath), contents);
     };
     const roots = [

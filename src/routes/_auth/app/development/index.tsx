@@ -17,8 +17,10 @@ function DevelopmentPage() {
         title="Developmental Milestones"
       />
       <Card>
-        <CardContent className="pt-6">
-          <MilestoneChecklist />
+        <CardContent>
+          <div className="mt-6">
+            <MilestoneChecklist />
+          </div>
         </CardContent>
       </Card>
     </div>

@@ -5,8 +5,9 @@
 
 import { config } from "dotenv";
 import { beforeAll, describe, expect, it } from "vite-plus/test";
+
 import { getGrowthChartBand, getGrowthChartCurves } from "#/db/queries/growth.queries.ts";
-import { LmsDomainError } from "@/features/growth/types";
+import { LmsDomainError } from "#/features/growth/types/types.ts";
 
 config({ path: ".env.local" });
 

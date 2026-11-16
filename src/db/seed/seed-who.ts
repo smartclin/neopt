@@ -1,12 +1,12 @@
-import { resolve } from "node:path";
-import { fileURLToPath } from "node:url";
-
 import lhfaBoys from "@data/who/lhfa-boys.json";
 import lhfaGirls from "@data/who/lhfa-girls.json";
 import wfaBoys from "@data/who/wfa-boys.json";
 import wfaGirls from "@data/who/wfa-girls.json";
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { closeDb, db } from "@/db";
+
 import { growthStandards } from "../schema";
 
 interface WhoGrowthRow {
@@ -134,7 +134,7 @@ if (entryPath && resolve(entryPath) === fileURLToPath(import.meta.url)) {
       console.error("Failed to seed WHO growth standards:", error);
       process.exitCode = 1;
     })
-    .finally(async () => {
-      await closeDb();
+    .finally(() => {
+      void closeDb();
     });
 }

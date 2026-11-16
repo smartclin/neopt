@@ -13,10 +13,8 @@ import { Label } from "#/components/ui/label.tsx";
 import { Spinner } from "#/components/ui/spinner.tsx";
 import { Textarea } from "#/components/ui/textarea.tsx";
 import { toast } from "#/components/ui/toast.tsx";
-
 // ── reads + mutations ────────────────────────────────────────────────
 import { getPatientQueryOptions, useUpdatePatientMutation } from "#/features/patients/queries";
-
 import { useAuthSuspense } from "#/lib/auth/hooks.ts";
 
 // ─────────────────────────────────────────────────────────────────────────────

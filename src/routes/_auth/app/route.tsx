@@ -1,6 +1,7 @@
 // src/routes/_auth/app/route.tsx
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import React from "react";
+
 import { installOutboxFlusher } from "#/features/outbox/flusher.ts";
 import { ConnectionBanner } from "#/features/outbox/ui/connection-banner.tsx";
 import { AppShell } from "@/components/blocks/app-shell-1";

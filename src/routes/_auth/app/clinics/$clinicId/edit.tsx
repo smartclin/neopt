@@ -7,15 +7,13 @@ import { z } from "zod";
 import { PageHeader } from "#/components/blocks/page-header.tsx";
 import { Button } from "#/components/ui/button.tsx";
 import { Card, CardContent } from "#/components/ui/card.tsx";
+import { Field, FieldLabel } from "#/components/ui/field.tsx";
 import { Input } from "#/components/ui/input.tsx";
-import { Label } from "#/components/ui/label.tsx";
 import { Spinner } from "#/components/ui/spinner.tsx";
 import { Textarea } from "#/components/ui/textarea.tsx";
 import { toast } from "#/components/ui/toast.tsx";
-
 // ── reads + mutations ────────────────────────────────────────────────
 import { clinicByIdQuery, useUpdateClinicMutation } from "#/features/clinics/queries";
-
 import { useAuthSuspense } from "#/lib/auth/hooks.ts";
 
 export const Route = createFileRoute("/_auth/app/clinics/$clinicId/edit")({
@@ -68,8 +66,10 @@ function EditClinicPage() {
         title="Edit Clinic"
       />
       <Card>
-        <CardContent className="pt-6">
-          <EditClinicForm clinicId={clinicId} onDone={cancel} />
+        <CardContent>
+          <div className="mt-6">
+            <EditClinicForm clinicId={clinicId} onDone={cancel} />
+          </div>
         </CardContent>
       </Card>
     </div>
@@ -176,8 +176,8 @@ function ClinicEditFields({
     >
       <form.Field name="name">
         {(field) => (
-          <div className="grid gap-2">
-            <Label htmlFor="clinic-name">Name</Label>
+          <Field>
+            <FieldLabel htmlFor="clinic-name">Name</FieldLabel>
             <Input
               aria-invalid={field.state.meta.errors.length > 0}
               autoComplete="organization"
@@ -191,15 +191,15 @@ function ClinicEditFields({
                 {fieldErrorMessage(field.state.meta.errors[0])}
               </p>
             )}
-          </div>
+          </Field>
         )}
       </form.Field>
 
       <div className="grid grid-cols-2 gap-4">
         <form.Field name="phone">
           {(field) => (
-            <div className="grid gap-2">
-              <Label htmlFor="clinic-phone">Phone</Label>
+            <Field>
+              <FieldLabel htmlFor="clinic-phone">Phone</FieldLabel>
               <Input
                 aria-invalid={field.state.meta.errors.length > 0}
                 id="clinic-phone"
@@ -214,14 +214,14 @@ function ClinicEditFields({
                   {fieldErrorMessage(field.state.meta.errors[0])}
                 </p>
               )}
-            </div>
+            </Field>
           )}
         </form.Field>
 
         <form.Field name="email">
           {(field) => (
-            <div className="grid gap-2">
-              <Label htmlFor="clinic-email">Email</Label>
+            <Field>
+              <FieldLabel htmlFor="clinic-email">Email</FieldLabel>
               <Input
                 aria-invalid={field.state.meta.errors.length > 0}
                 id="clinic-email"
@@ -235,15 +235,15 @@ function ClinicEditFields({
                   {fieldErrorMessage(field.state.meta.errors[0])}
                 </p>
               )}
-            </div>
+            </Field>
           )}
         </form.Field>
       </div>
 
       <form.Field name="address">
         {(field) => (
-          <div className="grid gap-2">
-            <Label htmlFor="clinic-address">Address</Label>
+          <Field>
+            <FieldLabel htmlFor="clinic-address">Address</FieldLabel>
             <Textarea
               id="clinic-address"
               onBlur={field.handleBlur}
@@ -256,7 +256,7 @@ function ClinicEditFields({
                 {fieldErrorMessage(field.state.meta.errors[0])}
               </p>
             )}
-          </div>
+          </Field>
         )}
       </form.Field>
 

@@ -8,12 +8,15 @@
 // TODO: clinics: import from `@/features/clinics/schema` once it exists.
 
 import type { QueryClient } from "@tanstack/react-query";
+
 import { and, asc, desc, eq, gte, lte, sql } from "drizzle-orm";
+
+import type { Indicator, LmsRow, LmsTriple, Sex, XAxis } from "#/features/growth/types/types.ts";
 
 import { db } from "@/db";
 import { lmsReferences, measurements, patients, visits } from "@/db/schema";
+
 import { interpolateLms, zScoreForValue } from "../../features/measurements/lib/lms";
-import type { Indicator, LmsRow, LmsTriple, Sex, XAxis } from "../../features/measurements/types";
 import { qk } from "../../features/shared/queryKeys.queries";
 
 // The DB stores a fifth indicator that has no Egyptian LMS reference.
