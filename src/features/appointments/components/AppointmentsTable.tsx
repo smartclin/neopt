@@ -7,8 +7,8 @@ import {
   useTable,
 } from "@tanstack/react-table";
 import { CalendarClockIcon, CircleAlertIcon, SearchXIcon } from "lucide-react";
+
 import { Button } from "#/components/ui/button";
-import { buttonVariants } from "#/components/ui/button-variants";
 import { IconTile } from "@/components/blocks/icon-tile";
 import { SectionState } from "@/components/blocks/state-view";
 import { TableColGroup } from "@/components/blocks/table-columns";
@@ -23,8 +23,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { fetchTodayAppointments } from "../functions";
 // ── read ───────────────────────────────────────────────────────────────
+import { formatStatusLabel, formatTime } from "@/lib/dates";
+import { cn } from "@/lib/utils";
+
+import type { fetchTodayAppointments } from "../functions";
+
 import { todayAppointmentsQuery } from "../queries";
 
 // ── Row shape — derived from the server fn's return type ───────────────
@@ -36,23 +40,6 @@ import { todayAppointmentsQuery } from "../queries";
 // checks everywhere that the runtime never triggered. Deriving the type
 // from the server fn keeps the type and the runtime in sync.
 type AppointmentRow = Awaited<ReturnType<typeof fetchTodayAppointments>>[number];
-
-// ── Module-scope constants ─────────────────────────────────────────────
-
-type AppointmentStatus = AppointmentRow["status"];
-
-const STATUS_VARIANT = {
-  scheduled: "outline",
-  completed: "default",
-  cancelled: "destructive",
-  "no-show": "secondary",
-} as const satisfies Record<AppointmentStatus, string>;
-
-const TIME_FORMATTER = new Intl.DateTimeFormat("en-GB", {
-  hour: "2-digit",
-  minute: "2-digit",
-  hour12: false,
-});
 
 const features = tableFeatures({ rowPaginationFeature });
 
@@ -72,7 +59,7 @@ const columns = column.columns([
       const isValid = !Number.isNaN(date.getTime());
       return (
         <span className="block truncate font-mono text-xs font-medium tabular-nums">
-          {isValid ? TIME_FORMATTER.format(date) : "—"}
+          {isValid ? formatTime(date) : "—"}
         </span>
       );
     },
@@ -130,11 +117,7 @@ const columns = column.columns([
     meta: { width: "w-28" },
     cell: (info) => {
       const status = info.getValue();
-      return (
-        <Badge className="capitalize" variant={STATUS_VARIANT[status]}>
-          {status}
-        </Badge>
-      );
+      return <Badge>{formatStatusLabel(status)}</Badge>;
     },
   }),
   column.accessor("reason", {
@@ -235,7 +218,7 @@ export function AppointmentsTable<TRoute extends AnyRoute>({
     return (
       <SectionState
         action={
-          <Button className={buttonVariants()} nativeButton onClick={backToFirst}>
+          <Button className={cn("w-full sm:w-auto")} nativeButton onClick={backToFirst}>
             Back To First Page
           </Button>
         }

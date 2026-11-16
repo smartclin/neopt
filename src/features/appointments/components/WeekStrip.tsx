@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { cn } from "cn";
 import * as React from "react";
 
+import { formatDayHeading, formatShortDay } from "@/lib/dates";
+
 // ── read: query factory ────────────────────────────────────────────────
 import { appointmentsInRangeQuery } from "../queries";
 
@@ -18,9 +20,6 @@ function addDays(d: Date, n: number): Date {
   r.setDate(r.getDate() + n);
   return r;
 }
-
-const DAY_FMT = new Intl.DateTimeFormat("en-GB", { weekday: "short" });
-const DATE_FMT = new Intl.DateTimeFormat("en-GB", { day: "numeric" });
 
 const MAX_DOTS = 8;
 
@@ -46,7 +45,7 @@ function DayCell({
 
   return (
     <button
-      aria-label={`${date.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}, ${count} appointment${count !== 1 ? "s" : ""}`}
+      aria-label={`${formatDayHeading(date)}, ${count} appointment${count !== 1 ? "s" : ""}`}
       aria-pressed={selected}
       className={cn(
         "flex flex-1 flex-col items-center gap-1.5 rounded-xl px-1.5 py-2.5 transition-colors",
@@ -64,7 +63,7 @@ function DayCell({
           isToday ? "text-primary" : "text-muted-foreground",
         )}
       >
-        {DAY_FMT.format(date)}
+        {formatShortDay(date)}
       </span>
 
       <span
@@ -77,7 +76,7 @@ function DayCell({
               : "text-foreground",
         )}
       >
-        {DATE_FMT.format(date)}
+        {date.getDate()}
       </span>
 
       <div aria-hidden="true" className="flex flex-wrap justify-center gap-[2px]">
@@ -91,7 +90,7 @@ function DayCell({
         <div
           className={cn(
             "h-full rounded-full transition-all",
-            pct > 0.8 ? "bg-rose-500" : pct > 0.5 ? "bg-amber-400" : "bg-primary/50",
+            pct > 0.8 ? "bg-destructive" : pct > 0.5 ? "bg-warning" : "bg-primary/50",
           )}
           style={{ width: `${Math.round(pct * 100)}%` }}
         />
@@ -149,15 +148,15 @@ export function WeekStrip({ clinicId, selectedDate, onSelectDate }: WeekStripPro
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-semibold">This Week</h2>
         <span className="text-muted-foreground text-xs">
-          {weekStart.toLocaleDateString("en-GB", {
+          {new Intl.DateTimeFormat("en-GB", {
             month: "short",
             day: "numeric",
-          })}{" "}
-          –{" "}
-          {addDays(weekStart, 6).toLocaleDateString("en-GB", {
+          }).format(weekStart)}
+          {" – "}
+          {new Intl.DateTimeFormat("en-GB", {
             month: "short",
             day: "numeric",
-          })}
+          }).format(addDays(weekStart, 6))}
         </span>
       </div>
       <div className="flex gap-0.5">

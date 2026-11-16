@@ -2,6 +2,7 @@
 
 import { Link } from "@tanstack/react-router";
 import * as React from "react";
+
 import { useOutbox } from "@/features/outbox/use-outbox";
 
 export function ConnectionBanner() {
@@ -67,7 +68,7 @@ export function ConnectionBanner() {
     tone === "destructive"
       ? "bg-destructive/10 text-destructive border-destructive/20"
       : tone === "warning"
-        ? "bg-amber-500/10 text-amber-900 dark:text-amber-200 border-amber-500/20"
+        ? "bg-warning/10 text-warning dark:text-warning border-warning/20"
         : "bg-muted text-foreground border-border";
 
   return (

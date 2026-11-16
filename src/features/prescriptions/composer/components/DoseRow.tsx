@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 
-import { calculateNeonatalDose } from "../../lib/neonatal-dosing";
 import type { ComposerDrug } from "../formulary";
 import type { ComposerUnit } from "../types";
+
+import { calculateNeonatalDose } from "../../lib/neonatal-dosing";
 
 interface DoseRowProps {
   drug: ComposerDrug | undefined;
@@ -201,7 +202,7 @@ export function DoseRow(props: DoseRowProps) {
                 {calc.singleDoseMg.toFixed(2)} mg per {calc.volumeMlPerDose.toFixed(2)} mL
               </span>
               {calc.isCapped && (
-                <span className="ml-2 text-amber-600">(capped at formulary max)</span>
+                <span className="ml-2 text-warning">(capped at formulary max)</span>
               )}
             </p>
           )}

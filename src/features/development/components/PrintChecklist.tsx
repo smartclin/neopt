@@ -3,6 +3,7 @@
 import { Check, Square } from "lucide-react";
 
 import type { PatientMilestone } from "../types";
+
 import { DOMAIN_META, DOMAIN_ORDER } from "../types";
 
 export interface PrintChecklistProps {

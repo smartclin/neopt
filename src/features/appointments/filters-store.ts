@@ -1,5 +1,6 @@
 // features/appointments/filters-store.ts
 import { createStore, useSelector } from "@tanstack/react-store";
+
 import type { AppointmentStatus } from "./status";
 
 export interface AppointmentFilters {

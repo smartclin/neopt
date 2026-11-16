@@ -3,8 +3,9 @@ import { keepPreviousData, queryOptions } from "@tanstack/react-query";
 
 import { STALE } from "@/features/shared/stale-tiime";
 
-import { globalSearchFn } from "./functions";
 import type { SearchCategory } from "./schema";
+
+import { globalSearchFn } from "./functions";
 
 export const searchKeys = {
   all: () => ["search"] as const,

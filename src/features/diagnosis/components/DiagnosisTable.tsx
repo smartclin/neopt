@@ -7,6 +7,7 @@ import {
   useTable,
 } from "@tanstack/react-table";
 import { CircleAlertIcon, SearchXIcon, StethoscopeIcon } from "lucide-react";
+
 import { buttonVariants } from "#/components/ui/button-variants";
 import { IconTile } from "@/components/blocks/icon-tile";
 import { SectionState } from "@/components/blocks/state-view";
@@ -22,6 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { formatDate, formatStatusLabel } from "@/lib/dates";
 
 // ── read ───────────────────────────────────────────────────────────────
 import { diagnosesForVisitQuery } from "../queries";
@@ -88,11 +90,7 @@ const columns = column.columns([
     meta: { width: "w-24" },
     cell: ({ row }) => {
       const type = row.original.type;
-      return (
-        <Badge className="capitalize" variant={TYPE_VARIANT[type]}>
-          {type}
-        </Badge>
-      );
+      return <Badge variant={TYPE_VARIANT[type]}>{formatStatusLabel(type)}</Badge>;
     },
   }),
   column.accessor("createdAt", {
@@ -104,11 +102,7 @@ const columns = column.columns([
       const date = new Date(visitedAt);
       return (
         <span className="text-muted-foreground block truncate font-mono text-xs tabular-nums">
-          {date.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })}
+          {formatDate(date)}
         </span>
       );
     },

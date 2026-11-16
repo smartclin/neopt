@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 
+import type { Indicator, Sex } from "../types/types";
+
 // ── reads ──────────────────────────────────────────────────────────────
 import { childMeasurementsQuery, growthStandardsQuery } from "../queries";
-import type { Indicator, Sex } from "../types";
 import { GrowthChartSkeleton } from "./GrowthChartSkeleton";
 import { WhoGrowthChart } from "./WhoGrowthChart";
 

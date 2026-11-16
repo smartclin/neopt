@@ -1,5 +1,6 @@
 // src/features/search/functions.ts
 import { createServerFn } from "@tanstack/react-start";
+
 import { searchAcrossEntities } from "@/db/queries/search.queries";
 import { clinicAccessMiddleware } from "@/lib/auth/clinic-middleware";
 

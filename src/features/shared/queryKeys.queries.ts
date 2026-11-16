@@ -8,7 +8,7 @@
 //      Query hashes plain objects by shape, but being explicit here means
 //      refetches survive a caller that re-creates the range each render).
 
-import type { Indicator, Sex } from "../growth/types";
+import type { Indicator, Sex } from "../growth/types/types";
 
 type Range = { xAxis: "age" | "length"; min: number; max: number };
 

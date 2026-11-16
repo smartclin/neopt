@@ -5,4 +5,4 @@ export * from "./components/GrowthChartSkeleton";
 export * from "./components/PatientGrowthPanel";
 export * from "./queries";
 export * from "./schema";
-export * from "./types";
+export * from "./types/types";

@@ -2,6 +2,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { setResponseStatus } from "@tanstack/react-start/server";
 import { z } from "zod";
+
 import {
   AppointmentConflictError,
   countAppointmentsByStatus,
@@ -20,6 +21,7 @@ import {
 } from "@/db/queries/appointments.queries";
 import { clinicAccessMiddleware } from "@/lib/auth/clinic-middleware";
 import { authMiddleware, freshAuthMiddleware } from "@/lib/auth/middleware";
+
 import {
   appointmentInsertSchema,
   appointmentStatusSchema,

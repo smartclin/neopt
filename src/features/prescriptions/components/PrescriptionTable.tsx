@@ -7,6 +7,7 @@ import {
   useTable,
 } from "@tanstack/react-table";
 import { CircleAlertIcon, PillIcon, SearchXIcon } from "lucide-react";
+
 import { Button } from "#/components/ui/button";
 import { buttonVariants } from "#/components/ui/button-variants";
 import { IconTile } from "@/components/blocks/icon-tile";
@@ -22,9 +23,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { formatDate } from "@/lib/dates";
+
+import type { PrescriptionRow } from "../types";
 
 import { prescriptionsForPatientQuery, prescriptionsForVisitQuery } from "../queries";
-import type { PrescriptionRow } from "../types";
 
 // ── Static module-scope config ─────────────────────────────────────────────
 
@@ -86,11 +89,7 @@ const columns = column.columns([
     meta: { width: "w-28", hideOnMobile: true },
     cell: ({ row }) => {
       const { text, variant } = durationLabel(row.original.durationDays);
-      return (
-        <Badge className="tabular-nums" variant={variant}>
-          {text}
-        </Badge>
-      );
+      return <Badge variant={variant}>{text}</Badge>;
     },
   }),
   column.accessor("prescribedBy", {
@@ -108,11 +107,7 @@ const columns = column.columns([
       const date = new Date(row.original.prescribedAt);
       return (
         <span className="text-muted-foreground block truncate font-mono text-xs tabular-nums">
-          {date.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })}
+          {formatDate(date)}
         </span>
       );
     },

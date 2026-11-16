@@ -1,7 +1,9 @@
 // src/features/immunizations/use-record-immunization.ts
 
 import type { OutboxEntry } from "@/features/outbox/store";
+
 import { useQueueWrite } from "@/features/outbox/use-outbox";
+
 import { type RecordImmunizationInput, recordImmunizationFn } from "./functions";
 
 /**

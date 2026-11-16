@@ -6,7 +6,7 @@
 // exists because charts and badges both want "which of the 7 bands is z in?"
 // without caring about the full precision of z-score calculations.
 
-import type { Indicator } from "../types";
+import type { Indicator } from "./types";
 
 export type GrowthSeverity =
   | "severe-deficit"

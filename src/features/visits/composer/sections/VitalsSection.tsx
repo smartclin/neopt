@@ -1,9 +1,10 @@
 import * as React from "react";
 
+import type { Classification, Indicator } from "#/features/growth/types/types.ts";
+
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import type { Classification, Indicator } from "@/features/growth/types";
 import { classify, percentileFromZ, zScoreForValue } from "@/features/measurements/lib/lms";
 
 import type { VisitComposerValues } from "../schema";

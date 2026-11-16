@@ -7,7 +7,8 @@
 
 import type { QueryClient } from "@tanstack/react-query";
 
-import type { Indicator } from "../growth/types";
+import type { Indicator } from "../growth/types/types";
+
 import { qk } from "./queryKeys.queries";
 
 // ---------------------------------------------------------------------------

@@ -1,3 +1,5 @@
+import { AlertTriangleIcon, ShieldAlertIcon } from "lucide-react";
+
 import {
   Accordion,
   AccordionContent,
@@ -7,7 +9,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDate } from "@/lib/dates";
-import { AlertTriangleIcon, ShieldAlertIcon } from "lucide-react";
 
 import type { ComposerDrug } from "../formulary";
 
@@ -39,8 +40,8 @@ export function SafetyRail({ warnings, drug, previous, mode }: SafetyRailProps) 
       <Card>
         <CardHeader>
           <CardTitle>
-            <span className="flex items-center gap-2 text-sm">
-              <ShieldAlertIcon className="size-4" />
+            <span className="flex items-center text-sm">
+              <ShieldAlertIcon className="mr-2 size-4" />
               Interaction check
             </span>
           </CardTitle>
@@ -83,7 +84,8 @@ export function SafetyRail({ warnings, drug, previous, mode }: SafetyRailProps) 
           <CardHeader>
             <CardTitle>Formulary reference</CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
+          <CardContent>
+            <div className="-mx-6" />
             <Accordion>
               <AccordionItem value="indication">
                 <AccordionTrigger>Indication</AccordionTrigger>

@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
 import type { VisitComposerValues } from "../schema";
+
 import { SYMPTOM_CHIPS } from "../schema";
 
 // ── Datetime helpers ───────────────────────────────────────────────────────

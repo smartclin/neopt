@@ -1,4 +1,4 @@
-import type { Indicator, LmsRow, Sex, XAxis } from "../types";
+import type { Indicator, LmsRow, Sex, XAxis } from "./types";
 
 // Re-export types that consumers need
 export type { Indicator, LmsRow, Sex, XAxis };

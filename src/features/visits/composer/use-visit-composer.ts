@@ -6,8 +6,9 @@
 
 import * as React from "react";
 
-import { useSaveVisitComposerMutation } from "./queries";
 import type { VisitComposerValues } from "./schema";
+
+import { useSaveVisitComposerMutation } from "./queries";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Public types

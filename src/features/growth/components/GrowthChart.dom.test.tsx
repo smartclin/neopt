@@ -2,7 +2,8 @@
 import { render } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
-import type { ChartBand, ChartCurves } from "../types";
+import type { ChartBand, ChartCurves } from "../types/types";
+
 import { EgyptianGrowthChart } from "./EgyptianGrowthChart";
 
 // ── Spies ──────────────────────────────────────────────────────────────

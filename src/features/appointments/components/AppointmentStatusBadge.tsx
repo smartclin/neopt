@@ -1,6 +1,5 @@
-import { cn } from "cn";
-
 import { Badge } from "@/components/ui/badge";
+
 import { normalizeStatus, STATUS_CONFIG } from "../status";
 
 interface AppointmentStatusBadgeProps {
@@ -14,9 +13,11 @@ export function AppointmentStatusBadge({ status, className }: AppointmentStatusB
   const Icon = cfg.icon;
 
   return (
-    <Badge className={cn("gap-1.5", className)} variant={cfg.badgeVariant}>
-      <Icon aria-hidden="true" className="size-3 shrink-0" />
-      <span>{cfg.label}</span>
+    <Badge className={className} variant={cfg.badgeVariant}>
+      <span className="flex items-center gap-1.5">
+        <Icon aria-hidden="true" className="size-3 shrink-0" />
+        <span>{cfg.label}</span>
+      </span>
     </Badge>
   );
 }

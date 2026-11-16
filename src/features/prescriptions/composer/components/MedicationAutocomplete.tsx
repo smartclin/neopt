@@ -107,7 +107,7 @@ export function MedicationAutocomplete({ value, onSelect, disabled }: Medication
       <div className="relative">
         <SearchIcon
           aria-hidden="true"
-          className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
+          className="text-muted-foreground pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2"
         />
         <Input
           aria-activedescendant={activeOptionId}
@@ -117,7 +117,6 @@ export function MedicationAutocomplete({ value, onSelect, disabled }: Medication
           aria-haspopup="listbox"
           aria-label="Search medications"
           autoComplete="off"
-          className="pl-9 pr-8"
           disabled={disabled}
           id={inputId}
           onBlur={() => setOpen(false)}
@@ -176,10 +175,8 @@ export function MedicationAutocomplete({ value, onSelect, disabled }: Medication
                 <div key={drug.key} role="presentation">
                   <Button
                     aria-selected={isActive}
-                    className={cn(
-                      "h-auto w-full justify-start whitespace-normal",
-                      isActive ? "bg-muted text-foreground" : "hover:bg-muted/60",
-                    )}
+                    className={cn("h-auto w-full justify-start whitespace-normal")}
+                    variant={isActive ? "secondary" : "ghost"}
                     id={`${listboxId}-opt-${index}`}
                     onMouseDown={(event) => {
                       event.preventDefault();
@@ -189,7 +186,6 @@ export function MedicationAutocomplete({ value, onSelect, disabled }: Medication
                     role="option"
                     tabIndex={-1}
                     type="button"
-                    variant="ghost"
                   >
                     <span className="flex w-full flex-col gap-0.5 text-left">
                       <span className="flex items-center gap-2">

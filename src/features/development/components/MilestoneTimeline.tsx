@@ -4,8 +4,10 @@ import { AlertTriangle, Check, Circle } from "lucide-react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { type MilestoneStatus, milestoneStatus } from "../status";
+
 import type { PatientMilestone } from "../types";
+
+import { type MilestoneStatus, milestoneStatus } from "../status";
 import { DOMAIN_META, DOMAIN_ORDER } from "../types";
 
 export interface MilestoneTimelineProps {

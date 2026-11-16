@@ -7,35 +7,13 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
-import type { fetchAppointmentsInRange } from "../functions";
 // ── reads ──────────────────────────────────────────────────────────────
+import { formatDayHeading, formatMonth, formatShortDay, formatTime } from "@/lib/dates";
+
+import type { fetchAppointmentsInRange } from "../functions";
+
 import { appointmentsInRangeQuery } from "../queries";
 import { normalizeStatus, STATUS_CONFIG } from "../status";
-
-// ── Formatters (module scope — Intl ctor is expensive) ─────────────────
-
-const TIME_FMT = new Intl.DateTimeFormat("en-GB", {
-  hour: "2-digit",
-  minute: "2-digit",
-  hour12: false,
-});
-
-const WEEKDAY_SHORT_FMT = new Intl.DateTimeFormat("en-GB", {
-  weekday: "short",
-});
-
-const MONTH_LONG_FMT = new Intl.DateTimeFormat("en-GB", {
-  month: "long",
-  year: "numeric",
-});
-
-const WEEKDAY_LONG_FMT = new Intl.DateTimeFormat("en-GB", {
-  weekday: "long",
-  day: "numeric",
-  month: "long",
-});
-
-const DATE_ONLY_FMT = new Intl.DateTimeFormat("en-GB", { day: "numeric" });
 
 // ── Helpers ────────────────────────────────────────────────────────────
 
@@ -124,7 +102,7 @@ function AppointmentPill({ appt, onEdit, compact = false }: AppointmentPillProps
 
   const raw = new Date(appt.scheduledAt);
   const time = Number.isNaN(raw.getTime()) ? null : raw;
-  const timeText = time ? TIME_FMT.format(time) : "—";
+  const timeText = time ? formatTime(time) : "—";
   const statusText = cfg.label;
 
   const patientName = appt.patient
@@ -204,7 +182,7 @@ function MiniMonth({ anchor, onSelect, onNavigate }: MiniMonthProps) {
           <ChevronLeftIcon className="size-3" />
         </Button>
         <span aria-live="polite" className="text-xs font-semibold">
-          {MONTH_LONG_FMT.format(base)}
+          {formatMonth(base)}
         </span>
         <Button aria-label="Next month" onClick={() => goToMonth(1)} size="icon-xs" variant="ghost">
           <ChevronRightIcon className="size-3" />
@@ -229,7 +207,7 @@ function MiniMonth({ anchor, onSelect, onNavigate }: MiniMonthProps) {
           ) : (
             <button
               aria-current={isSameDay(day, today) ? "date" : undefined}
-              aria-label={WEEKDAY_LONG_FMT.format(day)}
+              aria-label={formatDayHeading(day)}
               aria-pressed={isSameDay(day, anchor)}
               className={cn(
                 "flex size-6 items-center justify-center rounded-full text-[0.65rem] transition-colors",
@@ -279,7 +257,7 @@ function WeekView({ weekStart, byDay, isLoading, onEdit, onNewAt }: WeekViewProp
 
         return (
           <div
-            aria-label={WEEKDAY_LONG_FMT.format(day)}
+            aria-label={formatDayHeading(day)}
             className="flex flex-col gap-1 pb-1"
             key={day.toISOString()}
             role="group"
@@ -296,7 +274,7 @@ function WeekView({ weekStart, byDay, isLoading, onEdit, onNewAt }: WeekViewProp
                   isToday ? "text-primary" : "text-muted-foreground",
                 )}
               >
-                {WEEKDAY_SHORT_FMT.format(day)}
+                {formatShortDay(day)}
               </span>
               <span
                 className={cn(
@@ -310,7 +288,7 @@ function WeekView({ weekStart, byDay, isLoading, onEdit, onNewAt }: WeekViewProp
                 <div
                   className={cn(
                     "h-full rounded-full transition-all",
-                    pct > 0.8 ? "bg-rose-500" : pct > 0.5 ? "bg-amber-400" : "bg-primary/50",
+                    pct > 0.8 ? "bg-destructive" : pct > 0.5 ? "bg-warning" : "bg-primary/50",
                   )}
                   style={{ width: `${Math.round(pct * 100)}%` }}
                 />
@@ -327,7 +305,7 @@ function WeekView({ weekStart, byDay, isLoading, onEdit, onNewAt }: WeekViewProp
 
         return (
           <div
-            aria-label={`${WEEKDAY_LONG_FMT.format(day)} — ${dayAppts.length} appointment${dayAppts.length === 1 ? "" : "s"}`}
+            aria-label={`${formatDayHeading(day)} — ${dayAppts.length} appointment${dayAppts.length === 1 ? "" : "s"}`}
             className={cn(
               "group min-h-[12rem] rounded-xl p-1.5",
               isToday ? "bg-primary/[0.03]" : "bg-muted/20",
@@ -347,7 +325,7 @@ function WeekView({ weekStart, byDay, isLoading, onEdit, onNewAt }: WeekViewProp
                   <AppointmentPill appt={appt} key={appt.id} onEdit={onEdit} />
                 ))}
                 <button
-                  aria-label={`Add appointment on ${WEEKDAY_LONG_FMT.format(day)}`}
+                  aria-label={`Add appointment on ${formatDayHeading(day)}`}
                   className={cn(
                     "text-muted-foreground/40 hover:text-muted-foreground",
                     "focus-visible:ring-ring flex w-full items-center justify-center gap-1 rounded-lg py-2 text-xs transition-all",
@@ -430,7 +408,7 @@ function MonthView({ monthStart, byDay, isLoading, onEdit, onNewAt }: MonthViewP
 
         return (
           <div
-            aria-label={`${WEEKDAY_LONG_FMT.format(day)} — ${dayAppts.length} appointment${dayAppts.length === 1 ? "" : "s"}`}
+            aria-label={`${formatDayHeading(day)} — ${dayAppts.length} appointment${dayAppts.length === 1 ? "" : "s"}`}
             className={cn(
               "group min-h-[6rem] rounded-xl p-2",
               isToday ? "bg-primary/[0.04]" : "bg-muted/20",
@@ -449,7 +427,7 @@ function MonthView({ monthStart, byDay, isLoading, onEdit, onNewAt }: MonthViewP
                 {day.getDate()}
               </span>
               <button
-                aria-label={`Add appointment on ${WEEKDAY_LONG_FMT.format(day)}`}
+                aria-label={`Add appointment on ${formatDayHeading(day)}`}
                 className={cn(
                   "text-muted-foreground/40 hover:text-muted-foreground",
                   "focus-visible:ring-ring rounded-sm opacity-0 transition-opacity",
@@ -471,7 +449,7 @@ function MonthView({ monthStart, byDay, isLoading, onEdit, onNewAt }: MonthViewP
                 ))}
                 {overflow > 0 && (
                   <button
-                    aria-label={`Show all ${dayAppts.length} appointments on ${WEEKDAY_LONG_FMT.format(day)}`}
+                    aria-label={`Show all ${dayAppts.length} appointments on ${formatDayHeading(day)}`}
                     className="text-muted-foreground hover:text-foreground focus-visible:ring-ring rounded-sm text-[0.6rem] hover:underline focus-visible:ring-2 focus-visible:outline-none"
                     onClick={() => onNewAt(day)}
                     type="button"
@@ -564,8 +542,20 @@ export function CalendarView({ clinicId, onEdit, onNew }: CalendarViewProps) {
 
   const rangeLabel =
     view === "week"
-      ? `${DATE_ONLY_FMT.format(rangeStart)} ${new Intl.DateTimeFormat("en-GB", { month: "short" }).format(rangeStart)} – ${DATE_ONLY_FMT.format(addDays(rangeStart, 6))} ${new Intl.DateTimeFormat("en-GB", { month: "short", year: "numeric" }).format(addDays(rangeStart, 6))}`
-      : MONTH_LONG_FMT.format(rangeStart);
+      ? (() => {
+          const end = addDays(rangeStart, 6);
+          const startDay = rangeStart.getDate();
+          const startMonth = new Intl.DateTimeFormat("en-GB", {
+            month: "short",
+          }).format(rangeStart);
+          const endDay = end.getDate();
+          const endMonth = new Intl.DateTimeFormat("en-GB", {
+            month: "short",
+            year: "numeric",
+          }).format(end);
+          return `${startDay} ${startMonth} – ${endDay} ${endMonth}`;
+        })()
+      : formatMonth(rangeStart);
 
   return (
     <div className="flex gap-6">
@@ -628,7 +618,7 @@ export function CalendarView({ clinicId, onEdit, onNew }: CalendarViewProps) {
           </div>
         </div>
 
-        <ScrollArea className="rounded-xl">
+        <ScrollArea>
           {query.isPending && appointments.length === 0 ? (
             <div className="flex justify-center py-16">
               <Spinner />

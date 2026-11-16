@@ -1,7 +1,11 @@
+import type { z } from "zod";
+
 // src/features/appointments/queries.ts
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import type { z } from "zod";
+
+import type { appointmentStatusSchema } from "./schema";
+
 import {
   cancelAppointmentFn,
   completeAppointmentFn,
@@ -18,7 +22,6 @@ import {
   markAppointmentNoShowFn,
   updateAppointmentFn,
 } from "./functions";
-import type { appointmentStatusSchema } from "./schema";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Constants

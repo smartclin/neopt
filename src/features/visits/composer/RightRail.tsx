@@ -2,8 +2,9 @@ import { AlertTriangleIcon, SaveIcon, SparklesIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 import { ageInMonths } from "@/features/shared/helpers";
+import { formatDate, formatTime } from "@/lib/dates";
+
 import type { VisitComposerValues } from "./schema";
 
 interface RightRailProps {
@@ -60,9 +61,9 @@ export function RightRail({ snapshot, values, saveState }: RightRailProps) {
       </p>
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm">Patient snapshot</CardTitle>
+          <CardTitle>Patient snapshot</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-2 text-sm">
+        <CardContent>
           <div className="flex flex-col">
             <span className="font-semibold">
               {snapshot.patient.firstName} {snapshot.patient.lastName}
@@ -85,8 +86,7 @@ export function RightRail({ snapshot, values, saveState }: RightRailProps) {
           </div>
 
           <div className="text-muted-foreground text-xs">
-            Last visit:{" "}
-            {snapshot.lastVisitAt ? new Date(snapshot.lastVisitAt).toLocaleDateString() : "—"}
+            Last visit: {snapshot.lastVisitAt ? formatDate(new Date(snapshot.lastVisitAt)) : "—"}
           </div>
 
           <WeightSparkline data={snapshot.weightSeries} />
@@ -95,7 +95,7 @@ export function RightRail({ snapshot, values, saveState }: RightRailProps) {
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-sm">
+          <CardTitle>
             <AlertTriangleIcon className="size-4" />
             Safety alerts
           </CardTitle>
@@ -109,7 +109,7 @@ export function RightRail({ snapshot, values, saveState }: RightRailProps) {
                 className={
                   w.severity === "red"
                     ? "border-destructive/40 bg-destructive/5 rounded-md border p-2 text-xs"
-                    : "rounded-md border border-amber-500/40 bg-amber-500/5 p-2 text-xs"
+                    : "rounded-md border border-warning/40 bg-warning/5 p-2 text-xs"
                 }
                 key={i}
               >
@@ -122,13 +122,13 @@ export function RightRail({ snapshot, values, saveState }: RightRailProps) {
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-sm">
+          <CardTitle>
             <SaveIcon className="size-4" />
             Save status
           </CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-1 text-xs">
-          {saveState.saving && <span className="text-amber-600">Saving…</span>}
+        <CardContent>
+          {saveState.saving && <span className="text-warning">Saving…</span>}
           {!saveState.saving && saveState.error && (
             <span className="text-destructive">{saveState.error}</span>
           )}
@@ -136,8 +136,8 @@ export function RightRail({ snapshot, values, saveState }: RightRailProps) {
             <span className="text-muted-foreground">Unsaved changes</span>
           )}
           {!saveState.saving && !saveState.dirty && saveState.lastSavedAt && (
-            <span className="text-emerald-600">
-              Last saved {saveState.lastSavedAt.toLocaleTimeString()}
+            <span className="text-module-encounters">
+              Last saved {formatTime(saveState.lastSavedAt)}
             </span>
           )}
           <span className="text-muted-foreground">
@@ -159,7 +159,7 @@ function WeightSparkline({ data }: { data: Array<{ value: number; at: Date }> })
   return (
     <svg
       aria-label="Weight trend"
-      className="text-emerald-500"
+      className="text-module-encounters"
       fill="none"
       height="40"
       stroke="currentColor"

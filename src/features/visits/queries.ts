@@ -7,9 +7,12 @@
 // here. If it imports `createServerFn`, it lives in `./functions`. If it
 // imports `#/db`, it lives in `../../db/queries/visits.queries`.
 
+import type { z } from "zod";
+
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import type { z } from "zod";
+
+import type { visitSearchSchema } from "./schema";
 
 import {
   createVisitFn,
@@ -20,7 +23,6 @@ import {
   fetchVisitsForPatient,
   fetchVisitWithDetails,
 } from "./functions";
-import type { visitSearchSchema } from "./schema";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Stale times

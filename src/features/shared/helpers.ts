@@ -140,25 +140,25 @@ export function completedMonths(dob: Date, at: Date): number {
 /**
  * Format a date to a localized short date string.
  */
-export function formatDate(date: Date, locale = "en-US"): string {
-  return date.toLocaleDateString(locale, {
+export function formatDate(date: Date, _locale = "en-US"): string {
+  return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
-  });
+  }).format(date);
 }
 
 /**
  * Format a date to include time.
  */
-export function formatDateTime(date: Date, locale = "en-US"): string {
-  return date.toLocaleString(locale, {
+export function formatDateTime(date: Date, _locale = "en-US"): string {
+  return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
-  });
+  }).format(date);
 }
 
 /**

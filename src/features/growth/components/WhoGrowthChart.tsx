@@ -5,7 +5,7 @@ import { tooltip } from "@tanstack/charts/tooltip";
 import { scaleLinear, scaleUtc } from "d3-scale";
 import * as React from "react";
 
-import type { ChildMeasurement, GrowthStandard } from "../types";
+import type { ChildMeasurement, GrowthStandard } from "../types/types";
 
 interface GrowthChartProps {
   standards: GrowthStandard[];

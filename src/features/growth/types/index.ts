@@ -1,4 +1,4 @@
-export * from "../types";
+export * from "./types";
 export * from "./interpretations";
 export * from "./legacy";
 export * from "./lms";

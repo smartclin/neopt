@@ -7,6 +7,7 @@ import {
   useTable,
 } from "@tanstack/react-table";
 import { CircleAlertIcon, SearchXIcon, UserRoundIcon } from "lucide-react";
+
 import { Button } from "#/components/ui/button";
 import { buttonVariants } from "#/components/ui/button-variants";
 // TODO: switch to `@/features/growth/math/lms` once that module exists.
@@ -24,8 +25,9 @@ import {
 } from "@/components/ui/table";
 import { decimalMonthsBetween } from "@/features/shared/helpers";
 
-import { patientsByClinicQuery } from "../queries";
 import type { Patient } from "../schema";
+
+import { patientsByClinicQuery } from "../queries";
 
 // ── Static module-scope config ──────────────────────────────────────────────
 

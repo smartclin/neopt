@@ -26,6 +26,8 @@ import {
 } from "@/components/ui/table";
 // ── read ───────────────────────────────────────────────────────────────
 import { seriesQuery } from "@/features/growth/queries";
+import { formatDate } from "@/lib/dates";
+
 import type { Indicator, IndicatorSeriesRow } from "../types";
 
 type MeasurementRow = IndicatorSeriesRow;

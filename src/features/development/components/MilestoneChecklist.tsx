@@ -21,24 +21,25 @@ interface MilestoneChecklistProps {
 
 const AGE_BRACKETS = [2, 4, 6, 9, 12, 18, 24];
 
-const DOMAIN_LABELS: Record<MilestoneDomain, { label: string; badge: string }> = {
-  "gross-motor": {
-    label: "Gross Motor",
-    badge: "bg-blue-500/10 text-blue-700 dark:text-blue-400",
-  },
-  "fine-motor": {
-    label: "Fine Motor",
-    badge: "bg-purple-500/10 text-purple-700 dark:text-purple-400",
-  },
-  language: {
-    label: "Language & Communication",
-    badge: "bg-amber-500/10 text-amber-700 dark:text-amber-400",
-  },
-  "social-emotional": {
-    label: "Social & Emotional",
-    badge: "bg-pink-500/10 text-pink-700 dark:text-pink-400",
-  },
-};
+const DOMAIN_LABELS: Record<MilestoneDomain, { label: string; variant: "secondary" | "outline" }> =
+  {
+    "gross-motor": {
+      label: "Gross Motor",
+      variant: "secondary",
+    },
+    "fine-motor": {
+      label: "Fine Motor",
+      variant: "secondary",
+    },
+    language: {
+      label: "Language & Communication",
+      variant: "secondary",
+    },
+    "social-emotional": {
+      label: "Social & Emotional",
+      variant: "secondary",
+    },
+  };
 
 export function MilestoneChecklist({
   childAgeMonths = 6,
@@ -86,17 +87,15 @@ export function MilestoneChecklist({
   );
 
   return (
-    <Card className="w-full shadow-xs">
-      <CardHeader className="pb-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+    <Card className="w-full">
+      <CardHeader>
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-4">
           <div className="flex items-center gap-2.5">
             <div className="bg-primary/10 text-primary flex size-9 items-center justify-center rounded-lg">
               <Award className="size-5" />
             </div>
             <div>
-              <CardTitle className="text-base font-semibold">
-                Developmental Milestones & Neurodevelopmental Screening
-              </CardTitle>
+              <CardTitle>Developmental Milestones & Neurodevelopmental Screening</CardTitle>
               <CardDescription>
                 Screening gross motor, fine motor, communication, and social skills at well-child
                 visits
@@ -123,71 +122,65 @@ export function MilestoneChecklist({
               </Select>
             </div>
 
-            <Badge className="text-xs" variant="outline">
+            <Badge variant="outline">
               {achievedCount} / {currentMilestones.length} Met
             </Badge>
           </div>
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4">
-        {effectiveAge > selectedAge + 1 && missingRedFlags.length > 0 && (
-          <div className="flex items-start gap-2.5 rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-800 dark:text-amber-300">
-            <AlertTriangle className="mt-0.5 size-4 shrink-0" />
-            <div>
-              <span className="font-semibold">Developmental Alert:</span> One or more key milestone
-              red flags are unverified for child's age ({effectiveAge.toFixed(1)} months):
-              <ul className="mt-1 list-disc space-y-0.5 pl-4">
-                {missingRedFlags.map((rf) => (
-                  <li key={rf.id}>
-                    {rf.title} ({rf.ageLabel})
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        )}
-
-        <div className="grid gap-3 sm:grid-cols-2">
-          {currentMilestones.map((m) => {
-            const isChecked = checkedIds.has(m.id);
-            const domainMeta = DOMAIN_LABELS[m.domain];
-
-            return (
-              <div
-                className={`flex cursor-pointer items-start gap-3 rounded-lg border p-3.5 transition-colors ${
-                  isChecked
-                    ? "border-emerald-500/40 bg-emerald-500/5 dark:bg-emerald-950/20"
-                    : "hover:bg-muted/50"
-                }`}
-                key={m.id}
-                onClick={() => toggleCheck(m.id)}
-              >
-                <Checkbox
-                  checked={isChecked}
-                  className="mt-0.5"
-                  onCheckedChange={() => toggleCheck(m.id)}
-                />
-                <div className="space-y-1">
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="text-foreground text-sm font-semibold">{m.title}</span>
-                    <Badge className={`text-[10px] ${domainMeta.badge}`} variant="secondary">
-                      {domainMeta.label}
-                    </Badge>
-                    {m.isRedFlagIfMissing && (
-                      <Badge
-                        className="text-destructive border-destructive/30 text-[10px]"
-                        variant="outline"
-                      >
-                        Critical
-                      </Badge>
-                    )}
-                  </div>
-                  <p className="text-muted-foreground text-xs">{m.description}</p>
-                </div>
+      <CardContent>
+        <div className="space-y-4">
+          {effectiveAge > selectedAge + 1 && missingRedFlags.length > 0 && (
+            <div className="flex items-start gap-2.5 rounded-lg border border-warning/30 bg-warning/10 p-3 text-xs text-warning dark:text-warning">
+              <AlertTriangle className="mt-0.5 size-4 shrink-0" />
+              <div>
+                <span className="font-semibold">Developmental Alert:</span> One or more key
+                milestone red flags are unverified for child's age ({effectiveAge.toFixed(1)}{" "}
+                months):
+                <ul className="mt-1 list-disc space-y-0.5 pl-4">
+                  {missingRedFlags.map((rf) => (
+                    <li key={rf.id}>
+                      {rf.title} ({rf.ageLabel})
+                    </li>
+                  ))}
+                </ul>
               </div>
-            );
-          })}
+            </div>
+          )}
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            {currentMilestones.map((m) => {
+              const isChecked = checkedIds.has(m.id);
+              const domainMeta = DOMAIN_LABELS[m.domain];
+
+              return (
+                <div
+                  className={`flex cursor-pointer items-start gap-3 rounded-lg border p-3.5 transition-colors ${
+                    isChecked
+                      ? "border-module-encounters/40 bg-module-encounters/5 dark:bg-module-encounters/10"
+                      : "hover:bg-muted/50"
+                  }`}
+                  key={m.id}
+                  onClick={() => toggleCheck(m.id)}
+                >
+                  <Checkbox
+                    checked={isChecked}
+                    className="mt-0.5"
+                    onCheckedChange={() => toggleCheck(m.id)}
+                  />
+                  <div className="space-y-1">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className="text-foreground text-sm font-semibold">{m.title}</span>
+                      <Badge variant={domainMeta.variant}>{domainMeta.label}</Badge>
+                      {m.isRedFlagIfMissing && <Badge variant="destructive">Critical</Badge>}
+                    </div>
+                    <p className="text-muted-foreground text-xs">{m.description}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </CardContent>
     </Card>

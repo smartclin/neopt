@@ -14,9 +14,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import type { MatrixRow, MatrixVaccine } from "../types";
+
 // ── read ───────────────────────────────────────────────────────────────
 import { immunizationMatrixQuery } from "../queries";
-import type { MatrixRow, MatrixVaccine } from "../types";
 
 interface ImmunizationMatrixProps {
   clinicId: string;

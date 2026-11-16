@@ -1,6 +1,7 @@
 // src/features/clinics/queries.ts
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+
 import {
   createClinicFn,
   fetchClinicById,

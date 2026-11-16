@@ -1,6 +1,7 @@
+import type { ComponentType } from "react";
+
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { CalendarClockIcon, ClipboardListIcon, ClockIcon, TriangleAlertIcon } from "lucide-react";
-import type { ComponentType } from "react";
 
 export type StatTone = "default" | "warning" | "positive" | "critical";
 

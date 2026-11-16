@@ -14,8 +14,9 @@ import {
   CommandList,
 } from "@/components/ui/command";
 
-import { globalSearchQuery } from "./queries";
 import type { SearchCategory, SearchResult } from "./schema";
+
+import { globalSearchQuery } from "./queries";
 
 const CAT_ICON: Record<SearchCategory, React.ComponentType<{ className?: string }>> = {
   patient: CircleUserIcon,
@@ -76,13 +77,17 @@ function SearchCommand({
     return () => clearTimeout(t);
   }, [query]);
 
-  // Reset on close so reopening is clean.
-  React.useEffect(() => {
-    if (!open) {
-      setQuery("");
-      setDebounced("");
-    }
-  }, [open]);
+  // Handle open state changes without triggering cascading synchronous render effects
+  const handleOpenChange = React.useCallback(
+    (newOpen: boolean) => {
+      if (!newOpen) {
+        setQuery("");
+        setDebounced("");
+      }
+      onOpenChange(newOpen);
+    },
+    [onOpenChange],
+  );
 
   const { data, isFetching, isError } = useQuery(globalSearchQuery(clinicId, debounced));
 
@@ -101,14 +106,14 @@ function SearchCommand({
 
   const go = React.useCallback(
     (r: SearchResult) => {
-      onOpenChange(false);
+      handleOpenChange(false);
       void navigate({ to: r.href });
     },
-    [navigate, onOpenChange],
+    [navigate, handleOpenChange],
   );
 
   return (
-    <CommandDialog onOpenChange={onOpenChange} open={open}>
+    <CommandDialog onOpenChange={handleOpenChange} open={open}>
       <Command shouldFilter={false}>
         <CommandInput
           onValueChange={setQuery}

@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
 import { AlertCircle, CheckCircle2, Clock, Plus, Syringe } from "lucide-react";
 import { useState } from "react";
 
@@ -24,10 +23,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { toast } from "@/components/ui/toast";
+import { formatDate } from "@/lib/dates";
+
+import type { PatientVaccinationRecord } from "../types";
 
 // ── reads + mutations ──────────────────────────────────────────────────
 import { patientImmunizationsQuery, useRecordImmunizationMutation } from "../queries";
-import type { PatientVaccinationRecord } from "../types";
 
 interface ImmunizationCardProps {
   patientId: string;
@@ -112,7 +113,7 @@ export function ImmunizationCard({ patientId, patientDob, visitId }: Immunizatio
 
           <div className="flex items-center gap-2 text-xs">
             <Badge
-              className="gap-1 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
+              className="gap-1 bg-module-encounters/10 text-module-encounters dark:text-module-encounters"
               variant="secondary"
             >
               <CheckCircle2 className="size-3" />
@@ -168,7 +169,7 @@ export function ImmunizationCard({ patientId, patientDob, visitId }: Immunizatio
                       <TableCell>
                         {rec.status === "given" && (
                           <Badge
-                            className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400"
+                            className="bg-module-encounters/15 text-module-encounters dark:text-module-encounters"
                             variant="secondary"
                           >
                             Given
@@ -186,7 +187,7 @@ export function ImmunizationCard({ patientId, patientDob, visitId }: Immunizatio
                         {rec.administeredDate ? (
                           <div>
                             <span className="font-medium">
-                              {format(new Date(rec.administeredDate), "PP")}
+                              {formatDate(new Date(rec.administeredDate))}
                             </span>
                             {rec.lotNumber && (
                               <span className="text-muted-foreground block text-[11px]">

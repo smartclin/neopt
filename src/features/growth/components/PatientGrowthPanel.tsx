@@ -17,10 +17,11 @@ import { MeasurementForm } from "@/features/measurements";
 import { flaggedMeasurementsQuery } from "@/features/measurements/queries";
 import { getPatientQueryOptions } from "@/features/patients/queries";
 import { decimalMonthsBetween } from "@/features/shared/helpers";
+
+import type { ChartBand, GrowthIndicator, Sex } from "../types/types";
+
 // ── reads ──────────────────────────────────────────────────────────────
 import { bandQuery, getGrowthChartCurvesQuery, seriesQuery } from "../queries";
-
-import type { ChartBand, GrowthIndicator, Sex } from "../types";
 import { DOMAIN, type RangeFor } from "../types/sheets";
 import { EgyptianGrowthChart, GrowthLegend, type GrowthPoint } from "./EgyptianGrowthChart";
 import { GrowthChartSkeleton } from "./GrowthChartSkeleton";

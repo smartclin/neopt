@@ -7,6 +7,7 @@ import {
   useTable,
 } from "@tanstack/react-table";
 import { Building2Icon, CircleAlertIcon, SearchXIcon } from "lucide-react";
+
 import { Button } from "#/components/ui/button";
 import { buttonVariants } from "#/components/ui/button-variants";
 import { IconTile } from "@/components/blocks/icon-tile";
@@ -22,9 +23,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import type { Clinic } from "../schema";
+
 // ── read ───────────────────────────────────────────────────────────────
 import { clinicsQuery } from "../queries";
-import type { Clinic } from "../schema";
 
 const features = tableFeatures({ rowPaginationFeature });
 

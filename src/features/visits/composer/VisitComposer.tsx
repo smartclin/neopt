@@ -9,9 +9,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+
 import type { VisitSnapshot } from "./queries";
-import { RightRail } from "./RightRail";
 import type { VisitComposerValues } from "./schema";
+
+import { RightRail } from "./RightRail";
 import { DiagnosesSection } from "./sections/DiagnosesSection";
 import { EncounterContextSection } from "./sections/EncounterContextSection";
 import { ExamFindingsSection } from "./sections/ExamFindingsSection";

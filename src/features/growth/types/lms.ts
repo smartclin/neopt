@@ -1,7 +1,8 @@
 // growth/types/lms.ts
 
-import type { Classification, Indicator, LmsTriple } from "../types";
-import { LmsDomainError } from "../types";
+import type { Classification, Indicator, LmsTriple } from "./types";
+
+import { LmsDomainError } from "./types";
 
 function assertLms(lms: LmsTriple): void {
   const { l, m, s } = lms;

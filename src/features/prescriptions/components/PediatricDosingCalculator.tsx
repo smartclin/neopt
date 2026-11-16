@@ -1,6 +1,8 @@
 import { NEONATAL_PEDIATRIC_FORMULARY } from "@data/formulary/neonatalDrugs";
 import { AlertCircle, Calculator, Check } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+
+import type { DrugFormularyItem } from "@/features/medications/types";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,9 +15,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { DrugFormularyItem } from "@/features/medications/types";
 
 import type { NeonatalDoseCalculation } from "../lib/neonatal-dosing";
+
 import { calculateNeonatalDose } from "../lib/neonatal-dosing";
 
 interface DosingCalculatorProps {
@@ -107,10 +109,6 @@ export function PediatricDosingCalculator({
     }
   }, [concentration, dailyFrequency, dosePerKg, drug, weightKg]);
   const { result } = calculation;
-
-  useEffect(() => {
-    setCapConfirmed(false);
-  }, []);
 
   const changeDrug = (nextId: string | null) => {
     if (!nextId) return;
@@ -215,7 +213,7 @@ export function PediatricDosingCalculator({
               value={frequency}
             />
             {frequencyNeedsReview && (
-              <p className="text-xs text-amber-700 dark:text-amber-400">
+              <p className="text-xs text-warning dark:text-warning">
                 This reference contains alternate schedules. Select and enter the clinically
                 appropriate interval before transferring the dose.
               </p>
@@ -315,7 +313,7 @@ export function PediatricDosingCalculator({
         )}
 
         {result && !scheduleReady && (
-          <p className="rounded-md bg-amber-500/10 p-3 text-sm text-amber-800 dark:text-amber-300">
+          <p className="rounded-md bg-warning/10 p-3 text-sm text-warning dark:text-warning">
             Select one dosing interval and confirm the doses-per-day value to see the calculated
             per-dose amount. The reference schedule contains alternatives.
           </p>
@@ -345,7 +343,7 @@ export function PediatricDosingCalculator({
               {formatDose(dailyFrequency)} doses/day.
             </p>
             {result.isCapped && (
-              <p className="flex items-start gap-2 text-sm text-amber-700 dark:text-amber-400">
+              <p className="flex items-start gap-2 text-sm text-warning dark:text-warning">
                 <AlertCircle aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
                 Maximum daily or single-dose limit applied. Verify this adjustment.
               </p>
@@ -356,7 +354,7 @@ export function PediatricDosingCalculator({
               {Object.values(drug.safetyWarnings)
                 .filter((warning): warning is string => Boolean(warning))
                 .map((warning) => (
-                  <p className="text-amber-700 dark:text-amber-400" key={warning}>
+                  <p className="text-warning dark:text-warning" key={warning}>
                     {warning}
                   </p>
                 ))}

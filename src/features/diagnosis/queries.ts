@@ -1,5 +1,9 @@
 // src/features/diagnosis/api.ts
 import { queryOptions } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+// src/features/diagnosis/queries.ts — append
+import { useServerFn } from "@tanstack/react-start";
+
 import {
   fetchDiagnosesForPatient,
   fetchDiagnosesForVisit,
@@ -7,12 +11,6 @@ import {
   fetchTopDiagnoses,
   searchDiagnosesFn,
 } from "./functions";
-
-// src/features/diagnosis/queries.ts — append
-
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useServerFn } from "@tanstack/react-start";
-
 import { createDiagnosesFn, createDiagnosisFn } from "./functions";
 
 // ─────────────────────────────────────────────────────────────────────────────

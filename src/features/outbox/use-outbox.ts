@@ -1,5 +1,6 @@
 // src/features/outbox/use-outbox.ts
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 import { flushOutbox } from "./flusher";
 import { type OutboxEntry, outboxStore } from "./store";
 

@@ -25,7 +25,6 @@ import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle } from "@/comp
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/toast";
-
 // ── patients ──────────────────────────────────────────────────────────
 import { getPatientQueryOptions, searchPatientsQuery } from "@/features/patients/queries";
 

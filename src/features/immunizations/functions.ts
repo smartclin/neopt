@@ -2,10 +2,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest, setResponseStatus } from "@tanstack/react-start/server";
 import { z } from "zod";
+
 import { and, db, eq } from "#/db/index.ts";
 import { auditLog, idempotency, immunizationStatuses, immunizations } from "#/db/schema.ts";
 import { clinicAccessMiddleware } from "@/lib/auth/clinic-middleware";
 import { freshAuthMiddleware } from "@/lib/auth/middleware";
+
 import {
   getCoverage,
   getImmunizationMatrix,

@@ -1,6 +1,8 @@
 // src/features/prescriptions/api.ts
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 
+import type { PrescriptionRegisterSearch } from "./schema";
+
 import {
   createPrescriptionsFn,
   fetchActivePrescriptions,
@@ -12,7 +14,6 @@ import {
   fetchPrescriptionsForVisit,
   fetchTopMedications,
 } from "./functions";
-import type { PrescriptionRegisterSearch } from "./schema";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Constants

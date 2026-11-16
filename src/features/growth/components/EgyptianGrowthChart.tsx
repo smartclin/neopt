@@ -1,13 +1,21 @@
 // src/components/growth/EgyptianGrowthChart.tsx
 
+import type { CSSProperties } from "react";
+
 import { defineChart, dot, lineY } from "@tanstack/charts";
 import { Chart } from "@tanstack/charts/react";
 import { scaleLinear } from "@tanstack/charts/scales/linear";
 import { tooltip } from "@tanstack/charts/tooltip";
-import type { CSSProperties } from "react";
 import { useMemo } from "react";
 
-import type { ChartBand, ChartCurves, Indicator, Sex, XAxis } from "@/features/growth/types";
+import type {
+  ChartBand,
+  ChartCurves,
+  Indicator,
+  Sex,
+  XAxis,
+} from "#/features/growth/types/types.ts";
+
 import { cn } from "@/lib/utils";
 
 export interface GrowthPoint {

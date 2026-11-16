@@ -10,13 +10,15 @@ export function SearchTrigger() {
   return (
     <Button
       aria-label="Open search (⌘K)"
-      className="text-muted-foreground w-full justify-start gap-2"
+      className="w-full justify-start"
       onClick={() => setOpen(true)}
       variant="outline"
     >
-      <SearchIcon className="size-4" />
-      <span className="flex-1 text-left">Search…</span>
-      <kbd className="bg-muted rounded px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>
+      <span className="flex w-full items-center gap-2">
+        <SearchIcon className="size-4 shrink-0" />
+        <span className="flex-1 text-left">Search…</span>
+        <kbd className="bg-muted rounded px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>
+      </span>
     </Button>
   );
 }

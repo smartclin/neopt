@@ -9,9 +9,11 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
-import { formatTime } from "@/lib/dates";
+import { formatDayHeading, formatTime } from "@/lib/dates";
+
 // ── Row type — derived from the server fn ──────────────────────────────
 import type { fetchTodayAppointments } from "../functions";
+
 // ── reads + mutations ──────────────────────────────────────────────────
 import {
   todayAppointmentsQuery,
@@ -128,7 +130,7 @@ function QueueItem({ appt, isActive, rowRef, onFocus, onEdit, actions }: QueueIt
           <ActionButton
             disabled={actions.cancel.isPending}
             icon={XIcon}
-            iconClassName="text-rose-600"
+            iconClassName="text-destructive"
             label="Cancel"
             onClick={() => actions.cancel.mutate(appt.id)}
           />
@@ -387,20 +389,20 @@ export function TodayQueue({ clinicId, onEdit, onNew }: TodayQueueProps) {
           className="mb-3 flex flex-wrap gap-1.5"
         >
           {counts.scheduled > 0 && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-sky-50 px-2 py-0.5 text-[0.65rem] font-medium text-sky-700 dark:bg-sky-950/40 dark:text-sky-300">
-              <span className="inline-block size-1.5 rounded-full bg-sky-500" />
+            <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-xss font-medium text-primary">
+              <span className="inline-block size-1.5 rounded-full bg-primary" />
               {counts.scheduled} scheduled
             </span>
           )}
           {counts.completed > 0 && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[0.65rem] font-medium text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
-              <span className="inline-block size-1.5 rounded-full bg-emerald-500" />
+            <span className="inline-flex items-center gap-1 rounded-full bg-module-encounters/10 px-2 py-0.5 text-xss font-medium text-module-encounters">
+              <span className="inline-block size-1.5 rounded-full bg-module-encounters" />
               {counts.completed} done
             </span>
           )}
           {counts["no-show"] > 0 && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[0.65rem] font-medium text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
-              <span className="inline-block size-1.5 rounded-full bg-amber-500" />
+            <span className="inline-flex items-center gap-1 rounded-full bg-warning/10 px-2 py-0.5 text-xss font-medium text-warning">
+              <span className="inline-block size-1.5 rounded-full bg-warning" />
               {counts["no-show"]} no-show
             </span>
           )}

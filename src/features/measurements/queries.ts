@@ -19,9 +19,13 @@
 // (this file), `series` (growth charts) and `latest` (dashboard).
 // All three are invalidated by `invalidateAfterMeasurementWrite`.
 
+import type { z } from "zod";
+
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import type { z } from "zod";
+
+import type { IndicatorSchema } from "./schema";
+
 import {
   addMeasurementWithZScoreFn,
   createMeasurementsFn,
@@ -35,7 +39,6 @@ import {
   fetchSevereCases,
   updateMeasurementFn,
 } from "./functions";
-import type { IndicatorSchema } from "./schema";
 
 type Indicator = z.infer<typeof IndicatorSchema>;
 

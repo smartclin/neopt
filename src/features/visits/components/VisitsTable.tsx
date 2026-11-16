@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { format } from "date-fns";
 import { ArrowRight, Calendar, Stethoscope } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { formatDateTime } from "@/lib/dates";
 
 import type { Visit } from "../schema";
 
@@ -61,7 +61,7 @@ export function VisitsTable({ visits, showPatientColumn = false }: VisitsTablePr
         </TableHeader>
         <TableBody>
           {visits.map((v) => {
-            const dateStr = v.visitedAt ? format(new Date(v.visitedAt), "PPP p") : "—";
+            const dateStr = v.visitedAt ? formatDateTime(new Date(v.visitedAt)) : "—";
             const ageDisplay =
               v.ageYears != null && v.ageYears > 0
                 ? `${v.ageYears}y ${v.ageMonthsRemainder ?? 0}m`
