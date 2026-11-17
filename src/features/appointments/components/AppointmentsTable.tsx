@@ -2,27 +2,18 @@ import { useQuery } from "@tanstack/react-query";
 import { type AnyRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   createColumnHelper,
+  createPaginatedRowModel,
   rowPaginationFeature,
   tableFeatures,
   useTable,
 } from "@tanstack/react-table";
-import { CalendarClockIcon, CircleAlertIcon, SearchXIcon } from "lucide-react";
+import { CalendarClockIcon } from "lucide-react";
 
 import { Button } from "#/components/ui/button";
 import { IconTile } from "@/components/blocks/icon-tile";
-import { SectionState } from "@/components/blocks/state-view";
-import { TableColGroup } from "@/components/blocks/table-columns";
-import { type PageSize, TablePagination } from "@/components/tables/table-pagination";
+import { DataTable } from "@/components/tables/data-table";
+import { type PageSize } from "@/components/tables/table-pagination";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 // ── read ───────────────────────────────────────────────────────────────
 import { formatStatusLabel, formatTime } from "@/lib/dates";
 import { cn } from "@/lib/utils";
@@ -30,9 +21,13 @@ import { cn } from "@/lib/utils";
 import { todayAppointmentsQuery } from "../queries";
 import { AppointmentRow } from "../types";
 
-const features = tableFeatures({ rowPaginationFeature });
+const features = tableFeatures({
+  rowPaginationFeature,
+  paginatedRowModel: createPaginatedRowModel(),
+});
 
 const column = createColumnHelper<typeof features, AppointmentRow>();
+const EMPTY_APPOINTMENTS: AppointmentRow[] = [];
 
 // ── Column defs ────────────────────────────────────────────────────────
 
@@ -114,15 +109,6 @@ const columns = column.columns([
   }),
 ]);
 
-const COLUMN_LAYOUT = [
-  { width: "w-24" },
-  {},
-  { width: "w-40", hideOnMobile: true },
-  { width: "w-24" },
-  { width: "w-28" },
-  { width: "w-48", hideOnMobile: true },
-] as const;
-
 // ── Component ──────────────────────────────────────────────────────────
 
 export interface AppointmentsTableProps<TRoute extends AnyRoute = AnyRoute> {
@@ -153,7 +139,7 @@ export function AppointmentsTable<TRoute extends AnyRoute>({
     enabled: Boolean(clinicId) && !initialAppointments,
   });
 
-  const allAppointments = initialAppointments ?? query.data ?? [];
+  const allAppointments = initialAppointments ?? query.data ?? EMPTY_APPOINTMENTS;
 
   const table = useTable({
     data: allAppointments,
@@ -163,112 +149,41 @@ export function AppointmentsTable<TRoute extends AnyRoute>({
     state: { pagination: { pageIndex: page - 1, pageSize: size } },
   });
 
-  if (query.isError) {
-    return (
-      <SectionState
-        action={
-          <Button
-            disabled={query.isFetching}
-            onClick={() => void query.refetch()}
-            variant="outline"
-          >
-            {query.isFetching ? "Retrying…" : "Try Again"}
-          </Button>
-        }
-        description={
-          query.error instanceof Error ? query.error.message : "An unexpected error occurred."
-        }
-        icon={CircleAlertIcon}
-        title="Failed to Load Appointments"
-      />
-    );
-  }
-
   const pageCount = table.getPageCount();
-
-  if (query.data && page > pageCount && pageCount > 0) {
-    const backToFirst = () => {
-      if (!route) {
-        void navigate({ to: "/app/appointments", search: {} as never });
-        return;
-      }
-      void navigate({
-        to: route.fullPath,
-        search: { page: undefined } as never,
-      });
-    };
-
-    return (
-      <SectionState
-        action={
-          <Button className={cn("w-full sm:w-auto")} nativeButton onClick={backToFirst}>
-            Back To First Page
-          </Button>
-        }
-        description={`There are only ${pageCount.toLocaleString("en-US")} pages.`}
-        icon={SearchXIcon}
-        title="Page Not Found"
-      />
-    );
-  }
-
-  const leafColumnCount = table.getAllLeafColumns().length;
-  const isEmpty = table.getRowModel().rows.length === 0 && !query.isFetching;
+  const backToFirstPage = () => {
+    if (!route) {
+      void navigate({ to: "/app/appointments", search: {} as never });
+      return;
+    }
+    void navigate({
+      to: route.fullPath,
+      search: { page: undefined } as never,
+    });
+  };
 
   return (
-    <div className="flex flex-col gap-2">
-      <Table aria-busy={query.isFetching} aria-label="Appointments" layout="fixed">
-        <TableColGroup columns={COLUMN_LAYOUT} />
-        <TableHeader>
-          {table.getHeaderGroups().map((group) => (
-            <TableRow key={group.id}>
-              {group.headers.map((header) => (
-                <TableHead
-                  hideOnMobile={header.column.columnDef.meta?.hideOnMobile}
-                  key={header.id}
-                >
-                  <table.FlexRender header={header} />
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {isEmpty ? (
-            <TableRow>
-              <TableCell colSpan={leafColumnCount}>
-                <p className=" py-8 text-center text-sm">No appointments scheduled for today.</p>
-              </TableCell>
-            </TableRow>
-          ) : (
-            table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
-                {row.getAllCells().map((cell) => (
-                  <TableCell hideOnMobile={cell.column.columnDef.meta?.hideOnMobile} key={cell.id}>
-                    <table.FlexRender cell={cell} />
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          )}
-          {query.isFetching &&
-            Array.from({ length: size }, (_, row) => `loading-${row}`).map((key) => (
-              <TableRow key={key}>
-                <TableCell colSpan={leafColumnCount}>
-                  <Skeleton className="h-6 w-full" />
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
-
-      <TablePagination
-        ariaLabel="Appointment Pages"
-        page={page}
-        pageCount={pageCount}
-        route={route}
-        size={size}
-      />
-    </div>
+    <DataTable
+      ariaLabel="Appointments"
+      emptyMessage="No appointments scheduled for today."
+      errorDescription={
+        query.error instanceof Error ? query.error.message : "An unexpected error occurred."
+      }
+      errorTitle="Failed to Load Appointments"
+      outOfRange={
+        query.data
+          ? {
+              backTo: () => (
+                <Button className={cn("w-full sm:w-auto")} nativeButton onClick={backToFirstPage}>
+                  Back To First Page
+                </Button>
+              ),
+            }
+          : undefined
+      }
+      pagination={{ page, pageCount, route, size }}
+      query={query}
+      skeletonRowCount={size}
+      table={table}
+    />
   );
 }

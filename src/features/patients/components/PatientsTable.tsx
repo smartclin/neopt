@@ -6,23 +6,14 @@ import {
   tableFeatures,
   useTable,
 } from "@tanstack/react-table";
-import { CircleAlertIcon, SearchXIcon, UserRoundIcon } from "lucide-react";
+import { UserRoundIcon } from "lucide-react";
+import { useMemo } from "react";
 
-import { Button } from "#/components/ui/button";
 import { buttonVariants } from "#/components/ui/button-variants";
 // TODO: switch to `@/features/growth/math/lms` once that module exists.
 import { IconTile } from "@/components/blocks/icon-tile";
-import { SectionState } from "@/components/blocks/state-view";
-import { TableColGroup } from "@/components/blocks/table-columns";
-import { type PageSize, TablePagination } from "@/components/tables/table-pagination";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { DataTable } from "@/components/tables/data-table";
+import { type PageSize } from "@/components/tables/table-pagination";
 import { decimalMonthsBetween } from "@/features/shared/helpers";
 
 import type { Patient } from "../schema";
@@ -34,6 +25,7 @@ import { patientsByClinicQuery } from "../queries";
 const features = tableFeatures({ rowPaginationFeature });
 
 const column = createColumnHelper<typeof features, Patient>();
+const EMPTY_PATIENTS: Patient[] = [];
 
 /** Format an age in fractional months as "3y 4m" / "11m". */
 function formatAge(months: number): string {
@@ -108,8 +100,6 @@ const columns = column.columns([
   }),
 ]);
 
-const COLUMN_LAYOUT = columns.map((definition) => definition.meta ?? {});
-
 // ── Component ──────────────────────────────────────────────────────────────
 
 export interface PatientsTableProps<TRoute extends AnyRoute = AnyRoute> {
@@ -135,10 +125,10 @@ export function PatientsTable<TRoute extends AnyRoute>({
     enabled: !patients,
   });
 
-  const all = patients ?? query.data ?? [];
+  const all = patients ?? query.data ?? EMPTY_PATIENTS;
   const total = all.length;
   const pageCount = Math.max(1, Math.ceil(total / size));
-  const pageRows = all.slice((page - 1) * size, page * size);
+  const pageRows = useMemo(() => all.slice((page - 1) * size, page * size), [all, page, size]);
 
   const table = useTable(
     {
@@ -154,91 +144,26 @@ export function PatientsTable<TRoute extends AnyRoute>({
     (state) => ({ pagination: state.pagination }),
   );
 
-  if (query.isError) {
-    return (
-      <SectionState
-        action={
-          <Button disabled={query.isFetching} onClick={() => void query.refetch()}>
-            {query.isFetching ? "Retrying…" : "Try Again"}
-          </Button>
-        }
-        description="The patient roster could not load. Check your connection and try again."
-        icon={CircleAlertIcon}
-        title="Something Went Wrong"
-      />
-    );
-  }
-
-  if (query.data && page > pageCount) {
-    return (
-      <SectionState
-        action={
-          <Link className={buttonVariants()} to={"/app/patients"}>
-            Back To First Page
-          </Link>
-        }
-        description={`There are only ${pageCount.toLocaleString("en-US")} pages.`}
-        icon={SearchXIcon}
-        title="Page Not Found"
-      />
-    );
-  }
-
-  const leafColumnCount = table.getAllLeafColumns().length;
-
   return (
-    <div className="flex flex-col gap-2">
-      <Table aria-busy={query.isFetching} aria-label="Patients" layout="fixed">
-        <TableColGroup columns={COLUMN_LAYOUT} />
-        <TableHeader>
-          {table.getHeaderGroups().map((group) => (
-            <TableRow key={group.id}>
-              {group.headers.map((header) => (
-                <TableHead key={header.id}>
-                  <table.FlexRender header={header} />
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows.length === 0 && !query.isFetching ? (
-            <TableRow>
-              <TableCell colSpan={leafColumnCount}>
-                <p className=" py-8 text-center text-sm">
-                  No patients registered in this clinic yet.
-                </p>
-              </TableCell>
-            </TableRow>
-          ) : (
-            table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
-                {row.getAllCells().map((cell) => (
-                  <TableCell hideOnMobile={cell.column.columnDef.meta?.hideOnMobile} key={cell.id}>
-                    <table.FlexRender cell={cell} />
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          )}
-          {query.isFetching &&
-            Array.from({ length: size }, (_, row) => `loading-${row}`).map((key) => (
-              <TableRow key={key}>
-                <TableCell colSpan={leafColumnCount}>
-                  <div className="bg-muted h-7 w-full animate-pulse rounded-md" />
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
-
-      <TablePagination
-        ariaLabel="Patient Pages"
-        page={page}
-        pageCount={pageCount}
-        route={route}
-        size={size}
-      />
-    </div>
+    <DataTable
+      ariaLabel="Patients"
+      emptyMessage="No patients registered in this clinic yet."
+      errorDescription="The patient roster could not load. Check your connection and try again."
+      errorTitle="Something Went Wrong"
+      outOfRange={
+        query.data && page > pageCount
+          ? {
+              backTo: () => (
+                <Link className={buttonVariants()} to={"/app/patients"}>
+                  Back To First Page
+                </Link>
+              ),
+            }
+          : undefined
+      }
+      pagination={{ page, pageCount, route, size }}
+      query={query}
+      table={table}
+    />
   );
 }

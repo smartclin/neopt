@@ -1,39 +1,4 @@
 {
-  "name": "patient-tracker",
-  "version": "0.0.1",
-  "private": true,
-  "type": "module",
-  "imports": {
-    "#/*": "./src/*"
-  },
-  "scripts": {
-    "auth:gen": "bunx auth@latest generate ",
-    "prebuild": "lsof -ti:3000 | xargs -r kill -9 || true",
-    "build": "bunx --bun vp build",
-    "check": "vp check --fix",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
-    "db:pull": "drizzle-kit pull",
-    "db:push": "drizzle-kit push",
-    "db:reset": "bun src/db/reset.ts",
-    "db:seed": "bun src/db/seed/seed.ts",
-    "db:seed:admin": "bun src/db/seed/seed-admin.ts",
-    "db:studio": "drizzle-kit studio",
-    "predev": "lsof -ti:3000 | xargs -r kill -9 || true",
-    "dev": "bunx --bun vp dev",
-    "format": "biome format",
-    "generate-routes": "tsr generate",
-    "lint": "biome lint",
-    "preview": "vp preview",
-    "test": "vp test run",
-    "test:ci": "vp test run --coverage",
-    "test:coverage": "vp test run --coverage",
-    "test:ui": "vp test --ui",
-    "test:watch": "vp test --watch",
-    "typecheck": "tsc --noEmit --skipLibCheck --pretty",
-    "ui": "bunx shadcn@canary add -o -y",
-    "prepare": "vp config"
-  },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
     "@better-auth/drizzle-adapter": "^1.7.25",
@@ -62,7 +27,7 @@
     "@tanstack/react-router-ssr-query": "1.167.3",
     "@tanstack/react-start": "1.169.5",
     "@tanstack/react-store": "0.11.2",
-    "@tanstack/react-table": "9.3.1",
+    "@tanstack/react-table": "^9.3.1",
     "@tanstack/start-server-core": "^1.169.45",
     "@tanstack/store": "0.11.2",
     "better-auth": "^1.7.25",
@@ -118,6 +83,7 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "dotenv": "^18.0.10",
     "drizzle-kit": "^1.0.0-rc.5",
+    "fallow": "^3.43.2",
     "jsdom": "^31.0.1",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
@@ -125,14 +91,74 @@
     "vite-plus": "1.6.0",
     "vitest": "5.1.0"
   },
+  "imports": {
+    "#/*": "./src/*"
+  },
+  "name": "patient-tracker",
   "overrides": {
     "vite": "npm:@voidzero-dev/vite-plus-core@1.6.0",
     "vitest": "5.1.0"
+  },
+  "private": true,
+  "scripts": {
+    "auth:gen": "bunx auth@latest generate ",
+    "build": "bunx --bun vp build",
+    "check": "vp check --fix",
+    "check:comment-language": "node --import tsx scripts/check-comment-language.ts",
+    "check:dependency-audit": "node scripts/check-dependency-audit.mjs",
+    "check:dupes": "fallow dupes --quiet",
+    "check:fallow": "fallow audit --quiet --gate-marker agent --base origin/main",
+    "check:file-tokens": "node --import tsx scripts/check-file-tokens.ts",
+    "check:fix": "vp check --fix",
+    "check:labels": "node --import tsx scripts/check-labels.ts",
+    "check:pr-title": "node --import tsx scripts/check-pr-title.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:pull": "drizzle-kit pull",
+    "db:push": "drizzle-kit push",
+    "db:reset": "bun src/db/reset.ts",
+    "db:seed": "bun src/db/seed/seed.ts",
+    "db:seed:admin": "bun src/db/seed/seed-admin.ts",
+    "db:studio": "drizzle-kit studio",
+    "dev": "bunx --bun vp dev",
+    "dev:stop": "node --env-file-if-exists=.env --env-file-if-exists=.env.local --import tsx scripts/dev-stop.ts",
+    "dev:url": "node --import tsx scripts/worktree-port.ts --print",
+    "eval:assistant": "node --env-file-if-exists=.env.local --import ./tests/evals/src-imports.ts tests/evals/assistant/run.ts",
+    "eval:report": "node --import ./tests/evals/src-imports.ts tests/evals/assistant/report.ts",
+    "eval:template-review": "node --env-file-if-exists=.env.local --import ./tests/evals/src-imports.ts tests/evals/assistant/template-review.ts",
+    "eval:voice": "node --env-file-if-exists=.env.local --import ./tests/evals/src-imports.ts tests/evals/assistant/voice/run.ts",
+    "format": "biome format",
+    "format:check": "vp fmt --check",
+    "generate-routes": "tsr generate",
+    "labels:sync": "node --import tsx scripts/sync-labels.ts",
+    "lint": "biome lint",
+    "prebuild": "lsof -ti:3000 | xargs -r kill -9 || true",
+    "predev": "lsof -ti:3000 | xargs -r kill -9 || true",
+    "prepare": "vp config --no-agent || true",
+    "preview": "vp preview",
+    "routes:generate": "tsr generate",
+    "test": "vp test run",
+    "test:ci": "vp test run --coverage",
+    "test:coverage": "vp test run --coverage",
+    "test:e2e": "pnpm build && node --import tsx tests/e2e/prepare.ts && playwright test",
+    "test:ui": "vp test --ui",
+    "test:unit": "vp test --run --project unit",
+    "test:watch": "vp test --watch",
+    "type": "vp check --no-fmt --no-lint",
+    "typecheck": "bun type && tsc --noEmit --skipLibCheck --pretty",
+    "ui": "bunx shadcn@canary add -o -y"
   },
   "trustedDependencies": [
     "@google/genai",
     "esbuild",
     "protobufjs",
     "lightningcss"
-  ]
+  ],
+  "type": "module",
+  "version": "0.0.1",
+  "intent": {
+    "skills": [
+      "*"
+    ]
+  }
 }

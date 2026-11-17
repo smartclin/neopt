@@ -1,5 +1,5 @@
 // src/types/growth/sheets.ts
-import type { Indicator, Sex, XAxis } from "./types";
+import type { Indicator, Sex, XAxis } from "../types";
 
 export interface SheetSpec {
   source: string;

@@ -7,6 +7,10 @@ interface CacheEntry<T> {
   staleUntil: number;
   ttl: number;
 }
+export type CacheLookup<T> =
+  | { state: "fresh"; data: T }
+  | { state: "stale"; data: T }
+  | { state: "miss" };
 
 interface CacheOptions {
   staleWhileRevalidate?: number;
@@ -40,7 +44,22 @@ export class QueryCache {
   getTTL(entityType: string): number {
     return this.ttlConfig[entityType] ?? this.defaultTTL;
   }
+  lookup<T>(key: string, guard: (v: unknown) => v is T): CacheLookup<T> {
+    this.maybeSweep();
+    const entry = this.cache.get(key);
+    if (!entry) return { state: "miss" };
 
+    const now = Date.now();
+    if (now < entry.expiresAt) {
+      return guard(entry.data) ? { state: "fresh", data: entry.data } : { state: "miss" };
+    }
+    if (now < entry.staleUntil) {
+      return guard(entry.data) ? { state: "stale", data: entry.data } : { state: "miss" };
+    }
+    this.cache.delete(key);
+    this.removeFromTags(key);
+    return { state: "miss" };
+  }
   private maybeSweep(): void {
     const now = Date.now();
     if (now - this.lastSweep < QueryCache.SWEEP_INTERVAL_MS) return;
@@ -162,23 +181,27 @@ export class QueryCache {
       if (keys.size === 0) this.tagMap.delete(tag);
     }
   }
+  // src/db/cache.ts
+  private lastOversizeSweep = 0;
+  private static readonly OVERSIZE_SWEEP_INTERVAL_MS = 1_000;
 
-  /**
-   * Two-pass eviction. Runs lazily on every `get` / `set` so we never
-   * need a `setInterval`, and a short-lived process can't leak a timer.
-   */
   private sweepIfOversized(): void {
     if (this.cache.size <= this.maxSize) return;
+
     const now = Date.now();
+    if (now - this.lastOversizeSweep < QueryCache.OVERSIZE_SWEEP_INTERVAL_MS) return;
+    this.lastOversizeSweep = now;
+
+    // Pass 1: drop expired.
     for (const [key, entry] of this.cache) {
       if (now > entry.staleUntil) {
         this.cache.delete(key);
         this.removeFromTags(key);
       }
     }
-
     if (this.cache.size <= this.maxSize) return;
 
+    // Pass 2: drop the oldest 20%.
     const entries = [...this.cache.entries()].toSorted((a, b) => a[1].timestamp - b[1].timestamp);
     const dropCount = Math.max(1, Math.floor(entries.length * OVERFLOW_DROP_RATIO));
     for (let i = 0; i < dropCount; i += 1) {
@@ -210,7 +233,7 @@ export class PreparedQueryCache {
 
   /** Raw access — callers must narrow. */
   get(key: string): unknown {
-    return this.prepared.get(key);
+    return this.prepared.has(key) ? this.prepared.get(key) : null;
   }
 
   /** Typed access with a guard, mirroring `QueryCache.getAs`. */
@@ -238,3 +261,24 @@ export class PreparedQueryCache {
 }
 
 export const preparedQueries = new PreparedQueryCache();
+// src/db/cache.ts
+export async function cached<T>(
+  cache: QueryCache,
+  key: string,
+  guard: (v: unknown) => v is T,
+  revalidate: () => Promise<T>,
+  options: CacheOptions,
+): Promise<T> {
+  const hit = cache.lookup(key, guard);
+  if (hit.state === "fresh") return hit.data;
+  if (hit.state === "stale") {
+    // Serve stale immediately, revalidate in the background.
+    void revalidate()
+      .then((fresh) => cache.set(key, fresh, options))
+      .catch((err) => console.error("SWR revalidation failed", key, err));
+    return hit.data;
+  }
+  const fresh = await revalidate();
+  cache.set(key, fresh, options);
+  return fresh;
+}

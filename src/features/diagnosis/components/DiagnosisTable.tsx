@@ -2,27 +2,18 @@ import { useQuery } from "@tanstack/react-query";
 import { type AnyRoute, Link } from "@tanstack/react-router";
 import {
   createColumnHelper,
+  createPaginatedRowModel,
   rowPaginationFeature,
   tableFeatures,
   useTable,
 } from "@tanstack/react-table";
-import { CircleAlertIcon, SearchXIcon, StethoscopeIcon } from "lucide-react";
+import { StethoscopeIcon } from "lucide-react";
 
 import { buttonVariants } from "#/components/ui/button-variants";
 import { IconTile } from "@/components/blocks/icon-tile";
-import { SectionState } from "@/components/blocks/state-view";
-import { TableColGroup } from "@/components/blocks/table-columns";
-import { type PageSize, TablePagination } from "@/components/tables/table-pagination";
+import { DataTable } from "@/components/tables/data-table";
+import { type PageSize } from "@/components/tables/table-pagination";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { formatDate, formatStatusLabel } from "@/lib/dates";
 
 // ── read ───────────────────────────────────────────────────────────────
@@ -55,9 +46,13 @@ type DiagnosisRow = QueryFnData<ReturnType<typeof diagnosesForVisitQuery>>[numbe
 
 // ── Static module-scope config ─────────────────────────────────────────
 
-const features = tableFeatures({ rowPaginationFeature });
+const features = tableFeatures({
+  rowPaginationFeature,
+  paginatedRowModel: createPaginatedRowModel(),
+});
 
 const column = createColumnHelper<typeof features, DiagnosisRow>();
+const EMPTY_DIAGNOSES: DiagnosisRow[] = [];
 
 const TYPE_VARIANT = {
   primary: "default",
@@ -95,7 +90,7 @@ const columns = column.columns([
   }),
   column.accessor("createdAt", {
     header: "Visited",
-    meta: { width: "w-32 max-sm:w-24" },
+    meta: { width: "w-32 max-sm:w-24", hideOnMobile: true },
     cell: ({ row }) => {
       const visitedAt = row.original.createdAt;
       if (!visitedAt) return <span className="">—</span>;
@@ -106,13 +101,6 @@ const columns = column.columns([
     },
   }),
 ]);
-
-const COLUMN_LAYOUT = [
-  { heading: "ICD-10", width: "w-28", hideOnMobile: false },
-  { heading: "Description" },
-  { heading: "Type", width: "w-24", hideOnMobile: false },
-  { heading: "Visited", width: "w-32", hideOnMobile: true },
-];
 
 // ── Component ──────────────────────────────────────────────────────────
 
@@ -134,7 +122,7 @@ export function DiagnosisTable<TRoute extends AnyRoute>({
     enabled: Boolean(visitId),
   });
 
-  const all = query.data ?? [];
+  const all = query.data ?? EMPTY_DIAGNOSES;
 
   const table = useTable({
     data: all,
@@ -144,102 +132,35 @@ export function DiagnosisTable<TRoute extends AnyRoute>({
     state: { pagination: { pageIndex: page - 1, pageSize: size } },
   });
 
-  if (query.isError) {
-    return (
-      <SectionState
-        action={
-          <Button onClick={() => void query.refetch()} variant="outline">
-            {query.isFetching ? "Retrying…" : "Try Again"}
-          </Button>
-        }
-        description={
-          query.error instanceof Error ? query.error.message : "An unexpected error occurred."
-        }
-        icon={CircleAlertIcon}
-        title="Could Not Load Diagnoses"
-      />
-    );
-  }
-
   const pageCount = table.getPageCount();
 
-  if (all.length > 0 && page > pageCount) {
-    return (
-      <SectionState
-        action={
-          <Link
-            className={buttonVariants()}
-            params={{ visitId } as never}
-            to={route?.fullPath ?? ("/app/visits/$visitId" as never)}
-          >
-            Back To First Page
-          </Link>
-        }
-        description={`There are only ${pageCount.toLocaleString("en-US")} pages.`}
-        icon={SearchXIcon}
-        title="Page Not Found"
-      />
-    );
-  }
-
-  const leafColumnCount = table.getAllLeafColumns().length;
-
   return (
-    <div className="flex flex-col gap-2">
-      <Table aria-busy={query.isFetching} aria-label="Diagnoses" layout="fixed">
-        <TableColGroup columns={COLUMN_LAYOUT} />
-        <TableHeader>
-          {table.getHeaderGroups().map((group) => (
-            <TableRow key={group.id}>
-              {group.headers.map((header) => (
-                <TableHead
-                  hideOnMobile={header.column.columnDef.meta?.hideOnMobile}
-                  key={header.id}
+    <DataTable
+      ariaLabel="Diagnoses"
+      emptyMessage="No diagnoses recorded for this visit yet."
+      errorDescription={
+        query.error instanceof Error ? query.error.message : "An unexpected error occurred."
+      }
+      errorTitle="Could Not Load Diagnoses"
+      outOfRange={
+        all.length > 0 && page > pageCount
+          ? {
+              backTo: () => (
+                <Link
+                  className={buttonVariants()}
+                  params={{ visitId } as never}
+                  to={route?.fullPath ?? ("/app/visits/$visitId" as never)}
                 >
-                  <table.FlexRender header={header} />
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows.length === 0 && !query.isFetching ? (
-            <TableRow>
-              <TableCell colSpan={leafColumnCount}>
-                <p className=" py-8 text-center text-sm">
-                  No diagnoses recorded for this visit yet.
-                </p>
-              </TableCell>
-            </TableRow>
-          ) : (
-            table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
-                {row.getAllCells().map((cell) => (
-                  <TableCell hideOnMobile={cell.column.columnDef.meta?.hideOnMobile} key={cell.id}>
-                    <table.FlexRender cell={cell} />
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          )}
-          {query.isFetching &&
-            Array.from({ length: Math.min(size, 3) }, (_, i) => (
-              <TableRow key={`loading-${i}`}>
-                <TableCell colSpan={leafColumnCount}>
-                  <div className="bg-muted h-7 w-full animate-pulse rounded-md" />
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
-
-      <TablePagination
-        ariaLabel="Diagnosis Pages"
-        page={page}
-        pageCount={pageCount}
-        route={route}
-        size={size}
-      />
-    </div>
+                  Back To First Page
+                </Link>
+              ),
+            }
+          : undefined
+      }
+      pagination={{ page, pageCount, route, size }}
+      query={query}
+      skeletonRowCount={Math.min(size, 3)}
+      table={table}
+    />
   );
 }

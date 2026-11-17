@@ -1,0 +1,45 @@
+{
+  "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
+  // `shadcn` is a CLI run by hand to add components (docs/agents/shadcn.md);
+  // nothing imports it.
+  // `skills` is a CLI run by the weekly dependency task to copy the dependency
+  // skills again (docs/agents/dependency-updates.md); nothing imports it either.
+  // `@shadcn/lint` is an Oxlint JS plugin `vite.config.ts` loads by name.
+  "ignoreDependencies": ["shadcn", "skills", "@shadcn/lint"],
+  // The repo's own Oxlint JS plugin, and the Worker the object tests run
+  // against, both loaded by path from `vite.config.ts`.
+  "entry": ["scripts/oxlint-ui-plugin.mjs", "src/organization/test-worker.ts"],
+  // A Durable Object's public methods are its RPC interface: the Worker calls
+  // them through the binding's stub, which fallow cannot follow. The object
+  // class extends `OrganizationWhatsapp` (`src/organization/organization-whatsapp.ts`),
+  // which extends `OrganizationRuntime` (`src/organization/organization-runtime.ts`).
+  // promptfoo calls a provider's `id` and `callApi` (tests/evals/).
+  "usedClassMembers": [
+    { "extends": "DurableObject", "members": ["*"] },
+    { "extends": "OrganizationRuntime", "members": ["*"] },
+    { "extends": "OrganizationWhatsapp", "members": ["*"] },
+    { "implements": "ApiProvider", "members": ["id", "callApi"] }
+  ],
+  // shadcn components are vendored whole (docs/agents/shadcn.md): a screen uses
+  // some of a component's parts, and trimming the rest would fight every re-sync.
+  "ignoreExports": [{ "file": "src/components/ui/**", "exports": ["*"] }],
+  "health": {
+    // Likewise for their complexity: vendored code keeps shadcn's shape.
+    "ignore": ["src/components/ui/**"]
+  },
+  "duplicates": {
+    // Pair-only clones are hidden; widespread copy-paste is what is worth a refactor.
+    "minOccurrences": 3,
+    // `fallow dupes` (`pnpm check:dupes`) fails above this share of duplicated
+    // lines across the whole codebase; `fallow audit` ignores it. 1.2% on
+    // 2026-11-09: 3 leaves room for ordinary growth and stops copy-paste from
+    // accumulating one warning at a time.
+    "threshold": 3
+  },
+  "rules": {
+    // ADR-0001 dependencies land before the features that import them (zod,
+    // date-fns, TanStack Form...). Reported, not failed; the list empties as
+    // features arrive, and anything still on it later is a candidate to remove.
+    "unused-dependencies": "warn"
+  }
+}

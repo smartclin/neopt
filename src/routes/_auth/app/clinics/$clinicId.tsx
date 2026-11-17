@@ -52,7 +52,13 @@ function ClinicDetail({ clinicId }: { clinicId: string }) {
   }
 
   const patientCount = clinic.patients?.length ?? 0;
-  const staffCount = clinic.users?.length ?? 0;
+  const clinicUsers =
+    (
+      clinic as typeof clinic & {
+        users?: { id: string; name: string | null; role: string | null }[];
+      }
+    ).users ?? [];
+  const staffCount = clinicUsers.length;
   const upcomingCount = clinic.appointments?.length ?? 0;
 
   return (
@@ -90,11 +96,11 @@ function ClinicDetail({ clinicId }: { clinicId: string }) {
       </Card>
 
       <Section description="Users linked to this clinic." title="Staff">
-        {clinic.users.length === 0 ? (
+        {clinicUsers.length === 0 ? (
           <p className=" py-6 text-center text-sm">No staff linked to this clinic yet.</p>
         ) : (
           <ul className="divide-y rounded-md border">
-            {clinic.users.map((u) => (
+            {clinicUsers.map((u) => (
               <li className="flex items-center justify-between px-3 py-2 text-sm" key={u.id}>
                 <span className="font-medium">{u.name ?? "Unknown staff"}</span>
                 <span className=" text-xs capitalize">{u.role ?? "—"}</span>

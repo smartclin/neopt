@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { ServiceLayout } from "#/components/blocks/ServiceLayout.tsx";
-import { getService } from "#/components/services.tsx";
+import { getService } from "#/components/services";
 
 export const Route = createFileRoute("/_guest/services/immunizations")({
   head: () => ({

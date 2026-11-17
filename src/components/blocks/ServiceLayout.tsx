@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 
-import type { Service } from "#/components/services.tsx";
+import type { Service } from "#/components/services";
 
 type Props = { service: Service };
 

@@ -6,24 +6,14 @@ import {
   tableFeatures,
   useTable,
 } from "@tanstack/react-table";
-import { CircleAlertIcon, RulerIcon, SearchXIcon } from "lucide-react";
+import { RulerIcon } from "lucide-react";
 import * as React from "react";
 
 import { IconTile } from "@/components/blocks/icon-tile";
-import { SectionState } from "@/components/blocks/state-view";
-import { TableColGroup } from "@/components/blocks/table-columns";
-import { type PageSize, TablePagination } from "@/components/tables/table-pagination";
+import { DataTable } from "@/components/tables/data-table";
+import { type PageSize } from "@/components/tables/table-pagination";
 import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { buttonVariants } from "@/components/ui/button";
 // ── read ───────────────────────────────────────────────────────────────
 import { seriesQuery } from "@/features/growth/queries";
 import { formatDate } from "@/lib/dates";
@@ -210,14 +200,6 @@ const columns = column.columns([
   }),
 ]);
 
-const COLUMN_LAYOUT = [
-  { width: "w-32 max-sm:w-24" },
-  { width: "w-28 max-sm:w-24" },
-  { width: "w-24 max-sm:w-20" },
-  { width: "w-24", hideOnMobile: true },
-  { width: "w-44", hideOnMobile: true },
-] as const;
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Component
 // ─────────────────────────────────────────────────────────────────────────────
@@ -272,113 +254,40 @@ export function MeasurementsTable<TRoute extends AnyRoute>({
     meta,
   });
 
-  if (query.isError) {
-    return (
-      <SectionState
-        action={
-          <Button
-            disabled={query.isFetching}
-            onClick={() => void query.refetch()}
-            variant="outline"
-          >
-            {query.isFetching ? "Retrying…" : "Try Again"}
-          </Button>
-        }
-        description={
-          query.error instanceof Error
-            ? query.error.message
-            : "Check your connection and try again."
-        }
-        icon={CircleAlertIcon}
-        title="Could Not Load Measurements"
-      />
-    );
-  }
-
-  if (page > pageCount && total > 0) {
-    return (
-      <SectionState
-        action={
-          <Link
-            className={buttonVariants()}
-            params={{ patientId }}
-            search={{ tab: "overview" }}
-            to="/app/patients/$patientId"
-          >
-            Back To First Page
-          </Link>
-        }
-        description={`There are only ${pageCount.toLocaleString("en-US")} pages.`}
-        icon={SearchXIcon}
-        title="Page Not Found"
-      />
-    );
-  }
-
-  const leafColumnCount = table.getAllLeafColumns().length;
-  const showLoadingRows = query.isFetching && pageRows.length === 0;
-  const showEmptyRow = pageRows.length === 0 && !query.isFetching;
-
   return (
-    <div className="flex flex-col gap-2">
-      <Table aria-busy={query.isFetching} aria-label="Measurements" layout="fixed">
-        <TableColGroup columns={COLUMN_LAYOUT} />
-        <TableHeader>
-          {table.getHeaderGroups().map((group) => (
-            <TableRow key={group.id}>
-              {group.headers.map((header) => (
-                <TableHead
-                  hideOnMobile={header.column.columnDef.meta?.hideOnMobile}
-                  key={header.id}
+    <DataTable
+      ariaLabel="Measurements"
+      emptyMessage={
+        <div className="flex flex-col items-center gap-1">
+          <IconTile size="lg">
+            <RulerIcon aria-hidden="true" />
+          </IconTile>
+          <p>No {INDICATOR_LABEL[indicator].toLowerCase()} measurements recorded yet.</p>
+        </div>
+      }
+      errorDescription={
+        query.error instanceof Error ? query.error.message : "Check your connection and try again."
+      }
+      errorTitle="Could Not Load Measurements"
+      outOfRange={
+        page > pageCount && total > 0
+          ? {
+              backTo: () => (
+                <Link
+                  className={buttonVariants()}
+                  params={{ patientId }}
+                  search={{ tab: "overview" }}
+                  to="/app/patients/$patientId"
                 >
-                  <table.FlexRender header={header} />
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {showLoadingRows &&
-            Array.from({ length: 3 }, (_, i) => (
-              <TableRow aria-hidden="true" key={`skeleton-${i}`}>
-                <TableCell colSpan={leafColumnCount}>
-                  <Skeleton className="h-7 w-full" />
-                </TableCell>
-              </TableRow>
-            ))}
-
-          {showEmptyRow && (
-            <TableRow>
-              <TableCell colSpan={leafColumnCount}>
-                <div className=" flex flex-col items-center gap-1 py-8 text-center text-sm">
-                  <IconTile size="lg">
-                    <RulerIcon aria-hidden="true" />
-                  </IconTile>
-                  <p>No {INDICATOR_LABEL[indicator].toLowerCase()} measurements recorded yet.</p>
-                </div>
-              </TableCell>
-            </TableRow>
-          )}
-
-          {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
-              {row.getAllCells().map((cell) => (
-                <TableCell hideOnMobile={cell.column.columnDef.meta?.hideOnMobile} key={cell.id}>
-                  <table.FlexRender cell={cell} />
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-
-      <TablePagination
-        ariaLabel="Measurement Pages"
-        page={page}
-        pageCount={pageCount}
-        route={route}
-        size={size}
-      />
-    </div>
+                  Back To First Page
+                </Link>
+              ),
+            }
+          : undefined
+      }
+      pagination={{ page, pageCount, route, size }}
+      query={query}
+      table={table}
+    />
   );
 }

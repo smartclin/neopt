@@ -2,35 +2,30 @@ import { useQuery } from "@tanstack/react-query";
 import { type AnyRoute, Link } from "@tanstack/react-router";
 import {
   createColumnHelper,
+  createPaginatedRowModel,
   rowPaginationFeature,
   tableFeatures,
   useTable,
 } from "@tanstack/react-table";
-import { Building2Icon, CircleAlertIcon, SearchXIcon } from "lucide-react";
+import { Building2Icon } from "lucide-react";
 
-import { Button } from "#/components/ui/button";
 import { buttonVariants } from "#/components/ui/button-variants";
 import { IconTile } from "@/components/blocks/icon-tile";
-import { SectionState } from "@/components/blocks/state-view";
-import { TableColGroup } from "@/components/blocks/table-columns";
-import { type PageSize, TablePagination } from "@/components/tables/table-pagination";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { DataTable } from "@/components/tables/data-table";
+import { type PageSize } from "@/components/tables/table-pagination";
 
 import type { Clinic } from "../schema";
 
 // ── read ───────────────────────────────────────────────────────────────
 import { clinicsQuery } from "../queries";
 
-const features = tableFeatures({ rowPaginationFeature });
+const features = tableFeatures({
+  rowPaginationFeature,
+  paginatedRowModel: createPaginatedRowModel(),
+});
 
 const column = createColumnHelper<typeof features, Clinic>();
+const EMPTY_CLINICS: Clinic[] = [];
 
 const columns = column.columns([
   column.accessor("name", {
@@ -71,13 +66,6 @@ const columns = column.columns([
   }),
 ]);
 
-const COLUMN_LAYOUT = [
-  { heading: "Clinic" },
-  { heading: "Address", width: "w-72", hideOnMobile: true },
-  { heading: "Phone", width: "w-36" },
-  { heading: "Email", width: "w-56", hideOnMobile: true },
-];
-
 export interface ClinicsTableProps<TRoute extends AnyRoute = AnyRoute> {
   route?: TRoute;
   page?: number;
@@ -103,7 +91,7 @@ export function ClinicsTable<TRoute extends AnyRoute>({
     enabled: !initialClinics,
   });
 
-  const allClinics = initialClinics ?? query.data ?? [];
+  const allClinics = initialClinics ?? query.data ?? EMPTY_CLINICS;
 
   const table = useTable({
     data: allClinics,
@@ -117,94 +105,28 @@ export function ClinicsTable<TRoute extends AnyRoute>({
     },
   });
 
-  if (query.isError) {
-    return (
-      <SectionState
-        action={
-          <Button onClick={() => void query.refetch()} variant="outline">
-            Try Again
-          </Button>
-        }
-        description={query.error instanceof Error ? query.error.message : "An error occurred."}
-        icon={CircleAlertIcon}
-        title="Failed to Load Clinics"
-      />
-    );
-  }
-
   const pageCount = table.getPageCount();
 
-  if (query.data && page > pageCount && pageCount > 0) {
-    return (
-      <SectionState
-        action={
-          <Link className={buttonVariants()} to={"/app/clinics"}>
-            Back To First Page
-          </Link>
-        }
-        description={`There are only ${pageCount.toLocaleString("en-US")} pages.`}
-        icon={SearchXIcon}
-        title="Page Not Found"
-      />
-    );
-  }
-
-  const leafColumnCount = table.getAllLeafColumns().length;
-
   return (
-    <div className="flex flex-col gap-2">
-      <Table aria-busy={query.isFetching} aria-label="Clinics" layout="fixed">
-        <TableColGroup columns={COLUMN_LAYOUT} />
-        <TableHeader>
-          {table.getHeaderGroups().map((group) => (
-            <TableRow key={group.id}>
-              {group.headers.map((header) => (
-                <TableHead
-                  hideOnMobile={header.column.columnDef.meta?.hideOnMobile}
-                  key={header.id}
-                >
-                  <table.FlexRender header={header} />
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows.length === 0 && !query.isFetching ? (
-            <TableRow>
-              <TableCell colSpan={leafColumnCount}>
-                <p className=" py-8 text-center text-sm">No clinics registered yet.</p>
-              </TableCell>
-            </TableRow>
-          ) : (
-            table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
-                {row.getAllCells().map((cell) => (
-                  <TableCell hideOnMobile={cell.column.columnDef.meta?.hideOnMobile} key={cell.id}>
-                    <table.FlexRender cell={cell} />
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          )}
-          {query.isFetching &&
-            Array.from({ length: size }, (_, row) => `loading-${row}`).map((key) => (
-              <TableRow key={key}>
-                <TableCell colSpan={leafColumnCount}>
-                  <div className="bg-muted/60 h-6 w-full animate-pulse rounded" />
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
-
-      <TablePagination
-        ariaLabel="Clinic Pages"
-        page={page}
-        pageCount={pageCount}
-        route={route}
-        size={size}
-      />
-    </div>
+    <DataTable
+      ariaLabel="Clinics"
+      emptyMessage="No clinics registered yet."
+      errorDescription={query.error instanceof Error ? query.error.message : "An error occurred."}
+      errorTitle="Failed to Load Clinics"
+      outOfRange={
+        query.data && page > pageCount && pageCount > 0
+          ? {
+              backTo: () => (
+                <Link className={buttonVariants()} to={"/app/clinics"}>
+                  Back To First Page
+                </Link>
+              ),
+            }
+          : undefined
+      }
+      pagination={{ page, pageCount, route, size }}
+      query={query}
+      table={table}
+    />
   );
 }

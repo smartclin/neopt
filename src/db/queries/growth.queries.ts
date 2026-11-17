@@ -17,10 +17,9 @@ import {
   type Sex,
 } from "#/features/growth/types/types.ts";
 import { and, db, eq } from "@/db";
+import { DOMAIN, type DomainEntry, type RangeFor } from "@/features/growth/types/sheets";
 
 import type { fetchGrowthStandardsSchema } from "../../features/growth/schema";
-
-import { DOMAIN, type DomainEntry, type RangeFor } from "../../features/growth/types/sheets";
 
 const REFERENCE_VERSION = "egyptian-2021" as const;
 

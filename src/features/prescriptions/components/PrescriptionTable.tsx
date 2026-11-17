@@ -2,27 +2,18 @@ import { type UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { type AnyRoute, Link } from "@tanstack/react-router";
 import {
   createColumnHelper,
+  createPaginatedRowModel,
   rowPaginationFeature,
   tableFeatures,
   useTable,
 } from "@tanstack/react-table";
-import { CircleAlertIcon, PillIcon, SearchXIcon } from "lucide-react";
+import { PillIcon } from "lucide-react";
 
-import { Button } from "#/components/ui/button";
 import { buttonVariants } from "#/components/ui/button-variants";
 import { IconTile } from "@/components/blocks/icon-tile";
-import { SectionState } from "@/components/blocks/state-view";
-import { TableColGroup } from "@/components/blocks/table-columns";
-import { type PageSize, TablePagination } from "@/components/tables/table-pagination";
+import { DataTable } from "@/components/tables/data-table";
+import { type PageSize } from "@/components/tables/table-pagination";
 import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { formatDate } from "@/lib/dates";
 
 import type { PrescriptionRow } from "../types";
@@ -31,9 +22,13 @@ import { prescriptionsForPatientQuery, prescriptionsForVisitQuery } from "../que
 
 // ── Static module-scope config ─────────────────────────────────────────────
 
-const features = tableFeatures({ rowPaginationFeature });
+const features = tableFeatures({
+  rowPaginationFeature,
+  paginatedRowModel: createPaginatedRowModel(),
+});
 
 const column = createColumnHelper<typeof features, PrescriptionRow>();
+const EMPTY_PRESCRIPTIONS: PrescriptionRow[] = [];
 
 /**
  * `durationDays` is nullable: null means "ongoing" (no scheduled end).
@@ -100,7 +95,7 @@ const columns = column.columns([
   }),
   column.accessor("prescribedAt", {
     header: "Prescribed",
-    meta: { width: "w-32 max-sm:w-24" },
+    meta: { width: "w-32 max-sm:w-24", hideOnMobile: true },
     cell: ({ row }) => {
       const date = new Date(row.original.prescribedAt);
       return (
@@ -109,15 +104,6 @@ const columns = column.columns([
     },
   }),
 ]);
-
-const COLUMN_LAYOUT = [
-  { heading: "Medication" },
-  { heading: "Dosage", width: "w-28", hideOnMobile: false },
-  { heading: "Frequency", width: "w-24", hideOnMobile: false },
-  { heading: "Duration", width: "w-28", hideOnMobile: true },
-  { heading: "Prescribed By", width: "w-40", hideOnMobile: true },
-  { heading: "Prescribed", width: "w-32", hideOnMobile: true },
-];
 
 // ── Component ──────────────────────────────────────────────────────────────
 
@@ -147,7 +133,7 @@ export function PrescriptionTable<TRoute extends AnyRoute = AnyRoute>({
     enabled: Boolean(visitId || patientId),
   });
 
-  const all = query.data ?? [];
+  const all = query.data ?? EMPTY_PRESCRIPTIONS;
 
   const table = useTable({
     data: all,
@@ -157,102 +143,35 @@ export function PrescriptionTable<TRoute extends AnyRoute = AnyRoute>({
     state: { pagination: { pageIndex: page - 1, pageSize: size } },
   });
 
-  if (query.isError) {
-    return (
-      <SectionState
-        action={
-          <Button onClick={() => void query.refetch()} variant="outline">
-            {query.isFetching ? "Retrying…" : "Try Again"}
-          </Button>
-        }
-        description={
-          query.error instanceof Error ? query.error.message : "An unexpected error occurred."
-        }
-        icon={CircleAlertIcon}
-        title="Could Not Load Prescriptions"
-      />
-    );
-  }
-
   const pageCount = table.getPageCount();
 
-  if (all.length > 0 && page > pageCount) {
-    return (
-      <SectionState
-        action={
-          <Link
-            className={buttonVariants()}
-            params={{ visitId } as never}
-            to={route?.fullPath ?? ("/app/visits/$visitId" as never)}
-          >
-            Back To First Page
-          </Link>
-        }
-        description={`There are only ${pageCount.toLocaleString("en-US")} pages.`}
-        icon={SearchXIcon}
-        title="Page Not Found"
-      />
-    );
-  }
-
-  const leafColumnCount = table.getAllLeafColumns().length;
-
   return (
-    <div className="flex flex-col gap-2">
-      <Table aria-busy={query.isFetching} aria-label="Prescriptions" layout="fixed">
-        <TableColGroup columns={COLUMN_LAYOUT} />
-        <TableHeader>
-          {table.getHeaderGroups().map((group) => (
-            <TableRow key={group.id}>
-              {group.headers.map((header) => (
-                <TableHead
-                  hideOnMobile={header.column.columnDef.meta?.hideOnMobile}
-                  key={header.id}
+    <DataTable
+      ariaLabel="Prescriptions"
+      emptyMessage="No prescriptions recorded for this visit yet."
+      errorDescription={
+        query.error instanceof Error ? query.error.message : "An unexpected error occurred."
+      }
+      errorTitle="Could Not Load Prescriptions"
+      outOfRange={
+        all.length > 0 && page > pageCount
+          ? {
+              backTo: () => (
+                <Link
+                  className={buttonVariants()}
+                  params={{ visitId } as never}
+                  to={route?.fullPath ?? ("/app/visits/$visitId" as never)}
                 >
-                  <table.FlexRender header={header} />
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows.length === 0 && !query.isFetching ? (
-            <TableRow>
-              <TableCell colSpan={leafColumnCount}>
-                <p className=" py-8 text-center text-sm">
-                  No prescriptions recorded for this visit yet.
-                </p>
-              </TableCell>
-            </TableRow>
-          ) : (
-            table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
-                {row.getAllCells().map((cell) => (
-                  <TableCell hideOnMobile={cell.column.columnDef.meta?.hideOnMobile} key={cell.id}>
-                    <table.FlexRender cell={cell} />
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          )}
-          {query.isFetching &&
-            Array.from({ length: Math.min(size, 3) }, (_, i) => (
-              <TableRow key={`loading-${i}`}>
-                <TableCell colSpan={leafColumnCount}>
-                  <div className="bg-muted h-7 w-full animate-pulse rounded-md" />
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
-
-      <TablePagination
-        ariaLabel="Prescription Pages"
-        page={page}
-        pageCount={pageCount}
-        route={route}
-        size={size}
-      />
-    </div>
+                  Back To First Page
+                </Link>
+              ),
+            }
+          : undefined
+      }
+      pagination={{ page, pageCount, route, size }}
+      query={query}
+      skeletonRowCount={Math.min(size, 3)}
+      table={table}
+    />
   );
 }

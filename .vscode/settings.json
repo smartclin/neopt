@@ -411,7 +411,7 @@
   // ==========================================================================
   // WORKBENCH
   // ==========================================================================
-  "workbench.colorTheme": "Visual Studio Dark",
+  "workbench.colorTheme": "Quiet Light",
   "workbench.editor.closeOnFileDelete": true,
   "workbench.editor.customLabels.enabled": true,
   "workbench.editor.customLabels.patterns": {
