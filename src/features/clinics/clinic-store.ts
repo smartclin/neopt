@@ -48,7 +48,7 @@ import { createStore, useSelector } from "@tanstack/react-store";
  * `notes`, etc., it fetches the row via React Query (`clinicByIdQuery`).
  */
 export interface ActiveClinic {
-  /** Clinic UUID if the user is linked to one; falls back to the user id. */
+  /** The id used to scope clinic data. Callers are responsible for supplying a resolved value. */
   id: string;
   name: string;
   email: string | null;

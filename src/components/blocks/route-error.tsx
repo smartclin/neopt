@@ -1,50 +1,53 @@
-import { useQueryErrorResetBoundary } from "@tanstack/react-query";
+// src/components/blocks/route-error.tsx
 import { useRouter } from "@tanstack/react-router";
 import { TriangleAlertIcon } from "lucide-react";
-import { useEffect } from "react";
 
 import { PageState } from "@/components/blocks/state-view";
 import { Button } from "@/components/ui/button";
-
-import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 
 type RouteErrorKind = "network" | "permission" | "not-found" | "unknown";
 
 interface RouteErrorProps {
   title: string;
   message?: string;
+  kind?: RouteErrorKind;
+  /**
+   * Optional override for the retry action. When omitted, the surface owns
+   * retry itself via `router.invalidate()` (see `PageState`'s default action).
+   * Callers should only pass this when they need to do something *in
+   * addition* to re-running the route's loader.
+   */
   onRetry?: () => void;
-  kind?: RouteErrorKind; // ← add this
 }
-// A route whose loader or render failed. Retrying reloads the route, which re-runs its loader.
-export function RouteError({ title, message, onRetry, kind }: Readonly<RouteErrorProps>) {
-  const router = useRouter();
-  const queryErrorResetBoundary = useQueryErrorResetBoundary();
 
-  useEffect(() => {
-    queryErrorResetBoundary.reset();
-  }, [queryErrorResetBoundary]);
+/**
+ * A route whose loader or render failed.
+ *
+ * Renders exactly one surface: the shared `PageState` empty/error view.
+ * There is no outer `Alert` and no nested `role="alert"` wrapper — the
+ * whole component is a single alert region (owned by `PageState` /
+ * `Empty`), so assistive tech announces the failure once.
+ *
+ * Retry is delegated to `PageState`, which calls `router.invalidate()`
+ * and re-runs the failing route's loader. `onRetry`, when provided,
+ * replaces that default action — it is not stacked alongside it.
+ */
+export function RouteError({ title, message, onRetry }: Readonly<RouteErrorProps>) {
+  const router = useRouter();
+
+  const retry = onRetry ?? (() => void router.invalidate());
 
   return (
-    <Alert aria-live="assertive" role="alert" variant="destructive">
-      <AlertTitle>{title}</AlertTitle>
-      <AlertDescription>
-        {message}
-        {onRetry && kind === "network" && (
-          <button className="ml-2 underline" onClick={onRetry}>
-            Retry
-          </button>
-        )}
-        <div role="alert">
-          <PageState
-            action={<Button onClick={() => void router.invalidate()}>Try Again</Button>}
-            description="This page could not load. Check your connection and try again."
-            icon={TriangleAlertIcon}
-            title="Something Went Wrong"
-          />
-        </div>
-      </AlertDescription>
-    </Alert>
+    <PageState
+      action={
+        <Button onClick={retry} type="button">
+          Try Again
+        </Button>
+      }
+      description={message ?? "This page could not load. Check your connection and try again."}
+      icon={TriangleAlertIcon}
+      title={title}
+    />
   );
 }
 

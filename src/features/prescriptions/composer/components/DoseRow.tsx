@@ -86,7 +86,7 @@ export function DoseRow(props: DoseRowProps) {
   return (
     <div className="grid gap-3 rounded-lg border p-3">
       <div className="flex items-center justify-between">
-        <Label className="flex items-center gap-2">
+        <Label className="flex items-center">
           <CalculatorIcon className="size-3.5" />
           Dose
         </Label>
@@ -96,7 +96,7 @@ export function DoseRow(props: DoseRowProps) {
             id="composer-use-calc"
             onCheckedChange={(v) => props.onChange({ useCalc: v })}
           />
-          <Label className="text-xs font-normal" htmlFor="composer-use-calc">
+          <Label variant="secondary" htmlFor="composer-use-calc">
             Calculate from mg/kg
           </Label>
         </div>

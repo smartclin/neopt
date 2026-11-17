@@ -120,18 +120,12 @@ function CollapsedSearch({ onOpen }: { onOpen: () => void }) {
  *   /app/patients/<id>/edit  -> "<id>"
  *   /app/patients/<id>/growth-> "<id>"
  */
-function useCurrentRoute() {
+function useCurrentPatientId() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const patientId = React.useMemo(() => {
+  return React.useMemo(() => {
     const m = pathname.match(/^\/app\/patients\/([^/]+)/);
     return m?.[1] ?? null;
   }, [pathname]);
-  return { pathname, patientId };
-}
-
-function isActiveLink(to: string, pathname: string) {
-  if (to === "/app") return pathname === "/app" || pathname === "/app/";
-  return pathname === to || pathname.startsWith(`${to}/`);
 }
 
 export function AppShell({ children }: { children?: React.ReactNode }) {
@@ -143,7 +137,7 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
   const openCommand = () => command.setOpen(true);
   const openQuickVisit = () => quickVisit.setOpen(true);
 
-  const { pathname, patientId } = useCurrentRoute();
+  const patientId = useCurrentPatientId();
   const { resolvedTheme, toggleTheme } = useTheme();
   const modKey = useModKey();
 
@@ -223,7 +217,6 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
                   {NAV_ITEMS.map((item) => (
                     <SidebarMenuItem key={item.to}>
                       <SidebarMenuButton
-                        isActive={isActiveLink(item.to, pathname)}
                         render={
                           <Link
                             activeOptions={{ exact: item.to === "/app" }}

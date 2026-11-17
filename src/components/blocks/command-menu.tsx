@@ -129,18 +129,23 @@ export function CommandMenu({ open, onOpenChange, onReportIssue, clinicId }: Com
     [navigate, run],
   );
 
-  const isFiltering = query.trim().length > 0;
-  const qLower = query.trim().toLowerCase();
+  // Filtering rule (single decision point):
+  //   < 2 chars → show all pages / resources / actions unfiltered; entity query is disabled.
+  //   ≥ 2 chars → filter pages / resources / actions by the same substring that drives the
+  //               entity search, so both lists are always consistent.
+  // A 1-char entry therefore shows the full static lists with no entity results.
+  // This is intentional: a single character is below the minimum useful search term.
+  const debouncedLower = debounced.toLowerCase();
 
   const filteredPages = React.useMemo(() => {
-    if (!isFiltering) return NAV_ITEMS;
-    return NAV_ITEMS.filter((item) => item.label.toLowerCase().includes(qLower));
-  }, [isFiltering, qLower]);
+    if (!searching) return NAV_ITEMS;
+    return NAV_ITEMS.filter((item) => item.label.toLowerCase().includes(debouncedLower));
+  }, [searching, debouncedLower]);
 
   const filteredResources = React.useMemo(() => {
-    if (!isFiltering) return RESOURCES;
-    return RESOURCES.filter((item) => item.label.toLowerCase().includes(qLower));
-  }, [isFiltering, qLower]);
+    if (!searching) return RESOURCES;
+    return RESOURCES.filter((item) => item.label.toLowerCase().includes(debouncedLower));
+  }, [searching, debouncedLower]);
 
   const actions = React.useMemo(
     () => [
@@ -167,9 +172,9 @@ export function CommandMenu({ open, onOpenChange, onReportIssue, clinicId }: Com
   );
 
   const filteredActions = React.useMemo(() => {
-    if (!isFiltering) return actions;
-    return actions.filter((a) => a.label.toLowerCase().includes(qLower));
-  }, [isFiltering, qLower, actions]);
+    if (!searching) return actions;
+    return actions.filter((a) => a.label.toLowerCase().includes(debouncedLower));
+  }, [searching, debouncedLower, actions]);
 
   const hasAnyItems =
     hasResults ||

@@ -247,6 +247,7 @@
   "js/ts.server.showFailedResponses": "auto",
   "js/ts.suggest.autoImports": true,
   "js/ts.suggest.completeFunctionCalls": true,
+  "js/ts.suggest.objectLiteralMethodSnippets.enabled": true,
   "js/ts.tsc.autoDetect": "on",
   "js/ts.tsdk.path": "node_modules/typescript",
   "js/ts.tsdk.promptToUseWorkspaceVersion": true,

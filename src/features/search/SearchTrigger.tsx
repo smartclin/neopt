@@ -10,7 +10,8 @@ export function SearchTrigger() {
   return (
     <Button
       aria-label="Open search (⌘K)"
-      className="w-full justify-start"
+      className="
+      w-full justify-start"
       onClick={() => setOpen(true)}
       variant="outline"
     >

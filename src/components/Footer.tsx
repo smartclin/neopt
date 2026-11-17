@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 
 export default function Footer() {
-  const year = 2026;
+  const year = new Date().getFullYear();
 
   return (
     <footer className="site-footer mt-20 px-4 py-10 text-[var(--sea-ink-soft)]">

@@ -47,11 +47,17 @@ function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
   );
 }
 
-function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
+interface TableRowProps extends React.ComponentProps<"tr"> {
+  variant?: "default" | "subtle";
+}
+
+function TableRow({ className, variant = "default", ...props }: TableRowProps) {
   return (
     <tr
       className={cn(
-        "hover:bg-muted/50 has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors",
+        "has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors",
+        variant === "default" && "hover:bg-muted/50",
+        variant === "subtle" && "group hover:bg-muted/40",
         className,
       )}
       data-slot="table-row"
@@ -62,14 +68,16 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
 
 interface TableHeadProps extends React.ComponentProps<"th"> {
   hideOnMobile?: boolean;
+  variant?: "default" | "pinned";
 }
 
-function TableHead({ className, hideOnMobile, ...props }: TableHeadProps) {
+function TableHead({ className, hideOnMobile, variant = "default", ...props }: TableHeadProps) {
   return (
     <th
       className={cn(
         " h-12 px-3 text-start align-middle text-xs font-medium tracking-wider whitespace-nowrap uppercase [&:has([role=checkbox])]:pe-0",
         hideOnMobile && "max-sm:hidden",
+        variant === "pinned" && "bg-background sticky left-0 z-10",
         className,
       )}
       data-slot="table-head"
@@ -80,14 +88,16 @@ function TableHead({ className, hideOnMobile, ...props }: TableHeadProps) {
 
 interface TableCellProps extends React.ComponentProps<"td"> {
   hideOnMobile?: boolean;
+  variant?: "default" | "pinned";
 }
 
-function TableCell({ className, hideOnMobile, ...props }: TableCellProps) {
+function TableCell({ className, hideOnMobile, variant = "default", ...props }: TableCellProps) {
   return (
     <td
       className={cn(
         "p-3 align-middle whitespace-nowrap [&:has([role=checkbox])]:pe-0",
         hideOnMobile && "max-sm:hidden",
+        variant === "pinned" && "bg-background group-hover:bg-muted/40 sticky left-0 z-10",
         className,
       )}
       data-slot="table-cell"

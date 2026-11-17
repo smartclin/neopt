@@ -1,21 +1,21 @@
-import {useForm} from "@tanstack/react-form";
-import {Plus} from "lucide-react";
-import {useState} from "react";
-import {z} from "zod";
+import { useForm } from "@tanstack/react-form";
+import { Plus } from "lucide-react";
+import { useState } from "react";
+import { z } from "zod";
 
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
-import {Input} from "@/components/ui/input";
-import {Label} from "@/components/ui/label";
-import {toast} from "@/components/ui/toast";
-import {useCreateVisitMutation} from "@/features/visits/queries";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "@/components/ui/toast";
+import { useCreateVisitMutation } from "@/features/visits/queries";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -103,7 +103,7 @@ export function VisitForm({
 
   const formBody = (
     <form
-    noValidate
+      noValidate
       className="grid gap-4"
       onSubmit={(event) => {
         event.preventDefault();

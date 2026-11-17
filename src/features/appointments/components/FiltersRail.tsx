@@ -1,21 +1,21 @@
-import {cn} from "cn";
-import {CalendarIcon, FilterIcon, RotateCcwIcon, SearchIcon, UserIcon} from "lucide-react";
-import {useMemo} from "react";
+import { cn } from "cn";
+import { CalendarIcon, FilterIcon, RotateCcwIcon, SearchIcon, UserIcon } from "lucide-react";
+import { useMemo } from "react";
 
-import {Badge} from "@/components/ui/badge";
-import {Button} from "@/components/ui/button";
-import {Input} from "@/components/ui/input";
-import {Label} from "@/components/ui/label";
-import {Separator} from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 
 import {
-    type AppointmentFilters,
-    DEFAULT_FILTERS,
-    patchFilters,
-    resetFilters,
-    useAppointmentFilters,
+  type AppointmentFilters,
+  DEFAULT_FILTERS,
+  patchFilters,
+  resetFilters,
+  useAppointmentFilters,
 } from "../filters-store";
-import {type AppointmentStatus, STATUS_CONFIG} from "../status";
+import { type AppointmentStatus, STATUS_CONFIG } from "../status";
 
 const STATUSES: Array<{ value: AppointmentStatus; label: string }> = [
   { value: "scheduled", label: "Scheduled" },
@@ -65,7 +65,6 @@ export function FiltersRail({
         <div className="relative">
           <SearchIcon className=" absolute top-1/2 left-0 size-3 -translate-y-1/2" />
           <Input
-
             onChange={(e) => set("search", e.target.value)}
             placeholder="Search name or MRN…"
             value={filters.search}
@@ -78,9 +77,7 @@ export function FiltersRail({
         <>
           <Separator />
           <div className="flex flex-col gap-2">
-            <Label htmlFor="filter-doctor">
-              Doctor
-            </Label>
+            <Label htmlFor="filter-doctor">Doctor</Label>
             <select
               className="border-b-input focus-visible:border-b-ring h-9 w-full border border-transparent bg-transparent px-0 py-1 text-sm outline-none"
               id="filter-doctor"
@@ -102,7 +99,7 @@ export function FiltersRail({
 
       {/* Status filter */}
       <div className="flex flex-col gap-2">
-        <Label >Status</Label>
+        <Label>Status</Label>
         <div className="flex flex-wrap gap-1.5">
           {STATUSES.map((s) => {
             const cfg = STATUS_CONFIG[s.value];

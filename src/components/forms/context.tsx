@@ -207,68 +207,81 @@ function FieldError({ className, ...props }: React.ComponentProps<"p">) {
 }
 
 /**
- * Renders a `<ul>` summary of every error currently attached to the form.
- *
- * Useful at the top of a form (or in a `FormActions` block) so a user sees
- * why submission failed even when the offending field is scrolled out of view.
- * Silently renders nothing when there are no errors.
- *
- * The error-normalization logic handles three shapes:
+ * Normalizes TanStack Form's `unknown[]` error array into deduplicated
+ * human-readable strings. Handles three shapes:
  *   - `string` — a plain message
  *   - `{ message: string }` — the common Zod/validator shape
  *   - `{ fieldName: Array<{ message: string }> }` — TanStack Form's aggregated
  *     error map for whole-form validators
  */
-function FormErrors() {
-  const form = useFormContext();
+function normalizeErrors(errs: unknown[]): string[] {
+  const messages: string[] = [];
 
-  const selector = React.useCallback((state: { errors: unknown[] }) => state.errors, []);
+  for (const err of errs) {
+    if (typeof err === "string") {
+      messages.push(err);
+      continue;
+    }
+    if (!isRecord(err)) continue;
 
-  const getErrorMessages = React.useCallback((errs: unknown[]): string[] => {
-    const messages: string[] = [];
+    if ("message" in err && typeof err.message === "string") {
+      messages.push(err.message);
+      continue;
+    }
 
-    for (const err of errs) {
-      if (typeof err === "string") {
-        messages.push(err);
-        continue;
-      }
-      if (!isRecord(err)) continue;
-
-      if ("message" in err && typeof err.message === "string") {
-        messages.push(err.message);
-        continue;
-      }
-
-      for (const key of Object.keys(err)) {
-        const issues = err[key];
-        if (!Array.isArray(issues)) continue;
-        for (const issue of issues) {
-          if (isRecord(issue) && typeof issue.message === "string") {
-            messages.push(issue.message);
-          } else if (typeof issue === "string") {
-            messages.push(issue);
-          }
+    for (const key of Object.keys(err)) {
+      const issues = err[key];
+      if (!Array.isArray(issues)) continue;
+      for (const issue of issues) {
+        if (isRecord(issue) && typeof issue.message === "string") {
+          messages.push(issue.message);
+        } else if (typeof issue === "string") {
+          messages.push(issue);
         }
       }
     }
+  }
 
-    return [...new Set(messages)];
-  }, []);
+  return [...new Set(messages)];
+}
+
+/**
+ * Inner component so `useMemo` runs at the top level of a real component,
+ * not inside a render-prop callback (where hooks are forbidden).
+ *
+ * Re-renders only when `errors` changes (the `form.Subscribe` selector
+ * guarantees that). The `useMemo` avoids re-running `normalizeErrors`
+ * on unrelated re-renders of the outer component tree.
+ */
+function FormErrorMessageList({ errors }: { errors: unknown[] }) {
+  const messages = React.useMemo(() => normalizeErrors(errors), [errors]);
+  if (messages.length === 0) return null;
+
+  return (
+    <ul className="text-destructive ms-4 flex list-disc flex-col gap-1 text-sm">
+      {messages.map((message) => (
+        <li key={message}>{message}</li>
+      ))}
+    </ul>
+  );
+}
+
+/**
+ * Renders a summary of every error currently attached to the form.
+ *
+ * Useful at the top of a form (or in a `FormActions` block) so a user sees
+ * why submission failed even when the offending field is scrolled out of view.
+ * Silently renders nothing when there are no errors.
+ */
+function FormErrors() {
+  const form = useFormContext();
+  const selector = React.useCallback((state: { errors: unknown[] }) => state.errors, []);
 
   return (
     <form.Subscribe selector={selector}>
       {(errors) => {
         if (errors.length === 0) return null;
-        const messages = getErrorMessages(errors);
-        if (messages.length === 0) return null;
-
-        return (
-          <ul className="text-destructive ms-4 flex list-disc flex-col gap-1 text-sm">
-            {messages.map((message) => (
-              <li key={message}>{message}</li>
-            ))}
-          </ul>
-        );
+        return <FormErrorMessageList errors={errors} />;
       }}
     </form.Subscribe>
   );
@@ -410,11 +423,13 @@ export {
   createFormField,
   fieldContext,
   formContext,
+  FormErrorMessageList,
   FormErrors,
   Field as FormField,
   FieldError as FormFieldError,
   FieldSet as FormFieldSet,
   FormItemContext,
+  normalizeErrors,
   scrollToFirstError,
   typedField,
   useFieldContext,

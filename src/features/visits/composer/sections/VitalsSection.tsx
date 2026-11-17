@@ -245,7 +245,7 @@ function VitalField({ field, existing, lms, onChange, readOnly }: VitalFieldProp
 
       {field.requiresLength && (
         <div className="grid gap-1">
-          <Label className="text-xs font-normal" htmlFor={lengthId}>
+          <Label variant="secondary" htmlFor={lengthId}>
             Length at measurement (cm)
           </Label>
           <Input

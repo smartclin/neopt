@@ -117,13 +117,9 @@ export function ImmunizationMatrix({ clinicId, ageBracket, onlyOverdue }: Immuni
         />
         <TableHeader>
           <TableRow>
-            <TableHead className="bg-background sticky left-0 z-10">Patient</TableHead>
+            <TableHead variant="pinned">Patient</TableHead>
             {vaccines.map((v) => (
-              <TableHead
-                className="text-center tracking-wider uppercase"
-                colSpan={v.doses ?? 0}
-                key={v.vaccineKey}
-              >
+              <TableHead className="text-center" colSpan={v.doses ?? 0} key={v.vaccineKey}>
                 <span className="inline-flex items-center gap-1">
                   <SyringeIcon aria-hidden="true" className=" size-3" />
                   {v.vaccineKey.toUpperCase()}
@@ -144,8 +140,8 @@ export function ImmunizationMatrix({ clinicId, ageBracket, onlyOverdue }: Immuni
 
 function MatrixTableRow({ row, vaccines }: { row: MatrixRow; vaccines: MatrixVaccine[] }) {
   return (
-    <TableRow className="group hover:bg-muted/40 cursor-pointer">
-      <TableCell className="bg-background group-hover:bg-muted/40 sticky left-0 z-10">
+    <TableRow variant="subtle" className="cursor-pointer">
+      <TableCell variant="pinned">
         <Link
           className="flex min-w-0 flex-col"
           params={{ patientId: row.patientId }}
