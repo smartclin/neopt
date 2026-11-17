@@ -101,18 +101,18 @@ export function FormularyMedicationPicker({ id, onSelect }: FormularyMedicationP
               </SelectItem>
             ))
           ) : (
-            <div className="text-muted-foreground px-3 py-2 text-sm">
+            <div className=" px-3 py-2 text-sm">
               No formulary matches. You can still enter a medication manually.
             </div>
           )}
         </SelectContent>
       </Select>
       {selected && (
-        <p className="text-muted-foreground text-xs">
+        <p className=" text-xs">
           {selected.source}: {selected.detail}
         </p>
       )}
-      <p className="text-muted-foreground text-xs">
+      <p className=" text-xs">
         Reference information only. Confirm indication, patient-specific dose, and formulation
         before prescribing.
       </p>

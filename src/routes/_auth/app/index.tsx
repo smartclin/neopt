@@ -135,7 +135,7 @@ function DashboardPage() {
           <h2 className="text-sm font-semibold tracking-tight" id="quick-actions-heading">
             Quick Actions
           </h2>
-          <p className="text-muted-foreground text-xs">Common tasks — one click away.</p>
+          <p className=" text-xs">Common tasks — one click away.</p>
         </div>
 
         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -169,7 +169,7 @@ function DashboardPage() {
               <h2 className="text-lg font-semibold tracking-tight" id="todays-appointments-heading">
                 Today's Appointments
               </h2>
-              <p className="text-muted-foreground text-sm">Scheduled consultations for today.</p>
+              <p className=" text-sm">Scheduled consultations for today.</p>
             </div>
             <Button
               nativeButton={false}
@@ -227,9 +227,9 @@ function QuickActionButton({ action }: { action: QuickAction }) {
       </span>
       <span className="min-w-0 flex-1">
         <span className="block truncate text-sm font-semibold">{action.label}</span>
-        <span className="text-muted-foreground block truncate text-xs">{action.description}</span>
+        <span className=" block truncate text-xs">{action.description}</span>
       </span>
-      <ArrowRightIcon className="text-muted-foreground group-hover:text-foreground size-4 shrink-0 transition-colors" />
+      <ArrowRightIcon className=" group-hover:text-foreground size-4 shrink-0 transition-colors" />
     </Link>
   );
 }

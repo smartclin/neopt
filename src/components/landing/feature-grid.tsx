@@ -49,7 +49,7 @@ export function FeatureGrid() {
           <h2 className="text-foreground text-3xl font-bold tracking-tight sm:text-4xl">
             Everything a pediatric clinic needs — in one place
           </h2>
-          <p className="text-muted-foreground mt-4 text-lg">
+          <p className=" mt-4 text-lg">
             Purpose-built modules that work together, from first appointment to long-term
             developmental follow-up.
           </p>
@@ -69,7 +69,7 @@ export function FeatureGrid() {
                 <Visual aspect="aspect-[4/3]" />
               </div>
               <h3 className="text-foreground mt-6 text-lg font-semibold">{title}</h3>
-              <p className="text-muted-foreground mt-2 text-sm leading-relaxed">{desc}</p>
+              <p className=" mt-2 text-sm leading-relaxed">{desc}</p>
             </article>
           ))}
         </div>

@@ -7,7 +7,7 @@ import * as React from "react";
 import { useAuthSuspense } from "#/lib/auth/hooks.ts";
 import { LazyMount } from "@/components/blocks/lazy-mount";
 import { Icons, LogoMark } from "@/components/icons";
-import { Kbd, KbdGroup } from "@/components/ui/kbd";
+import { Kbd, KbdGroup } from "@/components/ui/kdb";
 import {
   Sidebar,
   SidebarContent,
@@ -52,16 +52,16 @@ function useModKey() {
 
 function Brand() {
   return (
-    <Link aria-label="Pediatric Clinic" className="flex items-center gap-2 px-1" to="/">
+    <Link aria-label="Pediatric Clinic" className="flex items-center gap-2 " to="/">
       <LogoMark className="size-5 shrink-0" />
       <span className="flex items-center gap-1.5">
         <span className="font-branding text-lg leading-none font-bold tracking-tight">
           Pediatric
         </span>
-        <span aria-hidden="true" className="text-muted-foreground/50 text-xs leading-none">
+        <span aria-hidden="true" className="text-xs leading-none">
           /
         </span>
-        <span className="text-muted-foreground text-xs leading-none font-light">Clinic</span>
+        <span className=" text-xs leading-none font-light">Clinic</span>
       </span>
     </Link>
   );
@@ -199,7 +199,7 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
 
             <button
               aria-keyshortcuts={modKey === "⌘" ? "Meta+K" : "Control+K"}
-              className="bg-background text-muted-foreground hover:text-foreground focus-visible:ring-ring flex h-7 w-full items-center gap-2 rounded-md border px-2 text-xs transition-colors group-data-[collapsible=icon]:hidden focus-visible:ring-2 focus-visible:outline-none"
+              className="bg-background  hover:text-foreground focus-visible:ring-ring flex h-7 w-full items-center gap-2 rounded-md border px-2 text-xs transition-colors group-data-[collapsible=icon]:hidden focus-visible:ring-2 focus-visible:outline-none"
               onClick={openCommand}
               onFocus={preloadCommandMenu}
               onPointerEnter={preloadCommandMenu}
@@ -265,7 +265,7 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
                         <span>{item.label}</span>
                         <ExternalLinkIcon
                           aria-hidden="true"
-                          className="text-muted-foreground ml-auto group-data-[collapsible=icon]:hidden"
+                          className=" ml-auto group-data-[collapsible=icon]:hidden"
                         />
                       </SidebarMenuButton>
                     </SidebarMenuItem>

@@ -271,7 +271,7 @@ function SectionBlock({ section }: { section: Section }) {
 
 function FooterCta() {
   return (
-    <section className="island-shell rounded-3xl px-8 py-12 text-center sm:px-12">
+    <section className="island-shell rounded-3xl px-8 py-12 text-center sm:px-2 sm:py-16">
       <div className="mx-auto max-w-2xl">
         <Badge className="mb-4" variant="outline">
           <CheckCircle2 aria-hidden="true" className="size-3" />

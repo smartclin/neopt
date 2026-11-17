@@ -60,9 +60,7 @@ const columns = column.columns([
         <div className="flex min-w-0 flex-col">
           <span className="truncate font-medium">{row.original.medicationName}</span>
           {row.original.instructions ? (
-            <span className="text-muted-foreground truncate text-xs">
-              {row.original.instructions}
-            </span>
+            <span className=" truncate text-xs">{row.original.instructions}</span>
           ) : null}
         </div>
       </div>
@@ -79,7 +77,7 @@ const columns = column.columns([
     header: "Frequency",
     meta: { width: "w-24 max-sm:w-24" },
     cell: ({ row }) => (
-      <span className="text-muted-foreground block truncate font-mono text-xs tabular-nums">
+      <span className=" block truncate font-mono text-xs tabular-nums">
         {row.original.frequency}
       </span>
     ),
@@ -97,7 +95,7 @@ const columns = column.columns([
     meta: { width: "w-40", hideOnMobile: true },
     cell: ({ row }) => {
       const doctor = row.original.prescribedBy;
-      return <span className="text-muted-foreground block truncate">{doctor?.name ?? "—"}</span>;
+      return <span className=" block truncate">{doctor?.name ?? "—"}</span>;
     },
   }),
   column.accessor("prescribedAt", {
@@ -106,9 +104,7 @@ const columns = column.columns([
     cell: ({ row }) => {
       const date = new Date(row.original.prescribedAt);
       return (
-        <span className="text-muted-foreground block truncate font-mono text-xs tabular-nums">
-          {formatDate(date)}
-        </span>
+        <span className=" block truncate font-mono text-xs tabular-nums">{formatDate(date)}</span>
       );
     },
   }),
@@ -223,7 +219,7 @@ export function PrescriptionTable<TRoute extends AnyRoute = AnyRoute>({
           {table.getRowModel().rows.length === 0 && !query.isFetching ? (
             <TableRow>
               <TableCell colSpan={leafColumnCount}>
-                <p className="text-muted-foreground py-8 text-center text-sm">
+                <p className=" py-8 text-center text-sm">
                   No prescriptions recorded for this visit yet.
                 </p>
               </TableCell>

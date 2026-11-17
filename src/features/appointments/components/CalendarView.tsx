@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { cn } from "cn";
 import { ChevronLeftIcon, ChevronRightIcon, PlusIcon } from "lucide-react";
 import * as React from "react";
 
@@ -7,141 +6,30 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
-// ── reads ──────────────────────────────────────────────────────────────
-import { formatDayHeading, formatMonth, formatShortDay, formatTime } from "@/lib/dates";
+// ── dates & format ─────────────────────────────────────────────────────
+import { formatDayHeading, formatMonth, formatShortDay, formatWeekRange } from "@/lib/dates";
+import {
+  addDays,
+  groupByDay,
+  isEditableTarget,
+  isSameDay,
+  startOfDay,
+  startOfMonth,
+  startOfWeek,
+  toDateKey,
+} from "@/lib/dates";
+import { cn } from "@/lib/utils";
 
-import type { fetchAppointmentsInRange } from "../functions";
+import type { AppointmentInRange } from "../types";
 
 import { appointmentsInRangeQuery } from "../queries";
-import { normalizeStatus, STATUS_CONFIG } from "../status";
+import { AppointmentStatusPill } from "./AppointmentStatusPill";
 
-// ── Helpers ────────────────────────────────────────────────────────────
+// ── Local types ────────────────────────────────────────────────────────
 
 type ViewMode = "week" | "month";
 
-function startOfDay(d: Date): Date {
-  const r = new Date(d);
-  r.setHours(0, 0, 0, 0);
-  return r;
-}
-
-function addDays(d: Date, n: number): Date {
-  const r = new Date(d);
-  r.setDate(r.getDate() + n);
-  return r;
-}
-
-function startOfWeek(d: Date): Date {
-  const r = startOfDay(d);
-  const day = r.getDay();
-  r.setDate(r.getDate() - (day === 0 ? 6 : day - 1));
-  return r;
-}
-
-function startOfMonth(d: Date): Date {
-  return new Date(d.getFullYear(), d.getMonth(), 1);
-}
-
-function isSameDay(a: Date, b: Date): boolean {
-  return (
-    a.getDate() === b.getDate() &&
-    a.getMonth() === b.getMonth() &&
-    a.getFullYear() === b.getFullYear()
-  );
-}
-
-function toDateKey(d: Date | string): string {
-  const date = startOfDay(new Date(d));
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-}
-
-function isEditableTarget(el: Element | null): boolean {
-  if (!(el instanceof HTMLElement)) return false;
-  if (el instanceof HTMLInputElement) return true;
-  if (el instanceof HTMLTextAreaElement) return true;
-  if (el instanceof HTMLSelectElement) return true;
-  if (el.isContentEditable) return true;
-  return false;
-}
-
-// ── Appointment row type ───────────────────────────────────────────────
-//
-// Derive the row type from the *server function* that the query calls,
-// not from the query-factory's return type. `createServerFn` returns a
-// function whose return type is already `Promise<T[]>`. `Awaited<
-// ReturnType<...>>` gives `T[]`, and taking `[number]` gives `T`.
-//
-// The previous version used the query-factory's `queryFn` property,
-// which is *optional* (`queryFn?: QueryFunction | undefined`). Wrapping
-// that in `NonNullable<...>` produces `QueryFunction<...>` whose
-// `extends Promise<infer T>` clause never matches — hence `Appt = never`.
-type Appt = Awaited<ReturnType<typeof fetchAppointmentsInRange>>[number];
-
-function groupByDay(appointments: readonly Appt[]): Map<string, Appt[]> {
-  const map = new Map<string, Appt[]>();
-  for (const a of appointments) {
-    const key = toDateKey(a.scheduledAt);
-    const list = map.get(key);
-    if (list) list.push(a);
-    else map.set(key, [a]);
-  }
-  return map;
-}
-
-// ── Appointment pill ───────────────────────────────────────────────────
-
-interface AppointmentPillProps {
-  appt: Appt;
-  onEdit: (id: string) => void;
-  compact?: boolean;
-}
-
-function AppointmentPill({ appt, onEdit, compact = false }: AppointmentPillProps) {
-  const status = normalizeStatus(appt.status);
-  const cfg = STATUS_CONFIG[status];
-
-  const raw = new Date(appt.scheduledAt);
-  const time = Number.isNaN(raw.getTime()) ? null : raw;
-  const timeText = time ? formatTime(time) : "—";
-  const statusText = cfg.label;
-
-  const patientName = appt.patient
-    ? `${appt.patient.firstName} ${appt.patient.lastName}`
-    : "Unknown patient";
-
-  return (
-    <button
-      aria-label={`${patientName} at ${timeText} — ${statusText}`}
-      className={cn(
-        "group flex w-full items-start gap-1.5 rounded-lg border px-2 py-1.5 text-left transition-all",
-        "hover:shadow-sm",
-        "focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none",
-        cfg.pillClass,
-      )}
-      onClick={() => onEdit(appt.id)}
-      type="button"
-    >
-      <span className="mt-px shrink-0 font-mono text-[0.6rem] tabular-nums opacity-70">
-        {timeText}
-      </span>
-
-      {!compact && (
-        <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-          <span className="truncate text-[0.7rem] leading-tight font-semibold">{patientName}</span>
-          {appt.reason && <span className="truncate text-[0.6rem] opacity-70">{appt.reason}</span>}
-          {appt.doctor && <span className="text-[0.6rem] opacity-60">{appt.doctor.name}</span>}
-        </div>
-      )}
-
-      <span
-        aria-hidden="true"
-        className={cn("mt-1 size-1.5 shrink-0 rounded-full", cfg.dotClass)}
-      />
-    </button>
-  );
-}
-
-// ── Mini-month navigator (unchanged) ──────────────────────────────────
+// ── Mini-month navigator ───────────────────────────────────────────────
 
 interface MiniMonthProps {
   anchor: Date;
@@ -191,10 +79,7 @@ function MiniMonth({ anchor, onSelect, onNavigate }: MiniMonthProps) {
 
       <div aria-hidden="true" className="grid grid-cols-7 gap-px">
         {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
-          <span
-            className="text-muted-foreground text-center text-[0.55rem] font-semibold uppercase"
-            key={i}
-          >
+          <span className="text-center text-[0.55rem] font-semibold uppercase" key={i}>
             {d}
           </span>
         ))}
@@ -229,11 +114,49 @@ function MiniMonth({ anchor, onSelect, onNavigate }: MiniMonthProps) {
   );
 }
 
-// ── Week view (unchanged) ─────────────────────────────────────────────
+// ── Appointment pill (small wrapper around the shared status pill) ─────
+
+interface AppointmentPillProps {
+  appt: AppointmentInRange;
+  onEdit: (id: string) => void;
+  compact?: boolean;
+}
+
+function AppointmentPill({ appt, onEdit, compact = false }: AppointmentPillProps) {
+  const raw = new Date(appt.scheduledAt);
+  const timeText = Number.isNaN(raw.getTime())
+    ? "—"
+    : raw.toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+  const patientName = appt.patient
+    ? `${appt.patient.firstName} ${appt.patient.lastName}`
+    : "Unknown patient";
+
+  return (
+    <AppointmentStatusPill onClick={() => onEdit(appt.id)} status={appt.status}>
+      <span className="mt-px shrink-0 font-mono text-[0.6rem] tabular-nums opacity-70">
+        {timeText}
+      </span>
+
+      {!compact && (
+        <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+          <span className="truncate text-[0.7rem] leading-tight font-semibold">{patientName}</span>
+          {appt.reason && <span className="truncate text-[0.6rem] opacity-70">{appt.reason}</span>}
+          {appt.doctor && <span className="text-[0.6rem] opacity-60">{appt.doctor.name}</span>}
+        </div>
+      )}
+    </AppointmentStatusPill>
+  );
+}
+
+// ── Week view ──────────────────────────────────────────────────────────
 
 interface WeekViewProps {
   weekStart: Date;
-  byDay: Map<string, Appt[]>;
+  byDay: Map<string, AppointmentInRange[]>;
   isLoading: boolean;
   onEdit: (id: string) => void;
   onNewAt: (d: Date) => void;
@@ -271,7 +194,7 @@ function WeekView({ weekStart, byDay, isLoading, onEdit, onNewAt }: WeekViewProp
               <span
                 className={cn(
                   "text-[0.6rem] font-semibold tracking-wide uppercase",
-                  isToday ? "text-primary" : "text-muted-foreground",
+                  isToday ? "text-primary" : "",
                 )}
               >
                 {formatShortDay(day)}
@@ -327,7 +250,7 @@ function WeekView({ weekStart, byDay, isLoading, onEdit, onNewAt }: WeekViewProp
                 <button
                   aria-label={`Add appointment on ${formatDayHeading(day)}`}
                   className={cn(
-                    "text-muted-foreground/40 hover:text-muted-foreground",
+                    "bg-muted/40 hover:bg-muted/60",
                     "focus-visible:ring-ring flex w-full items-center justify-center gap-1 rounded-lg py-2 text-xs transition-all",
                     "opacity-0 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:outline-none",
                   )}
@@ -346,11 +269,11 @@ function WeekView({ weekStart, byDay, isLoading, onEdit, onNewAt }: WeekViewProp
   );
 }
 
-// ── Month view (unchanged) ────────────────────────────────────────────
+// ── Month view ─────────────────────────────────────────────────────────
 
 interface MonthViewProps {
   monthStart: Date;
-  byDay: Map<string, Appt[]>;
+  byDay: Map<string, AppointmentInRange[]>;
   isLoading: boolean;
   onEdit: (id: string) => void;
   onNewAt: (d: Date) => void;
@@ -381,7 +304,7 @@ function MonthView({ monthStart, byDay, isLoading, onEdit, onNewAt }: MonthViewP
     <div aria-label="Month calendar" className="grid grid-cols-7 gap-px" role="group">
       {weekdayHeaders.map((h) => (
         <div
-          className="text-muted-foreground pb-2 text-center text-[0.65rem] font-semibold tracking-wide uppercase"
+          className="pb-2 text-center text-[0.65rem] font-semibold tracking-wide uppercase"
           key={h}
           role="presentation"
         >
@@ -429,7 +352,7 @@ function MonthView({ monthStart, byDay, isLoading, onEdit, onNewAt }: MonthViewP
               <button
                 aria-label={`Add appointment on ${formatDayHeading(day)}`}
                 className={cn(
-                  "text-muted-foreground/40 hover:text-muted-foreground",
+                  "bg-muted/40 hover:bg-muted/60",
                   "focus-visible:ring-ring rounded-sm opacity-0 transition-opacity",
                   "group-hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:outline-none",
                 )}
@@ -450,7 +373,7 @@ function MonthView({ monthStart, byDay, isLoading, onEdit, onNewAt }: MonthViewP
                 {overflow > 0 && (
                   <button
                     aria-label={`Show all ${dayAppts.length} appointments on ${formatDayHeading(day)}`}
-                    className="text-muted-foreground hover:text-foreground focus-visible:ring-ring rounded-sm text-[0.6rem] hover:underline focus-visible:ring-2 focus-visible:outline-none"
+                    className="hover:text-foreground focus-visible:ring-ring rounded-sm text-[0.6rem] hover:underline focus-visible:ring-2 focus-visible:outline-none"
                     onClick={() => onNewAt(day)}
                     type="button"
                   >
@@ -466,7 +389,7 @@ function MonthView({ monthStart, byDay, isLoading, onEdit, onNewAt }: MonthViewP
   );
 }
 
-// ── Main CalendarView ─────────────────────────────────────────────────
+// ── Main CalendarView ──────────────────────────────────────────────────
 
 interface CalendarViewProps {
   clinicId: string;
@@ -493,7 +416,9 @@ export function CalendarView({ clinicId, onEdit, onNew }: CalendarViewProps) {
   );
 
   const appointments = React.useMemo(() => query.data ?? [], [query.data]);
-  const byDay = React.useMemo(() => groupByDay(appointments), [appointments]);
+  const byDay = React.useMemo(() => {
+    return new Map(Object.entries(groupByDay(appointments)));
+  }, [appointments]);
 
   const goTo = React.useCallback(
     (direction: -1 | 1) => {
@@ -541,21 +466,7 @@ export function CalendarView({ clinicId, onEdit, onNew }: CalendarViewProps) {
   }, []);
 
   const rangeLabel =
-    view === "week"
-      ? (() => {
-          const end = addDays(rangeStart, 6);
-          const startDay = rangeStart.getDate();
-          const startMonth = new Intl.DateTimeFormat("en-GB", {
-            month: "short",
-          }).format(rangeStart);
-          const endDay = end.getDate();
-          const endMonth = new Intl.DateTimeFormat("en-GB", {
-            month: "short",
-            year: "numeric",
-          }).format(end);
-          return `${startDay} ${startMonth} – ${endDay} ${endMonth}`;
-        })()
-      : formatMonth(rangeStart);
+    view === "week" ? formatWeekRange(rangeStart, addDays(rangeStart, 6)) : formatMonth(rangeStart);
 
   return (
     <div className="flex gap-6">
@@ -590,7 +501,7 @@ export function CalendarView({ clinicId, onEdit, onNew }: CalendarViewProps) {
           <div className="flex items-center gap-2">
             <div
               aria-label="View mode"
-              className="bg-muted flex items-center rounded-lg p-0.5"
+              className="bg-muted flex items-center rounded-lg p-1 text-xs font-medium"
               role="group"
             >
               {(["week", "month"] as const).map((v) => (
@@ -600,7 +511,7 @@ export function CalendarView({ clinicId, onEdit, onNew }: CalendarViewProps) {
                     "focus-visible:ring-ring rounded-md px-3 py-1 text-xs font-medium capitalize transition-colors focus-visible:ring-2 focus-visible:outline-none",
                     view === v
                       ? "bg-background text-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground",
+                      : "hover:text-foreground",
                   )}
                   key={v}
                   onClick={() => setView(v)}

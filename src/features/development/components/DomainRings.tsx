@@ -75,14 +75,14 @@ function DomainRing({ row }: { row: DomainRingData }) {
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="flex items-center gap-1.5">
           <Icon aria-hidden="true" className={cn("size-3.5 shrink-0", meta.text)} />
-          <span className="text-muted-foreground truncate text-xs font-semibold tracking-wider uppercase">
+          <span className=" truncate text-xs font-semibold tracking-wider uppercase">
             {meta.shortLabel}
           </span>
         </div>
         <div className="flex items-baseline gap-1">
           <span className="text-lg leading-tight font-semibold tabular-nums">{pct}</span>
-          <span className="text-muted-foreground text-xs">%</span>
-          <span className="text-muted-foreground ml-auto text-xs tabular-nums">
+          <span className=" text-xs">%</span>
+          <span className=" ml-auto text-xs tabular-nums">
             {row.achieved}/{row.expected}
           </span>
         </div>

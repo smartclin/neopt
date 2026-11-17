@@ -51,11 +51,9 @@ export function StatCard({ label, value, sub, tone = "default", icon: Icon }: St
       )}
 
       <div className="min-w-0">
-        <p className="text-muted-foreground truncate text-xs font-medium tracking-wide uppercase">
-          {label}
-        </p>
+        <p className=" truncate text-xs font-medium tracking-wide uppercase">{label}</p>
         <p className={`truncate text-xl font-bold tracking-tight ${s.value}`}>{value}</p>
-        {sub ? <p className="text-muted-foreground truncate text-xs">{sub}</p> : null}
+        {sub ? <p className=" truncate text-xs">{sub}</p> : null}
       </div>
     </div>
   );

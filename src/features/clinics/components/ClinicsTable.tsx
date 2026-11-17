@@ -53,15 +53,13 @@ const columns = column.columns([
   column.accessor("address", {
     header: "Address",
     meta: { width: "w-72", hideOnMobile: true },
-    cell: (info) => (
-      <span className="text-muted-foreground block truncate">{info.getValue() ?? "—"}</span>
-    ),
+    cell: (info) => <span className=" block truncate">{info.getValue() ?? "—"}</span>,
   }),
   column.accessor("phone", {
     header: "Phone",
     meta: { width: "w-36" },
     cell: (info) => (
-      <span className="text-muted-foreground block truncate font-mono text-xs tabular-nums">
+      <span className=" block truncate font-mono text-xs tabular-nums">
         {info.getValue() ?? "—"}
       </span>
     ),
@@ -69,9 +67,7 @@ const columns = column.columns([
   column.accessor("email", {
     header: "Email",
     meta: { width: "w-56", hideOnMobile: true },
-    cell: (info) => (
-      <span className="text-muted-foreground block truncate">{info.getValue() ?? "—"}</span>
-    ),
+    cell: (info) => <span className=" block truncate">{info.getValue() ?? "—"}</span>,
   }),
 ]);
 
@@ -177,9 +173,7 @@ export function ClinicsTable<TRoute extends AnyRoute>({
           {table.getRowModel().rows.length === 0 && !query.isFetching ? (
             <TableRow>
               <TableCell colSpan={leafColumnCount}>
-                <p className="text-muted-foreground py-8 text-center text-sm">
-                  No clinics registered yet.
-                </p>
+                <p className=" py-8 text-center text-sm">No clinics registered yet.</p>
               </TableCell>
             </TableRow>
           ) : (

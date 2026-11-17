@@ -1,21 +1,21 @@
-import { cn } from "cn";
-import { CalendarIcon, FilterIcon, RotateCcwIcon, SearchIcon, UserIcon } from "lucide-react";
-import { useMemo } from "react";
+import {cn} from "cn";
+import {CalendarIcon, FilterIcon, RotateCcwIcon, SearchIcon, UserIcon} from "lucide-react";
+import {useMemo} from "react";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
+import {Badge} from "@/components/ui/badge";
+import {Button} from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {Label} from "@/components/ui/label";
+import {Separator} from "@/components/ui/separator";
 
 import {
-  type AppointmentFilters,
-  DEFAULT_FILTERS,
-  patchFilters,
-  resetFilters,
-  useAppointmentFilters,
+    type AppointmentFilters,
+    DEFAULT_FILTERS,
+    patchFilters,
+    resetFilters,
+    useAppointmentFilters,
 } from "../filters-store";
-import { type AppointmentStatus, STATUS_CONFIG } from "../status";
+import {type AppointmentStatus, STATUS_CONFIG} from "../status";
 
 const STATUSES: Array<{ value: AppointmentStatus; label: string }> = [
   { value: "scheduled", label: "Scheduled" },
@@ -44,12 +44,12 @@ export function FiltersRail({
       {/* Title */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <FilterIcon className="text-muted-foreground size-3.5" />
+          <FilterIcon className=" size-3.5" />
           <h2 className="text-sm font-semibold">Filters</h2>
           {active && <Badge variant="info">Active</Badge>}
         </div>
         {active && (
-          <Button className="text-muted-foreground" onClick={reset} size="xs" variant="ghost">
+          <Button className="" onClick={reset} size="xs" variant="ghost">
             <RotateCcwIcon className="size-3" />
             Reset
           </Button>
@@ -58,14 +58,14 @@ export function FiltersRail({
 
       {/* Patient search */}
       <div className="flex flex-col gap-2">
-        <Label className="flex items-center gap-1.5 text-xs">
+        <Label className="flex items-center ">
           <UserIcon className="size-3" />
           Patient
         </Label>
         <div className="relative">
-          <SearchIcon className="text-muted-foreground absolute top-1/2 left-0 size-3 -translate-y-1/2" />
+          <SearchIcon className=" absolute top-1/2 left-0 size-3 -translate-y-1/2" />
           <Input
-            className="pl-4"
+
             onChange={(e) => set("search", e.target.value)}
             placeholder="Search name or MRN…"
             value={filters.search}
@@ -78,7 +78,7 @@ export function FiltersRail({
         <>
           <Separator />
           <div className="flex flex-col gap-2">
-            <Label className="text-xs" htmlFor="filter-doctor">
+            <Label htmlFor="filter-doctor">
               Doctor
             </Label>
             <select
@@ -102,7 +102,7 @@ export function FiltersRail({
 
       {/* Status filter */}
       <div className="flex flex-col gap-2">
-        <Label className="text-xs">Status</Label>
+        <Label >Status</Label>
         <div className="flex flex-wrap gap-1.5">
           {STATUSES.map((s) => {
             const cfg = STATUS_CONFIG[s.value];
@@ -112,9 +112,7 @@ export function FiltersRail({
                 aria-pressed={isActive}
                 className={cn(
                   "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[0.65rem] font-medium transition-all",
-                  isActive
-                    ? cfg.pillClass
-                    : "border-border text-muted-foreground hover:border-current",
+                  isActive ? cfg.pillClass : "border-border  hover:border-current",
                 )}
                 key={s.value}
                 onClick={() => set("status", isActive ? "" : s.value)}
@@ -137,13 +135,13 @@ export function FiltersRail({
 
       {/* Date range */}
       <div className="flex flex-col gap-2">
-        <Label className="flex items-center gap-1.5 text-xs">
+        <Label className="flex items-center ">
           <CalendarIcon className="size-3" />
           Date range
         </Label>
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-1">
-            <span className="text-muted-foreground text-[0.65rem]">From</span>
+            <span className=" text-[0.65rem]">From</span>
             <input
               className="border-b-input focus-visible:border-b-ring h-9 w-full border border-transparent bg-transparent px-0 py-1 text-sm [color-scheme:light_dark] transition-[color,border-color] outline-none"
               onChange={(e) => set("dateFrom", e.target.value)}
@@ -152,7 +150,7 @@ export function FiltersRail({
             />
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-muted-foreground text-[0.65rem]">To</span>
+            <span className=" text-[0.65rem]">To</span>
             <input
               className="border-b-input focus-visible:border-b-ring h-9 w-full border border-transparent bg-transparent px-0 py-1 text-sm [color-scheme:light_dark] transition-[color,border-color] outline-none"
               onChange={(e) => set("dateTo", e.target.value)}

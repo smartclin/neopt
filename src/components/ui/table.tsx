@@ -68,7 +68,7 @@ function TableHead({ className, hideOnMobile, ...props }: TableHeadProps) {
   return (
     <th
       className={cn(
-        "text-muted-foreground h-12 px-3 text-start align-middle text-xs font-medium tracking-wider whitespace-nowrap uppercase [&:has([role=checkbox])]:pe-0",
+        " h-12 px-3 text-start align-middle text-xs font-medium tracking-wider whitespace-nowrap uppercase [&:has([role=checkbox])]:pe-0",
         hideOnMobile && "max-sm:hidden",
         className,
       )}
@@ -98,11 +98,7 @@ function TableCell({ className, hideOnMobile, ...props }: TableCellProps) {
 
 function TableCaption({ className, ...props }: React.ComponentProps<"caption">) {
   return (
-    <caption
-      className={cn("text-muted-foreground mt-4 text-sm", className)}
-      data-slot="table-caption"
-      {...props}
-    />
+    <caption className={cn(" mt-4 text-sm", className)} data-slot="table-caption" {...props} />
   );
 }
 

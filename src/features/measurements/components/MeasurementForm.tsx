@@ -210,7 +210,7 @@ export function MeasurementForm({
         void form.handleSubmit();
       }}
     >
-      <p className="text-muted-foreground text-sm">
+      <p className=" text-sm">
         Sex: <span className="capitalize">{patientSex}</span> · Age: {ageMonths.toFixed(1)} months
         {lengthCm !== undefined && ` · Length: ${lengthCm} cm`}
       </p>

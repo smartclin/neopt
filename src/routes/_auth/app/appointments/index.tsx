@@ -41,7 +41,7 @@ function SegmentedToggle({
           className={`flex-1 rounded-lg py-1.5 text-xs font-semibold tracking-wide uppercase transition-colors ${
             value === opt.value
               ? "bg-background text-foreground shadow-sm"
-              : "text-muted-foreground hover:text-foreground"
+              : " hover:text-foreground"
           }`}
           key={opt.value}
           onClick={() => onChange(opt.value)}

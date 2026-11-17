@@ -1,544 +1,353 @@
-x shadcn(no-restyle): "pt-6" is not allowed on <CardContent>: <CardContent> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/routes/_auth/app/prescriptions/neonatal-dose-calculator.tsx:19:32]
- 18 |       <Card>
- 19 |         <CardContent className="pt-6">
-    :                                ^^^^^^
- 20 |           <PediatricDosingCalculator standalone />
-    `----
-
-  x shadcn(no-restyle): "pl-9" is not allowed on <Input>: <Input> owns its spacing. For space around it, use margin here or gap on the parent. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/prescriptions/composer/components/MedicationAutocomplete.tsx:120:21]
- 119 |           autoComplete="off"
- 120 |           className="pl-9 pr-8"
-     :                     ^^^^^^^^^^^
- 121 |           disabled={disabled}
+x shadcn(no-unknown-classes): ".5" is not a class this project's Tailwind knows, so no CSS is generated for it. Fix the spelling, or declare it with @utility in src/styles.css. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/features/prescriptions/composer/components/MedicationAutocomplete.tsx:198:45]
+ 197 |                           {drug.brandNames.slice(0, 3).map((b) => (
+ 198 |                             <span className="bg-muted  rounded .5 py-0.5 text-xsss" key={b}>
+     :                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 199 |                               {b}
      `----
 
-  x shadcn(no-restyle): "pr-8" is not allowed on <Input>: <Input> owns its spacing. For space around it, use margin here or gap on the parent. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/prescriptions/composer/components/MedicationAutocomplete.tsx:120:21]
- 119 |           autoComplete="off"
- 120 |           className="pl-9 pr-8"
-     :                     ^^^^^^^^^^^
- 121 |           disabled={disabled}
+  x shadcn(no-restyle): "bg-background" is not allowed on <TableHead>: <TableHead> owns its color. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/features/immunizations/components/ImmunizationMatrix.tsx:120:34]
+ 119 |           <TableRow>
+ 120 |             <TableHead className="bg-background sticky left-0 z-10">Patient</TableHead>
+     :                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 121 |             {vaccines.map((v) => (
      `----
 
-  x shadcn(no-restyle): "bg-muted" is not allowed on <Button>: <Button> owns its color. Use a variant: default, outline, secondary, ghost, destructive, link. Add a new variant in src/components/ui/button.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A
-  | new token or variant is a product decision: ask before adding one.
-     ,-[src/features/prescriptions/composer/components/MedicationAutocomplete.tsx:181:34]
- 180 |                       "h-auto w-full justify-start whitespace-normal",
- 181 |                       isActive ? "bg-muted text-foreground" : "hover:bg-muted/60",
-     :                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 182 |                     )}
+  x shadcn(no-restyle): "tracking-wider" is not allowed on <TableHead>: <TableHead> owns its typography. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/features/immunizations/components/ImmunizationMatrix.tsx:123:27]
+ 122 |               <TableHead
+ 123 |                 className="text-center tracking-wider uppercase"
+     :                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 124 |                 colSpan={v.doses ?? 0}
      `----
 
-  x shadcn(no-restyle): "text-foreground" is not allowed on <Button>: <Button> owns its color. Use a variant: default, outline, secondary, ghost, destructive, link. Add a new variant in src/components/ui/button.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-
-  | guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/prescriptions/composer/components/MedicationAutocomplete.tsx:181:34]
- 180 |                       "h-auto w-full justify-start whitespace-normal",
- 181 |                       isActive ? "bg-muted text-foreground" : "hover:bg-muted/60",
-     :                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 182 |                     )}
+  x shadcn(no-restyle): "uppercase" is not allowed on <TableHead>: <TableHead> owns its typography. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/features/immunizations/components/ImmunizationMatrix.tsx:123:27]
+ 122 |               <TableHead
+ 123 |                 className="text-center tracking-wider uppercase"
+     :                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 124 |                 colSpan={v.doses ?? 0}
      `----
 
-  x shadcn(no-restyle): "hover:bg-muted/60" is not allowed on <Button>: <Button> owns its color. Use a variant: default, outline, secondary, ghost, destructive, link. Add a new variant in src/components/ui/button.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-
-  | guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/prescriptions/composer/components/MedicationAutocomplete.tsx:181:63]
- 180 |                       "h-auto w-full justify-start whitespace-normal",
- 181 |                       isActive ? "bg-muted text-foreground" : "hover:bg-muted/60",
-     :                                                               ^^^^^^^^^^^^^^^^^^^
- 182 |                     )}
+  x shadcn(no-restyle): "hover:bg-muted/40" is not allowed on <TableRow>: <TableRow> owns its color. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/features/immunizations/components/ImmunizationMatrix.tsx:147:25]
+ 146 |   return (
+ 147 |     <TableRow className="group hover:bg-muted/40 cursor-pointer">
+     :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 148 |       <TableCell className="bg-background group-hover:bg-muted/40 sticky left-0 z-10">
      `----
 
-  x shadcn(no-restyle): "p-0" is not allowed on <CardContent>: <CardContent> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/prescriptions/composer/components/SafetyRail.tsx:86:34]
- 85 |           </CardHeader>
- 86 |           <CardContent className="p-0">
-    :                                  ^^^^^
- 87 |             <Accordion>
-    `----
-
-  ! react(set-state-in-effect): Calling setState synchronously within an effect can trigger cascading renders
-     ,-[src/features/prescriptions/components/PediatricDosingCalculator.tsx:112:5]
- 110 | 
- 111 |   useEffect(() => {
-     :   ^^^^|^^^^
-     :       `-- This is the containing effect
- 112 |     setCapConfirmed(false);
-     :     ^^^^^^^|^^^^^^^
-     :            `-- Avoid calling setState() directly within an effect
- 113 |   }, []);
-     `----
-  help: Effects should synchronize React with external systems. Calling setState synchronously inside an effect starts another render and is usually unnecessary. Derive the value during render, initialize state directly, or update it from the event that caused the change. Use an effect only when synchronizing with an external system.
-  note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/set-state-in-effect
-
-  x shadcn(no-restyle): "shadow-xs" is not allowed on <Card>: <Card> owns its effects. Add a variant in src/components/ui/card.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/development/components/MilestoneChecklist.tsx:89:21]
- 88 |   return (
- 89 |     <Card className="w-full shadow-xs">
-    :                     ^^^^^^^^^^^^^^^^^^
- 90 |       <CardHeader className="pb-4">
-    `----
-
-  x shadcn(no-restyle): "pb-4" is not allowed on <CardHeader>: <CardHeader> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/development/components/MilestoneChecklist.tsx:90:29]
- 89 |     <Card className="w-full shadow-xs">
- 90 |       <CardHeader className="pb-4">
-    :                             ^^^^^^
- 91 |         <div className="flex flex-wrap items-center justify-between gap-3">
-    `----
-
-  x shadcn(no-restyle): "text-base" is not allowed on <CardTitle>: <CardTitle> owns its typography. Add a variant in src/components/ui/card.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/development/components/MilestoneChecklist.tsx:97:36]
- 96 |             <div>
- 97 |               <CardTitle className="text-base font-semibold">
-    :                                    ^^^^^^^^^^^^^^^^^^^^^^^^^
- 98 |                 Developmental Milestones & Neurodevelopmental Screening
-    `----
-
-  x shadcn(no-restyle): "font-semibold" is not allowed on <CardTitle>: <CardTitle> owns its typography. Add a variant in src/components/ui/card.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/development/components/MilestoneChecklist.tsx:97:36]
- 96 |             <div>
- 97 |               <CardTitle className="text-base font-semibold">
-    :                                    ^^^^^^^^^^^^^^^^^^^^^^^^^
- 98 |                 Developmental Milestones & Neurodevelopmental Screening
-    `----
-
-  x shadcn(no-restyle): "text-xs" is not allowed on <Badge>: <Badge> owns its typography. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for
-  | layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/development/components/MilestoneChecklist.tsx:126:30]
- 125 | 
- 126 |             <Badge className="text-xs" variant="outline">
-     :                              ^^^^^^^^^
- 127 |               {achievedCount} / {currentMilestones.length} Met
+  x shadcn(no-restyle): "bg-background" is not allowed on <TableCell>: <TableCell> owns its color. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/features/immunizations/components/ImmunizationMatrix.tsx:148:28]
+ 147 |     <TableRow className="group hover:bg-muted/40 cursor-pointer">
+ 148 |       <TableCell className="bg-background group-hover:bg-muted/40 sticky left-0 z-10">
+     :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 149 |         <Link
      `----
 
-  x shadcn(no-restyle): "space-y-4" is not allowed on <CardContent>: <CardContent> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/development/components/MilestoneChecklist.tsx:133:30]
- 132 | 
- 133 |       <CardContent className="space-y-4">
-     :                              ^^^^^^^^^^^
- 134 |         {effectiveAge > selectedAge + 1 && missingRedFlags.length > 0 && (
-     `----
-
-  x shadcn(no-restyle): "text-[10px]" is not allowed on <Badge>: <Badge> owns its typography. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is
-  | for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/development/components/MilestoneChecklist.tsx:174:39]
- 173 |                     <span className="text-foreground text-sm font-semibold">{m.title}</span>
- 174 |                     <Badge className={`text-[10px] ${domainMeta.badge}`} variant="secondary">
-     :                                       ^^^^^^^^^^^^^^^
- 175 |                       {domainMeta.label}
-     `----
-
-  x shadcn(require-static-classes): Dynamically built className on <Badge> cannot be checked. Use static class strings. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/development/components/MilestoneChecklist.tsx:174:54]
- 173 |                     <span className="text-foreground text-sm font-semibold">{m.title}</span>
- 174 |                     <Badge className={`text-[10px] ${domainMeta.badge}`} variant="secondary">
-     :                                                      ^^^^^^^^^^^^^^^^
- 175 |                       {domainMeta.label}
-     `----
-
-  x shadcn(no-restyle): "text-destructive" is not allowed on <Badge>: <Badge> owns its color. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is
-  | for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/development/components/MilestoneChecklist.tsx:179:35]
- 178 |                       <Badge
- 179 |                         className="text-destructive border-destructive/30 text-[10px]"
-     :                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 180 |                         variant="outline"
-     `----
-
-  x shadcn(no-restyle): "border-destructive/30" is not allowed on <Badge>: <Badge> owns its color. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant;
-  | className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/development/components/MilestoneChecklist.tsx:179:35]
- 178 |                       <Badge
- 179 |                         className="text-destructive border-destructive/30 text-[10px]"
-     :                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 180 |                         variant="outline"
-     `----
-
-  x shadcn(no-restyle): "text-[10px]" is not allowed on <Badge>: <Badge> owns its typography. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is
-  | for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/development/components/MilestoneChecklist.tsx:179:35]
- 178 |                       <Badge
- 179 |                         className="text-destructive border-destructive/30 text-[10px]"
-     :                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 180 |                         variant="outline"
+  x shadcn(no-restyle): "group-hover:bg-muted/40" is not allowed on <TableCell>: <TableCell> owns its color. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/features/immunizations/components/ImmunizationMatrix.tsx:148:28]
+ 147 |     <TableRow className="group hover:bg-muted/40 cursor-pointer">
+ 148 |       <TableCell className="bg-background group-hover:bg-muted/40 sticky left-0 z-10">
+     :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 149 |         <Link
      `----
 
   x shadcn(no-restyle): "shadow-xs" is not allowed on <Card>: <Card> owns its effects. Add a variant in src/components/ui/card.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/immunizations/components/ImmunizationCard.tsx:96:21]
- 95 |   return (
- 96 |     <Card className="w-full shadow-xs">
+    ,-[src/features/immunizations/components/ImmunizationCard.tsx:97:21]
+ 96 |   return (
+ 97 |     <Card className="w-full shadow-xs">
     :                     ^^^^^^^^^^^^^^^^^^
- 97 |       <CardHeader className="pb-4">
+ 98 |       <CardHeader className="pb-4">
     `----
 
   x shadcn(no-restyle): "pb-4" is not allowed on <CardHeader>: <CardHeader> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/immunizations/components/ImmunizationCard.tsx:97:29]
- 96 |     <Card className="w-full shadow-xs">
- 97 |       <CardHeader className="pb-4">
+    ,-[src/features/immunizations/components/ImmunizationCard.tsx:98:29]
+ 97 |     <Card className="w-full shadow-xs">
+ 98 |       <CardHeader className="pb-4">
     :                             ^^^^^^
- 98 |         <div className="flex flex-wrap items-center justify-between gap-3">
+ 99 |         <div className="flex flex-wrap items-center justify-between gap-3">
     `----
 
   x shadcn(no-restyle): "text-base" is not allowed on <CardTitle>: <CardTitle> owns its typography. Add a variant in src/components/ui/card.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:104:36]
- 103 |             <div>
- 104 |               <CardTitle className="text-base font-semibold">
+     ,-[src/features/immunizations/components/ImmunizationCard.tsx:105:36]
+ 104 |             <div>
+ 105 |               <CardTitle className="text-base font-semibold">
      :                                    ^^^^^^^^^^^^^^^^^^^^^^^^^
- 105 |                 Childhood Immunization & Vaccine Schedule
+ 106 |                 Childhood Immunization & Vaccine Schedule
      `----
 
   x shadcn(no-restyle): "font-semibold" is not allowed on <CardTitle>: <CardTitle> owns its typography. Add a variant in src/components/ui/card.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:104:36]
- 103 |             <div>
- 104 |               <CardTitle className="text-base font-semibold">
+     ,-[src/features/immunizations/components/ImmunizationCard.tsx:105:36]
+ 104 |             <div>
+ 105 |               <CardTitle className="text-base font-semibold">
      :                                    ^^^^^^^^^^^^^^^^^^^^^^^^^
- 105 |                 Childhood Immunization & Vaccine Schedule
+ 106 |                 Childhood Immunization & Vaccine Schedule
      `----
 
   x shadcn(no-restyle): "gap-1" is not allowed on <Badge>: <Badge> owns its spacing. Use a size (default, sm, lg), or margin here, gap on the parent, or CardContent for space around it. Add a size in src/components/ui/badge.tsx only if the design explicitly calls for one. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token
   | or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:115:25]
- 114 |             <Badge
- 115 |               className="gap-1 bg-module-encounters/10 text-module-encounters dark:text-module-encounters"
+     ,-[src/features/immunizations/components/ImmunizationCard.tsx:116:25]
+ 115 |             <Badge
+ 116 |               className="gap-1 bg-module-encounters/10 text-module-encounters dark:text-module-encounters"
      :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 116 |               variant="secondary"
+ 117 |               variant="secondary"
      `----
 
   x shadcn(no-restyle): "bg-module-encounters/10" is not allowed on <Badge>: <Badge> owns its color. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant;
   | className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:115:25]
- 114 |             <Badge
- 115 |               className="gap-1 bg-module-encounters/10 text-module-encounters dark:text-module-encounters"
+     ,-[src/features/immunizations/components/ImmunizationCard.tsx:116:25]
+ 115 |             <Badge
+ 116 |               className="gap-1 bg-module-encounters/10 text-module-encounters dark:text-module-encounters"
      :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 116 |               variant="secondary"
+ 117 |               variant="secondary"
      `----
 
   x shadcn(no-restyle): "text-module-encounters" is not allowed on <Badge>: <Badge> owns its color. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant;
   | className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:115:25]
- 114 |             <Badge
- 115 |               className="gap-1 bg-module-encounters/10 text-module-encounters dark:text-module-encounters"
+     ,-[src/features/immunizations/components/ImmunizationCard.tsx:116:25]
+ 115 |             <Badge
+ 116 |               className="gap-1 bg-module-encounters/10 text-module-encounters dark:text-module-encounters"
      :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 116 |               variant="secondary"
+ 117 |               variant="secondary"
      `----
 
   x shadcn(no-restyle): "dark:text-module-encounters" is not allowed on <Badge>: <Badge> owns its color. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant;
   | className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:115:25]
- 114 |             <Badge
- 115 |               className="gap-1 bg-module-encounters/10 text-module-encounters dark:text-module-encounters"
+     ,-[src/features/immunizations/components/ImmunizationCard.tsx:116:25]
+ 115 |             <Badge
+ 116 |               className="gap-1 bg-module-encounters/10 text-module-encounters dark:text-module-encounters"
      :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 116 |               variant="secondary"
+ 117 |               variant="secondary"
      `----
 
   x shadcn(no-restyle): "gap-1" is not allowed on <Badge>: <Badge> owns its spacing. Use a size (default, sm, lg), or margin here, gap on the parent, or CardContent for space around it. Add a size in src/components/ui/badge.tsx only if the design explicitly calls for one. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token
   | or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:122:32]
- 121 |             {overdueCount > 0 && (
- 122 |               <Badge className="gap-1" variant="destructive">
+     ,-[src/features/immunizations/components/ImmunizationCard.tsx:123:32]
+ 122 |             {overdueCount > 0 && (
+ 123 |               <Badge className="gap-1" variant="destructive">
      :                                ^^^^^^^
- 123 |                 <AlertCircle className="size-3" />
+ 124 |                 <AlertCircle className="size-3" />
      `----
 
   x shadcn(no-restyle): "gap-1" is not allowed on <Badge>: <Badge> owns its spacing. Use a size (default, sm, lg), or margin here, gap on the parent, or CardContent for space around it. Add a size in src/components/ui/badge.tsx only if the design explicitly calls for one. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token
   | or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:127:30]
- 126 |             )}
- 127 |             <Badge className="gap-1" variant="outline">
+     ,-[src/features/immunizations/components/ImmunizationCard.tsx:128:30]
+ 127 |             )}
+ 128 |             <Badge className="gap-1" variant="outline">
      :                              ^^^^^^^
- 128 |               <Clock className="size-3" />
+ 129 |               <Clock className="size-3" />
      `----
 
   x shadcn(no-restyle): "font-medium" is not allowed on <TableCell>: <TableCell> owns its typography. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:158:44]
- 157 |                     <TableRow key={rec.id}>
- 158 |                       <TableCell className="font-medium whitespace-nowrap">
+     ,-[src/features/immunizations/components/ImmunizationCard.tsx:157:44]
+ 156 |                     <TableRow key={rec.id}>
+ 157 |                       <TableCell className="font-medium whitespace-nowrap">
      :                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 159 |                         {rec.ageLabel}
+ 158 |                         {rec.ageLabel}
      `----
 
   x shadcn(no-restyle): "text-foreground" is not allowed on <TableCell>: <TableCell> owns its color. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:161:44]
- 160 |                       </TableCell>
- 161 |                       <TableCell className="text-foreground font-semibold">{rec.name}</TableCell>
+     ,-[src/features/immunizations/components/ImmunizationCard.tsx:160:44]
+ 159 |                       </TableCell>
+ 160 |                       <TableCell className="text-foreground font-semibold">{rec.name}</TableCell>
      :                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 162 |                       <TableCell className="text-muted-foreground text-xs">
+ 161 |                       <TableCell className=" text-xs">{rec.diseaseTarget}</TableCell>
      `----
 
   x shadcn(no-restyle): "font-semibold" is not allowed on <TableCell>: <TableCell> owns its typography. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/features/immunizations/components/ImmunizationCard.tsx:160:44]
+ 159 |                       </TableCell>
+ 160 |                       <TableCell className="text-foreground font-semibold">{rec.name}</TableCell>
+     :                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 161 |                       <TableCell className=" text-xs">{rec.diseaseTarget}</TableCell>
+     `----
+
+  x shadcn(no-restyle): "text-xs" is not allowed on <TableCell>: <TableCell> owns its typography. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
      ,-[src/features/immunizations/components/ImmunizationCard.tsx:161:44]
- 160 |                       </TableCell>
- 161 |                       <TableCell className="text-foreground font-semibold">{rec.name}</TableCell>
-     :                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 162 |                       <TableCell className="text-muted-foreground text-xs">
-     `----
-
-  x shadcn(no-restyle): "text-muted-foreground" is not allowed on <TableCell>: <TableCell> owns its color. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:162:44]
- 161 |                       <TableCell className="text-foreground font-semibold">{rec.name}</TableCell>
- 162 |                       <TableCell className="text-muted-foreground text-xs">
-     :                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 163 |                         {rec.diseaseTarget}
+ 160 |                       <TableCell className="text-foreground font-semibold">{rec.name}</TableCell>
+ 161 |                       <TableCell className=" text-xs">{rec.diseaseTarget}</TableCell>
+     :                                            ^^^^^^^^^^
+ 162 |                       <TableCell className=" text-xs">
      `----
 
   x shadcn(no-restyle): "text-xs" is not allowed on <TableCell>: <TableCell> owns its typography. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
      ,-[src/features/immunizations/components/ImmunizationCard.tsx:162:44]
- 161 |                       <TableCell className="text-foreground font-semibold">{rec.name}</TableCell>
- 162 |                       <TableCell className="text-muted-foreground text-xs">
-     :                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 163 |                         {rec.diseaseTarget}
-     `----
-
-  x shadcn(no-restyle): "text-muted-foreground" is not allowed on <TableCell>: <TableCell> owns its color. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:165:44]
- 164 |                       </TableCell>
- 165 |                       <TableCell className="text-muted-foreground text-xs">
-     :                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 166 |                         {rec.route} — {rec.site}
-     `----
-
-  x shadcn(no-restyle): "text-xs" is not allowed on <TableCell>: <TableCell> owns its typography. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:165:44]
- 164 |                       </TableCell>
- 165 |                       <TableCell className="text-muted-foreground text-xs">
-     :                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 166 |                         {rec.route} — {rec.site}
+ 161 |                       <TableCell className=" text-xs">{rec.diseaseTarget}</TableCell>
+ 162 |                       <TableCell className=" text-xs">
+     :                                            ^^^^^^^^^^
+ 163 |                         {rec.route} — {rec.site}
      `----
 
   x shadcn(no-restyle): "bg-module-encounters/15" is not allowed on <Badge>: <Badge> owns its color. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant;
   | className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:171:39]
- 170 |                           <Badge
- 171 |                             className="bg-module-encounters/15 text-module-encounters dark:text-module-encounters"
+     ,-[src/features/immunizations/components/ImmunizationCard.tsx:168:39]
+ 167 |                           <Badge
+ 168 |                             className="bg-module-encounters/15 text-module-encounters dark:text-module-encounters"
      :                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 172 |                             variant="secondary"
+ 169 |                             variant="secondary"
      `----
 
   x shadcn(no-restyle): "text-module-encounters" is not allowed on <Badge>: <Badge> owns its color. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant;
   | className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:171:39]
- 170 |                           <Badge
- 171 |                             className="bg-module-encounters/15 text-module-encounters dark:text-module-encounters"
+     ,-[src/features/immunizations/components/ImmunizationCard.tsx:168:39]
+ 167 |                           <Badge
+ 168 |                             className="bg-module-encounters/15 text-module-encounters dark:text-module-encounters"
      :                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 172 |                             variant="secondary"
+ 169 |                             variant="secondary"
      `----
 
   x shadcn(no-restyle): "dark:text-module-encounters" is not allowed on <Badge>: <Badge> owns its color. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant;
   | className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:171:39]
- 170 |                           <Badge
- 171 |                             className="bg-module-encounters/15 text-module-encounters dark:text-module-encounters"
+     ,-[src/features/immunizations/components/ImmunizationCard.tsx:168:39]
+ 167 |                           <Badge
+ 168 |                             className="bg-module-encounters/15 text-module-encounters dark:text-module-encounters"
      :                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 172 |                             variant="secondary"
-     `----
-
-  x shadcn(no-restyle): "text-muted-foreground" is not allowed on <Badge>: <Badge> owns its color. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant;
-  | className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:179:44]
- 178 |                         {rec.status === "due" && (
- 179 |                           <Badge className="text-muted-foreground" variant="outline">
-     :                                            ^^^^^^^^^^^^^^^^^^^^^^^
- 180 |                             Due
+ 169 |                             variant="secondary"
      `----
 
   x shadcn(no-restyle): "text-xs" is not allowed on <TableCell>: <TableCell> owns its typography. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:185:44]
- 184 |                       </TableCell>
- 185 |                       <TableCell className="text-xs">
+     ,-[src/features/immunizations/components/ImmunizationCard.tsx:182:44]
+ 181 |                       </TableCell>
+ 182 |                       <TableCell className="text-xs">
      :                                            ^^^^^^^^^
- 186 |                         {rec.administeredDate ? (
+ 183 |                         {rec.administeredDate ? (
      `----
 
   x ui(require-no-validate): Add noValidate to the <form>: the form validates on submit with its own Spanish messages under each field, and without it the browser's native popup runs first, in the browser's language and style, so the two fight (GOV.UK's validation pattern turns HTML5 validation off too).
-     ,-[src/features/immunizations/components/ImmunizationCard.tsx:227:15]
- 226 |             {activeVaccine && (
- 227 |               <form className="space-y-4 pt-2" onSubmit={handleAdminister}>
+     ,-[src/features/immunizations/components/ImmunizationCard.tsx:222:15]
+ 221 |             {activeVaccine && (
+ 222 |               <form className="space-y-4 pt-2" onSubmit={handleAdminister}>
      :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 228 |                 <div className="grid gap-1.5">
-     `----
-
-  x shadcn(no-restyle): "bg-background" is not allowed on <TableHead>: <TableHead> owns its color. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationMatrix.tsx:119:34]
- 118 |           <TableRow>
- 119 |             <TableHead className="bg-background sticky left-0 z-10">Patient</TableHead>
-     :                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 120 |             {vaccines.map((v) => (
-     `----
-
-  x shadcn(no-restyle): "tracking-wider" is not allowed on <TableHead>: <TableHead> owns its typography. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationMatrix.tsx:122:27]
- 121 |               <TableHead
- 122 |                 className="text-center tracking-wider uppercase"
-     :                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 123 |                 colSpan={v.doses ?? 0}
-     `----
-
-  x shadcn(no-restyle): "uppercase" is not allowed on <TableHead>: <TableHead> owns its typography. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationMatrix.tsx:122:27]
- 121 |               <TableHead
- 122 |                 className="text-center tracking-wider uppercase"
-     :                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 123 |                 colSpan={v.doses ?? 0}
-     `----
-
-  x shadcn(no-restyle): "hover:bg-muted/40" is not allowed on <TableRow>: <TableRow> owns its color. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationMatrix.tsx:146:25]
- 145 |   return (
- 146 |     <TableRow className="group hover:bg-muted/40 cursor-pointer">
-     :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 147 |       <TableCell className="bg-background group-hover:bg-muted/40 sticky left-0 z-10">
-     `----
-
-  x shadcn(no-restyle): "bg-background" is not allowed on <TableCell>: <TableCell> owns its color. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationMatrix.tsx:147:28]
- 146 |     <TableRow className="group hover:bg-muted/40 cursor-pointer">
- 147 |       <TableCell className="bg-background group-hover:bg-muted/40 sticky left-0 z-10">
-     :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 148 |         <Link
-     `----
-
-  x shadcn(no-restyle): "group-hover:bg-muted/40" is not allowed on <TableCell>: <TableCell> owns its color. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationMatrix.tsx:147:28]
- 146 |     <TableRow className="group hover:bg-muted/40 cursor-pointer">
- 147 |       <TableCell className="bg-background group-hover:bg-muted/40 sticky left-0 z-10">
-     :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 148 |         <Link
-     `----
-
-  x shadcn(no-restyle): "px-1" is not allowed on <TableCell>: <TableCell> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/immunizations/components/ImmunizationMatrix.tsx:164:34]
- 163 |           return (
- 164 |             <TableCell className="px-1 text-center" key={key}>
-     :                                  ^^^^^^^^^^^^^^^^^^
- 165 |               {status ? (
+ 223 |                 <div className="grid gap-1.5">
      `----
 
   x shadcn(no-restyle): "gap-2" is not allowed on <Label>: <Label> owns its spacing. For space around it, use margin here, gap on the parent, or CardContent. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/prescriptions/composer/components/DoseRow.tsx:88:26]
- 87 |       <div className="flex items-center justify-between">
- 88 |         <Label className="flex items-center gap-2">
+    ,-[src/features/prescriptions/composer/components/DoseRow.tsx:89:26]
+ 88 |       <div className="flex items-center justify-between">
+ 89 |         <Label className="flex items-center gap-2">
     :                          ^^^^^^^^^^^^^^^^^^^^^^^^^
- 89 |           <CalculatorIcon className="size-3.5" />
+ 90 |           <CalculatorIcon className="size-3.5" />
     `----
 
   x shadcn(no-restyle): "text-xs" is not allowed on <Label>: <Label> owns its typography. Add a variant in src/components/ui/label.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/prescriptions/composer/components/DoseRow.tsx:98:28]
- 97 |           />
- 98 |           <Label className="text-xs font-normal" htmlFor="composer-use-calc">
-    :                            ^^^^^^^^^^^^^^^^^^^^^
- 99 |             Calculate from mg/kg
-    `----
+     ,-[src/features/prescriptions/composer/components/DoseRow.tsx:99:28]
+  98 |           />
+  99 |           <Label className="text-xs font-normal" htmlFor="composer-use-calc">
+     :                            ^^^^^^^^^^^^^^^^^^^^^
+ 100 |             Calculate from mg/kg
+     `----
 
   x shadcn(no-restyle): "font-normal" is not allowed on <Label>: <Label> owns its typography. Add a variant in src/components/ui/label.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/prescriptions/composer/components/DoseRow.tsx:98:28]
- 97 |           />
- 98 |           <Label className="text-xs font-normal" htmlFor="composer-use-calc">
-    :                            ^^^^^^^^^^^^^^^^^^^^^
- 99 |             Calculate from mg/kg
-    `----
+     ,-[src/features/prescriptions/composer/components/DoseRow.tsx:99:28]
+  98 |           />
+  99 |           <Label className="text-xs font-normal" htmlFor="composer-use-calc">
+     :                            ^^^^^^^^^^^^^^^^^^^^^
+ 100 |             Calculate from mg/kg
+     `----
 
   ! react(set-state-in-effect): Calling setState synchronously within an effect can trigger cascading renders
-     ,-[src/features/appointments/components/AppointmentSheet.tsx:349:7]
- 346 | 
- 347 |   React.useEffect(() => {
+     ,-[src/features/appointments/components/AppointmentSheet.tsx:346:7]
+ 343 | 
+ 344 |   React.useEffect(() => {
      :   ^^^^^^^|^^^^^^^
      :          `-- This is the containing effect
- 348 |     if (existing?.patientId) {
- 349 |       setSelectedPatientId(existing.patientId);
+ 345 |     if (existing?.patientId) {
+ 346 |       setSelectedPatientId(existing.patientId);
      :       ^^^^^^^^^^|^^^^^^^^^
      :                 `-- Avoid calling setState() directly within an effect
- 350 |     }
+ 347 |     }
      `----
   help: Effects should synchronize React with external systems. Calling setState synchronously inside an effect starts another render and is usually unnecessary. Derive the value during render, initialize state directly, or update it from the event that caused the change. Use an effect only when synchronizing with an external system.
   note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/set-state-in-effect
 
   x shadcn(no-restyle): "pr-8" is not allowed on <Input>: <Input> owns its spacing. For space around it, use margin here or gap on the parent. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/appointments/components/AppointmentSheet.tsx:211:21]
- 210 |           aria-haspopup="listbox"
- 211 |           className="pr-8 pl-5"
+     ,-[src/features/appointments/components/AppointmentSheet.tsx:208:21]
+ 207 |           aria-haspopup="listbox"
+ 208 |           className="pr-8 pl-5"
      :                     ^^^^^^^^^^^
- 212 |           onChange={(e) => {
+ 209 |           onChange={(e) => {
      `----
 
   x shadcn(no-restyle): "pl-5" is not allowed on <Input>: <Input> owns its spacing. For space around it, use margin here or gap on the parent. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/appointments/components/AppointmentSheet.tsx:211:21]
- 210 |           aria-haspopup="listbox"
- 211 |           className="pr-8 pl-5"
+     ,-[src/features/appointments/components/AppointmentSheet.tsx:208:21]
+ 207 |           aria-haspopup="listbox"
+ 208 |           className="pr-8 pl-5"
      :                     ^^^^^^^^^^^
- 212 |           onChange={(e) => {
+ 209 |           onChange={(e) => {
      `----
 
   x shadcn(no-restyle): "gap-0" is not allowed on <SheetContent>: <SheetContent> owns its spacing. For space around it, use margin here, gap on a plain wrapper around it, or CardContent. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/appointments/components/AppointmentSheet.tsx:452:31]
- 451 |     <Sheet onOpenChange={handleOpenChange} open={open}>
- 452 |       <SheetContent className="flex w-full flex-col gap-0 p-0 sm:max-w-lg" side="right">
-     :                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 453 |         <SheetHeader className="flex-row items-center justify-between border-b px-6 py-4">
-     `----
-
-  x shadcn(no-restyle): "p-0" is not allowed on <SheetContent>: <SheetContent> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/appointments/components/AppointmentSheet.tsx:452:31]
- 451 |     <Sheet onOpenChange={handleOpenChange} open={open}>
- 452 |       <SheetContent className="flex w-full flex-col gap-0 p-0 sm:max-w-lg" side="right">
-     :                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 453 |         <SheetHeader className="flex-row items-center justify-between border-b px-6 py-4">
+     ,-[src/features/appointments/components/AppointmentSheet.tsx:449:31]
+ 448 |     <Sheet onOpenChange={handleOpenChange} open={open}>
+ 449 |       <SheetContent className="flex w-full flex-col gap-0  sm:max-w-lg" side="right">
+     :                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 450 |         <SheetHeader className="flex-row items-center justify-between border-b px-6 py-4">
      `----
 
   x shadcn(no-restyle): "border-b" is not allowed on <SheetHeader>: <SheetHeader> owns its shape. Add a variant in src/components/ui/sheet.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/appointments/components/AppointmentSheet.tsx:453:32]
- 452 |       <SheetContent className="flex w-full flex-col gap-0 p-0 sm:max-w-lg" side="right">
- 453 |         <SheetHeader className="flex-row items-center justify-between border-b px-6 py-4">
+     ,-[src/features/appointments/components/AppointmentSheet.tsx:450:32]
+ 449 |       <SheetContent className="flex w-full flex-col gap-0  sm:max-w-lg" side="right">
+ 450 |         <SheetHeader className="flex-row items-center justify-between border-b px-6 py-4">
      :                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 454 |           <SheetTitle className="text-base font-semibold">
+ 451 |           <SheetTitle className="text-base font-semibold">
      `----
 
   x shadcn(no-restyle): "px-6" is not allowed on <SheetHeader>: <SheetHeader> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/appointments/components/AppointmentSheet.tsx:453:32]
- 452 |       <SheetContent className="flex w-full flex-col gap-0 p-0 sm:max-w-lg" side="right">
- 453 |         <SheetHeader className="flex-row items-center justify-between border-b px-6 py-4">
+     ,-[src/features/appointments/components/AppointmentSheet.tsx:450:32]
+ 449 |       <SheetContent className="flex w-full flex-col gap-0  sm:max-w-lg" side="right">
+ 450 |         <SheetHeader className="flex-row items-center justify-between border-b px-6 py-4">
      :                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 454 |           <SheetTitle className="text-base font-semibold">
+ 451 |           <SheetTitle className="text-base font-semibold">
      `----
 
   x shadcn(no-restyle): "py-4" is not allowed on <SheetHeader>: <SheetHeader> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/appointments/components/AppointmentSheet.tsx:453:32]
- 452 |       <SheetContent className="flex w-full flex-col gap-0 p-0 sm:max-w-lg" side="right">
- 453 |         <SheetHeader className="flex-row items-center justify-between border-b px-6 py-4">
+     ,-[src/features/appointments/components/AppointmentSheet.tsx:450:32]
+ 449 |       <SheetContent className="flex w-full flex-col gap-0  sm:max-w-lg" side="right">
+ 450 |         <SheetHeader className="flex-row items-center justify-between border-b px-6 py-4">
      :                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 454 |           <SheetTitle className="text-base font-semibold">
+ 451 |           <SheetTitle className="text-base font-semibold">
      `----
 
   x shadcn(no-restyle): "text-base" is not allowed on <SheetTitle>: <SheetTitle> owns its typography. Add a variant in src/components/ui/sheet.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/appointments/components/AppointmentSheet.tsx:454:33]
- 453 |         <SheetHeader className="flex-row items-center justify-between border-b px-6 py-4">
- 454 |           <SheetTitle className="text-base font-semibold">
+     ,-[src/features/appointments/components/AppointmentSheet.tsx:451:33]
+ 450 |         <SheetHeader className="flex-row items-center justify-between border-b px-6 py-4">
+ 451 |           <SheetTitle className="text-base font-semibold">
      :                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
- 455 |             {isEdit ? "Edit Appointment" : "New Appointment"}
+ 452 |             {isEdit ? "Edit Appointment" : "New Appointment"}
      `----
 
   x shadcn(no-restyle): "font-semibold" is not allowed on <SheetTitle>: <SheetTitle> owns its typography. Add a variant in src/components/ui/sheet.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/appointments/components/AppointmentSheet.tsx:454:33]
- 453 |         <SheetHeader className="flex-row items-center justify-between border-b px-6 py-4">
- 454 |           <SheetTitle className="text-base font-semibold">
+     ,-[src/features/appointments/components/AppointmentSheet.tsx:451:33]
+ 450 |         <SheetHeader className="flex-row items-center justify-between border-b px-6 py-4">
+ 451 |           <SheetTitle className="text-base font-semibold">
      :                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
- 455 |             {isEdit ? "Edit Appointment" : "New Appointment"}
+ 452 |             {isEdit ? "Edit Appointment" : "New Appointment"}
+     `----
+
+  x shadcn(no-unknown-classes): ".5" is not a class this project's Tailwind knows, so no CSS is generated for it. Fix the spelling, or declare it with @utility in src/styles.css. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/features/development/components/MilestoneTimeline.tsx:111:25]
+ 110 |       >
+ 111 |         <span className="bg-foreground text-background absolute top-0 left-1/2 -translate-x-1/2 rounded-full .5 py-0.5 text-[9px] font-semibold tabular-nums">
+     :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 112 |           {correctedAgeMonths.toFixed(0)}m
      `----
 
   x shadcn(no-restyle): "text-xs" is not allowed on <Label>: <Label> owns its typography. Add a variant in src/components/ui/label.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/visits/composer/sections/VitalsSection.tsx:247:28]
- 246 |         <div className="grid gap-1">
- 247 |           <Label className="text-xs font-normal" htmlFor={lengthId}>
+     ,-[src/features/visits/composer/sections/VitalsSection.tsx:248:28]
+ 247 |         <div className="grid gap-1">
+ 248 |           <Label className="text-xs font-normal" htmlFor={lengthId}>
      :                            ^^^^^^^^^^^^^^^^^^^^^
- 248 |             Length at measurement (cm)
+ 249 |             Length at measurement (cm)
      `----
 
   x shadcn(no-restyle): "font-normal" is not allowed on <Label>: <Label> owns its typography. Add a variant in src/components/ui/label.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/visits/composer/sections/VitalsSection.tsx:247:28]
- 246 |         <div className="grid gap-1">
- 247 |           <Label className="text-xs font-normal" htmlFor={lengthId}>
+     ,-[src/features/visits/composer/sections/VitalsSection.tsx:248:28]
+ 247 |         <div className="grid gap-1">
+ 248 |           <Label className="text-xs font-normal" htmlFor={lengthId}>
      :                            ^^^^^^^^^^^^^^^^^^^^^
- 248 |             Length at measurement (cm)
+ 249 |             Length at measurement (cm)
      `----
 
   ! react(set-state-in-effect): Calling setState synchronously within an effect can trigger cascading renders
@@ -560,53 +369,44 @@ x shadcn(no-restyle): "pt-6" is not allowed on <CardContent>: <CardContent> owns
   help: Effects should synchronize React with external systems. Calling setState synchronously inside an effect starts another render and is usually unnecessary. Derive the value during render, initialize state directly, or update it from the event that caused the change. Use an effect only when synchronizing with an external system.
   note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/set-state-in-effect
 
-  x shadcn(no-restyle): "text-muted-foreground" is not allowed on <Button>: <Button> owns its color. Use a variant: default, outline, secondary, ghost, destructive, link. Add a new variant in src/components/ui/button.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/
-  | style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/appointments/components/FiltersRail.tsx:50:29]
- 49 |         {active && (
- 50 |           <Button className="text-muted-foreground" onClick={reset} size="xs" variant="ghost">
-    :                             ^^^^^^^^^^^^^^^^^^^^^^^
- 51 |             <RotateCcwIcon className="size-3" />
-    `----
-
   x shadcn(no-restyle): "gap-1.5" is not allowed on <Label>: <Label> owns its spacing. For space around it, use margin here, gap on the parent, or CardContent. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/appointments/components/FiltersRail.tsx:59:26]
- 58 |       <div className="flex flex-col gap-2">
- 59 |         <Label className="flex items-center gap-1.5 text-xs">
+    ,-[src/features/appointments/components/FiltersRail.tsx:61:26]
+ 60 |       <div className="flex flex-col gap-2">
+ 61 |         <Label className="flex items-center gap-1.5 text-xs">
     :                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 60 |           <UserIcon className="size-3" />
+ 62 |           <UserIcon className="size-3" />
     `----
 
   x shadcn(no-restyle): "text-xs" is not allowed on <Label>: <Label> owns its typography. Add a variant in src/components/ui/label.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/appointments/components/FiltersRail.tsx:59:26]
- 58 |       <div className="flex flex-col gap-2">
- 59 |         <Label className="flex items-center gap-1.5 text-xs">
+    ,-[src/features/appointments/components/FiltersRail.tsx:61:26]
+ 60 |       <div className="flex flex-col gap-2">
+ 61 |         <Label className="flex items-center gap-1.5 text-xs">
     :                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 60 |           <UserIcon className="size-3" />
+ 62 |           <UserIcon className="size-3" />
     `----
 
   x shadcn(no-restyle): "pl-4" is not allowed on <Input>: <Input> owns its spacing. For space around it, use margin here or gap on the parent. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/appointments/components/FiltersRail.tsx:66:23]
- 65 |           <Input
- 66 |             className="pl-4"
+    ,-[src/features/appointments/components/FiltersRail.tsx:68:23]
+ 67 |           <Input
+ 68 |             className="pl-4"
     :                       ^^^^^^
- 67 |             onChange={(e) => set("search", e.target.value)}
+ 69 |             onChange={(e) => set("search", e.target.value)}
     `----
 
   x shadcn(no-restyle): "text-xs" is not allowed on <Label>: <Label> owns its typography. Add a variant in src/components/ui/label.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/appointments/components/FiltersRail.tsx:79:30]
- 78 |           <div className="flex flex-col gap-2">
- 79 |             <Label className="text-xs" htmlFor="filter-doctor">
+    ,-[src/features/appointments/components/FiltersRail.tsx:81:30]
+ 80 |           <div className="flex flex-col gap-2">
+ 81 |             <Label className="text-xs" htmlFor="filter-doctor">
     :                              ^^^^^^^^^
- 80 |               Doctor
+ 82 |               Doctor
     `----
 
   x shadcn(no-restyle): "text-xs" is not allowed on <Label>: <Label> owns its typography. Add a variant in src/components/ui/label.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/appointments/components/FiltersRail.tsx:103:26]
- 102 |       <div className="flex flex-col gap-2">
- 103 |         <Label className="text-xs">Status</Label>
+     ,-[src/features/appointments/components/FiltersRail.tsx:105:26]
+ 104 |       <div className="flex flex-col gap-2">
+ 105 |         <Label className="text-xs">Status</Label>
      :                          ^^^^^^^^^
- 104 |         <div className="flex flex-wrap gap-1.5">
+ 106 |         <div className="flex flex-wrap gap-1.5">
      `----
 
   x shadcn(no-restyle): "gap-1.5" is not allowed on <Label>: <Label> owns its spacing. For space around it, use margin here, gap on the parent, or CardContent. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
@@ -625,111 +425,122 @@ x shadcn(no-restyle): "pt-6" is not allowed on <CardContent>: <CardContent> owns
  139 |           <CalendarIcon className="size-3" />
      `----
 
-  x shadcn(no-restyle): "pt-6" is not allowed on <CardContent>: <CardContent> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/routes/_auth/app/patients/$patientId/growth.tsx:21:32]
- 20 |       <Card>
- 21 |         <CardContent className="pt-6">
-    :                                ^^^^^^
- 22 |           <PatientGrowthPanel patientId={patientId} />
-    `----
-
   ! react(set-state-in-effect): Calling setState synchronously within an effect can trigger cascading renders
-     ,-[src/features/appointments/components/TodayQueue.tsx:296:39]
- 294 | 
- 295 |   React.useEffect(() => {
+     ,-[src/features/appointments/components/TodayQueue.tsx:298:39]
+ 296 | 
+ 297 |   React.useEffect(() => {
      :   ^^^^^^^|^^^^^^^
      :          `-- This is the containing effect
- 296 |     if (activeId && activeIdx === -1) setActiveId(null);
+ 298 |     if (activeId && activeIdx === -1) setActiveId(null);
      :                                       ^^^^^|^^^^^
      :                                            `-- Avoid calling setState() directly within an effect
- 297 |   }, [activeId, activeIdx]);
+ 299 |   }, [activeId, activeIdx]);
      `----
   help: Effects should synchronize React with external systems. Calling setState synchronously inside an effect starts another render and is usually unnecessary. Derive the value during render, initialize state directly, or update it from the event that caused the change. Use an effect only when synchronizing with an external system.
   note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/set-state-in-effect
 
   ! react(immutability): This value cannot be modified
-    ,-[src/features/visits/composer/use-visit-composer.ts:71:5]
- 65 |   const [savedSignature, setSavedSignature] = React.useState(() => serialize(initial));
- 66 |   const lastPersistedRef = React.useRef(initial);
+    ,-[src/features/visits/composer/use-visit-composer.ts:72:5]
+ 66 |   const [savedSignature, setSavedSignature] = React.useState(() => serialize(initial));
+ 67 |   const lastPersistedRef = React.useRef(initial);
     :         ^^^^^^^^|^^^^^^^
     :                 `-- `lastPersistedRef` originates here
- 67 | 
- 68 |   React.useEffect(() => {
- 69 |     // reset when initial identity truly changes (guarded by stable memo upstream)
- 70 |     setSavedSignature(serialize(initial));
- 71 |     lastPersistedRef.current = initial;
+ 68 | 
+ 69 |   React.useEffect(() => {
+ 70 |     // reset when initial identity truly changes (guarded by stable memo upstream)
+ 71 |     setSavedSignature(serialize(initial));
+ 72 |     lastPersistedRef.current = initial;
     :     ^^^^^^^^|^^^^^^^
     :             `-- `lastPersistedRef` cannot be modified
- 72 |   }, [initial]);
+ 73 |   }, [initial]);
     `----
   help: Modifying a value used previously in an effect function or as an effect dependency is not allowed. Consider moving the modification before calling useEffect()
   note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/immutability
 
   ! react(immutability): This value cannot be modified
-    ,-[src/features/visits/composer/use-visit-composer.ts:78:7]
- 65 |   const [savedSignature, setSavedSignature] = React.useState(() => serialize(initial));
- 66 |   const lastPersistedRef = React.useRef(initial);
+    ,-[src/features/visits/composer/use-visit-composer.ts:79:7]
+ 66 |   const [savedSignature, setSavedSignature] = React.useState(() => serialize(initial));
+ 67 |   const lastPersistedRef = React.useRef(initial);
     :         ^^^^^^^^|^^^^^^^
     :                 `-- `lastPersistedRef` originates here
- 67 | 
- 68 |   React.useEffect(() => {
- 69 |     // reset when initial identity truly changes (guarded by stable memo upstream)
- 70 |     setSavedSignature(serialize(initial));
- 71 |     lastPersistedRef.current = initial;
- 72 |   }, [initial]);
- 73 | 
- 74 |   const dirty = serialize(values) !== savedSignature;
- 75 | 
- 76 |   const mutation = useSaveVisitComposerMutation({
- 77 |     onSuccess: (_result, submittedValues) => {
- 78 |       lastPersistedRef.current = submittedValues;
+ 68 | 
+ 69 |   React.useEffect(() => {
+ 70 |     // reset when initial identity truly changes (guarded by stable memo upstream)
+ 71 |     setSavedSignature(serialize(initial));
+ 72 |     lastPersistedRef.current = initial;
+ 73 |   }, [initial]);
+ 74 | 
+ 75 |   const dirty = serialize(values) !== savedSignature;
+ 76 | 
+ 77 |   const mutation = useSaveVisitComposerMutation({
+ 78 |     onSuccess: (_result, submittedValues) => {
+ 79 |       lastPersistedRef.current = submittedValues;
     :       ^^^^^^^^|^^^^^^^
     :               `-- `lastPersistedRef` cannot be modified
- 79 |       setSavedSignature(serialize(submittedValues));
+ 80 |       setSavedSignature(serialize(submittedValues));
     `----
   help: Modifying a value used previously in an effect function or as an effect dependency is not allowed. Consider moving the modification before calling useEffect()
   note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/immutability
 
   ! react(set-state-in-effect): Calling setState synchronously within an effect can trigger cascading renders
-    ,-[src/features/visits/composer/use-visit-composer.ts:61:5]
- 59 |   // Reset when the caller swaps to a different patient/visit.
- 60 |   React.useEffect(() => {
+    ,-[src/features/visits/composer/use-visit-composer.ts:62:5]
+ 60 |   // Reset when the caller swaps to a different patient/visit.
+ 61 |   React.useEffect(() => {
     :   ^^^^^^^|^^^^^^^
     :          `-- This is the containing effect
- 61 |     setValues(initial);
+ 62 |     setValues(initial);
     :     ^^^^|^^^^
     :         `-- Avoid calling setState() directly within an effect
- 62 |     lastPersistedRef.current = initial;
+ 63 |     lastPersistedRef.current = initial;
     `----
   help: Effects should synchronize React with external systems. Calling setState synchronously inside an effect starts another render and is usually unnecessary. Derive the value during render, initialize state directly, or update it from the event that caused the change. Use an effect only when synchronizing with an external system.
   note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/set-state-in-effect
 
   ! react(set-state-in-effect): Calling setState synchronously within an effect can trigger cascading renders
-    ,-[src/features/visits/composer/use-visit-composer.ts:70:5]
- 67 | 
- 68 |   React.useEffect(() => {
+    ,-[src/features/visits/composer/use-visit-composer.ts:71:5]
+ 68 | 
+ 69 |   React.useEffect(() => {
     :   ^^^^^^^|^^^^^^^
     :          `-- This is the containing effect
- 69 |     // reset when initial identity truly changes (guarded by stable memo upstream)
- 70 |     setSavedSignature(serialize(initial));
+ 70 |     // reset when initial identity truly changes (guarded by stable memo upstream)
+ 71 |     setSavedSignature(serialize(initial));
     :     ^^^^^^^^|^^^^^^^^
     :             `-- Avoid calling setState() directly within an effect
- 71 |     lastPersistedRef.current = initial;
+ 72 |     lastPersistedRef.current = initial;
     `----
   help: Effects should synchronize React with external systems. Calling setState synchronously inside an effect starts another render and is usually unnecessary. Derive the value during render, initialize state directly, or update it from the event that caused the change. Use an effect only when synchronizing with an external system.
   note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/set-state-in-effect
 
-  x ui(require-no-validate): Add noValidate to the <form>: the form validates on submit with its own Spanish messages under each field, and without it the browser's native popup runs first, in the browser's language and style, so the two fight (GOV.UK's validation pattern turns HTML5 validation off too).
-     ,-[src/routes/_auth/app/immunizations/$patientId.tsx:214:5]
- 213 |       return (
- 214 | ,->     <form
- 215 | |         className="grid gap-3"
- 216 | |         onSubmit={(e) => {
- 217 | |           e.preventDefault();
- 218 | |           onSubmit({ date, lot, site, notes });
- 219 | |         }}
- 220 | `->     >
- 221 |           <div className="grid gap-1">
+  x shadcn(no-unknown-classes): ".5" is not a class this project's Tailwind knows, so no CSS is generated for it. Fix the spelling, or declare it with @utility in src/styles.css. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+    ,-[src/features/appointments/components/WeekStrip.tsx:51:9]
+ 50 |       className={cn(
+ 51 |         "flex flex-1 flex-col items-center gap-1.5 rounded-xl .5 py-2.5 transition-colors",
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |         isWeekend && "bg-muted/40",
+    `----
+
+  x shadcn(no-unknown-classes): "/40" is not a class this project's Tailwind knows, so no CSS is generated for it. Fix the spelling, or declare it with @utility in src/styles.css. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/features/appointments/components/CalendarView.tsx:327:21]
+ 326 |                   className={cn(
+ 327 |                     "/40 hover:",
+     :                     ^^^^^^^^^^^^
+ 328 |                     "focus-visible:ring-ring flex w-full items-center justify-center gap-1 rounded-lg py-2 text-xs transition-all",
+     `----
+
+  x shadcn(no-unknown-classes): "/40" is not a class this project's Tailwind knows, so no CSS is generated for it. Fix the spelling, or declare it with @utility in src/styles.css. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/features/appointments/components/CalendarView.tsx:429:19]
+ 428 |                 className={cn(
+ 429 |                   "/40 hover:",
+     :                   ^^^^^^^^^^^^
+ 430 |                   "focus-visible:ring-ring rounded-sm opacity-0 transition-opacity",
+     `----
+
+  x shadcn(no-unknown-classes): ".5" is not a class this project's Tailwind knows, so no CSS is generated for it. Fix the spelling, or declare it with @utility in src/styles.css. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/features/appointments/components/CalendarView.tsx:590:25]
+ 589 |               aria-label="View mode"
+ 590 |               className="bg-muted flex items-center rounded-lg .5"
+     :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 591 |               role="group"
      `----
 
   x ui(no-bare-label): Use Field and FieldLabel from #/components/ui/field.tsx instead of Label: Field owns the spacing between a label, its input and its hint, so a hand-made wrapper drifts from it (style guide, Forms).
@@ -741,25 +552,25 @@ x shadcn(no-restyle): "pt-6" is not allowed on <CardContent>: <CardContent> owns
     `----
 
   x shadcn(no-restyle): "pt-6" is not allowed on <CardContent>: <CardContent> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/patients/$patientId/edit.tsx:108:32]
- 107 |       <Card>
- 108 |         <CardContent className="pt-6">
+     ,-[src/routes/_auth/app/patients/$patientId/edit.tsx:106:32]
+ 105 |       <Card>
+ 106 |         <CardContent className="pt-6">
      :                                ^^^^^^
- 109 |           <PatientEditFields
+ 107 |           <PatientEditFields
      `----
 
   x ui(require-no-validate): Add noValidate to the <form>: the form validates on submit with its own Spanish messages under each field, and without it the browser's native popup runs first, in the browser's language and style, so the two fight (GOV.UK's validation pattern turns HTML5 validation off too).
-     ,-[src/features/patients/components/PatientForm.tsx:116:5]
- 115 |       const formContent = (
- 116 | ,->     <form
- 117 | |         className="space-y-4"
- 118 | |         onSubmit={(event) => {
- 119 | |           event.preventDefault();
- 120 | |           event.stopPropagation();
- 121 | |           void form.handleSubmit();
- 122 | |         }}
- 123 | `->     >
- 124 |           {!clinicId && (
+     ,-[src/features/patients/components/PatientForm.tsx:118:5]
+ 117 |       const formContent = (
+ 118 | ,->     <form
+ 119 | |         className="space-y-4"
+ 120 | |         onSubmit={(event) => {
+ 121 | |           event.preventDefault();
+ 122 | |           event.stopPropagation();
+ 123 | |           void form.handleSubmit();
+ 124 | |         }}
+ 125 | `->     >
+ 126 |           {!clinicId && (
      `----
 
   ! react(set-state-in-effect): Calling setState synchronously within an effect can trigger cascading renders
@@ -777,6 +588,52 @@ x shadcn(no-restyle): "pt-6" is not allowed on <CardContent>: <CardContent> owns
   note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/set-state-in-effect
 
   x ui(require-no-validate): Add noValidate to the <form>: the form validates on submit with its own Spanish messages under each field, and without it the browser's native popup runs first, in the browser's language and style, so the two fight (GOV.UK's validation pattern turns HTML5 validation off too).
+     ,-[src/routes/_auth/app/immunizations/$patientId.tsx:215:5]
+ 214 |       return (
+ 215 | ,->     <form
+ 216 | |         className="grid gap-3"
+ 217 | |         onSubmit={(e) => {
+ 218 | |           e.preventDefault();
+ 219 | |           onSubmit({ date, lot, site, notes });
+ 220 | |         }}
+ 221 | `->     >
+ 222 |           <div className="grid gap-1">
+     `----
+
+  x shadcn(no-unknown-classes): "sm:6" is not a class this project's Tailwind knows, so no CSS is generated for it. Fix the spelling, or declare it with @utility in src/styles.css. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/components/blocks/ServiceLayout.tsx:247:78]
+ 246 |           <div
+ 247 |             className={`relative overflow-hidden rounded-3xl ${service.accent} px-8 py-16 text-center shadow-2xl sm:6`}
+     :                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 248 |           >
+     `----
+
+  x shadcn(no-unknown-classes): "/60" is not a class this project's Tailwind knows, so no CSS is generated for it. Fix the spelling, or declare it with @utility in src/styles.css. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+    ,-[src/features/visits/components/VisitsTable.tsx:39:32]
+ 38 |       <div className="flex flex-col items-center justify-center rounded-md border border-dashed p-8 text-center">
+ 39 |         <Stethoscope className="/60 size-8" />
+    :                                ^^^^^^^^^^^^
+ 40 |         <p className="mt-2 text-sm font-medium">No visits recorded yet</p>
+    `----
+
+  x shadcn(no-restyle): "font-medium" is not allowed on <TableCell>: <TableCell> owns its typography. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+    ,-[src/features/visits/components/VisitsTable.tsx:72:38]
+ 71 |               <TableRow key={v.id}>
+ 72 |                 <TableCell className="font-medium">
+    :                                      ^^^^^^^^^^^^^
+ 73 |                   <div className="flex items-center gap-1.5">
+    `----
+
+  x shadcn(no-restyle): "text-xs" is not allowed on <Badge>: <Badge> owns its typography. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for
+  | layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/features/visits/components/VisitsTable.tsx:105:42]
+ 104 |                       v.diagnoses.slice(0, 2).map((d) => (
+ 105 |                         <Badge className="text-xs" key={d.id} variant="secondary">
+     :                                          ^^^^^^^^^
+ 106 |                           {d.icdCode}
+     `----
+
+  x ui(require-no-validate): Add noValidate to the <form>: the form validates on submit with its own Spanish messages under each field, and without it the browser's native popup runs first, in the browser's language and style, so the two fight (GOV.UK's validation pattern turns HTML5 validation off too).
      ,-[src/features/visits/components/VisitForm.tsx:105:5]
  104 |       const formBody = (
  105 | ,->     <form
@@ -790,39 +647,6 @@ x shadcn(no-restyle): "pt-6" is not allowed on <CardContent>: <CardContent> owns
  113 |           <form.Field name="visitedAt">
      `----
 
-  x shadcn(no-restyle): "font-medium" is not allowed on <TableCell>: <TableCell> owns its typography. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/visits/components/VisitsTable.tsx:72:38]
- 71 |               <TableRow key={v.id}>
- 72 |                 <TableCell className="font-medium">
-    :                                      ^^^^^^^^^^^^^
- 73 |                   <div className="flex items-center gap-1.5">
-    `----
-
-  x shadcn(no-restyle): "text-xs" is not allowed on <Badge>: <Badge> owns its typography. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for
-  | layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/features/visits/components/VisitsTable.tsx:107:42]
- 106 |                       v.diagnoses.slice(0, 2).map((d) => (
- 107 |                         <Badge className="text-xs" key={d.id} variant="secondary">
-     :                                          ^^^^^^^^^
- 108 |                           {d.icdCode}
-     `----
-
-  x ui(no-bare-label): Use Field and FieldLabel from #/components/ui/field.tsx instead of Label: Field owns the spacing between a label, its input and its hint, so a hand-made wrapper drifts from it (style guide, Forms).
-    ,-[src/routes/_auth/app/clinics/$clinicId/edit.tsx:11:1]
- 10 | import { Input } from "#/components/ui/input.tsx";
- 11 | import { Label } from "#/components/ui/label.tsx";
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 12 | import { Spinner } from "#/components/ui/spinner.tsx";
-    `----
-
-  x shadcn(no-restyle): "pt-6" is not allowed on <CardContent>: <CardContent> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/routes/_auth/app/clinics/$clinicId/edit.tsx:71:32]
- 70 |       <Card>
- 71 |         <CardContent className="pt-6">
-    :                                ^^^^^^
- 72 |           <EditClinicForm clinicId={clinicId} onDone={cancel} />
-    `----
-
   x ui(no-bare-label): Use Field and FieldLabel from #/components/ui/field.tsx instead of Label: Field owns the spacing between a label, its input and its hint, so a hand-made wrapper drifts from it (style guide, Forms).
     ,-[src/routes/_auth/app/development/$patientId.tsx:14:1]
  13 | import { Input } from "#/components/ui/input.tsx";
@@ -831,88 +655,80 @@ x shadcn(no-restyle): "pt-6" is not allowed on <CardContent>: <CardContent> owns
  15 | import {
     `----
 
-  x shadcn(no-restyle): "p-0" is not allowed on <CardContent>: <CardContent> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/development/$patientId.tsx:193:34]
- 192 |           </CardHeader>
- 193 |           <CardContent className="p-0 pb-3">
-     :                                  ^^^^^^^^^^
- 194 |             <MilestoneTimeline
-     `----
-
   x shadcn(no-restyle): "pb-3" is not allowed on <CardContent>: <CardContent> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/development/$patientId.tsx:193:34]
- 192 |           </CardHeader>
- 193 |           <CardContent className="p-0 pb-3">
-     :                                  ^^^^^^^^^^
- 194 |             <MilestoneTimeline
+     ,-[src/routes/_auth/app/development/$patientId.tsx:191:34]
+ 190 |           </CardHeader>
+ 191 |           <CardContent className=" pb-3">
+     :                                  ^^^^^^^
+ 192 |             <MilestoneTimeline
      `----
 
   x shadcn(no-restyle): "font-mono" is not allowed on <Textarea>: <Textarea> owns its typography. Add a variant in src/components/ui/textarea.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/development/$patientId.tsx:328:25]
- 327 |             <Textarea
- 328 |               className="min-h-64 font-mono text-xs"
+     ,-[src/routes/_auth/app/development/$patientId.tsx:324:25]
+ 323 |             <Textarea
+ 324 |               className="min-h-64 font-mono text-xs"
      :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 329 |               id="referral-body"
+ 325 |               id="referral-body"
      `----
 
   x shadcn(no-restyle): "text-xs" is not allowed on <Textarea>: <Textarea> owns its typography. Add a variant in src/components/ui/textarea.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/development/$patientId.tsx:328:25]
- 327 |             <Textarea
- 328 |               className="min-h-64 font-mono text-xs"
+     ,-[src/routes/_auth/app/development/$patientId.tsx:324:25]
+ 323 |             <Textarea
+ 324 |               className="min-h-64 font-mono text-xs"
      :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 329 |               id="referral-body"
+ 325 |               id="referral-body"
      `----
 
   x shadcn(no-restyle): "text-[10px]" is not allowed on <Badge>: <Badge> owns its typography. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is
   | for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/development/$patientId.tsx:380:29]
- 379 |         <div className="flex items-center gap-2">
- 380 |           <Badge className={`text-[10px] ${meta.bg} ${meta.text}`} variant="secondary">
+     ,-[src/routes/_auth/app/development/$patientId.tsx:376:29]
+ 375 |         <div className="flex items-center gap-2">
+ 376 |           <Badge className={`text-[10px] ${meta.bg} ${meta.text}`} variant="secondary">
      :                             ^^^^^^^^^^^^^^^
- 381 |             {meta.label}
+ 377 |             {meta.label}
      `----
 
   x shadcn(require-static-classes): Dynamically built className on <Badge> cannot be checked. Use static class strings. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/development/$patientId.tsx:380:44]
- 379 |         <div className="flex items-center gap-2">
- 380 |           <Badge className={`text-[10px] ${meta.bg} ${meta.text}`} variant="secondary">
+     ,-[src/routes/_auth/app/development/$patientId.tsx:376:44]
+ 375 |         <div className="flex items-center gap-2">
+ 376 |           <Badge className={`text-[10px] ${meta.bg} ${meta.text}`} variant="secondary">
      :                                            ^^^^^^^
- 381 |             {meta.label}
+ 377 |             {meta.label}
      `----
 
   x shadcn(require-static-classes): Dynamically built className on <Badge> cannot be checked. Use static class strings. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/development/$patientId.tsx:380:55]
- 379 |         <div className="flex items-center gap-2">
- 380 |           <Badge className={`text-[10px] ${meta.bg} ${meta.text}`} variant="secondary">
+     ,-[src/routes/_auth/app/development/$patientId.tsx:376:55]
+ 375 |         <div className="flex items-center gap-2">
+ 376 |           <Badge className={`text-[10px] ${meta.bg} ${meta.text}`} variant="secondary">
      :                                                       ^^^^^^^^^
- 381 |             {meta.label}
+ 377 |             {meta.label}
      `----
 
   x shadcn(no-restyle): "text-destructive" is not allowed on <Badge>: <Badge> owns its color. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is
   | for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/development/$patientId.tsx:384:30]
- 383 |           {milestone.isRedFlagIfMissing && (
- 384 |             <Badge className="text-destructive border-destructive/40 text-[10px]" variant="outline">
+     ,-[src/routes/_auth/app/development/$patientId.tsx:380:30]
+ 379 |           {milestone.isRedFlagIfMissing && (
+ 380 |             <Badge className="text-destructive border-destructive/40 text-[10px]" variant="outline">
      :                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 385 |               Critical
+ 381 |               Critical
      `----
 
   x shadcn(no-restyle): "border-destructive/40" is not allowed on <Badge>: <Badge> owns its color. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant;
   | className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/development/$patientId.tsx:384:30]
- 383 |           {milestone.isRedFlagIfMissing && (
- 384 |             <Badge className="text-destructive border-destructive/40 text-[10px]" variant="outline">
+     ,-[src/routes/_auth/app/development/$patientId.tsx:380:30]
+ 379 |           {milestone.isRedFlagIfMissing && (
+ 380 |             <Badge className="text-destructive border-destructive/40 text-[10px]" variant="outline">
      :                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 385 |               Critical
+ 381 |               Critical
      `----
 
   x shadcn(no-restyle): "text-[10px]" is not allowed on <Badge>: <Badge> owns its typography. Use a variant: pill, default, secondary, destructive, outline, ghost, link, success, warning, info, subtle. Add a new variant in src/components/ui/badge.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is
   | for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/development/$patientId.tsx:384:30]
- 383 |           {milestone.isRedFlagIfMissing && (
- 384 |             <Badge className="text-destructive border-destructive/40 text-[10px]" variant="outline">
+     ,-[src/routes/_auth/app/development/$patientId.tsx:380:30]
+ 379 |           {milestone.isRedFlagIfMissing && (
+ 380 |             <Badge className="text-destructive border-destructive/40 text-[10px]" variant="outline">
      :                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 385 |               Critical
+ 381 |               Critical
      `----
 
   x shadcn(no-restyle): "text-xs" is not allowed on <Label>: <Label> owns its typography. Add a variant in src/components/ui/label.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
@@ -925,229 +741,184 @@ x shadcn(no-restyle): "pt-6" is not allowed on <CardContent>: <CardContent> owns
 
   x shadcn(no-restyle): "rounded-none" is not allowed on <Button>: <Button> owns its shape. Use a variant: default, outline, secondary, ghost, destructive, link. Add a new variant in src/components/ui/button.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-
   | guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/prescriptions/index.tsx:320:19]
- 319 |       <Button
- 320 |         className="rounded-none border-0"
+     ,-[src/routes/_auth/app/prescriptions/index.tsx:315:19]
+ 314 |       <Button
+ 315 |         className="rounded-none border-0"
      :                   ^^^^^^^^^^^^^^^^^^^^^^^
- 321 |         nativeButton={false}
+ 316 |         nativeButton={false}
      `----
 
   x shadcn(no-restyle): "border-0" is not allowed on <Button>: <Button> owns its shape. Use a variant: default, outline, secondary, ghost, destructive, link. Add a new variant in src/components/ui/button.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A
   | new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/prescriptions/index.tsx:320:19]
- 319 |       <Button
- 320 |         className="rounded-none border-0"
+     ,-[src/routes/_auth/app/prescriptions/index.tsx:315:19]
+ 314 |       <Button
+ 315 |         className="rounded-none border-0"
      :                   ^^^^^^^^^^^^^^^^^^^^^^^
- 321 |         nativeButton={false}
+ 316 |         nativeButton={false}
      `----
 
   x shadcn(no-restyle): "rounded-none" is not allowed on <Button>: <Button> owns its shape. Use a variant: default, outline, secondary, ghost, destructive, link. Add a new variant in src/components/ui/button.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-
   | guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/prescriptions/index.tsx:332:25]
- 331 |               aria-label="More prescription actions"
- 332 |               className="rounded-none border-0 border-l"
+     ,-[src/routes/_auth/app/prescriptions/index.tsx:327:25]
+ 326 |               aria-label="More prescription actions"
+ 327 |               className="rounded-none border-0 border-l"
      :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 333 |               size="icon"
+ 328 |               size="icon"
      `----
 
   x shadcn(no-restyle): "border-0" is not allowed on <Button>: <Button> owns its shape. Use a variant: default, outline, secondary, ghost, destructive, link. Add a new variant in src/components/ui/button.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A
   | new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/prescriptions/index.tsx:332:25]
- 331 |               aria-label="More prescription actions"
- 332 |               className="rounded-none border-0 border-l"
+     ,-[src/routes/_auth/app/prescriptions/index.tsx:327:25]
+ 326 |               aria-label="More prescription actions"
+ 327 |               className="rounded-none border-0 border-l"
      :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 333 |               size="icon"
+ 328 |               size="icon"
      `----
 
   x shadcn(no-restyle): "border-l" is not allowed on <Button>: <Button> owns its shape. Use a variant: default, outline, secondary, ghost, destructive, link. Add a new variant in src/components/ui/button.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A
   | new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/prescriptions/index.tsx:332:25]
- 331 |               aria-label="More prescription actions"
- 332 |               className="rounded-none border-0 border-l"
+     ,-[src/routes/_auth/app/prescriptions/index.tsx:327:25]
+ 326 |               aria-label="More prescription actions"
+ 327 |               className="rounded-none border-0 border-l"
      :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 333 |               size="icon"
+ 328 |               size="icon"
      `----
 
   x shadcn(no-restyle): "tracking-wider" is not allowed on <TableHead>: <TableHead> owns its typography. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/prescriptions/index.tsx:558:29]
- 557 |                 <TableHead
- 558 |                   className="tracking-wider uppercase"
+     ,-[src/routes/_auth/app/prescriptions/index.tsx:553:29]
+ 552 |                 <TableHead
+ 553 |                   className="tracking-wider uppercase"
      :                             ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 559 |                   hideOnMobile={header.column.columnDef.meta?.hideOnMobile}
+ 554 |                   hideOnMobile={header.column.columnDef.meta?.hideOnMobile}
      `----
 
   x shadcn(no-restyle): "uppercase" is not allowed on <TableHead>: <TableHead> owns its typography. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/prescriptions/index.tsx:558:29]
- 557 |                 <TableHead
- 558 |                   className="tracking-wider uppercase"
+     ,-[src/routes/_auth/app/prescriptions/index.tsx:553:29]
+ 552 |                 <TableHead
+ 553 |                   className="tracking-wider uppercase"
      :                             ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 559 |                   hideOnMobile={header.column.columnDef.meta?.hideOnMobile}
+ 554 |                   hideOnMobile={header.column.columnDef.meta?.hideOnMobile}
      `----
 
   x shadcn(no-restyle): "before:bg-amber-500" is not allowed on <TableRow>: <TableRow> owns its color. Add a variant in src/components/ui/table.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/prescriptions/index.tsx:617:13]
- 616 |         flags
- 617 |           ? "relative before:absolute before:inset-y-0 before:left-0 before:w-0.5 before:bg-amber-500"
+     ,-[src/routes/_auth/app/prescriptions/index.tsx:612:13]
+ 611 |         flags
+ 612 |           ? "relative before:absolute before:inset-y-0 before:left-0 before:w-0.5 before:bg-amber-500"
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 618 |           : undefined
-     `----
-
-  x shadcn(no-restyle): "opacity-0" is not allowed on <Button>: <Button> owns its effects. Use a variant: default, outline, secondary, ghost, destructive, link. Add a new variant in src/components/ui/button.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-
-  | guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/prescriptions/index.tsx:689:17]
- 688 |     <Button
- 689 |       className="opacity-0 transition-opacity group-hover/cell:opacity-100 focus-visible:opacity-100"
-     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 690 |       disabled={mutation.isPending}
-     `----
-
-  x shadcn(no-restyle): "transition-opacity" is not allowed on <Button>: <Button> owns its motion. Use a variant: default, outline, secondary, ghost, destructive, link. Add a new variant in src/components/ui/button.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-
-  | guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/prescriptions/index.tsx:689:17]
- 688 |     <Button
- 689 |       className="opacity-0 transition-opacity group-hover/cell:opacity-100 focus-visible:opacity-100"
-     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 690 |       disabled={mutation.isPending}
-     `----
-
-  x shadcn(no-restyle): "group-hover/cell:opacity-100" is not allowed on <Button>: <Button> owns its effects. Use a variant: default, outline, secondary, ghost, destructive, link. Add a new variant in src/components/ui/button.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for layout (docs/
-  | agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/prescriptions/index.tsx:689:17]
- 688 |     <Button
- 689 |       className="opacity-0 transition-opacity group-hover/cell:opacity-100 focus-visible:opacity-100"
-     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 690 |       disabled={mutation.isPending}
-     `----
-
-  x shadcn(no-restyle): "focus-visible:opacity-100" is not allowed on <Button>: <Button> owns its effects. Use a variant: default, outline, secondary, ghost, destructive, link. Add a new variant in src/components/ui/button.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for layout (docs/
-  | agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/prescriptions/index.tsx:689:17]
- 688 |     <Button
- 689 |       className="opacity-0 transition-opacity group-hover/cell:opacity-100 focus-visible:opacity-100"
-     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 690 |       disabled={mutation.isPending}
-     `----
-
-  x shadcn(no-restyle): "pt-6" is not allowed on <CardContent>: <CardContent> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/routes/_auth/app/development/index.tsx:20:32]
- 19 |       <Card>
- 20 |         <CardContent className="pt-6">
-    :                                ^^^^^^
- 21 |           <MilestoneChecklist />
-    `----
-
-  x shadcn(no-restyle): "text-muted-foreground" is not allowed on <CardTitle>: <CardTitle> owns its color. Add a variant in src/components/ui/card.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/clinics/$clinicId.tsx:117:30]
- 116 |       <CardHeader>
- 117 |         <CardTitle className="text-muted-foreground text-sm font-medium">{label}</CardTitle>
-     :                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 118 |       </CardHeader>
-     `----
-
-  x shadcn(no-restyle): "text-sm" is not allowed on <CardTitle>: <CardTitle> owns its typography. Add a variant in src/components/ui/card.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/clinics/$clinicId.tsx:117:30]
- 116 |       <CardHeader>
- 117 |         <CardTitle className="text-muted-foreground text-sm font-medium">{label}</CardTitle>
-     :                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 118 |       </CardHeader>
+ 613 |           : undefined
      `----
 
   x shadcn(no-restyle): "font-medium" is not allowed on <CardTitle>: <CardTitle> owns its typography. Add a variant in src/components/ui/card.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-     ,-[src/routes/_auth/app/clinics/$clinicId.tsx:117:30]
- 116 |       <CardHeader>
- 117 |         <CardTitle className="text-muted-foreground text-sm font-medium">{label}</CardTitle>
-     :                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 118 |       </CardHeader>
+     ,-[src/routes/_auth/app/clinics/$clinicId.tsx:114:30]
+ 113 |       <CardHeader>
+ 114 |         <CardTitle className="font-medium">{label}</CardTitle>
+     :                              ^^^^^^^^^^^^^
+ 115 |       </CardHeader>
      `----
 
   ! react(set-state-in-effect): Calling setState synchronously within an effect can trigger cascading renders
-    ,-[src/routes/_auth/app/prescriptions/new.tsx:63:5]
- 61 | 
- 62 |   React.useEffect(() => {
+    ,-[src/routes/_auth/app/prescriptions/new.tsx:64:5]
+ 62 | 
+ 63 |   React.useEffect(() => {
     :   ^^^^^^^|^^^^^^^
     :          `-- This is the containing effect
- 63 |     setValues({ ...EMPTY, patientId, visitId });
+ 64 |     setValues({ ...EMPTY, patientId, visitId });
     :     ^^^^|^^^^
     :         `-- Avoid calling setState() directly within an effect
- 64 |   }, [patientId, visitId]);
+ 65 |   }, [patientId, visitId]);
     `----
   help: Effects should synchronize React with external systems. Calling setState synchronously inside an effect starts another render and is usually unnecessary. Derive the value during render, initialize state directly, or update it from the event that caused the change. Use an effect only when synchronizing with an external system.
   note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/set-state-in-effect
+
+  x shadcn(no-unknown-classes): "/50" is not a class this project's Tailwind knows, so no CSS is generated for it. Fix the spelling, or declare it with @utility in src/styles.css. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+    ,-[src/components/blocks/app-shell-1.tsx:61:44]
+ 60 |         </span>
+ 61 |         <span aria-hidden="true" className="/50 text-xs leading-none">
+    :                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 62 |           /
+    `----
+
+  x shadcn(no-unknown-classes): ".5" is not a class this project's Tailwind knows, so no CSS is generated for it. Fix the spelling, or declare it with @utility in src/styles.css. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+   ,-[src/components/ui/kbd.tsx:7:9]
+ 6 |       className={cn(
+ 7 |         "bg-muted  in-data-[slot=input-group]:bg-input in-data-[slot=tooltip-content]:bg-background/20 in-data-[slot=tooltip-content]:text-background dark:in-data-[slot=tooltip-content]:bg-background/10 pointer-events-none inline-flex h-5.5 w-fit min-w-5.5 items-center justify-center gap-1 rounded-none .5 font-sans text-xs font-medium select-none [&_svg:not([class*='size-'])]:size-3",
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 8 |         className,
+   `----
+
+  x shadcn(no-unknown-classes): "**:data-[slot=kbd]:.5" is not a class this project's Tailwind knows, so no CSS is generated for it. Fix the spelling, or declare it with @utility in src/styles.css. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+    ,-[src/components/ui/input-group.tsx:25:3]
+ 24 | const inputGroupAddonVariants = cva(
+ 25 |   " **:data-[slot=kbd]:bg-muted-foreground/10 flex h-auto cursor-text items-center justify-center gap-2 py-2 text-sm font-medium select-none group-data-[disabled=true]/input-group:opacity-50 **:data-[slot=kbd]:rounded-none **:data-[slot=kbd]:.5 [&>svg:not([class*='size-'])]:size-3.5",
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 26 |   {
+    `----
+
+  x shadcn(no-unknown-classes): ".5" is not a class this project's Tailwind knows, so no CSS is generated for it. Fix the spelling, or declare it with @utility in src/styles.css. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+    ,-[src/components/ui/input-group.tsx:68:11]
+ 67 |     size: {
+ 68 |       xs: "h-6 gap-1 rounded-none .5 text-xs [&>svg:not([class*='size-'])]:size-3.5",
+    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 69 |       sm: "",
+    `----
 
   ! react(set-state-in-effect): Calling setState synchronously within an effect can trigger cascading renders
-    ,-[src/features/search/SearchCommand.tsx:82:7]
- 79 |   // Reset on close so reopening is clean.
- 80 |   React.useEffect(() => {
+    ,-[src/components/blocks/command-menu.tsx:89:7]
+ 86 |   // Reset on close so reopening starts fresh.
+ 87 |   React.useEffect(() => {
     :   ^^^^^^^|^^^^^^^
     :          `-- This is the containing effect
- 81 |     if (!open) {
- 82 |       setQuery("");
+ 88 |     if (!open) {
+ 89 |       setQuery("");
     :       ^^^^|^^^
     :           `-- Avoid calling setState() directly within an effect
- 83 |       setDebounced("");
+ 90 |       setDebounced("");
     `----
   help: Effects should synchronize React with external systems. Calling setState synchronously inside an effect starts another render and is usually unnecessary. Derive the value during render, initialize state directly, or update it from the event that caused the change. Use an effect only when synchronizing with an external system.
   note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/set-state-in-effect
-
-  x shadcn(no-restyle): "text-muted-foreground" is not allowed on <Spinner>: <Spinner> owns its color. Add a variant in src/components/ui/spinner.tsx only if the design explicitly calls for this treatment. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/components/sync-status-indicator.tsx:31:23]
- 30 |         aria-label="Pending sync"
- 31 |         className={cn("text-muted-foreground size-3", className)}
-    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 32 |       />
-    `----
-
-  ! react(set-state-in-effect): Calling setState synchronously within an effect can trigger cascading renders
-    ,-[src/components/blocks/command-menu.tsx:88:7]
- 85 |   // Reset on close so reopening starts fresh.
- 86 |   React.useEffect(() => {
-    :   ^^^^^^^|^^^^^^^
-    :          `-- This is the containing effect
- 87 |     if (!open) {
- 88 |       setQuery("");
-    :       ^^^^|^^^
-    :           `-- Avoid calling setState() directly within an effect
- 89 |       setDebounced("");
-    `----
-  help: Effects should synchronize React with external systems. Calling setState synchronously inside an effect starts another render and is usually unnecessary. Derive the value during render, initialize state directly, or update it from the event that caused the change. Use an effect only when synchronizing with an external system.
-  note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/set-state-in-effect
-
-  x shadcn(no-restyle): "text-muted-foreground" is not allowed on <Button>: <Button> owns its color. Use a variant: default, outline, secondary, ghost, destructive, link. Add a new variant in src/components/ui/button.tsx only if the design explicitly calls for a treatment none of these provides. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/
-  | style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/search/SearchTrigger.tsx:13:17]
- 12 |       aria-label="Open search (⌘K)"
- 13 |       className="text-muted-foreground w-full justify-start gap-2"
-    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 14 |       onClick={() => setOpen(true)}
-    `----
-
-  x shadcn(no-restyle): "gap-2" is not allowed on <Button>: <Button> owns its spacing. Use a size (default, xs, sm, lg, icon, icon-xs, icon-sm, icon-lg), or margin here, gap on the parent, or CardContent for space around it. Add a size in src/components/ui/button.tsx only if the design explicitly calls for one. A colour, radius or state comes from a token or a variant; className is for layout
-  | (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/features/search/SearchTrigger.tsx:13:17]
- 12 |       aria-label="Open search (⌘K)"
- 13 |       className="text-muted-foreground w-full justify-start gap-2"
-    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 14 |       onClick={() => setOpen(true)}
-    `----
-
-  x shadcn(no-restyle): "pt-6" is not allowed on <CardContent>: <CardContent> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/routes/_auth/app/patients/new.tsx:42:32]
- 41 |       <Card>
- 42 |         <CardContent className="pt-6">
-    :                                ^^^^^^
- 43 |           <PatientForm
-    `----
 
   ! File is too long to fit on the screen
   help: src/components/ui/navigation-menu.tsx seems like a minified file
 
-  x shadcn(no-restyle): "pt-6" is not allowed on <CardContent>: <CardContent> owns its spacing. For space around it, use margin here or gap on a plain wrapper around it. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
-    ,-[src/routes/_auth/app/clinics/new.tsx:37:32]
- 36 |       <Card>
- 37 |         <CardContent className="pt-6">
-    :                                ^^^^^^
- 38 |           <ClinicForm
+  x shadcn(no-unknown-classes): "scroll-" is not a class this project's Tailwind knows, so no CSS is generated for it. Fix the spelling, or declare it with @utility in src/styles.css. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/components/ui/attachment.tsx:177:9]
+ 176 |       className={cn(
+ 177 |         "scroll-fade-x flex min-w-0 snap-x snap-mandatory scroll- scrollbar-none gap-3 overflow-x-auto overscroll-x-contain py-1 *:data-[slot=attachment]:flex-none *:data-[slot=attachment]:snap-start",
+     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 178 |         className,
+     `----
+
+  x shadcn(no-unknown-classes): "sm:px2" is not a class this project's Tailwind knows, so no CSS is generated for it. Did you mean "sm:p-2"? A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/routes/_guest/privacy.tsx:274:24]
+ 273 |   return (
+ 274 |     <section className="island-shell rounded-3xl px-8 py-12 text-center sm:px2 sm:py-16">
+     :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 275 |       <div className="mx-auto max-w-2xl">
+     `----
+
+  x shadcn(no-unknown-classes): ".5" is not a class this project's Tailwind knows, so no CSS is generated for it. Fix the spelling, or declare it with @utility in src/styles.css. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+    ,-[src/components/NotFound.tsx:89:26]
+ 88 |           Or press{" "}
+ 89 |           <kbd className="rounded border border-[var(--line)] .5 py-0.5 font-mono text-[10px]">
+    :                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 90 |             ⌘K
     `----
 
-Found 123 errors and 12 warnings in 437 files (23.3s, 4 threads)
-pass: Formatting completed for checked files (25.2s)
+  x shadcn(no-unknown-classes): "sm:px2" is not a class this project's Tailwind knows, so no CSS is generated for it. Did you mean "sm:p-2"? A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/routes/_guest/about.tsx:390:24]
+ 389 |   return (
+ 390 |     <section className="rounded-3xl border border-[var(--line)] px-8 py-14 sm:px2 sm:py-16">
+     :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 391 |       <div className="mx-auto grid max-w-4xl gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+     `----
+
+  x shadcn(no-unknown-classes): "sm:6" is not a class this project's Tailwind knows, so no CSS is generated for it. Fix the spelling, or declare it with @utility in src/styles.css. A colour, radius or state comes from a token or a variant; className is for layout (docs/agents/style-guide.md). A new token or variant is a product decision: ask before adding one.
+     ,-[src/routes/_guest/about.tsx:424:24]
+ 423 |   return (
+ 424 |     <section className="rounded-3xl border border-[var(--line)] px-8 py-16 text-center sm:6">
+     :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 425 |       <div className="mx-auto max-w-2xl">
+     `----
+
+Found 100 errors and 10 warnings in 440 files (42.0s, 4 threads)
+pass: Formatting completed for checked files (46.2s)

@@ -121,15 +121,13 @@ const columns = column.columns([
       const date = asDate(info.getValue());
       const ageMonths = info.row.original.visit?.ageMonths;
       if (!date) {
-        return <span className="text-muted-foreground">—</span>;
+        return <span className="">—</span>;
       }
       return (
         <div className="flex flex-col gap-0.5 py-1">
           <span className="font-medium tabular-nums">{formatDate(date)}</span>
           {ageMonths != null && (
-            <span className="text-muted-foreground text-xs tabular-nums">
-              {MONTH_LABEL(ageMonths)}
-            </span>
+            <span className=" text-xs tabular-nums">{MONTH_LABEL(ageMonths)}</span>
           )}
         </div>
       );
@@ -147,7 +145,7 @@ const columns = column.columns([
       return (
         <div className="flex items-baseline justify-end gap-1 py-1 tabular-nums">
           <span className="font-medium">{value === null ? "—" : value.toFixed(2)}</span>
-          {unit && <span className="text-muted-foreground text-xs">{unit}</span>}
+          {unit && <span className=" text-xs">{unit}</span>}
         </div>
       );
     },
@@ -160,7 +158,7 @@ const columns = column.columns([
     cell: (info) => {
       const z = asNumber(info.getValue());
       if (z === null) {
-        return <span className="text-muted-foreground block text-right">—</span>;
+        return <span className=" block text-right">—</span>;
       }
       const severity = zSeverityLabel(z);
       return (
@@ -187,7 +185,7 @@ const columns = column.columns([
     cell: (info) => {
       const p = asNumber(info.getValue());
       return (
-        <span className="text-muted-foreground block text-right tabular-nums">
+        <span className=" block text-right tabular-nums">
           {p === null ? "—" : `${p.toFixed(1)}%`}
         </span>
       );
@@ -201,10 +199,10 @@ const columns = column.columns([
     cell: (info) => {
       const v = info.getValue();
       if (v == null) {
-        return <span className="text-muted-foreground">—</span>;
+        return <span className="">—</span>;
       }
       return (
-        <span className="text-muted-foreground block truncate capitalize" title={v}>
+        <span className=" block truncate capitalize" title={v}>
           {v}
         </span>
       );
@@ -352,7 +350,7 @@ export function MeasurementsTable<TRoute extends AnyRoute>({
           {showEmptyRow && (
             <TableRow>
               <TableCell colSpan={leafColumnCount}>
-                <div className="text-muted-foreground flex flex-col items-center gap-1 py-8 text-center text-sm">
+                <div className=" flex flex-col items-center gap-1 py-8 text-center text-sm">
                   <IconTile size="lg">
                     <RulerIcon aria-hidden="true" />
                   </IconTile>

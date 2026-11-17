@@ -217,7 +217,7 @@ export function AppointmentForm({
         {(field) => (
           <div className="grid gap-2">
             <Label htmlFor={field.name}>
-              Reason <span className="text-muted-foreground font-normal">(optional)</span>
+              Reason <span className=" font-normal">(optional)</span>
             </Label>
             <Input
               id={field.name}
@@ -240,7 +240,7 @@ export function AppointmentForm({
         {(field) => (
           <div className="grid gap-2">
             <Label htmlFor={field.name}>
-              Notes <span className="text-muted-foreground font-normal">(optional)</span>
+              Notes <span className=" font-normal">(optional)</span>
             </Label>
             <Textarea
               id={field.name}

@@ -60,10 +60,6 @@ function NewPrescriptionPage() {
     visitId,
   });
 
-  React.useEffect(() => {
-    setValues({ ...EMPTY, patientId, visitId });
-  }, [patientId, visitId]);
-
   // Pre-fill weight from the patient record, but never clobber a value the
   // user typed. Runs once per loaded patient.
   const lastPrefilledPatientRef = React.useRef<string | null>(null);

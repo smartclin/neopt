@@ -1,4 +1,4 @@
-import type { LucideIcon } from "lucide-react";
+import type {LucideIcon} from "lucide-react";
 import type React from "react";
 
 export interface TableEmptyStateProps {
@@ -31,7 +31,7 @@ export function TableEmptyState({
       </p>
       {!hasFilters && actionLabel && onAction ? (
         <button
-          className="bg-primary mt-4 rounded-xl px-4 py-2 text-xs font-bold text-white"
+          className="bg-primary mt-4 rounded-xl px-4 py-2  font-bold text-white"
           onClick={onAction}
           type="button"
         >

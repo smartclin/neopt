@@ -67,7 +67,7 @@ export function StatusTokens() {
             <TableCell>
               <div className="flex flex-col py-1 whitespace-normal">
                 <span className="font-medium">{token.label}</span>
-                <span className="text-muted-foreground text-xs max-sm:hidden">
+                <span className=" text-xs max-sm:hidden">
                   {`--${token.name}, --${token.name}-foreground`}
                 </span>
               </div>

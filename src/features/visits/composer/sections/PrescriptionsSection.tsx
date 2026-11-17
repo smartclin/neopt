@@ -29,7 +29,7 @@ export function PrescriptionsSection({ values, patch, readOnly }: Props) {
   return (
     <div className="grid gap-3">
       <div className="flex items-center justify-between">
-        <span className="text-muted-foreground text-xs">
+        <span className=" text-xs">
           {values.prescriptions.length} medication
           {values.prescriptions.length === 1 ? "" : "s"}
         </span>

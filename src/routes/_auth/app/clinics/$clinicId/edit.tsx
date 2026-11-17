@@ -103,11 +103,7 @@ function EditClinicForm({ clinicId, onDone }: { clinicId: string; onDone: () => 
   }
 
   if (!clinicQuery.data) {
-    return (
-      <p className="text-muted-foreground py-6 text-center text-sm">
-        This clinic no longer exists.
-      </p>
-    );
+    return <p className=" py-6 text-center text-sm">This clinic no longer exists.</p>;
   }
 
   // useForm lives below — we can't call it conditionally, so the split is required.

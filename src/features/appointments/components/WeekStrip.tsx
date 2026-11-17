@@ -2,25 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { cn } from "cn";
 import * as React from "react";
 
-import { formatDayHeading, formatShortDay } from "@/lib/dates";
+import { addDays, formatDayHeading, formatShortDay, startOfDay } from "@/lib/dates";
 
 // ── read: query factory ────────────────────────────────────────────────
 import { appointmentsInRangeQuery } from "../queries";
 
 // ── Helpers ────────────────────────────────────────────────────────────
-
-function startOfDay(d: Date): Date {
-  const r = new Date(d);
-  r.setHours(0, 0, 0, 0);
-  return r;
-}
-
-function addDays(d: Date, n: number): Date {
-  const r = new Date(d);
-  r.setDate(r.getDate() + n);
-  return r;
-}
-
 const MAX_DOTS = 8;
 
 // ── Day cell ───────────────────────────────────────────────────────────
@@ -48,7 +35,7 @@ function DayCell({
       aria-label={`${formatDayHeading(date)}, ${count} appointment${count !== 1 ? "s" : ""}`}
       aria-pressed={selected}
       className={cn(
-        "flex flex-1 flex-col items-center gap-1.5 rounded-xl px-1.5 py-2.5 transition-colors",
+        "flex flex-1 flex-col items-center gap-1.5 rounded-xl  py-2.5 transition-colors",
         isWeekend && "bg-muted/40",
         selected && "bg-primary/10 ring-primary/20 ring-1",
         !selected && !isWeekend && "hover:bg-muted/40",
@@ -60,7 +47,7 @@ function DayCell({
       <span
         className={cn(
           "text-[0.6rem] font-medium tracking-wide uppercase",
-          isToday ? "text-primary" : "text-muted-foreground",
+          isToday ? "text-primary" : "",
         )}
       >
         {formatShortDay(date)}
@@ -83,7 +70,7 @@ function DayCell({
         {Array.from({ length: dots }, (_, i) => (
           <span className="bg-primary/60 size-[4px] rounded-full" key={i} />
         ))}
-        {overflow > 0 && <span className="text-muted-foreground text-[0.5rem]">+{overflow}</span>}
+        {overflow > 0 && <span className=" text-[0.5rem]">+{overflow}</span>}
       </div>
 
       <div aria-hidden="true" className="bg-muted h-[3px] w-full overflow-hidden rounded-full">
@@ -147,7 +134,7 @@ export function WeekStrip({ clinicId, selectedDate, onSelectDate }: WeekStripPro
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-semibold">This Week</h2>
-        <span className="text-muted-foreground text-xs">
+        <span className=" text-xs">
           {new Intl.DateTimeFormat("en-GB", {
             month: "short",
             day: "numeric",

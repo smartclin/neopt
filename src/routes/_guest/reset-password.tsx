@@ -214,16 +214,13 @@ function ResetPasswordForm() {
 
       <div className="flex items-center justify-between text-sm">
         <Link
-          className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 hover:underline"
+          className=" hover:text-foreground inline-flex items-center gap-1 hover:underline"
           to="/login"
         >
           <ArrowLeftIcon aria-hidden="true" className="size-3.5" />
           Back to sign in
         </Link>
-        <Link
-          className="text-muted-foreground hover:text-foreground hover:underline"
-          to="/forgot-password"
-        >
+        <Link className=" hover:text-foreground hover:underline" to="/forgot-password">
           Request new link
         </Link>
       </div>

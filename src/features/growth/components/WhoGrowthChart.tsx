@@ -216,12 +216,12 @@ export function WhoGrowthChart({
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <h3 className="font-medium">{title}</h3>
-          <p className="text-muted-foreground text-sm">
+          <p className=" text-sm">
             WHO {metricLabel}-for-age · {genderLabel} · shaded = ±1 SD / ±2 SD
           </p>
         </div>
         {measurements.length > 0 && (
-          <span className="text-muted-foreground text-sm">{measurements.length} measurements</span>
+          <span className=" text-sm">{measurements.length} measurements</span>
         )}
       </div>
       <Chart

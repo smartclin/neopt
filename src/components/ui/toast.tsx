@@ -89,7 +89,7 @@ function ToastTitle({ className, ...props }: ToastPrimitive.Title.Props) {
 function ToastDescription({ className, ...props }: ToastPrimitive.Description.Props) {
   return (
     <ToastPrimitive.Description
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn(" text-sm", className)}
       data-slot="toast-description"
       {...props}
     />
@@ -121,7 +121,7 @@ function ToastClose({
     <ToastPrimitive.Close
       aria-label="Close toast"
       className={cn(
-        "text-muted-foreground hover:text-foreground relative shrink-0 after:absolute after:-inset-2 after:content-['']",
+        " hover:text-foreground relative shrink-0 after:absolute after:-inset-2 after:content-['']",
         className,
       )}
       data-slot="toast-close"

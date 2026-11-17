@@ -27,19 +27,8 @@ import {
 import { formatStatusLabel, formatTime } from "@/lib/dates";
 import { cn } from "@/lib/utils";
 
-import type { fetchTodayAppointments } from "../functions";
-
 import { todayAppointmentsQuery } from "../queries";
-
-// ── Row shape — derived from the server fn's return type ───────────────
-//
-// The old hand-written `AppointmentRow` type had `doctor` and `patient`
-// as `{...} | null`. But `fetchTodayAppointments` uses `.with({ patient,
-// doctor })` in the Drizzle query, which always resolves to a row (or
-// throws if the join fails) — never null. The old type forced null
-// checks everywhere that the runtime never triggered. Deriving the type
-// from the server fn keeps the type and the runtime in sync.
-type AppointmentRow = Awaited<ReturnType<typeof fetchTodayAppointments>>[number];
+import { AppointmentRow } from "../types";
 
 const features = tableFeatures({ rowPaginationFeature });
 
@@ -70,7 +59,7 @@ const columns = column.columns([
     cell: ({ row }) => {
       const patient = row.original.patient;
       if (!patient) {
-        return <span className="text-muted-foreground">—</span>;
+        return <span className="">—</span>;
       }
 
       return (
@@ -87,7 +76,7 @@ const columns = column.columns([
             >
               {patient.firstName} {patient.lastName}
             </Link>
-            <span className="text-muted-foreground truncate font-mono text-xs">{patient.mrn}</span>
+            <span className=" truncate font-mono text-xs">{patient.mrn}</span>
           </div>
         </div>
       );
@@ -97,19 +86,13 @@ const columns = column.columns([
     id: "doctor",
     header: "Doctor",
     meta: { width: "w-40", hideOnMobile: true },
-    cell: ({ row }) => (
-      <span className="text-muted-foreground block truncate">
-        {row.original.doctor?.name ?? "—"}
-      </span>
-    ),
+    cell: ({ row }) => <span className=" block truncate">{row.original.doctor?.name ?? "—"}</span>,
   }),
   column.accessor("durationMinutes", {
     header: "Duration",
     meta: { width: "w-24" },
     cell: (info) => (
-      <span className="text-muted-foreground block text-right font-mono text-xs tabular-nums">
-        {info.getValue()}m
-      </span>
+      <span className=" block text-right font-mono text-xs tabular-nums">{info.getValue()}m</span>
     ),
   }),
   column.accessor("status", {
@@ -124,7 +107,7 @@ const columns = column.columns([
     header: "Reason",
     meta: { width: "w-48", hideOnMobile: true },
     cell: (info) => (
-      <span className="text-muted-foreground block truncate" title={info.getValue() ?? undefined}>
+      <span className=" block truncate" title={info.getValue() ?? undefined}>
         {info.getValue() ?? "—"}
       </span>
     ),
@@ -254,9 +237,7 @@ export function AppointmentsTable<TRoute extends AnyRoute>({
           {isEmpty ? (
             <TableRow>
               <TableCell colSpan={leafColumnCount}>
-                <p className="text-muted-foreground py-8 text-center text-sm">
-                  No appointments scheduled for today.
-                </p>
+                <p className=" py-8 text-center text-sm">No appointments scheduled for today.</p>
               </TableCell>
             </TableRow>
           ) : (

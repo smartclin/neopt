@@ -36,9 +36,9 @@ export function VisitsTable({ visits, showPatientColumn = false }: VisitsTablePr
   if (visits.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center rounded-md border border-dashed p-8 text-center">
-        <Stethoscope className="text-muted-foreground/60 size-8" />
+        <Stethoscope className=" size-8" />
         <p className="mt-2 text-sm font-medium">No visits recorded yet</p>
-        <p className="text-muted-foreground text-xs">
+        <p className=" text-xs">
           Record a new clinical encounter to begin tracking patient progress.
         </p>
       </div>
@@ -69,12 +69,14 @@ export function VisitsTable({ visits, showPatientColumn = false }: VisitsTablePr
 
             return (
               <TableRow key={v.id}>
-                <TableCell className="font-medium">
-                  <div className="flex items-center gap-1.5">
-                    <Calendar className="text-muted-foreground size-3.5" />
-                    <span>{dateStr}</span>
-                  </div>
-                </TableCell>
+                <div className="flex items-center gap-2">
+                  <TableCell>
+                    <div className="flex items-center gap-1.5">
+                      <Calendar className=" size-3.5" />
+                      <span>{dateStr}</span>
+                    </div>
+                  </TableCell>
+                </div>
                 {showPatientColumn && (
                   <TableCell>
                     {v.patient ? (
@@ -85,7 +87,7 @@ export function VisitsTable({ visits, showPatientColumn = false }: VisitsTablePr
                         to="/app/patients/$patientId"
                       >
                         {v.patient.firstName} {v.patient.lastName}{" "}
-                        <span className="text-muted-foreground text-xs">({v.patient.mrn})</span>
+                        <span className=" text-xs">({v.patient.mrn})</span>
                       </Link>
                     ) : (
                       "—"
@@ -96,27 +98,23 @@ export function VisitsTable({ visits, showPatientColumn = false }: VisitsTablePr
                   <Badge variant="outline">{ageDisplay}</Badge>
                 </TableCell>
                 <TableCell>
-                  <span className="text-muted-foreground text-xs">
-                    {v.measurements?.length ?? 0} recorded
-                  </span>
+                  <span className=" text-xs">{v.measurements?.length ?? 0} recorded</span>
                 </TableCell>
                 <TableCell>
                   <div className="flex flex-wrap gap-1">
                     {v.diagnoses && v.diagnoses.length > 0 ? (
                       v.diagnoses.slice(0, 2).map((d) => (
-                        <Badge className="text-xs" key={d.id} variant="secondary">
-                          {d.icdCode}
-                        </Badge>
+                        <div key={d.id} className="text-xs">
+                          <Badge variant="secondary">{d.icdCode}</Badge>
+                        </div>
                       ))
                     ) : (
-                      <span className="text-muted-foreground text-xs">—</span>
+                      <span className=" text-xs">—</span>
                     )}
                   </div>
                 </TableCell>
                 <TableCell>
-                  <span className="text-muted-foreground text-xs">
-                    {v.prescriptions?.length ?? 0} medications
-                  </span>
+                  <span className=" text-xs">{v.prescriptions?.length ?? 0} medications</span>
                 </TableCell>
                 <TableCell className="text-right">
                   <Link

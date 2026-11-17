@@ -67,7 +67,7 @@ function ContextMenuLabel({
   return (
     <ContextMenuPrimitive.GroupLabel
       className={cn(
-        "text-muted-foreground px-3 py-2 text-xs font-semibold tracking-wider uppercase data-inset:ps-9.5",
+        " px-3 py-2 text-xs font-semibold tracking-wider uppercase data-inset:ps-9.5",
         className,
       )}
       data-inset={inset}
@@ -215,7 +215,7 @@ function ContextMenuShortcut({ className, ...props }: React.ComponentProps<"span
   return (
     <span
       className={cn(
-        "text-muted-foreground group-focus/context-menu-item:text-accent-foreground ms-auto text-xs tracking-widest",
+        " group-focus/context-menu-item:text-accent-foreground ms-auto text-xs tracking-widest",
         className,
       )}
       data-slot="context-menu-shortcut"

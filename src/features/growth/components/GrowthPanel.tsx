@@ -35,7 +35,7 @@ export function WhoGrowthPanel({ patientId, sex, indicator }: WhoGrowthPanelProp
         <h2 className="text-lg font-semibold" id={`${sectionId}-title`}>
           WHO growth chart
         </h2>
-        <p className="text-muted-foreground text-sm">
+        <p className=" text-sm">
           WHO Child Growth Standards, shown separately from the Egyptian 2021 reference.
         </p>
       </header>
@@ -47,7 +47,7 @@ export function WhoGrowthPanel({ patientId, sex, indicator }: WhoGrowthPanelProp
           patientId={patientId}
         />
       ) : (
-        <p className="text-muted-foreground text-sm" role="status">
+        <p className=" text-sm" role="status">
           The bundled WHO data currently covers weight-for-age and length/height-for-age only. No
           WHO chart is available for {indicator.replaceAll("-", " ")}.
         </p>
@@ -86,7 +86,7 @@ function WhoGrowthChartData({ gender, metric, patientId }: WhoGrowthChartDataPro
 
   if (!standardsQuery.data?.length) {
     return (
-      <p className="text-muted-foreground text-sm" role="status">
+      <p className=" text-sm" role="status">
         WHO reference data is not loaded. Seed the WHO growth standards before using this chart.
       </p>
     );

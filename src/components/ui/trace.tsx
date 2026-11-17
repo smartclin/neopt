@@ -28,7 +28,7 @@ function TraceLine({
   return (
     <span
       className={cn(
-        "text-muted-foreground in-[a:hover,button:hover]:text-foreground data-[status=error]:text-destructive data-[status=error]:in-[a:hover,button:hover]:text-destructive data-[status=running]:*:data-[slot=trace-title]:shimmer flex w-fit max-w-full min-w-0 items-center gap-2 text-sm transition-colors in-[a,button]:cursor-pointer data-[status=pending]:opacity-60",
+        " in-[a:hover,button:hover]:text-foreground data-[status=error]:text-destructive data-[status=error]:in-[a:hover,button:hover]:text-destructive data-[status=running]:*:data-[slot=trace-title]:shimmer flex w-fit max-w-full min-w-0 items-center gap-2 text-sm transition-colors in-[a,button]:cursor-pointer data-[status=pending]:opacity-60",
         className,
       )}
       data-slot="trace-line"
@@ -65,7 +65,7 @@ function TraceTitle({ className, ...props }: React.ComponentProps<"span">) {
 function TraceDescription({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
-      className={cn("text-muted-foreground/70 shrink-0 tabular-nums", className)}
+      className={cn(" shrink-0 tabular-nums", className)}
       data-slot="trace-description"
       {...props}
     />
@@ -100,7 +100,7 @@ function TraceCollapsibleTrigger({
   return (
     <CollapsibleTrigger
       className={cn(
-        "group/trace-collapsible-trigger text-muted-foreground hover:text-foreground focus-visible:ring-ring/30 has-[[data-status=error]]:text-destructive flex w-fit max-w-full min-w-0 cursor-pointer items-center gap-1 rounded-none text-start transition-colors outline-none focus-visible:ring-2",
+        "group/trace-collapsible-trigger  hover:text-foreground focus-visible:ring-ring/30 has-[[data-status=error]]:text-destructive flex w-fit max-w-full min-w-0 cursor-pointer items-center gap-1 rounded-none text-start transition-colors outline-none focus-visible:ring-2",
         className,
       )}
       data-slot="trace-collapsible-trigger"
@@ -127,7 +127,7 @@ function TraceCollapsibleContent({
     >
       <div
         className={cn(
-          "text-muted-foreground ms-[calc(--spacing(2)-1px)] mt-3 mb-1 min-w-0 border-s ps-4 pe-1 leading-relaxed wrap-break-word",
+          " ms-[calc(--spacing(2)-1px)] mt-3 mb-1 min-w-0 border-s ps-4 pe-1 leading-relaxed wrap-break-word",
           className,
         )}
         data-slot="trace-collapsible-content-inner"

@@ -136,7 +136,7 @@ export function ClinicForm({ inline = false, onSuccess }: ClinicFormProps) {
           {(field) => (
             <div className="grid gap-2">
               <Label htmlFor={field.name}>
-                Phone <span className="text-muted-foreground font-normal">(optional)</span>
+                Phone <span className=" font-normal">(optional)</span>
               </Label>
               <Input
                 aria-invalid={field.state.meta.errors.length > 0}
@@ -163,7 +163,7 @@ export function ClinicForm({ inline = false, onSuccess }: ClinicFormProps) {
           {(field) => (
             <div className="grid gap-2">
               <Label htmlFor={field.name}>
-                Email <span className="text-muted-foreground font-normal">(optional)</span>
+                Email <span className=" font-normal">(optional)</span>
               </Label>
               <Input
                 aria-invalid={field.state.meta.errors.length > 0}
@@ -190,7 +190,7 @@ export function ClinicForm({ inline = false, onSuccess }: ClinicFormProps) {
         {(field) => (
           <div className="grid gap-2">
             <Label htmlFor={field.name}>
-              Address <span className="text-muted-foreground font-normal">(optional)</span>
+              Address <span className=" font-normal">(optional)</span>
             </Label>
             <Textarea
               aria-invalid={field.state.meta.errors.length > 0}

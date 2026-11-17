@@ -155,7 +155,7 @@ export function PediatricDosingCalculator({
         </Badge>
       </summary>
       <div className="space-y-4 border-t p-3">
-        <p className="text-muted-foreground text-sm">
+        <p className=" text-sm">
           Uses the neonatal formulary dose range and selected preparation to calculate an arithmetic
           dose and volume. It does not choose an age-dependent interval or replace NICU protocols.
         </p>
@@ -230,7 +230,7 @@ export function PediatricDosingCalculator({
               type="number"
               value={dosesPerDay}
             />
-            <p className="text-muted-foreground text-xs">
+            <p className=" text-xs">
               Match this value to the selected interval (for example, q12h = 2 doses/day). For
               irregular intervals, enter the appropriate daily average from your protocol.
             </p>
@@ -323,13 +323,11 @@ export function PediatricDosingCalculator({
           <div className="bg-muted/40 space-y-3 rounded-md p-3">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <div>
-                <p className="text-muted-foreground text-xs uppercase">
-                  Calculated amount per dose
-                </p>
+                <p className=" text-xs uppercase">Calculated amount per dose</p>
                 <p className="text-xl font-semibold">
                   {formatDose(result.singleDoseMg * (drug.doseUnit.startsWith("mcg/") ? 1000 : 1))}{" "}
                   {drug.doseUnit.startsWith("mcg/") ? "mcg" : "mg"}
-                  <span className="text-muted-foreground ml-2 text-base font-normal">
+                  <span className=" ml-2 text-base font-normal">
                     ({formatDose(result.volumeMlPerDose, 3)} mL)
                   </span>
                 </p>
@@ -338,7 +336,7 @@ export function PediatricDosingCalculator({
                 {frequency} · {selectedRoute}
               </p>
             </div>
-            <p className="text-muted-foreground text-sm">
+            <p className=" text-sm">
               Estimated total per 24 hours: {formatDose(result.dailyDoseMg)} mg at{" "}
               {formatDose(dailyFrequency)} doses/day.
             </p>
@@ -348,7 +346,7 @@ export function PediatricDosingCalculator({
                 Maximum daily or single-dose limit applied. Verify this adjustment.
               </p>
             )}
-            <div className="text-muted-foreground space-y-1 text-sm">
+            <div className=" space-y-1 text-sm">
               <p>{drug.indication}</p>
               {drug.dilutionGuideline && <p>{drug.dilutionGuideline}</p>}
               {Object.values(drug.safetyWarnings)
@@ -384,7 +382,7 @@ export function PediatricDosingCalculator({
           </div>
         )}
         {postnatalAgeDays && gestationalAgeWeeks && (
-          <p className="text-muted-foreground text-xs">
+          <p className=" text-xs">
             Patient context entered: postnatal day {postnatalAgeDays}, gestational age{" "}
             {gestationalAgeWeeks} weeks. These values are not used to select or change the dose
             interval.

@@ -252,7 +252,7 @@ function PrescriptionDetailPage() {
         values={values}
         warnings={warnings}
       />
-      <footer className="text-muted-foreground border-t pt-4 text-xs">
+      <footer className=" border-t pt-4 text-xs">
         <p>
           Created {new Date(detail.data.prescribedAt).toLocaleString()} · Last updated{" "}
           {new Date(detail.data.prescribedAt).toLocaleString()}

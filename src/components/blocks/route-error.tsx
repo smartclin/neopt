@@ -52,7 +52,7 @@ export function RouteNotFound({ title }: { title: string }) {
   return (
     <div aria-live="polite" className="p-6 text-center" role="status">
       <h2 className="text-lg font-semibold">{title}</h2>
-      <p className="text-muted-foreground">This record does not exist.</p>
+      <p className="">This record does not exist.</p>
     </div>
   );
 }

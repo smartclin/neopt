@@ -49,7 +49,7 @@ export function SafetyRail({ warnings, drug, previous, mode }: SafetyRailProps) 
         <CardContent>
           <div className="flex flex-col gap-2">
             {warnings.length === 0 && (
-              <p className="text-muted-foreground text-sm">
+              <p className=" text-sm">
                 No interactions detected against the patient&rsquo;s allergies or active
                 prescriptions.
               </p>
@@ -63,7 +63,7 @@ export function SafetyRail({ warnings, drug, previous, mode }: SafetyRailProps) 
                   <AlertTriangleIcon className="text-destructive size-4" />
                   <span className="text-destructive text-sm font-semibold">{w.title}</span>
                 </div>
-                <p className="text-muted-foreground mt-1 text-xs">{w.detail}</p>
+                <p className=" mt-1 text-xs">{w.detail}</p>
               </div>
             ))}
             {caution.map((w) => (
@@ -72,7 +72,7 @@ export function SafetyRail({ warnings, drug, previous, mode }: SafetyRailProps) 
                   <AlertTriangleIcon className="text-warning size-4" />
                   <span className="text-warning text-sm font-semibold">{w.title}</span>
                 </div>
-                <p className="text-muted-foreground mt-1 text-xs">{w.detail}</p>
+                <p className=" mt-1 text-xs">{w.detail}</p>
               </div>
             ))}
           </div>
@@ -90,14 +90,14 @@ export function SafetyRail({ warnings, drug, previous, mode }: SafetyRailProps) 
               <AccordionItem value="indication">
                 <AccordionTrigger>Indication</AccordionTrigger>
                 <AccordionContent>
-                  <p className="text-muted-foreground text-sm">{drug.indication}</p>
+                  <p className=" text-sm">{drug.indication}</p>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="contraindications">
                 <AccordionTrigger>Contraindications</AccordionTrigger>
                 <AccordionContent>
                   {drug.contraindications.length === 0 ? (
-                    <p className="text-muted-foreground text-sm">None listed in the formulary.</p>
+                    <p className=" text-sm">None listed in the formulary.</p>
                   ) : (
                     <ul className="list-disc space-y-1 pl-4 text-sm">
                       {drug.contraindications.map((c) => (
@@ -111,9 +111,7 @@ export function SafetyRail({ warnings, drug, previous, mode }: SafetyRailProps) 
                 <AccordionTrigger>Monitoring</AccordionTrigger>
                 <AccordionContent>
                   {drug.monitoring.length === 0 ? (
-                    <p className="text-muted-foreground text-sm">
-                      No specific monitoring parameters listed.
-                    </p>
+                    <p className=" text-sm">No specific monitoring parameters listed.</p>
                   ) : (
                     <ul className="list-disc space-y-1 pl-4 text-sm">
                       {drug.monitoring.map((m) => (
@@ -142,7 +140,7 @@ export function SafetyRail({ warnings, drug, previous, mode }: SafetyRailProps) 
                   <div className="flex items-center justify-between gap-2 text-xs" key={p.id}>
                     <div className="flex min-w-0 flex-col">
                       <span className="truncate font-medium">{p.medicationName}</span>
-                      <span className="text-muted-foreground font-mono text-xss tabular-nums">
+                      <span className=" font-mono text-xss tabular-nums">
                         {p.dosage} · {formatDate(new Date(p.prescribedAt))}
                       </span>
                     </div>

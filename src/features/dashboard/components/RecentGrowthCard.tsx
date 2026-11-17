@@ -14,7 +14,7 @@ export function RecentGrowthCard({ clinicId }: { clinicId: string | undefined })
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
           <CardTitle>Recent Growth</CardTitle>
-          <p className="text-muted-foreground text-xs">Latest measurements logged at the clinic.</p>
+          <p className=" text-xs">Latest measurements logged at the clinic.</p>
         </div>
         <div className="bg-primary/10 text-primary flex size-8 items-center justify-center rounded-md">
           <RulerIcon className="size-4" />
@@ -23,7 +23,7 @@ export function RecentGrowthCard({ clinicId }: { clinicId: string | undefined })
       <CardContent>
         <div className="flex flex-col gap-3">
           {entries.length === 0 ? (
-            <p className="text-muted-foreground text-sm">No measurements logged yet.</p>
+            <p className=" text-sm">No measurements logged yet.</p>
           ) : (
             <ul className="divide-border divide-y">
               {entries.map((entry) => (
@@ -36,7 +36,7 @@ export function RecentGrowthCard({ clinicId }: { clinicId: string | undefined })
                   >
                     <div className="min-w-0">
                       <p className="truncate text-sm font-medium">{entry.patientName}</p>
-                      <p className="text-muted-foreground text-xs">
+                      <p className=" text-xs">
                         {entry.ageLabel} · {formatDate(new Date(entry.measuredAt))}
                       </p>
                     </div>
@@ -44,12 +44,10 @@ export function RecentGrowthCard({ clinicId }: { clinicId: string | undefined })
                       <p className="font-medium">
                         {entry.weightKg.toFixed(1)} kg
                         {entry.weightPercentile != null && (
-                          <span className="text-muted-foreground ml-1">
-                            ({entry.weightPercentile}th)
-                          </span>
+                          <span className=" ml-1">({entry.weightPercentile}th)</span>
                         )}
                       </p>
-                      <p className="text-muted-foreground">{entry.heightCm.toFixed(0)} cm</p>
+                      <p className="">{entry.heightCm.toFixed(0)} cm</p>
                     </div>
                   </Link>
                 </li>

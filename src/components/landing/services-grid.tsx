@@ -168,7 +168,7 @@ export function ServicesGrid() {
           >
             Comprehensive care for every stage
           </h2>
-          <p className="text-muted-foreground mt-4 text-lg text-pretty">
+          <p className=" mt-4 text-lg text-pretty">
             From the first newborn checkup to developmental milestones, we've got your clinic
             covered.
           </p>

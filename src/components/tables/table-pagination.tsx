@@ -85,7 +85,7 @@ function TablePaginationInner<TRoute extends AnyRoute>({
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex shrink-0 items-center gap-2 max-sm:self-center">
-        <span className="text-muted-foreground text-xs" id="rows-per-page">
+        <span className=" text-xs" id="rows-per-page">
           Rows Per Page
         </span>
         <Select items={SIZE_ITEMS} onValueChange={onSizeChange} value={String(size)}>

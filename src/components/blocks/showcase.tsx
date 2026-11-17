@@ -40,7 +40,7 @@ export function Showcase() {
       className="from-muted/60 to-background flex flex-col items-center gap-6 overflow-hidden rounded-xl border bg-linear-to-b px-6 py-8 text-center"
     >
       <div className="flex flex-col items-center gap-1.5">
-        <p className="text-muted-foreground text-xs tracking-wider uppercase">Made By 7Ovr</p>
+        <p className=" text-xs tracking-wider uppercase">Made By 7Ovr</p>
         <h2 className="text-xl font-semibold tracking-tight" id="showcase-title">
           7Ovr Starter
         </h2>

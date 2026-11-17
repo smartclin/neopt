@@ -12,7 +12,7 @@ export function TrustBar() {
         {ITEMS.map((it) => (
           <div className="text-center" key={it.k}>
             <p className="text-foreground text-sm font-bold">{it.k}</p>
-            <p className="text-muted-foreground mt-1 text-xs">{it.v}</p>
+            <p className=" mt-1 text-xs">{it.v}</p>
           </div>
         ))}
       </div>

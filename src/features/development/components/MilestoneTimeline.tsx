@@ -85,14 +85,14 @@ export function MilestoneTimeline({
       style={{ height: totalHeight }}
     >
       {/* Vertical age ticks */}
-      <div className="text-muted-foreground absolute inset-x-0 top-0 h-full">
+      <div className=" absolute inset-x-0 top-0 h-full">
         {TICKS.map((tick) => (
           <div
             className="border-border/40 absolute top-0 bottom-0 border-l"
             key={tick}
             style={{ left: `${xPercent(tick)}%` }}
           >
-            <span className="bg-background absolute top-0 left-1 rounded-br px-1 text-[10px] tabular-nums">
+            <span className="bg-background absolute top-0 left-1 rounded-br  text-[10px] tabular-nums">
               {TICK_LABELS[tick]}
             </span>
           </div>
@@ -108,7 +108,7 @@ export function MilestoneTimeline({
           top: 20,
         }}
       >
-        <span className="bg-foreground text-background absolute top-0 left-1/2 -translate-x-1/2 rounded-full px-1.5 py-0.5 text-[9px] font-semibold tabular-nums">
+        <span className="bg-foreground text-background absolute top-0 left-1/2 -translate-x-1/2 rounded-full py-0.5 text-[9px] font-semibold tabular-nums">
           {correctedAgeMonths.toFixed(0)}m
         </span>
       </div>
@@ -128,7 +128,7 @@ export function MilestoneTimeline({
             >
               <div className="bg-background sticky left-0 z-10 flex w-32 shrink-0 items-center gap-1.5 px-2">
                 <Icon aria-hidden="true" className={cn("size-3.5", meta.text)} />
-                <span className="text-muted-foreground truncate text-[11px] font-semibold tracking-wider uppercase">
+                <span className=" truncate text-[11px] font-semibold tracking-wider uppercase">
                   {meta.shortLabel}
                 </span>
               </div>

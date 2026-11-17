@@ -16,11 +16,10 @@ function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {
     <kbd
       className={cn(
         // layout
-        "pointer-events-none inline-flex h-5 min-w-5 items-center justify-center gap-1 px-1.5",
-        // shape
+        "pointer-events-none inline-flex h-5 min-w-5 items-center justify-center gap-1", // shape
         "bg-muted rounded border font-mono text-[10px] leading-none font-medium",
         // color
-        "text-muted-foreground select-none",
+        " select-none",
         // shadow / depth (matches shadcn badge-ish look)
         "shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.08)]",
         // on dark

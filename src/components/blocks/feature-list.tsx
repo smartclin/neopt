@@ -23,7 +23,7 @@ export function FeatureList({
           <div className="flex min-w-0 flex-col gap-0.5">
             <p className="text-sm font-semibold">{item.title}</p>
             <p className="text-soft-foreground text-sm">{item.description}</p>
-            {item.meta ? <p className="text-muted-foreground text-xs">{item.meta}</p> : null}
+            {item.meta ? <p className=" text-xs">{item.meta}</p> : null}
           </div>
         </li>
       ))}

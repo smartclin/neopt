@@ -107,7 +107,7 @@ export function MedicationAutocomplete({ value, onSelect, disabled }: Medication
       <div className="relative">
         <SearchIcon
           aria-hidden="true"
-          className="text-muted-foreground pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2"
+          className=" pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2"
         />
         <Input
           aria-activedescendant={activeOptionId}
@@ -195,29 +195,20 @@ export function MedicationAutocomplete({ value, onSelect, disabled }: Medication
                       {drug.brandNames.length > 0 && (
                         <span className="flex flex-wrap gap-1">
                           {drug.brandNames.slice(0, 3).map((b) => (
-                            <span
-                              className="bg-muted text-muted-foreground rounded px-1.5 py-0.5 text-xsss"
-                              key={b}
-                            >
+                            <span className="bg-muted  rounded  py-0.5 text-xsss" key={b}>
                               {b}
                             </span>
                           ))}
                         </span>
                       )}
-                      <span className="truncate text-xs text-muted-foreground">
-                        {drug.indication}
-                      </span>
+                      <span className="truncate text-xs ">{drug.indication}</span>
                     </span>
                   </Button>
                 </div>
               );
             })
           ) : (
-            <div
-              aria-live="polite"
-              className="px-3 py-2 text-sm text-muted-foreground"
-              role="status"
-            >
+            <div aria-live="polite" className="px-3 py-2 text-sm " role="status">
               No results found.
             </div>
           )}

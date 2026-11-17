@@ -9,10 +9,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
-import { formatDayHeading, formatTime } from "@/lib/dates";
-
-// ── Row type — derived from the server fn ──────────────────────────────
-import type { fetchTodayAppointments } from "../functions";
+import { formatDayHeading, isEditableTarget, toLocalDateTimeString } from "@/lib/dates";
 
 // ── reads + mutations ──────────────────────────────────────────────────
 import {
@@ -22,30 +19,15 @@ import {
   useMarkNoShowMutation,
 } from "../queries";
 import { type AppointmentStatus, normalizeStatus } from "../status";
+import { AppointmentRow } from "../types";
 import { AppointmentStatusBadge } from "./AppointmentStatusBadge";
 
-type QueueAppointment = Awaited<ReturnType<typeof fetchTodayAppointments>>[number];
-
 // ── Time helpers ───────────────────────────────────────────────────────
-
-function timeStr(value: Date | string): string {
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? "—" : formatTime(date);
-}
-
-function isEditableTarget(el: Element | null): boolean {
-  if (!(el instanceof HTMLElement)) return false;
-  if (el instanceof HTMLInputElement) return true;
-  if (el instanceof HTMLTextAreaElement) return true;
-  if (el instanceof HTMLSelectElement) return true;
-  if (el.isContentEditable) return true;
-  return false;
-}
 
 // ── Queue item ─────────────────────────────────────────────────────────
 
 interface QueueItemProps {
-  appt: QueueAppointment;
+  appt: AppointmentRow;
   isActive: boolean;
   rowRef?: (el: HTMLDivElement | null) => void;
   onFocus: () => void;
@@ -76,7 +58,7 @@ function QueueItem({ appt, isActive, rowRef, onFocus, onEdit, actions }: QueueIt
     >
       <div className="flex w-10 shrink-0 flex-col items-center pt-0.5">
         <span className="font-mono text-[0.65rem] leading-tight tabular-nums">
-          {timeStr(appt.scheduledAt)}
+          {toLocalDateTimeString(appt.scheduledAt)}
         </span>
         <div aria-hidden="true" className="bg-border mt-1 w-px flex-1" />
       </div>
@@ -101,9 +83,9 @@ function QueueItem({ appt, isActive, rowRef, onFocus, onEdit, actions }: QueueIt
           <AppointmentStatusBadge status={appt.status} />
         </div>
 
-        {appt.reason && <p className="text-muted-foreground truncate text-xs">{appt.reason}</p>}
+        {appt.reason && <p className=" truncate text-xs">{appt.reason}</p>}
 
-        {appt.doctor && <span className="text-muted-foreground text-xs">{appt.doctor.name}</span>}
+        {appt.doctor && <span className=" text-xs">{appt.doctor.name}</span>}
       </div>
 
       {!isDone && (
@@ -138,7 +120,7 @@ function QueueItem({ appt, isActive, rowRef, onFocus, onEdit, actions }: QueueIt
       )}
 
       <button
-        aria-label={`Edit appointment for ${appt.patient?.firstName ?? "unknown"} ${appt.patient?.lastName ?? ""} at ${timeStr(appt.scheduledAt)}`}
+        aria-label={`Edit appointment for ${appt.patient?.firstName ?? "unknown"} ${appt.patient?.lastName ?? ""} at ${toLocalDateTimeString(appt.scheduledAt)}`}
         className="focus:ring-ring sr-only focus:not-sr-only focus:ring-2 focus:ring-offset-2"
         onClick={(e) => {
           e.stopPropagation();
@@ -295,10 +277,6 @@ export function TodayQueue({ clinicId, onEdit, onNew }: TodayQueueProps) {
   }, [activeId, appointmentsData]);
 
   React.useEffect(() => {
-    if (activeId && activeIdx === -1) setActiveId(null);
-  }, [activeId, activeIdx]);
-
-  React.useEffect(() => {
     if (!activeId) return;
     const el = rowsRef.current.get(activeId);
     el?.scrollIntoView({ block: "nearest", behavior: "smooth" });
@@ -375,7 +353,7 @@ export function TodayQueue({ clinicId, onEdit, onNew }: TodayQueueProps) {
       <div className="flex items-center justify-between pb-3">
         <div className="flex flex-col gap-0.5">
           <h2 className="text-sm font-semibold">Today&rsquo;s Queue</h2>
-          <p className="text-muted-foreground text-xs">{formatDayHeading(new Date())}</p>
+          <p className=" text-xs">{formatDayHeading(new Date())}</p>
         </div>
         <Button onClick={onNew} size="xs" title="New appointment (N)" variant="outline">
           New
@@ -429,13 +407,11 @@ export function TodayQueue({ clinicId, onEdit, onNew }: TodayQueueProps) {
       ) : appointments.length === 0 ? (
         <div className="flex flex-col items-center gap-3 py-12 text-center">
           <div className="bg-muted rounded-full p-3">
-            <CalendarClockIcon className="text-muted-foreground size-6" />
+            <CalendarClockIcon className=" size-6" />
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-sm font-medium">No appointments today</p>
-            <p className="text-muted-foreground text-xs">
-              The schedule is clear. Block a slot to get started.
-            </p>
+            <p className=" text-xs">The schedule is clear. Block a slot to get started.</p>
           </div>
           <Button onClick={onNew} size="sm" variant="outline">
             Block a slot
@@ -458,11 +434,11 @@ export function TodayQueue({ clinicId, onEdit, onNew }: TodayQueueProps) {
       )}
 
       {appointments.length > 0 && (
-        <p className="text-muted-foreground mt-3 text-center text-[0.65rem]">
-          <kbd className="bg-muted rounded px-1 py-0.5 font-mono text-[0.6rem]">j</kbd>
+        <p className=" mt-3 text-center text-[0.65rem]">
+          <kbd className="bg-muted rounded  py-0.5 font-mono text-[0.6rem]">j</kbd>
           {" / "}
-          <kbd className="bg-muted rounded px-1 py-0.5 font-mono text-[0.6rem]">k</kbd> navigate
-          &middot; <kbd className="bg-muted rounded px-1 py-0.5 font-mono text-[0.6rem]">n</kbd> new
+          <kbd className="bg-muted rounded  py-0.5 font-mono text-[0.6rem]">k</kbd> navigate
+          &middot; <kbd className="bg-muted rounded  py-0.5 font-mono text-[0.6rem]">n</kbd> new
         </p>
       )}
     </div>

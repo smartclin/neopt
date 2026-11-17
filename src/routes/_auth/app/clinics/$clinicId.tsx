@@ -91,15 +91,13 @@ function ClinicDetail({ clinicId }: { clinicId: string }) {
 
       <Section description="Users linked to this clinic." title="Staff">
         {clinic.users.length === 0 ? (
-          <p className="text-muted-foreground py-6 text-center text-sm">
-            No staff linked to this clinic yet.
-          </p>
+          <p className=" py-6 text-center text-sm">No staff linked to this clinic yet.</p>
         ) : (
           <ul className="divide-y rounded-md border">
             {clinic.users.map((u) => (
               <li className="flex items-center justify-between px-3 py-2 text-sm" key={u.id}>
                 <span className="font-medium">{u.name ?? "Unknown staff"}</span>
-                <span className="text-muted-foreground text-xs capitalize">{u.role ?? "—"}</span>
+                <span className=" text-xs capitalize">{u.role ?? "—"}</span>
               </li>
             ))}
           </ul>
@@ -113,7 +111,9 @@ function StatCard({ label, value }: { label: string; value: number }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-muted-foreground text-sm font-medium">{label}</CardTitle>
+        <div className="flex items-center justify-between gap-2">
+          <CardTitle>{label}</CardTitle>
+        </div>
       </CardHeader>
       <CardContent>
         <p className="text-2xl font-semibold tabular-nums">{value.toLocaleString("en-US")}</p>

@@ -234,7 +234,7 @@ function SignupForm() {
                       aria-controls="signup-password"
                       aria-label={showPassword ? "Hide password" : "Show password"}
                       aria-pressed={showPassword}
-                      className="text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background absolute top-1/2 right-1 -translate-y-1/2 rounded-md p-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                      className=" hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background absolute top-1/2 right-1 -translate-y-1/2 rounded-md p-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                       disabled={isPending}
                       onClick={() => setShowPassword((v) => !v)}
                       tabIndex={-1}
@@ -249,7 +249,7 @@ function SignupForm() {
                   </div>
 
                   {capsLock && (
-                    <p className="text-muted-foreground text-xs" id="signup-caps-lock">
+                    <p className=" text-xs" id="signup-caps-lock">
                       Caps Lock is on.
                     </p>
                   )}
@@ -294,7 +294,7 @@ function SignupForm() {
                           : "Show password confirmation"
                       }
                       aria-pressed={showConfirmPassword}
-                      className="text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background absolute top-1/2 right-1 -translate-y-1/2 rounded-md p-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                      className=" hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background absolute top-1/2 right-1 -translate-y-1/2 rounded-md p-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                       disabled={isPending}
                       onClick={() => setShowConfirmPassword((v) => !v)}
                       tabIndex={-1}

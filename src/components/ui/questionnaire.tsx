@@ -28,7 +28,7 @@ function QuestionnaireProgress({
   return (
     <QuestionnairePrimitive.Progress
       className={cn(
-        "text-muted-foreground min-h-[1lh] w-fit min-w-[14ch] text-xs font-medium tracking-wide uppercase tabular-nums",
+        " min-h-[1lh] w-fit min-w-[14ch] text-xs font-medium tracking-wide uppercase tabular-nums",
         className,
       )}
       data-slot="questionnaire-progress"
@@ -43,7 +43,7 @@ function QuestionnaireItem({
 }: React.ComponentProps<typeof QuestionnairePrimitive.Item>) {
   return (
     <QuestionnairePrimitive.Item
-      className={cn("flex min-w-0 flex-col gap-5 border-0 p-0 outline-none", className)}
+      className={cn("flex min-w-0 flex-col gap-5 border-0  outline-none", className)}
       data-slot="questionnaire-item"
       {...props}
     />
@@ -72,10 +72,7 @@ function QuestionnaireDescription({
 }: React.ComponentProps<typeof QuestionnairePrimitive.Description>) {
   return (
     <QuestionnairePrimitive.Description
-      className={cn(
-        "text-muted-foreground text-sm tracking-normal text-pretty normal-case",
-        className,
-      )}
+      className={cn(" text-sm tracking-normal text-pretty normal-case", className)}
       data-slot="questionnaire-description"
       {...props}
     />
@@ -135,7 +132,7 @@ function QuestionnaireChoice({
         {children}
       </QuestionnairePrimitive.ChoiceLabel>
       <QuestionnairePrimitive.ChoiceShortcut
-        className="border-input bg-background text-muted-foreground pointer-events-none ms-auto hidden size-5 shrink-0 translate-y-[--spacing(0.45)] items-center justify-center rounded-none border font-mono text-[0.625rem] leading-none font-medium group-has-data-[slot=questionnaire-choice-description]/questionnaire-choice:translate-y-0.5 group-data-[shortcut]/questionnaire-choice:inline-flex"
+        className="border-input bg-background  pointer-events-none ms-auto hidden size-5 shrink-0 translate-y-[--spacing(0.45)] items-center justify-center rounded-none border font-mono text-[0.625rem] leading-none font-medium group-has-data-[slot=questionnaire-choice-description]/questionnaire-choice:translate-y-0.5 group-data-[shortcut]/questionnaire-choice:inline-flex"
         data-slot="questionnaire-choice-shortcut"
       />
     </QuestionnairePrimitive.Choice>
@@ -144,11 +141,7 @@ function QuestionnaireChoice({
 
 function QuestionnaireChoiceDescription({ className, ...props }: React.ComponentProps<"span">) {
   return (
-    <span
-      className={cn("text-muted-foreground", className)}
-      data-slot="questionnaire-choice-description"
-      {...props}
-    />
+    <span className={cn("", className)} data-slot="questionnaire-choice-description" {...props} />
   );
 }
 
@@ -164,7 +157,7 @@ function QuestionnaireInput({
       <QuestionnairePrimitive.Input
         className={cn(
           "border-b-input focus-visible:border-b-ring aria-invalid:border-b-destructive dark:aria-invalid:border-b-destructive/50 h-10 min-h-11 w-full min-w-0 border border-transparent bg-transparent px-0 py-1 text-base transition-[color,box-shadow,background-color] outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-0 md:text-sm",
-          "selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground",
+          "selection:bg-primary selection:text-primary-foreground placeholder:",
           className,
         )}
         data-slot="questionnaire-input"

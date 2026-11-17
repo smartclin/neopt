@@ -225,7 +225,7 @@ function PatientLayout() {
                     </Button>
                   </div>
                 ) : (
-                  <p className="text-muted-foreground text-sm">No visits recorded yet.</p>
+                  <p className=" text-sm">No visits recorded yet.</p>
                 )}
               </CardContent>
             </Card>
@@ -280,7 +280,7 @@ function PatientLayout() {
           {latestVisit ? (
             <DiagnosisTable page={1} size={20} visitId={latestVisit.id} />
           ) : (
-            <p className="text-muted-foreground text-sm">Record a visit before adding diagnoses.</p>
+            <p className=" text-sm">Record a visit before adding diagnoses.</p>
           )}
         </TabsContent>
 
@@ -304,7 +304,7 @@ function InlineBanner({ tone, children }: { tone: "warning" | "info"; children: 
   const toneClass =
     tone === "warning"
       ? "border-warning/30 bg-warning/5 text-accent-foreground dark:text-accent"
-      : "border-ring/30 bg-sidebar-ring/5 text-muted-foreground dark:text-sidebar-border";
+      : "border-ring/30 bg-sidebar-ring/5  dark:text-sidebar-border";
   return (
     <div
       className={`flex items-center justify-between gap-3 rounded-md border px-3 py-2 text-xs ${toneClass}`}
@@ -318,7 +318,7 @@ function InlineBanner({ tone, children }: { tone: "warning" | "info"; children: 
 function RouteNotFound({ title }: { title: string }) {
   return (
     <div className="flex flex-col items-center gap-3 py-16 text-center">
-      <Icons.alertCircle aria-hidden="true" className="text-muted-foreground size-8" />
+      <Icons.alertCircle aria-hidden="true" className=" size-8" />
       <p className="text-lg font-semibold">{title}</p>
       <Button nativeButton={false} render={<Link to="/app/patients" />} variant="outline">
         Back to patients

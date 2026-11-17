@@ -25,7 +25,7 @@ function ComboboxTrigger({ className, children, ...props }: ComboboxPrimitive.Tr
       {...props}
     >
       {children}
-      <ChevronDownIcon className="text-muted-foreground pointer-events-none size-3.5" />
+      <ChevronDownIcon className=" pointer-events-none size-3.5" />
     </ComboboxPrimitive.Trigger>
   );
 }
@@ -116,7 +116,7 @@ function ComboboxList({ className, ...props }: ComboboxPrimitive.List.Props) {
   return (
     <ComboboxPrimitive.List
       className={cn(
-        "no-scrollbar max-h-[min(calc(--spacing(72)---spacing(9)),calc(var(--available-height)---spacing(9)))] scroll-py-1.5 overflow-y-auto overscroll-contain p-1.5 data-empty:p-0",
+        "no-scrollbar max-h-[min(calc(--spacing(72)---spacing(9)),calc(var(--available-height)---spacing(9)))] scroll-py-1.5 overflow-y-auto overscroll-contain p-1.5 data-empty:",
         className,
       )}
       data-slot="combobox-list"
@@ -156,10 +156,7 @@ function ComboboxGroup({ className, ...props }: ComboboxPrimitive.Group.Props) {
 function ComboboxLabel({ className, ...props }: ComboboxPrimitive.GroupLabel.Props) {
   return (
     <ComboboxPrimitive.GroupLabel
-      className={cn(
-        "text-muted-foreground px-3 py-2 text-xs font-semibold tracking-wider uppercase",
-        className,
-      )}
+      className={cn(" px-3 py-2 text-xs font-semibold tracking-wider uppercase", className)}
       data-slot="combobox-label"
       {...props}
     />
@@ -174,7 +171,7 @@ function ComboboxEmpty({ className, ...props }: ComboboxPrimitive.Empty.Props) {
   return (
     <ComboboxPrimitive.Empty
       className={cn(
-        "text-muted-foreground hidden w-full justify-center py-2 text-center text-sm group-data-empty/combobox-content:flex",
+        " hidden w-full justify-center py-2 text-center text-sm group-data-empty/combobox-content:flex",
         className,
       )}
       data-slot="combobox-empty"

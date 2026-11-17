@@ -1,12 +1,4 @@
 {
-  "editor.defaultFormatter": "oxc.oxc-vscode",
-  "editor.formatOnSave": false, // disable default behavior
-  "editor.codeActionsOnSave": {
-    "source.format.oxc": "explicit", // run formatter first
-    "source.fixAll.oxc": "explicit", // run lint fixes after
-    "source.removeUnusedImports": "explicit",
-    "source.organizeLinkDefinitions": "explicit"
-  },
   "[css]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
@@ -57,7 +49,6 @@
   "breadcrumbs.enabled": true,
   "breadcrumbs.filePath": "on",
   "breadcrumbs.symbolPath": "on",
-  "bun.lock": true,
   "css.format.enable": true,
   "debug.internalConsoleOptions": "openOnSessionStart",
   // Debug & Test
@@ -72,13 +63,19 @@
   "editor.acceptSuggestionOnCommitCharacter": true,
   "editor.acceptSuggestionOnEnter": "on",
   "editor.bracketPairColorization.enabled": true,
-
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.fixAll.oxc": "always",
+    "source.fixAllDangerous.oxc": "explicit",
+    "source.removeUnusedImports": "explicit",
+    "source.sort.json": "explicit"
+  },
   // Oxfmt formats via formatOnSave; TypeScript organizes imports on save.
   "editor.codeLens": false,
   "editor.colorDecorators": false,
   "editor.cursorBlinking": "phase",
+  "editor.defaultFormatter": "oxc.oxc-vscode",
   // set oxfmt as default formatter
-
   "editor.dragAndDrop": true,
   "editor.find.autoFindInSelection": "multiline",
   "editor.folding": true,
@@ -93,6 +90,7 @@
   "editor.fontLigatures": true,
   "editor.fontSize": 14,
   "editor.formatOnPaste": false,
+  "editor.formatOnSave": false, // disable default behavior
   // format on save and paste
   "editor.formatOnSaveMode": "file",
   "editor.formatOnType": false,
@@ -174,7 +172,7 @@
   // ==========================================================================
   // FILES
   // ==========================================================================
-  "files.autoSave": "afterDelay",
+  "files.autoSave": "off",
   "files.autoSaveDelay": 1000,
   "files.encoding": "utf8",
   // use LF line endings
@@ -247,7 +245,6 @@
   "js/ts.preferGoToSourceDefinition": true,
   "js/ts.server.goMemLimit": "4096",
   "js/ts.server.showFailedResponses": "auto",
-
   "js/ts.suggest.autoImports": true,
   "js/ts.suggest.completeFunctionCalls": true,
   "js/ts.tsc.autoDetect": "on",
@@ -288,10 +285,8 @@
   // Misc
   "outline.problems.enabled": true,
   "output.smartScroll.enabled": true,
-  "oxc.configPath": ".",
   "oxc.disableNestedConfig": false,
   "oxc.enable": true,
-  "oxc.fmt.configPath": ".",
   "oxc.fmt.disableNestedConfig": false,
   "oxc.typeAware": false,
   // disable prettier, eslint, biome

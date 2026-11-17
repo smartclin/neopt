@@ -25,7 +25,7 @@ export function Hero() {
               deserves.
             </h1>
 
-            <p className="text-muted-foreground mt-6 max-w-xl text-lg">
+            <p className=" mt-6 max-w-xl text-lg">
               G-Tracker unifies patient records, WHO &amp; Egyptian growth charts, immunization
               tracking, pediatric dosing calculators, and visit notes — so your clinicians can focus
               on the child, not the charts.
@@ -68,7 +68,7 @@ export function Hero() {
                 { label: "Immunization schemes", value: "Full matrix" },
               ].map((s) => (
                 <div key={s.label}>
-                  <dt className="text-muted-foreground text-xs">{s.label}</dt>
+                  <dt className=" text-xs">{s.label}</dt>
                   <dd className="text-foreground mt-1 text-sm font-semibold">{s.value}</dd>
                 </div>
               ))}

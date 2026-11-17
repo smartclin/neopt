@@ -129,9 +129,7 @@ function ImmunizationRegisterPage() {
               id="only-overdue"
               onCheckedChange={(v) => setSearch({ overdue: v || undefined })}
             />
-            <Label className="text-xs" htmlFor="only-overdue">
-              Only overdue
-            </Label>
+            <Label htmlFor="only-overdue">Only overdue</Label>
           </div>
         </div>
       </div>
@@ -164,7 +162,7 @@ function AgeChip({
       className={
         active
           ? "bg-primary text-primary-foreground rounded-full px-3 py-1 text-xs font-medium"
-          : "bg-muted text-muted-foreground hover:bg-muted/80 rounded-full px-3 py-1 text-xs font-medium"
+          : "bg-muted  hover:bg-muted/80 rounded-full px-3 py-1 text-xs font-medium"
       }
       onClick={onClick}
       type="button"

@@ -46,7 +46,7 @@ function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
 function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
-      className={cn("text-muted-foreground text-sm leading-relaxed", className)}
+      className={cn(" text-sm leading-relaxed", className)}
       data-slot="card-description"
       {...props}
     />

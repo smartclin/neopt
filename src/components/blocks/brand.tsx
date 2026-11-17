@@ -49,7 +49,7 @@ export function ClinicBrand({
           </span>
           <span
             className={cn(
-              "text-muted-foreground",
+              "",
               tone === "stacked" ? "text-sm font-medium" : "text-[11px] leading-tight",
             )}
           >

@@ -164,7 +164,7 @@ function VisitDetailPage() {
 function RouteNotFound({ title }: { title: string }) {
   return (
     <div className="flex flex-col items-center gap-3 py-16 text-center">
-      <Icons.alertCircle aria-hidden="true" className="text-muted-foreground size-8" />
+      <Icons.alertCircle aria-hidden="true" className=" size-8" />
       <p className="text-lg font-semibold">{title}</p>
       <Button nativeButton={false} render={<Link to="/app/visits" />} variant="outline">
         Back to visits

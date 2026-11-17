@@ -11,9 +11,9 @@ export function InfoRow({
 }) {
   return (
     <div className="flex items-start gap-3">
-      {Icon && <Icon className="text-muted-foreground mt-0.5 size-4" />}
+      {Icon && <Icon className=" mt-0.5 size-4" />}
       <div>
-        <p className="text-muted-foreground text-xs">{label}</p>
+        <p className=" text-xs">{label}</p>
         <p className="font-medium">{value ?? "—"}</p>
       </div>
     </div>

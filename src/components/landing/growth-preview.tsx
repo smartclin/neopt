@@ -16,7 +16,7 @@ export function GrowthPreview() {
           <h2 className="text-foreground mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
             Growth charts that stay out of the way
           </h2>
-          <p className="text-muted-foreground mt-4 text-lg">
+          <p className=" mt-4 text-lg">
             Enter one measurement and G-Tracker does the interpretation — plotting against both WHO
             LMS references and Egyptian percentile sheets, with clear z-score and percentile output
             per patient.

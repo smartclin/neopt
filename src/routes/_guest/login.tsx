@@ -182,7 +182,7 @@ function LoginForm() {
                       aria-controls="password"
                       aria-label={showPassword ? "Hide password" : "Show password"}
                       aria-pressed={showPassword}
-                      className="text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background shrink-0 rounded-md p-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                      className=" hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background shrink-0 rounded-md p-2 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                       disabled={isPending}
                       onClick={() => setShowPassword((v) => !v)}
                       tabIndex={-1}
@@ -197,7 +197,7 @@ function LoginForm() {
                   </div>
 
                   {capsLock && (
-                    <p className="text-muted-foreground text-xs" id="login-caps-lock">
+                    <p className=" text-xs" id="login-caps-lock">
                       Caps Lock is on.
                     </p>
                   )}

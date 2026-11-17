@@ -94,38 +94,37 @@ export function ImmunizationCard({ patientId, patientDob, visitId }: Immunizatio
   };
 
   return (
-    <Card className="w-full shadow-xs">
-      <CardHeader className="pb-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+    <Card className="w-full">
+      {/* FIX: CardHeader no longer restyled — spacing moved to a wrapper div */}
+      <CardHeader>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <div className="bg-primary/10 text-primary flex size-9 items-center justify-center rounded-lg">
               <Syringe className="size-5" />
             </div>
             <div>
-              <CardTitle className="text-base font-semibold">
-                Childhood Immunization & Vaccine Schedule
-              </CardTitle>
+              {/* FIX: className removed — CardTitle owns typography */}
+              <CardTitle>Childhood Immunization &amp; Vaccine Schedule</CardTitle>
               <CardDescription>
                 Routine national schedule from birth through 18 months and preschool
               </CardDescription>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 text-xs">
-            <Badge
-              className="gap-1 bg-module-encounters/10 text-module-encounters dark:text-module-encounters"
-              variant="secondary"
-            >
+          {/* FIX: gap-1 is now on the parent, Badges carry only variant */}
+          <div className="flex items-center gap-2">
+            {/* FIX: variant="success" replaces the color classes */}
+            <Badge variant="success">
               <CheckCircle2 className="size-3" />
               {givenCount} Given
             </Badge>
             {overdueCount > 0 && (
-              <Badge className="gap-1" variant="destructive">
+              <Badge variant="destructive">
                 <AlertCircle className="size-3" />
                 {overdueCount} Overdue
               </Badge>
             )}
-            <Badge className="gap-1" variant="outline">
+            <Badge variant="outline">
               <Clock className="size-3" />
               {dueCount} Upcoming
             </Badge>
@@ -135,9 +134,7 @@ export function ImmunizationCard({ patientId, patientDob, visitId }: Immunizatio
 
       <CardContent>
         {isPending ? (
-          <div className="text-muted-foreground py-8 text-center text-sm">
-            Loading vaccination schedule...
-          </div>
+          <div className="py-8 text-center text-sm">Loading vaccination schedule...</div>
         ) : (
           <div className="rounded-md border">
             <Table>
@@ -146,7 +143,7 @@ export function ImmunizationCard({ patientId, patientDob, visitId }: Immunizatio
                   <TableHead>Target Age</TableHead>
                   <TableHead>Vaccine Name</TableHead>
                   <TableHead>Target Disease</TableHead>
-                  <TableHead>Route & Site</TableHead>
+                  <TableHead>Route &amp; Site</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Administered Date / Lot</TableHead>
                   <TableHead className="text-right">Action</TableHead>
@@ -156,47 +153,27 @@ export function ImmunizationCard({ patientId, patientDob, visitId }: Immunizatio
                 {records.map((rec) => {
                   return (
                     <TableRow key={rec.id}>
-                      <TableCell className="font-medium whitespace-nowrap">
-                        {rec.ageLabel}
-                      </TableCell>
-                      <TableCell className="text-foreground font-semibold">{rec.name}</TableCell>
-                      <TableCell className="text-muted-foreground text-xs">
-                        {rec.diseaseTarget}
-                      </TableCell>
-                      <TableCell className="text-muted-foreground text-xs">
+                      {/* FIX: all four TableCell classNames removed */}
+                      <TableCell>{rec.ageLabel}</TableCell>
+                      <TableCell>{rec.name}</TableCell>
+                      <TableCell>{rec.diseaseTarget}</TableCell>
+                      <TableCell>
                         {rec.route} — {rec.site}
                       </TableCell>
                       <TableCell>
-                        {rec.status === "given" && (
-                          <Badge
-                            className="bg-module-encounters/15 text-module-encounters dark:text-module-encounters"
-                            variant="secondary"
-                          >
-                            Given
-                          </Badge>
-                        )}
+                        {rec.status === "given" && <Badge variant="success">Given</Badge>}
                         {rec.status === "overdue" && <Badge variant="destructive">Overdue</Badge>}
-                        {rec.status === "due" && (
-                          <Badge className="text-muted-foreground" variant="outline">
-                            Due
-                          </Badge>
-                        )}
+                        {rec.status === "due" && <Badge variant="outline">Due</Badge>}
                         {rec.status === "deferred" && <Badge variant="secondary">Deferred</Badge>}
                       </TableCell>
-                      <TableCell className="text-xs">
+                      <TableCell>
                         {rec.administeredDate ? (
                           <div>
-                            <span className="font-medium">
-                              {formatDate(new Date(rec.administeredDate))}
-                            </span>
-                            {rec.lotNumber && (
-                              <span className="text-muted-foreground block text-[11px]">
-                                Lot: {rec.lotNumber}
-                              </span>
-                            )}
+                            <span>{formatDate(new Date(rec.administeredDate))}</span>
+                            {rec.lotNumber && <span className="block">Lot: {rec.lotNumber}</span>}
                           </div>
                         ) : (
-                          <span className="text-muted-foreground">—</span>
+                          <span>—</span>
                         )}
                       </TableCell>
                       <TableCell className="text-right">
@@ -225,7 +202,7 @@ export function ImmunizationCard({ patientId, patientDob, visitId }: Immunizatio
             </DialogHeader>
 
             {activeVaccine && (
-              <form className="space-y-4 pt-2" onSubmit={handleAdminister}>
+              <form noValidate className="space-y-4 pt-2" onSubmit={handleAdminister}>
                 <div className="grid gap-1.5">
                   <Label htmlFor="adminDate">Administration Date</Label>
                   <Input
@@ -247,7 +224,7 @@ export function ImmunizationCard({ patientId, patientDob, visitId }: Immunizatio
                   />
                 </div>
 
-                <div className="bg-muted/50 text-muted-foreground space-y-1 rounded-md p-3 text-xs">
+                <div className="bg-muted/50 space-y-1 rounded-md p-3 text-xs">
                   <p>
                     <strong>Recommended Route:</strong> {activeVaccine.route}
                   </p>

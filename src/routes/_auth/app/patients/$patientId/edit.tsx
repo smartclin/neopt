@@ -9,7 +9,6 @@ import { PageHeader } from "#/components/blocks/page-header.tsx";
 import { Button } from "#/components/ui/button.tsx";
 import { Card, CardContent } from "#/components/ui/card.tsx";
 import { Input } from "#/components/ui/input.tsx";
-import { Label } from "#/components/ui/label.tsx";
 import { Spinner } from "#/components/ui/spinner.tsx";
 import { Textarea } from "#/components/ui/textarea.tsx";
 import { toast } from "#/components/ui/toast.tsx";
@@ -103,7 +102,7 @@ function EditPatientPage() {
         title="Edit Patient"
       />
       <Card>
-        <CardContent className="pt-6">
+        <CardContent>
           <PatientEditFields
             clinicId={user.clinicId}
             onDone={backToPatient}
@@ -156,7 +155,7 @@ function PatientEditFields({
   if (!patientQuery.data) {
     return (
       <div className="flex flex-col items-center gap-3 py-8 text-center">
-        <p className="text-muted-foreground text-sm">This patient no longer exists.</p>
+        <p className=" text-sm">This patient no longer exists.</p>
         <Button onClick={onDone} size="sm" variant="outline">
           Back to patients
         </Button>
@@ -441,7 +440,7 @@ function FieldShell({
 
   return (
     <div className="grid gap-2">
-      <Label htmlFor={id}>{label}</Label>
+      <label htmlFor={id}>{label}</label>
       {React.isValidElement(children)
         ? React.cloneElement(
             children as React.ReactElement<{
@@ -455,7 +454,7 @@ function FieldShell({
           )
         : children}
       {hint && (
-        <p className="text-muted-foreground text-[11px]" id={hintId}>
+        <p className=" text-[11px]" id={hintId}>
           {hint}
         </p>
       )}

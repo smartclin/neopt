@@ -57,6 +57,9 @@ export function ThemeProvider({
   // render would be a hydration mismatch — this effect runs after
   // SSR markup is committed.
   useEffect(() => {
+    // Read the persisted choice after mount so the first client render stays
+    // consistent with the SSR output and avoids a hydration mismatch.
+    // eslint-disable-next-line react/set-state-in-effect -- this sync is intentionally tied to client mount and storage hydration.
     setThemeState(readStoredTheme(storageKey));
     setMounted(true);
   }, [storageKey]);

@@ -62,7 +62,7 @@ function ServicesIndexPage() {
       <section className="border-border/60 border-b">
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
           <Link
-            className="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm font-medium transition-colors"
+            className=" hover:text-foreground inline-flex items-center gap-2 text-sm font-medium transition-colors"
             to="/"
           >
             <ArrowLeftIcon className="size-4" />
@@ -76,10 +76,9 @@ function ServicesIndexPage() {
             </div>
 
             <h1 className="mt-6 text-4xl font-bold tracking-tight text-balance sm:text-6xl">
-              Comprehensive care,{" "}
-              <span className="text-muted-foreground">every step of the way.</span>
+              Comprehensive care, <span className="">every step of the way.</span>
             </h1>
-            <p className="text-muted-foreground mt-6 max-w-2xl text-lg text-pretty">
+            <p className=" mt-6 max-w-2xl text-lg text-pretty">
               From the first newborn checkup to developmental milestones, our clinic covers the full
               arc of childhood — in one place, with one care team that knows your family.
             </p>
@@ -117,7 +116,7 @@ function ServicesIndexPage() {
             >
               Every service, in detail
             </h2>
-            <p className="text-muted-foreground mt-4 text-lg">
+            <p className=" mt-4 text-lg">
               Pick the one that matches what your child needs — or book a general visit and we'll
               route you to the right specialist.
             </p>
@@ -160,9 +159,7 @@ function ServicesIndexPage() {
                       <span className={`mt-1 size-2 shrink-0 rounded-full ${service.accent}`} />
                     </div>
 
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {service.tagline}
-                    </p>
+                    <p className=" text-sm leading-relaxed">{service.tagline}</p>
 
                     {/* Stat pills */}
                     <div className="mt-auto grid grid-cols-3 gap-2 pt-3">
@@ -172,16 +169,14 @@ function ServicesIndexPage() {
                           key={stat.label}
                         >
                           <div className="text-sm font-semibold tabular-nums">{stat.value}</div>
-                          <div className="text-muted-foreground mt-0.5 text-[10px] leading-tight">
-                            {stat.label}
-                          </div>
+                          <div className=" mt-0.5 text-[10px] leading-tight">{stat.label}</div>
                         </div>
                       ))}
                     </div>
 
                     <span
                       className={
-                        "group-hover:text-foreground text-muted-foreground mt-2 inline-flex items-center gap-1 text-xs font-medium transition-colors"
+                        "group-hover:text-foreground  mt-2 inline-flex items-center gap-1 text-xs font-medium transition-colors"
                       }
                     >
                       Learn more
@@ -202,9 +197,7 @@ function ServicesIndexPage() {
             <h2 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">
               Why families choose us
             </h2>
-            <p className="text-muted-foreground mt-4 text-lg">
-              Clinical excellence, in a setting that feels unhurried.
-            </p>
+            <p className=" mt-4 text-lg">Clinical excellence, in a setting that feels unhurried.</p>
           </div>
 
           <ul className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -214,7 +207,7 @@ function ServicesIndexPage() {
                   <Icon className="size-5" />
                 </div>
                 <h3 className="mt-4 text-sm font-semibold">{label}</h3>
-                <p className="text-muted-foreground mt-1 text-xs leading-relaxed">{description}</p>
+                <p className=" mt-1 text-xs leading-relaxed">{description}</p>
               </li>
             ))}
           </ul>
@@ -224,7 +217,7 @@ function ServicesIndexPage() {
       {/* ── FINAL CTA ────────────────────────────────────────── */}
       <section className="py-24">
         <div className="mx-auto max-w-4xl px-6">
-          <div className="bg-primary relative overflow-hidden rounded-3xl px-8 py-16 text-center shadow-2xl sm:px-16">
+          <div className="bg-primary relative overflow-hidden rounded-3xl px-8 py-16 text-center shadow-2xl sm:px-2 sm:py-16">
             <div className="absolute inset-0 bg-black/10" />
             <div className="relative">
               <h2 className="text-3xl font-bold tracking-tight text-balance text-white sm:text-4xl">

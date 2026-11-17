@@ -36,7 +36,7 @@ function chipClass(selected: boolean, readOnly: boolean | undefined): string {
   return cn(
     "rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors",
     "focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none",
-    selected ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground",
+    selected ? "bg-primary text-primary-foreground" : "bg-muted ",
     !readOnly && !selected && "hover:bg-muted/80",
     readOnly && "opacity-60",
   );
@@ -114,7 +114,7 @@ export function EncounterContextSection({ values, patch, clinicName, doctors, re
             type="datetime-local"
             value={toLocalDateTimeValue(values.visitedAt)}
           />
-          <p className="text-muted-foreground text-[11px]">
+          <p className=" text-[11px]">
             Local time ({Intl.DateTimeFormat().resolvedOptions().timeZone})
           </p>
         </div>
@@ -181,14 +181,11 @@ export function EncounterContextSection({ values, patch, clinicName, doctors, re
       <fieldset className="grid gap-1.5">
         <div className="flex items-baseline justify-between gap-2">
           <legend className="text-xs font-semibold tracking-wide uppercase">
-            Symptoms{" "}
-            <span className="text-muted-foreground font-normal normal-case">
-              (select all that apply)
-            </span>
+            Symptoms <span className=" font-normal normal-case">(select all that apply)</span>
           </legend>
           {!readOnly && values.symptoms.length > 0 && (
             <button
-              className="text-muted-foreground hover:text-foreground focus-visible:ring-ring rounded-sm text-[11px] underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:outline-none"
+              className=" hover:text-foreground focus-visible:ring-ring rounded-sm text-[11px] underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:outline-none"
               onClick={clearSymptoms}
               type="button"
             >

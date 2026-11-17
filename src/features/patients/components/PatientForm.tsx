@@ -117,6 +117,7 @@ export function PatientForm({ clinicId, inline = false, onSuccess }: PatientForm
   const formContent = (
     <form
       className="space-y-4"
+      noValidate
       onSubmit={(event) => {
         event.preventDefault();
         event.stopPropagation();

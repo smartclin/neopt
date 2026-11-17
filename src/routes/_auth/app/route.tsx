@@ -83,7 +83,7 @@ function AppLayout() {
 // 							className='flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors'
 // 							inactiveProps={{
 // 								className:
-// 									"text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+// 									" hover:bg-muted/50 hover:text-foreground"
 // 							}}
 // 							key={item.to}
 // 							to={item.to}
@@ -94,7 +94,7 @@ function AppLayout() {
 // 					))}
 // 				</nav>
 // 				<div className='border-t p-4'>
-// 					<SignOutButton className='text-muted-foreground hover:text-foreground w-full justify-start gap-3' />
+// 					<SignOutButton className=' hover:text-foreground w-full justify-start gap-3' />
 // 				</div>
 // 			</aside>
 
@@ -120,7 +120,7 @@ function AppLayout() {
 // 								<span className='sr-only'>Open navigation menu</span>
 // 							</SheetTrigger>
 // 							<SheetContent
-// 								className='flex w-72 flex-col justify-between p-0'
+// 								className='flex w-72 flex-col justify-between '
 // 								side='left'
 // 							>
 // 								<div>
@@ -140,7 +140,7 @@ function AppLayout() {
 // 												className='flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors'
 // 												inactiveProps={{
 // 													className:
-// 														"text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+// 														" hover:bg-muted/50 hover:text-foreground"
 // 												}}
 // 												key={item.to}
 // 												onClick={() => setOpenMobile(false)}
@@ -153,7 +153,7 @@ function AppLayout() {
 // 									</nav>
 // 								</div>
 // 								<div className='border-t p-4'>
-// 									<SignOutButton className='text-muted-foreground hover:text-foreground w-full justify-start gap-3' />
+// 									<SignOutButton className=' hover:text-foreground w-full justify-start gap-3' />
 // 								</div>
 // 							</SheetContent>
 // 						</Sheet>

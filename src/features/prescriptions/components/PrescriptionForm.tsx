@@ -305,8 +305,7 @@ export function PrescriptionForm({
                   {(sub) => (
                     <div className="grid gap-1">
                       <Label htmlFor={`rx-${row.id}-instructions`}>
-                        Instructions{" "}
-                        <span className="text-muted-foreground font-normal">(optional)</span>
+                        Instructions <span className=" font-normal">(optional)</span>
                       </Label>
                       <Textarea
                         id={`rx-${row.id}-instructions`}

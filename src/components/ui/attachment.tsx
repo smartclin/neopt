@@ -1,11 +1,11 @@
 import type * as React from "react";
 
-import { mergeProps } from "@base-ui/react/merge-props";
-import { useRender } from "@base-ui/react/use-render";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "cn";
+import {mergeProps} from "@base-ui/react/merge-props";
+import {useRender} from "@base-ui/react/use-render";
+import {cva, type VariantProps} from "class-variance-authority";
+import {cn} from "cn";
 
-import { Button } from "#/components/ui/button";
+import {Button} from "#/components/ui/button";
 
 const attachmentVariants = cva(
   "group/attachment bg-card text-card-foreground focus-within:ring-ring/30 has-[>a,>button]:hover:bg-muted/50 data-[state=error]:border-destructive/30 relative flex w-fit max-w-full min-w-0 shrink-0 flex-wrap rounded-none border transition-colors focus-within:ring-1 data-[state=idle]:border-dashed",
@@ -14,7 +14,7 @@ const attachmentVariants = cva(
       size: {
         default:
           "gap-2 text-sm has-data-[slot=attachment-content]:px-3 has-data-[slot=attachment-content]:py-2.5 has-data-[slot=attachment-media]:p-2.5",
-        sm: "gap-2.5 text-xs has-data-[slot=attachment-content]:px-2.5 has-data-[slot=attachment-content]:py-2 has-data-[slot=attachment-media]:p-2",
+        sm: "gap-2.5  has-data-[slot=attachment-content]:px-2.5 has-data-[slot=attachment-content]:py-2 has-data-[slot=attachment-media]:p-2",
         xs: "gap-1.5 rounded-none text-xs has-data-[slot=attachment-content]:px-2 has-data-[slot=attachment-content]:py-1.5 has-data-[slot=attachment-media]:p-1.5",
       },
       orientation: {
@@ -82,7 +82,7 @@ function AttachmentContent({ className, ...props }: React.ComponentProps<"div">)
   return (
     <div
       className={cn(
-        "max-w-full min-w-0 flex-1 leading-tight group-data-[orientation=vertical]/attachment:px-1",
+        "max-w-full min-w-0 flex-1 leading-tight group-data-[orientation=vertical]/attachment:",
         className,
       )}
       data-slot="attachment-content"
@@ -108,7 +108,7 @@ function AttachmentDescription({ className, ...props }: React.ComponentProps<"sp
   return (
     <span
       className={cn(
-        "text-muted-foreground group-data-[state=error]/attachment:text-destructive/80 mt-0.5 block min-w-0 truncate text-xs",
+        " group-data-[state=error]/attachment:text-destructive/80 mt-0.5 block min-w-0 truncate text-xs",
         "max-w-full",
         className,
       )}
@@ -174,7 +174,7 @@ function AttachmentGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "scroll-fade-x flex min-w-0 snap-x snap-mandatory scroll-px-1 scrollbar-none gap-3 overflow-x-auto overscroll-x-contain py-1 *:data-[slot=attachment]:flex-none *:data-[slot=attachment]:snap-start",
+        "scroll-fade-x flex min-w-0 snap-x snap-mandatory scrollbar-none gap-3 overflow-x-auto overscroll-x-contain py-1 *:data-[slot=attachment]:flex-none *:data-[slot=attachment]:snap-start",
         className,
       )}
       data-slot="attachment-group"

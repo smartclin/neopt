@@ -98,12 +98,10 @@ const columns = column.columns([
     meta: { width: "w-32 max-sm:w-24" },
     cell: ({ row }) => {
       const visitedAt = row.original.createdAt;
-      if (!visitedAt) return <span className="text-muted-foreground">—</span>;
+      if (!visitedAt) return <span className="">—</span>;
       const date = new Date(visitedAt);
       return (
-        <span className="text-muted-foreground block truncate font-mono text-xs tabular-nums">
-          {formatDate(date)}
-        </span>
+        <span className=" block truncate font-mono text-xs tabular-nums">{formatDate(date)}</span>
       );
     },
   }),
@@ -208,7 +206,7 @@ export function DiagnosisTable<TRoute extends AnyRoute>({
           {table.getRowModel().rows.length === 0 && !query.isFetching ? (
             <TableRow>
               <TableCell colSpan={leafColumnCount}>
-                <p className="text-muted-foreground py-8 text-center text-sm">
+                <p className=" py-8 text-center text-sm">
                   No diagnoses recorded for this visit yet.
                 </p>
               </TableCell>

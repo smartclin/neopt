@@ -327,7 +327,7 @@ export function ChartLegend({ config }: ChartLegendProps) {
       {entries.map(([key, item]) => (
         <div className="flex items-center gap-1.5" key={key}>
           <div className="size-2 shrink-0 rounded-[2px]" style={{ backgroundColor: item.color }} />
-          <span className="text-muted-foreground text-sm">{item.label}</span>
+          <span className=" text-sm">{item.label}</span>
         </div>
       ))}
     </div>

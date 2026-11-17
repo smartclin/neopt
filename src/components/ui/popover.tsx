@@ -65,7 +65,7 @@ function PopoverTitle({ className, ...props }: PopoverPrimitive.Title.Props) {
 function PopoverDescription({ className, ...props }: PopoverPrimitive.Description.Props) {
   return (
     <PopoverPrimitive.Description
-      className={cn("text-muted-foreground mt-0.5 text-sm leading-relaxed", className)}
+      className={cn(" mt-0.5 text-sm leading-relaxed", className)}
       data-slot="popover-description"
       {...props}
     />

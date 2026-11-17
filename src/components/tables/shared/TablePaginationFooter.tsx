@@ -1,6 +1,6 @@
 import type React from "react";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {ChevronLeft, ChevronRight} from "lucide-react";
 
 export interface TablePaginationFooterProps {
   pageIndex: number;
@@ -31,7 +31,7 @@ export function TablePaginationFooter({
   const lastRow = Math.min((pageIndex + 1) * pageSize, total);
 
   return (
-    <nav className="text-base-500 border-border flex flex-col items-center justify-between gap-3 border-t pt-4 text-xs sm:flex-row">
+    <nav className="text-base-500 border-border flex flex-col items-center justify-between gap-3 border-t pt-4  sm:flex-row">
       <div className="flex items-center gap-4">
         <span>
           Showing {firstRow}–{lastRow} of {total}
@@ -40,7 +40,7 @@ export function TablePaginationFooter({
           <div className="flex items-center gap-1.5">
             <span>Rows per page:</span>
             <select
-              className="text-base-700 border-border focus:ring-ring rounded-lg border bg-transparent px-2 py-1 text-xs focus:ring-1 focus:outline-none"
+              className="text-base-700 border-border focus:ring-ring rounded-lg border bg-transparent px-2 py-1  focus:ring-1 focus:outline-none"
               onChange={(e) => {
                 onPageSizeChange(Number(e.target.value));
               }}

@@ -233,7 +233,7 @@ const VitestIcon = (props: IconProps) => (
   </svg>
 );
 
-const iconStyles = "text-muted-foreground hover:text-foreground transition-colors duration-300";
+const iconStyles = " hover:text-foreground transition-colors duration-300";
 
 export type Icon = React.ComponentType<IconProps>;
 

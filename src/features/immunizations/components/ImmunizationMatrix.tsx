@@ -42,7 +42,7 @@ const STATUS_STYLES = {
     label: "Overdue",
   },
   refused: {
-    className: "bg-muted text-muted-foreground",
+    className: "bg-muted ",
     Icon: CircleIcon,
     label: "Refused",
   },
@@ -98,7 +98,7 @@ export function ImmunizationMatrix({ clinicId, ageBracket, onlyOverdue }: Immuni
   const { vaccines, rows } = query.data ?? { vaccines: [], rows: [] };
   if (rows.length === 0) {
     return (
-      <div className="text-muted-foreground rounded-md border border-dashed py-12 text-center text-sm">
+      <div className=" rounded-md border border-dashed py-12 text-center text-sm">
         No patients match this filter.
       </div>
     );
@@ -125,7 +125,7 @@ export function ImmunizationMatrix({ clinicId, ageBracket, onlyOverdue }: Immuni
                 key={v.vaccineKey}
               >
                 <span className="inline-flex items-center gap-1">
-                  <SyringeIcon aria-hidden="true" className="text-muted-foreground size-3" />
+                  <SyringeIcon aria-hidden="true" className=" size-3" />
                   {v.vaccineKey.toUpperCase()}
                 </span>
               </TableHead>
@@ -154,7 +154,7 @@ function MatrixTableRow({ row, vaccines }: { row: MatrixRow; vaccines: MatrixVac
           <span className="truncate font-medium">
             {row.firstName} {row.lastName}
           </span>
-          <span className="text-muted-foreground font-mono text-xs tabular-nums">{row.mrn}</span>
+          <span className=" font-mono text-xs tabular-nums">{row.mrn}</span>
         </Link>
       </TableCell>
       {vaccines.flatMap((v) =>
@@ -162,12 +162,8 @@ function MatrixTableRow({ row, vaccines }: { row: MatrixRow; vaccines: MatrixVac
           const key = `${v.vaccineKey}-${i + 1}`;
           const status = row.cells[key];
           return (
-            <TableCell className="px-1 text-center" key={key}>
-              {status ? (
-                <StatusCell status={status} />
-              ) : (
-                <span className="text-muted-foreground">—</span>
-              )}
+            <TableCell className=" text-center" key={key}>
+              {status ? <StatusCell status={status} /> : <span className="">—</span>}
             </TableCell>
           );
         }),

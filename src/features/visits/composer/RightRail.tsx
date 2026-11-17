@@ -56,7 +56,7 @@ export function RightRail({ snapshot, values, saveState }: RightRailProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-muted-foreground text-xs">
+      <p className=" text-xs">
         Save manually with the button below. Unsaved changes are lost if you leave.
       </p>
       <Card>
@@ -68,14 +68,14 @@ export function RightRail({ snapshot, values, saveState }: RightRailProps) {
             <span className="font-semibold">
               {snapshot.patient.firstName} {snapshot.patient.lastName}
             </span>
-            <span className="text-muted-foreground font-mono text-xs tabular-nums">
+            <span className=" font-mono text-xs tabular-nums">
               {snapshot.patient.mrn} · {ageLabel}
             </span>
           </div>
 
           <div className="flex flex-wrap gap-1">
             {allergies.length === 0 ? (
-              <span className="text-muted-foreground text-xs">No allergies recorded</span>
+              <span className=" text-xs">No allergies recorded</span>
             ) : (
               allergies.map((a) => (
                 <Badge key={a} variant="destructive">
@@ -85,7 +85,7 @@ export function RightRail({ snapshot, values, saveState }: RightRailProps) {
             )}
           </div>
 
-          <div className="text-muted-foreground text-xs">
+          <div className=" text-xs">
             Last visit: {snapshot.lastVisitAt ? formatDate(new Date(snapshot.lastVisitAt)) : "—"}
           </div>
 
@@ -102,7 +102,7 @@ export function RightRail({ snapshot, values, saveState }: RightRailProps) {
         </CardHeader>
         <CardContent className="grid gap-2">
           {warnings.length === 0 ? (
-            <p className="text-muted-foreground text-xs">No interactions detected.</p>
+            <p className=" text-xs">No interactions detected.</p>
           ) : (
             warnings.map((w, i) => (
               <div
@@ -133,14 +133,14 @@ export function RightRail({ snapshot, values, saveState }: RightRailProps) {
             <span className="text-destructive">{saveState.error}</span>
           )}
           {!saveState.saving && !saveState.error && saveState.dirty && (
-            <span className="text-muted-foreground">Unsaved changes</span>
+            <span className="">Unsaved changes</span>
           )}
           {!saveState.saving && !saveState.dirty && saveState.lastSavedAt && (
             <span className="text-module-encounters">
               Last saved {formatTime(saveState.lastSavedAt)}
             </span>
           )}
-          <span className="text-muted-foreground">
+          <span className="">
             <SparklesIcon className="inline size-3" /> Auto-saves every 30s
           </span>
         </CardContent>

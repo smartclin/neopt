@@ -84,7 +84,7 @@ export function FilterBar({
 
         {hasFilters && onClear ? (
           <button
-            className="border-border text-muted-foreground hover:bg-background rounded-xl border bg-white px-3 py-2 text-xs font-semibold transition-colors"
+            className="border-border  hover:bg-background rounded-xl border bg-white px-3 py-2 text-xs font-semibold transition-colors"
             onClick={onClear}
             type="button"
           >

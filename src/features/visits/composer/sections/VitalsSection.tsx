@@ -207,7 +207,7 @@ function VitalField({ field, existing, lms, onChange, readOnly }: VitalFieldProp
   return (
     <div className="grid gap-1">
       <Label htmlFor={inputId}>
-        {field.label} <span className="text-muted-foreground font-normal">({field.unit})</span>
+        {field.label} <span className=" font-normal">({field.unit})</span>
       </Label>
 
       <div className="flex items-center gap-1">
@@ -274,7 +274,7 @@ function VitalField({ field, existing, lms, onChange, readOnly }: VitalFieldProp
         !computed &&
         field.hasReference &&
         (field.requiresLength && !lengthCm ? (
-          <p className="text-muted-foreground text-[11px]">Add the length to compute a z-score.</p>
+          <p className=" text-[11px]">Add the length to compute a z-score.</p>
         ) : null)}
     </div>
   );

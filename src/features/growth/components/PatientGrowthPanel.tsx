@@ -257,7 +257,7 @@ function PatientGrowthContent({
           <h2 className="text-lg font-semibold" id="egyptian-growth-chart-title">
             Egyptian z-score chart
           </h2>
-          <p className="text-muted-foreground text-sm">
+          <p className=" text-sm">
             Egyptian 2021 growth reference · LMS-derived z-score curves
             {useCorrectedAge && isPreterm ? " · corrected age" : ""}
           </p>
@@ -309,7 +309,7 @@ function PatientGrowthContent({
         />
       )}
       {formOpen && (!latestVisitId || latestAgeMonths === undefined) && (
-        <p className="text-muted-foreground text-sm">Record a visit before adding measurements.</p>
+        <p className=" text-sm">Record a visit before adding measurements.</p>
       )}
     </div>
   );

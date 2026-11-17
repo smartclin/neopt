@@ -47,7 +47,7 @@ function CommandDialog({
         <DialogDescription>{description}</DialogDescription>
       </DialogHeader>
       <DialogContent
-        className={cn("top-1/3 translate-y-0 overflow-hidden p-0", className)}
+        className={cn("top-1/3 translate-y-0 overflow-hidden ", className)}
         showCloseButton={showCloseButton}
       >
         {children}
@@ -112,7 +112,7 @@ function CommandGroup({
   return (
     <CommandPrimitive.Group
       className={cn(
-        "text-foreground **:[[cmdk-group-heading]]:text-muted-foreground overflow-hidden p-1.5 **:[[cmdk-group-heading]]:px-3 **:[[cmdk-group-heading]]:py-2 **:[[cmdk-group-heading]]:text-xs **:[[cmdk-group-heading]]:font-semibold **:[[cmdk-group-heading]]:tracking-wider **:[[cmdk-group-heading]]:uppercase",
+        "text-foreground **:[[cmdk-group-heading]]: overflow-hidden p-1.5 **:[[cmdk-group-heading]]:px-3 **:[[cmdk-group-heading]]:py-2 **:[[cmdk-group-heading]]:text-xs **:[[cmdk-group-heading]]:font-semibold **:[[cmdk-group-heading]]:tracking-wider **:[[cmdk-group-heading]]:uppercase",
         className,
       )}
       data-slot="command-group"
@@ -158,7 +158,7 @@ function CommandShortcut({ className, ...props }: React.ComponentProps<"span">) 
   return (
     <span
       className={cn(
-        "text-muted-foreground group-data-selected/command-item:text-foreground ms-auto text-xs tracking-widest",
+        " group-data-selected/command-item:text-foreground ms-auto text-xs tracking-widest",
         className,
       )}
       data-slot="command-shortcut"

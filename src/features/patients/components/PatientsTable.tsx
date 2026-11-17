@@ -83,7 +83,7 @@ const columns = column.columns([
   column.accessor("sex", {
     header: "Sex",
     meta: { width: "w-20", hideOnMobile: true },
-    cell: (info) => <span className="text-muted-foreground capitalize">{info.getValue()}</span>,
+    cell: (info) => <span className=" capitalize">{info.getValue()}</span>,
   }),
   column.accessor("dateOfBirth", {
     header: "Age",
@@ -101,7 +101,7 @@ const columns = column.columns([
     header: "Phone",
     meta: { width: "w-36", hideOnMobile: true },
     cell: (info) => (
-      <span className="text-muted-foreground block truncate" title={info.getValue() ?? undefined}>
+      <span className=" block truncate" title={info.getValue() ?? undefined}>
         {info.getValue() ?? "—"}
       </span>
     ),
@@ -205,7 +205,7 @@ export function PatientsTable<TRoute extends AnyRoute>({
           {table.getRowModel().rows.length === 0 && !query.isFetching ? (
             <TableRow>
               <TableCell colSpan={leafColumnCount}>
-                <p className="text-muted-foreground py-8 text-center text-sm">
+                <p className=" py-8 text-center text-sm">
                   No patients registered in this clinic yet.
                 </p>
               </TableCell>

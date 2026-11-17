@@ -26,9 +26,7 @@ function NewMeasurementPage() {
     return (
       <div className="mx-auto max-w-2xl px-6 py-24 text-center">
         <h1 className="text-xl font-semibold">Patient not found</h1>
-        <p className="text-muted-foreground mt-2 text-sm">
-          This patient may have been deleted or never existed.
-        </p>
+        <p className=" mt-2 text-sm">This patient may have been deleted or never existed.</p>
         <Button
           className="mt-6"
           nativeButton={false}

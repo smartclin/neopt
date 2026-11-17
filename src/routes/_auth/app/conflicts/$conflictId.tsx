@@ -27,10 +27,10 @@ function ConflictDialog() {
         </DialogHeader>
 
         {!q.data ? (
-          <p className="text-muted-foreground text-sm">This conflict has already been resolved.</p>
+          <p className=" text-sm">This conflict has already been resolved.</p>
         ) : (
           <>
-            <p className="text-muted-foreground text-sm">
+            <p className=" text-sm">
               Someone else updated this record while you were offline. Pick which version to keep.
             </p>
 

@@ -115,7 +115,7 @@ function AlertDialogDescription({
   return (
     <AlertDialogPrimitive.Description
       className={cn(
-        "text-muted-foreground *:[a]:hover:text-foreground mt-0.5 text-sm leading-relaxed text-balance md:text-pretty *:[a]:underline *:[a]:underline-offset-3",
+        " *:[a]:hover:text-foreground mt-0.5 text-sm leading-relaxed text-balance md:text-pretty *:[a]:underline *:[a]:underline-offset-3",
         className,
       )}
       data-slot="alert-dialog-description"

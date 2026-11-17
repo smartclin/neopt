@@ -53,7 +53,7 @@ export function PatientContextCard({
           <span className="truncate font-semibold">
             {patient.firstName} {patient.lastName}
           </span>
-          <span className="font-mono text-xs text-muted-foreground tabular-nums">
+          <span className="font-mono text-xs  tabular-nums">
             {patient.mrn} · {ageLabel} · {patient.sex === "male" ? "Boy" : "Girl"}
           </span>
         </div>
@@ -80,7 +80,7 @@ export function PatientContextCard({
               value={weightKg ?? ""}
             />
           )}
-          <p className="text-muted-foreground text-xss">Drives mg/kg calculation.</p>
+          <p className=" text-xss">Drives mg/kg calculation.</p>
         </div>
 
         <div className="grid gap-1">
@@ -98,7 +98,7 @@ export function PatientContextCard({
                 ))}
             </div>
           ) : (
-            <span className="text-xs text-muted-foreground">None recorded</span>
+            <span className="text-xs ">None recorded</span>
           )}
         </div>
       </div>

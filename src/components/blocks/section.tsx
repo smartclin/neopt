@@ -26,7 +26,7 @@ export function Section({
               </Badge>
             )}
           </div>
-          {description ? <p className="text-muted-foreground text-xs">{description}</p> : null}
+          {description ? <p className=" text-xs">{description}</p> : null}
         </div>
         {action}
       </div>

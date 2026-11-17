@@ -53,30 +53,27 @@ export function useVisitComposer(
   initial: VisitComposerValues,
   visitId?: string,
 ): VisitComposerHandle {
+  const initialSignature = serialize(initial);
+  const [previousInitialSignature, setPreviousInitialSignature] = React.useState(initialSignature);
   const [values, setValues] = React.useState<VisitComposerValues>(initial);
   const [lastSavedAt, setLastSavedAt] = React.useState<Date | null>(visitId ? new Date() : null);
   const [error, setError] = React.useState<string | null>(null);
-
-  // Reset when the caller swaps to a different patient/visit.
-  React.useEffect(() => {
-    setValues(initial);
-    lastPersistedRef.current = initial;
-    setError(null);
-  }, [initial]);
   const [savedSignature, setSavedSignature] = React.useState(() => serialize(initial));
-  const lastPersistedRef = React.useRef(initial);
+  const [lastPersisted, setLastPersisted] = React.useState(initial);
 
-  React.useEffect(() => {
-    // reset when initial identity truly changes (guarded by stable memo upstream)
-    setSavedSignature(serialize(initial));
-    lastPersistedRef.current = initial;
-  }, [initial]);
+  if (previousInitialSignature !== initialSignature) {
+    setPreviousInitialSignature(initialSignature);
+    setValues(initial);
+    setSavedSignature(initialSignature);
+    setLastPersisted(initial);
+    setError(null);
+  }
 
   const dirty = serialize(values) !== savedSignature;
 
   const mutation = useSaveVisitComposerMutation({
     onSuccess: (_result, submittedValues) => {
-      lastPersistedRef.current = submittedValues;
+      setLastPersisted(submittedValues);
       setSavedSignature(serialize(submittedValues));
       setLastSavedAt(new Date());
       setError(null);
@@ -91,9 +88,9 @@ export function useVisitComposer(
   }, []);
 
   const reset = React.useCallback(() => {
-    setValues(lastPersistedRef.current);
+    setValues(lastPersisted);
     setError(null);
-  }, []);
+  }, [lastPersisted]);
 
   const save = React.useCallback(async () => {
     setError(null);

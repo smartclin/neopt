@@ -10,8 +10,8 @@ import { Icons } from "#/components/icons.tsx";
 import { Badge } from "#/components/ui/badge.tsx";
 import { Button } from "#/components/ui/button.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "#/components/ui/card.tsx";
+import { Field, FieldLabel } from "#/components/ui/field.tsx";
 import { Input } from "#/components/ui/input.tsx";
-import { Label } from "#/components/ui/label.tsx";
 import {
   Sheet,
   SheetContent,
@@ -188,7 +188,7 @@ function PatientDevelopmentPage() {
           <CardHeader>
             <CardTitle>Milestone timeline</CardTitle>
           </CardHeader>
-          <CardContent className="p-0 pb-3">
+          <CardContent className=" mb-3">
             <MilestoneTimeline
               correctedAgeMonths={correctedAge}
               milestones={milestones}
@@ -204,9 +204,7 @@ function PatientDevelopmentPage() {
           </CardHeader>
           <CardContent>
             <DomainRings data={ringData} />
-            {correctedLabel && (
-              <p className="text-muted-foreground mt-3 text-xs">{correctedLabel}</p>
-            )}
+            {correctedLabel && <p className=" mt-3 text-xs">{correctedLabel}</p>}
           </CardContent>
         </Card>
       </div>
@@ -321,13 +319,15 @@ function RedFlagBanner({
             </SheetDescription>
           </SheetHeader>
           <div className="mt-4 flex flex-col gap-3">
-            <Label htmlFor="referral-body">Referral text</Label>
-            <Textarea
-              className="min-h-64 font-mono text-xs"
-              id="referral-body"
-              readOnly
-              value={referralDraft}
-            />
+            <Field>
+              <FieldLabel htmlFor="referral-body">Referral text</FieldLabel>
+              <Textarea
+                className="min-h-64 resize-none"
+                id="referral-body"
+                readOnly
+                value={referralDraft}
+              />
+            </Field>
             <Button
               nativeButton
               onClick={async () => {
@@ -375,20 +375,18 @@ function MilestoneInspector({
     <div className="flex h-full flex-col">
       <SheetHeader>
         <div className="flex items-center gap-2">
-          <Badge className={`text-[10px] ${meta.bg} ${meta.text}`} variant="secondary">
+          <span
+            className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-medium ${meta.bg} ${meta.text}`}
+          >
             {meta.label}
-          </Badge>
-          {milestone.isRedFlagIfMissing && (
-            <Badge className="text-destructive border-destructive/40 text-[10px]" variant="outline">
-              Critical
-            </Badge>
-          )}
+          </span>
+          {milestone.isRedFlagIfMissing && <Badge variant="destructive">Critical</Badge>}
         </div>
         <SheetTitle>{milestone.title}</SheetTitle>
         <SheetDescription>Expected by {milestone.ageLabel}</SheetDescription>
       </SheetHeader>
 
-      <p className="text-muted-foreground mt-3 text-sm">{milestone.description}</p>
+      <p className=" mt-3 text-sm">{milestone.description}</p>
 
       <div className="mt-6 flex flex-col gap-4">
         <button
@@ -405,24 +403,24 @@ function MilestoneInspector({
           {isAchieved ? (
             <Check aria-hidden="true" className="size-4 text-emerald-600" strokeWidth={3} />
           ) : (
-            <span className="text-muted-foreground text-xs">Not yet</span>
+            <span className=" text-xs">Not yet</span>
           )}
         </button>
 
         {isAchieved && (
-          <div className="grid gap-2">
-            <Label htmlFor="achieved-date">Date achieved</Label>
+          <Field>
+            <FieldLabel htmlFor="achieved-date">Date achieved</FieldLabel>
             <Input
               id="achieved-date"
               onChange={(e) => setAchievedDate(e.target.value)}
               type="date"
               value={achievedDate}
             />
-          </div>
+          </Field>
         )}
 
-        <div className="grid gap-2">
-          <Label htmlFor="milestone-notes">Notes</Label>
+        <Field>
+          <FieldLabel htmlFor="milestone-notes">Notes</FieldLabel>
           <Textarea
             id="milestone-notes"
             maxLength={2000}
@@ -431,7 +429,7 @@ function MilestoneInspector({
             rows={3}
             value={notes}
           />
-        </div>
+        </Field>
       </div>
 
       <div className="mt-auto flex gap-2 pt-6">

@@ -83,13 +83,15 @@ export function CommandMenu({ open, onOpenChange, onReportIssue, clinicId }: Com
     return () => clearTimeout(t);
   }, [query]);
 
-  // Reset on close so reopening starts fresh.
-  React.useEffect(() => {
+  // Reset on close so reopening starts fresh (adjust state during render to avoid cascading effect renders).
+  const [prevOpen, setPrevOpen] = React.useState(open);
+  if (prevOpen !== open) {
+    setPrevOpen(open);
     if (!open) {
       setQuery("");
       setDebounced("");
     }
-  }, [open]);
+  }
 
   const searching = debounced.length >= 2;
   const searchQ = useQuery({
@@ -206,14 +208,10 @@ export function CommandMenu({ open, onOpenChange, onReportIssue, clinicId }: Com
                       onSelect={() => goHref(r.href)}
                       value={`${r.category}:${r.id}:${r.title}`}
                     >
-                      <Icon className="text-muted-foreground" />
+                      <Icon className="" />
                       <div className="flex min-w-0 flex-col">
                         <span className="truncate">{r.title}</span>
-                        {r.subtitle && (
-                          <span className="text-muted-foreground truncate text-xs">
-                            {r.subtitle}
-                          </span>
-                        )}
+                        {r.subtitle && <span className=" truncate text-xs">{r.subtitle}</span>}
                       </div>
                     </CommandItem>
                   ))}
@@ -264,7 +262,7 @@ export function CommandMenu({ open, onOpenChange, onReportIssue, clinicId }: Com
               <CommandGroup heading="Actions">
                 {filteredActions.map((action) => (
                   <CommandItem key={action.id} onSelect={action.run} value={action.id}>
-                    <action.icon className="text-muted-foreground" />
+                    <action.icon className="" />
                     <span>{action.label}</span>
                   </CommandItem>
                 ))}
@@ -274,7 +272,7 @@ export function CommandMenu({ open, onOpenChange, onReportIssue, clinicId }: Com
         </CommandList>
 
         {/* ── Footer: latency + tips ─────────────────────────────── */}
-        <div className="text-muted-foreground flex items-center justify-between border-t px-3 py-2 text-[11px]">
+        <div className=" flex items-center justify-between border-t px-3 py-2 text-[11px]">
           <span>
             {searchQ.isFetching
               ? "Searching…"

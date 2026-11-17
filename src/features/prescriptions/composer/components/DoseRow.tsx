@@ -197,7 +197,7 @@ export function DoseRow(props: DoseRowProps) {
 
           {calc && (
             <p className="col-span-full text-sm">
-              <span className="text-muted-foreground">Dose: </span>
+              <span className="">Dose: </span>
               <span className="font-mono tabular-nums">
                 {calc.singleDoseMg.toFixed(2)} mg per {calc.volumeMlPerDose.toFixed(2)} mL
               </span>

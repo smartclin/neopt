@@ -24,7 +24,7 @@ export function ExamFindingsSection({ values, patch, readOnly }: Props) {
       <div className="flex flex-wrap gap-1">
         {Object.keys(TEMPLATES).map((name) => (
           <button
-            className="bg-muted text-muted-foreground hover:bg-muted/80 rounded-full px-2.5 py-0.5 text-xs font-medium"
+            className="bg-muted  hover:bg-muted/80 rounded-full px-2.5 py-0.5 text-xs font-medium"
             disabled={readOnly}
             key={name}
             onClick={() => patch({ examFindings: TEMPLATES[name], template: name as never })}

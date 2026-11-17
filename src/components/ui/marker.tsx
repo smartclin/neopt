@@ -6,7 +6,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "cn";
 
 const markerVariants = cva(
-  "group/marker text-muted-foreground [a]:hover:text-foreground relative flex min-h-4 w-full items-center gap-2 text-start text-xs tracking-wide uppercase [&_svg:not([class*='size-'])]:size-4 [a]:underline [a]:underline-offset-3",
+  "group/marker  [a]:hover:text-foreground relative flex min-h-4 w-full items-center gap-2 text-start text-xs tracking-wide uppercase [&_svg:not([class*='size-'])]:size-4 [a]:underline [a]:underline-offset-3",
   {
     variants: {
       variant: {

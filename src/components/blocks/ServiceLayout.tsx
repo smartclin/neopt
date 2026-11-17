@@ -119,7 +119,7 @@ export function ServiceLayout({ service }: Props) {
             <h2 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">
               What's included
             </h2>
-            <p className="text-muted-foreground mt-4 text-lg">
+            <p className=" mt-4 text-lg">
               A complete, thoughtful approach — designed around your child.
             </p>
           </div>
@@ -136,9 +136,7 @@ export function ServiceLayout({ service }: Props) {
                   {h.icon}
                 </div>
                 <h3 className="mt-6 text-lg font-semibold tracking-tight">{h.title}</h3>
-                <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
-                  {h.description}
-                </p>
+                <p className=" mt-2 text-sm leading-relaxed">{h.description}</p>
               </div>
             ))}
           </div>
@@ -163,7 +161,7 @@ export function ServiceLayout({ service }: Props) {
               <h2 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">
                 Why families choose us
               </h2>
-              <p className="text-muted-foreground mt-4 text-lg">
+              <p className=" mt-4 text-lg">
                 {service.tagline}. Our team blends clinical excellence with warm, unhurried visits —
                 because trust is the best medicine.
               </p>
@@ -205,9 +203,7 @@ export function ServiceLayout({ service }: Props) {
             <h2 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">
               Frequently asked questions
             </h2>
-            <p className="text-muted-foreground mt-4 text-lg">
-              Quick answers to the questions we hear most.
-            </p>
+            <p className=" mt-4 text-lg">Quick answers to the questions we hear most.</p>
           </div>
 
           <div className="mt-12 space-y-3">
@@ -237,7 +233,7 @@ export function ServiceLayout({ service }: Props) {
                     </svg>
                   </span>
                 </summary>
-                <p className="text-muted-foreground mt-3 text-sm leading-relaxed">{faq.a}</p>
+                <p className=" mt-3 text-sm leading-relaxed">{faq.a}</p>
               </details>
             ))}
           </div>
@@ -248,7 +244,7 @@ export function ServiceLayout({ service }: Props) {
       <section className="border-border/60 border-t py-24">
         <div className="mx-auto max-w-4xl px-6">
           <div
-            className={`relative overflow-hidden rounded-3xl ${service.accent} px-8 py-16 text-center shadow-2xl sm:px-16`}
+            className={`relative overflow-hidden rounded-3xl ${service.accent} px-8 py-16 text-center shadow-2xl sm:px-6`}
           >
             <div className="absolute inset-0 bg-black/10" />
             <div className="relative">

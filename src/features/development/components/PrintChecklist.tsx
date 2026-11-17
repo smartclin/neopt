@@ -38,7 +38,7 @@ export function PrintChecklist({
         <p className="mt-1 text-sm">
           <strong>Patient:</strong> {patientName} &nbsp;·&nbsp; <strong>Age:</strong> {ageLabel}
         </p>
-        {clinicName && <p className="text-muted-foreground text-xs">{clinicName}</p>}
+        {clinicName && <p className=" text-xs">{clinicName}</p>}
       </div>
 
       {byDomain.map(({ domain, items }) => {
@@ -62,13 +62,13 @@ export function PrintChecklist({
                         strokeWidth={3}
                       />
                     ) : (
-                      <Square aria-hidden="true" className="text-muted-foreground size-4" />
+                      <Square aria-hidden="true" className=" size-4" />
                     )}
                   </span>
                   <div>
                     <p className="font-medium">{m.title}</p>
-                    <p className="text-muted-foreground text-xs">{m.description}</p>
-                    <p className="text-muted-foreground mt-0.5 text-[11px]">
+                    <p className=" text-xs">{m.description}</p>
+                    <p className=" mt-0.5 text-[11px]">
                       Expected by: {m.ageLabel}
                       {m.isRedFlagIfMissing && (
                         <span className="text-destructive ml-2 font-semibold">
@@ -84,7 +84,7 @@ export function PrintChecklist({
         );
       })}
 
-      <div className="text-muted-foreground mt-8 border-t pt-4 text-[10px]">
+      <div className=" mt-8 border-t pt-4 text-[10px]">
         <p>
           <strong>Instructions for parents:</strong> Check off the milestones your child has
           achieved. Bring this checklist to your next visit. Contact the clinic if you have concerns

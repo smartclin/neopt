@@ -101,7 +101,7 @@ export function DiagnosesSection({ values, patch, readOnly }: Props) {
               </div>
             </div>
             {match && match.description !== row.description && (
-              <p className="text-muted-foreground text-xs">
+              <p className=" text-xs">
                 Match: <span className="font-mono">{match.code}</span> — {match.description}
               </p>
             )}

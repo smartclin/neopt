@@ -182,7 +182,7 @@ function VaccineCard({
     <div className="flex items-start justify-between gap-3 rounded-lg border p-3">
       <div className="flex min-w-0 flex-col gap-1">
         <span className="truncate text-sm font-medium">{record.name}</span>
-        <span className="text-muted-foreground truncate text-xs">{record.diseaseTarget}</span>
+        <span className=" truncate text-xs">{record.diseaseTarget}</span>
         <Badge variant={status.variant}>
           <status.Icon aria-hidden="true" className="size-3" />
           {status.label}
@@ -213,6 +213,7 @@ function RecordForm({
 
   return (
     <form
+      noValidate
       className="grid gap-3"
       onSubmit={(e) => {
         e.preventDefault();

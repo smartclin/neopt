@@ -387,7 +387,7 @@ function SecuritySection() {
 
 function OriginSection() {
   return (
-    <section className="rounded-3xl border border-[var(--line)] px-8 py-14 sm:px-12 sm:py-16">
+    <section className="rounded-3xl border border-[var(--line)] px-8 py-14 sm:px-2 sm:py-16">
       <div className="mx-auto grid max-w-4xl gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
         <div>
           <h2 className="display-title mb-4 text-2xl font-bold tracking-tight sm:text-3xl">
@@ -421,7 +421,7 @@ function OriginSection() {
 
 function FinalCta() {
   return (
-    <section className="rounded-3xl border border-[var(--line)] px-8 py-16 text-center sm:px-16">
+    <section className="rounded-3xl border border-[var(--line)] px-8 py-16 text-center sm:px-6">
       <div className="mx-auto max-w-2xl">
         <Badge className="mb-5" variant="outline">
           <ClipboardCheck aria-hidden="true" className="size-3" />

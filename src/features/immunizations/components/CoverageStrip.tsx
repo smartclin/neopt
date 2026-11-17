@@ -74,7 +74,7 @@ function StatCard({
     amber: "bg-amber-500/10 text-amber-700 dark:text-amber-400",
     red: "bg-destructive/10 text-destructive",
     green: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
-    neutral: "bg-muted text-muted-foreground",
+    neutral: "bg-muted ",
   }[tone];
 
   return (
@@ -83,7 +83,7 @@ function StatCard({
         <Icon className={toneClass} />
       </IconTile>
       <div className="flex min-w-0 flex-col">
-        <span className="text-muted-foreground text-xs">{label}</span>
+        <span className=" text-xs">{label}</span>
         {isLoading ? (
           <Skeleton className="h-7 w-16" />
         ) : (
@@ -131,7 +131,7 @@ function CoverageBar({
     return <div className="bg-muted/50 h-9 w-full animate-pulse rounded-lg" />;
   }
   if (data.length === 0) {
-    return <p className="text-muted-foreground text-sm">No immunization data yet.</p>;
+    return <p className=" text-sm">No immunization data yet.</p>;
   }
 
   const total = data.reduce((n, v) => n + v.given + v.due + v.overdue, 0);
@@ -162,7 +162,7 @@ function CoverageBar({
                 className="absolute inset-y-0 left-0 bg-emerald-500/70"
                 style={{ width: `${v.pct}%` }}
               />
-              <span className="relative z-10 truncate px-1 text-[10px] font-semibold tracking-wider text-white uppercase mix-blend-difference">
+              <span className="relative z-10 truncate  text-[10px] font-semibold tracking-wider text-white uppercase mix-blend-difference">
                 {v.vaccineKey}
               </span>
             </TooltipTrigger>
@@ -174,7 +174,7 @@ function CoverageBar({
                   <Badge variant="warning">{v.due} due</Badge>{" "}
                   <Badge variant="destructive">{v.overdue} overdue</Badge>
                 </span>
-                <span className="text-muted-foreground">{v.pct}% coverage</span>
+                <span className="">{v.pct}% coverage</span>
               </div>
             </TooltipContent>
           </Tooltip>

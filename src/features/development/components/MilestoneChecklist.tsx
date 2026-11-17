@@ -175,7 +175,7 @@ export function MilestoneChecklist({
                       <Badge variant={domainMeta.variant}>{domainMeta.label}</Badge>
                       {m.isRedFlagIfMissing && <Badge variant="destructive">Critical</Badge>}
                     </div>
-                    <p className="text-muted-foreground text-xs">{m.description}</p>
+                    <p className=" text-xs">{m.description}</p>
                   </div>
                 </div>
               );

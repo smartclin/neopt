@@ -17,7 +17,7 @@ export function SearchTrigger() {
       <span className="flex w-full items-center gap-2">
         <SearchIcon className="size-4 shrink-0" />
         <span className="flex-1 text-left">Search…</span>
-        <kbd className="bg-muted rounded px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>
+        <kbd className="bg-muted rounded  py-0.5 font-mono text-[10px]">⌘K</kbd>
       </span>
     </Button>
   );

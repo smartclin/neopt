@@ -8,7 +8,7 @@ export function CtaSection() {
           <h2 className="text-foreground mx-auto max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">
             Bring calm to your clinic day
           </h2>
-          <p className="text-muted-foreground mx-auto mt-4 max-w-xl text-lg">
+          <p className=" mx-auto mt-4 max-w-xl text-lg">
             Create an account in seconds — no credit card required. Bring your whole team on board
             and start recording visits today.
           </p>

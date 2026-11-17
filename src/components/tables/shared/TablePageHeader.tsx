@@ -1,4 +1,4 @@
-import type { LucideIcon } from "lucide-react";
+import type {LucideIcon} from "lucide-react";
 import type React from "react";
 
 export interface TablePageHeaderProps {
@@ -23,15 +23,15 @@ export function TablePageHeader({
       <div>
         <div className="flex items-center gap-2">
           <h1 className="text-foreground text-2xl font-bold">{title}</h1>
-          <span className="text-base-700 bg-muted rounded-full px-2.5 py-0.5 text-xs font-bold">
+          <span className="text-base-700 bg-muted rounded-full px-2.5 py-0.5  font-bold">
             {total} total
           </span>
         </div>
-        <p className="text-base-500 mt-0.5 text-xs">{subtitle}</p>
+        <p className="text-base-500 mt-0.5 ">{subtitle}</p>
       </div>
 
       <button
-        className="hover:bg-base-500 bg-primary flex items-center gap-2 self-start rounded-xl px-4 py-2.5 text-xs font-bold text-white shadow-xs transition-colors sm:self-auto"
+        className="hover:bg-base-500 bg-primary flex items-center gap-2 self-start rounded-xl px-4 py-2.5  font-bold text-white shadow-xs transition-colors sm:self-auto"
         onClick={onAction}
         type="button"
       >

@@ -86,7 +86,7 @@ export default function NotFound() {
         <p className="mt-8 flex items-center justify-center gap-1.5 text-xs text-[var(--sea-ink-soft)]">
           <Search aria-hidden="true" className="size-3" />
           Or press{" "}
-          <kbd className="rounded border border-[var(--line)] px-1.5 py-0.5 font-mono text-[10px]">
+          <kbd className="rounded border border-[var(--line)]  py-0.5 font-mono text-[10px]">
             ⌘K
           </kbd>{" "}
           to search

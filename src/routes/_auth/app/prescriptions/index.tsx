@@ -114,12 +114,12 @@ const columns = column.columns([
     cell: ({ row }) => (
       <div className="flex min-w-0 items-center gap-2.5 py-1">
         <span className="bg-muted/60 grid size-8 shrink-0 place-items-center rounded-md">
-          <PillIcon aria-hidden="true" className="text-muted-foreground size-4" />
+          <PillIcon aria-hidden="true" className=" size-4" />
         </span>
         <div className="flex min-w-0 flex-col">
           <span className="truncate font-medium">{row.original.medicationName}</span>
           {row.original.brandName && (
-            <span className="text-muted-foreground truncate text-xs">{row.original.brandName}</span>
+            <span className=" truncate text-xs">{row.original.brandName}</span>
           )}
         </div>
       </div>
@@ -130,7 +130,7 @@ const columns = column.columns([
     header: "Patient",
     cell: ({ row }) => {
       const p = row.original.patient;
-      if (!p) return <span className="text-muted-foreground">—</span>;
+      if (!p) return <span className="">—</span>;
       return (
         <div className="flex min-w-0 items-center gap-2">
           <span
@@ -149,9 +149,7 @@ const columns = column.columns([
             >
               {p.firstName} {p.lastName}
             </Link>
-            <span className="text-muted-foreground truncate font-mono text-[11px] tabular-nums">
-              {p.mrn}
-            </span>
+            <span className=" truncate font-mono text-[11px] tabular-nums">{p.mrn}</span>
           </div>
         </div>
       );
@@ -168,9 +166,7 @@ const columns = column.columns([
     header: "Frequency",
     meta: { width: "w-24" },
     cell: (info) => (
-      <span className="text-muted-foreground block truncate font-mono text-xs tabular-nums">
-        {info.getValue()}
-      </span>
+      <span className=" block truncate font-mono text-xs tabular-nums">{info.getValue()}</span>
     ),
   }),
   column.accessor("durationDays", {
@@ -179,7 +175,7 @@ const columns = column.columns([
     cell: (info) => {
       const d = info.getValue();
       return (
-        <span className="text-muted-foreground block font-mono text-xs tabular-nums">
+        <span className=" block font-mono text-xs tabular-nums">
           {d == null ? "Ongoing" : `${d}d`}
         </span>
       );
@@ -189,9 +185,7 @@ const columns = column.columns([
     id: "prescriber",
     header: "Prescriber",
     meta: { width: "w-40", hideOnMobile: true },
-    cell: (info) => (
-      <span className="text-muted-foreground block truncate">{info.getValue() || "—"}</span>
-    ),
+    cell: (info) => <span className=" block truncate">{info.getValue() || "—"}</span>,
   }),
   column.accessor("prescribedAt", {
     header: "Prescribed",
@@ -199,7 +193,7 @@ const columns = column.columns([
     cell: (info) => {
       const d = new Date(info.getValue());
       return (
-        <span className="text-muted-foreground block truncate font-mono text-xs tabular-nums">
+        <span className=" block truncate font-mono text-xs tabular-nums">
           {Number.isNaN(d.getTime()) ? "—" : DATE_FMT.format(d)}
         </span>
       );
@@ -318,7 +312,6 @@ function SplitActionButton() {
   return (
     <div className="inline-flex items-stretch overflow-hidden rounded-md border">
       <Button
-        className="rounded-none border-0"
         nativeButton={false}
         render={<Link to="/app/prescriptions/neonatal-dose-calculator" />}
       >
@@ -330,7 +323,7 @@ function SplitActionButton() {
           render={
             <Button
               aria-label="More prescription actions"
-              className="rounded-none border-0 border-l"
+
               size="icon"
               variant="default"
             />
@@ -446,7 +439,7 @@ function PrescriptionsFilterBar({
                 className={
                   active
                     ? "bg-primary text-primary-foreground rounded-full px-3 py-1 text-xs font-medium"
-                    : "bg-muted text-muted-foreground hover:bg-muted/80 rounded-full px-3 py-1 text-xs font-medium transition-colors"
+                    : "bg-muted  hover:bg-muted/80 rounded-full px-3 py-1 text-xs font-medium transition-colors"
                 }
                 key={pill.value}
                 onClick={() => onChange({ ...search, status: pill.value, page: 1 })}
@@ -472,7 +465,7 @@ function PrescriptionsFilterBar({
             type="date"
             value={search.from ?? ""}
           />
-          <span className="text-muted-foreground text-xs">–</span>
+          <span className=" text-xs">–</span>
           <input
             aria-label="Prescribed to"
             className="border-border bg-background h-8 rounded-md border px-2 text-xs"
@@ -556,11 +549,12 @@ function PrescriptionsTable({
             <TableRow key={group.id}>
               {group.headers.map((header) => (
                 <TableHead
-                  className="tracking-wider uppercase"
                   hideOnMobile={header.column.columnDef.meta?.hideOnMobile}
                   key={header.id}
                 >
-                  <FlexRender header={header} />
+                  <div className="flex items-center justify-between gap-1">
+                    <FlexRender header={header} />
+                  </div>
                 </TableHead>
               ))}
             </TableRow>
@@ -615,7 +609,7 @@ function PrescriptionTableRow({
     <TableRow
       className={
         flags
-          ? "relative before:absolute before:inset-y-0 before:left-0 before:w-0.5 before:bg-amber-500"
+          ? "relative before:absolute before:inset-y-0 before:left-0 before:w-0.5 before:content-['']"
           : undefined
       }
     >
@@ -713,7 +707,7 @@ function PrescriptionsEmptyState() {
       <div className="flex flex-col justify-center gap-4">
         <div className="flex flex-col gap-1">
           <h2 className="text-lg font-semibold">No prescriptions yet</h2>
-          <p className="text-muted-foreground text-sm">
+          <p className=" text-sm">
             Prescriptions written at this clinic will appear here, filterable by status, prescriber,
             and date.
           </p>
@@ -739,7 +733,7 @@ function PrescriptionsEmptyState() {
 
       <aside className="bg-muted/40 flex flex-col gap-2 rounded-lg border p-4 text-sm">
         <p className="text-foreground font-semibold">Pediatric dosing, in one line</p>
-        <p className="text-muted-foreground">
+        <p className="">
           Doses are weight-based (mg/kg/dose or mg/kg/day). Use the NICU calculator for neonates —
           it accounts for gestational age and renal dosing. Always round to the smallest measurable
           volume for the prepared concentration.

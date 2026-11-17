@@ -24,7 +24,7 @@ export function ItemCard({
       <div className="flex min-w-0 flex-1 flex-col gap-0.5">
         <p className="text-sm font-semibold">{title}</p>
         <p className="text-soft-foreground line-clamp-2 text-sm">{description}</p>
-        {meta ? <p className="text-muted-foreground mt-auto pt-0.5 text-xs">{meta}</p> : null}
+        {meta ? <p className=" mt-auto pt-0.5 text-xs">{meta}</p> : null}
       </div>
       {action ? <div className="shrink-0 self-start">{action}</div> : null}
     </div>
