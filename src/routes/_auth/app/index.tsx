@@ -17,10 +17,13 @@ import { StatCard, StatCardSkeleton } from "#/components/blocks/stat-card.tsx";
 import { Button } from "#/components/ui/button.tsx";
 import { Card, CardDescription, CardHeader, CardTitle } from "#/components/ui/card.tsx";
 import { AppointmentsTable } from "#/features/appointments/components/AppointmentsTable.tsx";
+import { AssistantPanel } from "#/features/assistant/components/AssistantPanel";
 import { useClinicPulse } from "#/features/dashboard/use-clinic-pulse.ts";
 import { useAuthSuspense } from "#/lib/auth/hooks.ts";
+import { canUseAssistantRole } from "@/features/assistant/scope";
 import { RecentGrowthCard } from "@/features/dashboard/components/RecentGrowthCard";
 import { RecentGrowthSkeleton } from "@/features/dashboard/components/RecentGrowthSkeleton";
+
 export const Route = createFileRoute("/_auth/app/")({
   component: DashboardPage,
 });
@@ -187,6 +190,8 @@ function DashboardPage() {
           <RecentGrowthCard clinicId={user?.clinicId ?? undefined} />
         </Suspense>
       </div>
+
+      {user?.clinicId && canUseAssistantRole(user.role) && <AssistantPanel />}
     </div>
   );
 }

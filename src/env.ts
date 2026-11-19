@@ -4,6 +4,7 @@ import { z } from "zod";
 export const env = createEnv({
   server: {
     SERVER_URL: z.url().optional(),
+    PORT: z.string().optional(),
     BETTER_AUTH_URL: z.url(),
     // Auth signing secret — 32+ chars (256 bits) per Better Auth guidance.
     BETTER_AUTH_SECRET: z.string().min(32),

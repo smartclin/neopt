@@ -31,15 +31,15 @@ export const conventionalTypes = [
 
 /**
  * `type(scope)!: subject`, with the scope and the breaking-change `!` optional
- * and the subject required to start on a non-space. The separator is exactly
- * `: `, so `feat:no space` is rejected.
+ * and the subject required to start on a non-space and stay on one line.
+ * The separator is exactly `: `, so `feat:no space` is rejected.
  *
  * The subject is the one capture group, so the same grammar that decides where
  * the prefix ends also decides where the subject begins: the two rules cannot
  * disagree about a title.
  */
 const conventionalTitlePattern = new RegExp(
-  `^(?:${conventionalTypes.join("|")})(?:\\([^)]+\\))?!?: (\\S[\\s\\S]*)`,
+  `^(?:${conventionalTypes.join("|")})(?:\\([^)]+\\))?!?: (\\S[^\\n]*)`,
 );
 
 export type PrTitleViolation = {
@@ -51,28 +51,24 @@ const acceptedExample = "feat(forms): keep views mounted when a submit fails une
 
 /**
  * Spanish function words and verbs that do not double as English words in a
- * commit subject. This is a heuristic, not a language detector: it catches a
- * title written in Spanish, which is the mistake this gate exists for, and
- * nothing finer.
+ * commit subject. Split into strong markers (Spanish-only verbs and
+ * prepositions) and weak markers (short function words that can appear in
+ * English or identifiers). One strong marker, or two or more weak markers,
+ * indicates a Spanish subject. This is a heuristic, not a language detector:
+ * it catches a title written in Spanish, which is the mistake this gate exists
+ * for, and nothing finer.
  */
-const spanishMarkers = [
-  "el",
-  "los",
-  "las",
-  "del",
-  "que",
-  "para",
-  "con",
-  "una",
-  "por",
-  "sin",
-  "desde",
-  "entre",
+const strongSpanishMarkers = [
   "agregar",
   "corregir",
   "arreglar",
   "cambiar",
+  "desde",
+  "del",
+  "entre",
 ];
+
+const weakSpanishMarkers = ["el", "los", "las", "que", "para", "con", "una", "por", "sin"];
 
 /**
  * The subject with backtick code spans removed: naming a Spanish term in code
@@ -84,8 +80,10 @@ function subjectOf(title: string): string {
 }
 
 function spanishMarkersIn(text: string): string[] {
-  const words = text.toLowerCase().match(/[a-záéíóúñ]+/g) ?? [];
-  return [...new Set(words.filter((word) => spanishMarkers.includes(word)))];
+  const words = [...new Set(text.toLowerCase().match(/[a-záéíóúñ]+/g) ?? [])];
+  const strong = words.filter((word) => strongSpanishMarkers.includes(word));
+  const weak = words.filter((word) => weakSpanishMarkers.includes(word));
+  return strong.length > 0 || weak.length >= 2 ? [...strong, ...weak] : [];
 }
 
 export function checkPrTitle(input: { title: string }): PrTitleViolation[] {
@@ -120,7 +118,7 @@ export function checkPrTitle(input: { title: string }): PrTitleViolation[] {
 }
 
 /**
- * Usage: `pnpm check:pr-title "<title>"`, or with `PR_TITLE` set and no
+ * Usage: `bun run check:pr-title "<title>"`, or with `PR_TITLE` set and no
  * argument, which is how a workflow should pass it: interpolating the title
  * into a `run:` block is a template injection a PR author controls.
  */

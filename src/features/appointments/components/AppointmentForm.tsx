@@ -1,24 +1,24 @@
-import { useForm } from "@tanstack/react-form";
-import { Plus } from "lucide-react";
-import { useMemo, useState } from "react";
-import { z } from "zod";
+import {useForm} from "@tanstack/react-form";
+import {Plus} from "lucide-react";
+import {useEffect, useMemo, useState, type ComponentProps} from "react";
+import {z} from "zod";
 
-import { Button } from "@/components/ui/button";
+import {fieldErrorMessage} from "@/components/forms/field-error";
+import {Button} from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/toast";
+import {Input} from "@/components/ui/input";
+import {Label} from "@/components/ui/label";
+import {Textarea} from "@/components/ui/textarea";
+import {toast} from "@/components/ui/toast";
 
-// ── mutation ───────────────────────────────────────────────────────────
-import { useCreateAppointmentMutation } from "../queries";
+import {useCreateAppointmentMutation} from "../queries";
 
 const appointmentSchema = z.object({
   patientId: z.uuid("Invalid patient ID"),
@@ -40,30 +40,17 @@ const appointmentSchema = z.object({
 type AppointmentFormValues = z.infer<typeof appointmentSchema>;
 
 function nowLocalInput(offsetMinutes = 0): string {
-  return new Date(Date.now() + offsetMinutes * 60_000 - new Date().getTimezoneOffset() * 60_000)
-    .toISOString()
-    .slice(0, 16);
-}
-
-/** TanStack Form hands back `unknown[]`; pull a readable string out. */
-function fieldErrorMessage(err: unknown): string | undefined {
-  if (!err) return undefined;
-  if (typeof err === "string") return err;
-  if (typeof err === "object" && "message" in err) {
-    const m = (err as { message: unknown }).message;
-    if (typeof m === "string") return m;
-  }
-  return undefined;
+  const d = new Date(Date.now() + offsetMinutes * 60_000);
+  // Format the local wall-clock components without UTC conversion.
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return (
+    `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` +
+    `T${pad(d.getHours())}:${pad(d.getMinutes())}`
+  );
 }
 
 interface AppointmentFormProps {
   patientId?: string;
-  /**
-   * The clinic the appointment belongs to. Required when creating an
-   * appointment — the previous `"clinic-main"` fallback was a placeholder
-   * that would create rows at a nonexistent clinic if a caller forgot
-   * to pass a real id.
-   */
   clinicId: string;
   defaultDoctorId?: string | null;
   defaultDurationMinutes?: number;
@@ -86,7 +73,7 @@ export function AppointmentForm({
     () => ({
       patientId,
       clinicId,
-      doctorId: defaultDoctorId,
+      doctorId: defaultDoctorId ?? null,
       scheduledAt: nowLocalInput(30),
       durationMinutes: defaultDurationMinutes,
       reason: "",
@@ -113,21 +100,24 @@ export function AppointmentForm({
             },
           });
 
-          toast.add({
-            type: "success",
-            description: "Appointment scheduled",
-          });
+          toast.add({ type: "success", description: "Appointment scheduled" });
           form.reset(defaultValues);
           setOpen(false);
           onSuccess?.(appointment as { id: string });
           return undefined;
         } catch (error) {
-          const message = error instanceof Error ? error.message : "Failed to schedule appointment";
+          const message =
+            error instanceof Error ? error.message : "Failed to schedule appointment";
           return { form: message };
         }
       },
     },
   });
+
+  // Keep the form aligned with prop-driven default changes.
+  useEffect(() => {
+    form.reset(defaultValues);
+  }, [defaultValues, form]);
 
   const handleOpenChange = (next: boolean) => {
     setOpen(next);
@@ -217,7 +207,7 @@ export function AppointmentForm({
         {(field) => (
           <div className="grid gap-2">
             <Label htmlFor={field.name}>
-              Reason <span className=" font-normal">(optional)</span>
+              Reason <span className="font-normal">(optional)</span>
             </Label>
             <Input
               id={field.name}
@@ -240,7 +230,7 @@ export function AppointmentForm({
         {(field) => (
           <div className="grid gap-2">
             <Label htmlFor={field.name}>
-              Notes <span className=" font-normal">(optional)</span>
+              Notes <span className="font-normal">(optional)</span>
             </Label>
             <Textarea
               id={field.name}
@@ -292,7 +282,7 @@ export function AppointmentForm({
   return (
     <Dialog onOpenChange={handleOpenChange} open={open}>
       <DialogTrigger
-        render={(props) => (
+        render={(props: ComponentProps<"button">) => (
           <Button {...props} type="button">
             <Plus />
             New Appointment

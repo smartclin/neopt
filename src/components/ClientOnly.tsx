@@ -47,27 +47,22 @@ export function ClientOnly({
  *    so no TanStack Store subscriber is notified even if the object
  *    reference above somehow changes.
  *
- * The `clinicId ?? id` fallback lives here — at the call site — rather
- * than inside `ActiveClinic` or `setActiveClinic`. The store just stores
- * whatever id it receives; it doesn't need to know about the fallback
- * convention.
  */
 export function ClinicSessionSync() {
   const { user, isPending } = useAuth();
 
-  const id = user?.id ?? null;
   const clinicId = user?.clinicId ?? null;
   const name = user?.name ?? null;
   const email = user?.email ?? null;
 
   const clinic = useMemo(() => {
-    if (!id) return null;
+    if (!clinicId) return null;
     return {
-      id: clinicId ?? id,
+      id: clinicId,
       name: name ?? "My Clinic",
       email,
     };
-  }, [id, clinicId, name, email]);
+  }, [clinicId, name, email]);
 
   useEffect(() => {
     if (isPending) return;

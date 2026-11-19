@@ -2,6 +2,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import React from "react";
 
+import { ClinicSessionSync } from "#/components/ClientOnly.tsx";
 import { installOutboxFlusher } from "#/features/outbox/flusher.ts";
 import { ConnectionBanner } from "#/features/outbox/ui/connection-banner.tsx";
 import { AppShell } from "@/components/blocks/app-shell-1";
@@ -17,6 +18,7 @@ function AppLayout() {
   }, []);
   return (
     <AppShell>
+      <ClinicSessionSync />
       <ConnectionBanner />
       <Outlet />
     </AppShell>

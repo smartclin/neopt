@@ -8,1106 +8,1127 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root";
-import { Route as IndexRouteImport } from "./routes/index";
-import { Route as AuthRouteRouteImport } from "./routes/_auth/route";
-import { Route as GuestRouteRouteImport } from "./routes/_guest/route";
-import { Route as AuthAppRouteRouteImport } from "./routes/_auth/app/route";
-import { Route as GuestAboutRouteImport } from "./routes/_guest/about";
-import { Route as GuestForgotPasswordRouteImport } from "./routes/_guest/forgot-password";
-import { Route as GuestLoginRouteImport } from "./routes/_guest/login";
-import { Route as GuestPrivacyRouteImport } from "./routes/_guest/privacy";
-import { Route as GuestResetPasswordRouteImport } from "./routes/_guest/reset-password";
-import { Route as GuestSignupRouteImport } from "./routes/_guest/signup";
-import { Route as GuestTermsRouteImport } from "./routes/_guest/terms";
-import { Route as AuthAppIndexRouteImport } from "./routes/_auth/app/index";
-import { Route as GuestServicesIndexRouteImport } from "./routes/_guest/services/index";
-import { Route as GuestServicesChronicCareRouteImport } from "./routes/_guest/services/chronic-care";
-import { Route as GuestServicesDevelopmentalScreeningRouteImport } from "./routes/_guest/services/developmental-screening";
-import { Route as GuestServicesImmunizationsRouteImport } from "./routes/_guest/services/immunizations";
-import { Route as GuestServicesNewbornCareRouteImport } from "./routes/_guest/services/newborn-care";
-import { Route as GuestServicesSickVisitsRouteImport } from "./routes/_guest/services/sick-visits";
-import { Route as GuestServicesWellChildRouteImport } from "./routes/_guest/services/well-child";
-import { Route as ApiAuthSplatRouteImport } from "./routes/api/auth/$";
-import { Route as AuthAppAppointmentsIndexRouteImport } from "./routes/_auth/app/appointments/index";
-import { Route as AuthAppAppointmentsAppointmentIdRouteImport } from "./routes/_auth/app/appointments/$appointmentId";
-import { Route as AuthAppAppointmentsCalendarRouteImport } from "./routes/_auth/app/appointments/calendar";
-import { Route as AuthAppAppointmentsNewRouteImport } from "./routes/_auth/app/appointments/new";
-import { Route as AuthAppClinicsIndexRouteImport } from "./routes/_auth/app/clinics/index";
-import { Route as AuthAppClinicsClinicIdRouteImport } from "./routes/_auth/app/clinics/$clinicId";
-import { Route as AuthAppClinicsNewRouteImport } from "./routes/_auth/app/clinics/new";
-import { Route as AuthAppConflictsConflictIdRouteImport } from "./routes/_auth/app/conflicts/$conflictId";
-import { Route as AuthAppDevelopmentIndexRouteImport } from "./routes/_auth/app/development/index";
-import { Route as AuthAppDevelopmentPatientIdRouteImport } from "./routes/_auth/app/development/$patientId";
-import { Route as AuthAppImmunizationsIndexRouteImport } from "./routes/_auth/app/immunizations/index";
-import { Route as AuthAppImmunizationsPatientIdRouteImport } from "./routes/_auth/app/immunizations/$patientId";
-import { Route as AuthAppPatientsIndexRouteImport } from "./routes/_auth/app/patients/index";
-import { Route as AuthAppPatientsPatientIdRouteImport } from "./routes/_auth/app/patients/$patientId";
-import { Route as AuthAppPatientsNewRouteImport } from "./routes/_auth/app/patients/new";
-import { Route as AuthAppPrescriptionsIndexRouteImport } from "./routes/_auth/app/prescriptions/index";
-import { Route as AuthAppPrescriptionsPrescriptionIdRouteImport } from "./routes/_auth/app/prescriptions/$prescriptionId";
-import { Route as AuthAppPrescriptionsNeonatalDoseCalculatorRouteImport } from "./routes/_auth/app/prescriptions/neonatal-dose-calculator";
-import { Route as AuthAppPrescriptionsNewRouteImport } from "./routes/_auth/app/prescriptions/new";
-import { Route as AuthAppVisitsIndexRouteImport } from "./routes/_auth/app/visits/index";
-import { Route as AuthAppVisitsVisitIdRouteImport } from "./routes/_auth/app/visits/$visitId";
-import { Route as AuthAppVisitsNewRouteImport } from "./routes/_auth/app/visits/new";
-import { Route as AuthAppClinicsClinicIdEditRouteImport } from "./routes/_auth/app/clinics/$clinicId/edit";
-import { Route as AuthAppPatientsPatientIdEditRouteImport } from "./routes/_auth/app/patients/$patientId/edit";
-import { Route as AuthAppPatientsPatientIdGrowthRouteImport } from "./routes/_auth/app/patients/$patientId/growth";
-import { Route as AuthAppVisitsVisitIdEditRouteImport } from "./routes/_auth/app/visits/$visitId.edit";
-import { Route as AuthAppPatientsPatientIdMeasurementsNewRouteImport } from "./routes/_auth/app/patients/$patientId/measurements/new";
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteRouteImport } from './routes/_auth/route'
+import { Route as GuestRouteRouteImport } from './routes/_guest/route'
+import { Route as AuthAppRouteRouteImport } from './routes/_auth/app/route'
+import { Route as GuestAboutRouteImport } from './routes/_guest/about'
+import { Route as GuestForgotPasswordRouteImport } from './routes/_guest/forgot-password'
+import { Route as GuestLoginRouteImport } from './routes/_guest/login'
+import { Route as GuestPrivacyRouteImport } from './routes/_guest/privacy'
+import { Route as GuestResetPasswordRouteImport } from './routes/_guest/reset-password'
+import { Route as GuestSignupRouteImport } from './routes/_guest/signup'
+import { Route as GuestTermsRouteImport } from './routes/_guest/terms'
+import { Route as ApiAssistantRouteImport } from './routes/api/assistant'
+import { Route as AuthAppIndexRouteImport } from './routes/_auth/app/index'
+import { Route as GuestServicesIndexRouteImport } from './routes/_guest/services/index'
+import { Route as GuestServicesChronicCareRouteImport } from './routes/_guest/services/chronic-care'
+import { Route as GuestServicesDevelopmentalScreeningRouteImport } from './routes/_guest/services/developmental-screening'
+import { Route as GuestServicesImmunizationsRouteImport } from './routes/_guest/services/immunizations'
+import { Route as GuestServicesNewbornCareRouteImport } from './routes/_guest/services/newborn-care'
+import { Route as GuestServicesSickVisitsRouteImport } from './routes/_guest/services/sick-visits'
+import { Route as GuestServicesWellChildRouteImport } from './routes/_guest/services/well-child'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as AuthAppAppointmentsIndexRouteImport } from './routes/_auth/app/appointments/index'
+import { Route as AuthAppAppointmentsAppointmentIdRouteImport } from './routes/_auth/app/appointments/$appointmentId'
+import { Route as AuthAppAppointmentsCalendarRouteImport } from './routes/_auth/app/appointments/calendar'
+import { Route as AuthAppAppointmentsNewRouteImport } from './routes/_auth/app/appointments/new'
+import { Route as AuthAppClinicsIndexRouteImport } from './routes/_auth/app/clinics/index'
+import { Route as AuthAppClinicsClinicIdRouteImport } from './routes/_auth/app/clinics/$clinicId'
+import { Route as AuthAppClinicsNewRouteImport } from './routes/_auth/app/clinics/new'
+import { Route as AuthAppConflictsConflictIdRouteImport } from './routes/_auth/app/conflicts/$conflictId'
+import { Route as AuthAppDevelopmentIndexRouteImport } from './routes/_auth/app/development/index'
+import { Route as AuthAppDevelopmentPatientIdRouteImport } from './routes/_auth/app/development/$patientId'
+import { Route as AuthAppImmunizationsIndexRouteImport } from './routes/_auth/app/immunizations/index'
+import { Route as AuthAppImmunizationsPatientIdRouteImport } from './routes/_auth/app/immunizations/$patientId'
+import { Route as AuthAppPatientsIndexRouteImport } from './routes/_auth/app/patients/index'
+import { Route as AuthAppPatientsPatientIdRouteImport } from './routes/_auth/app/patients/$patientId'
+import { Route as AuthAppPatientsNewRouteImport } from './routes/_auth/app/patients/new'
+import { Route as AuthAppPrescriptionsIndexRouteImport } from './routes/_auth/app/prescriptions/index'
+import { Route as AuthAppPrescriptionsPrescriptionIdRouteImport } from './routes/_auth/app/prescriptions/$prescriptionId'
+import { Route as AuthAppPrescriptionsNeonatalDoseCalculatorRouteImport } from './routes/_auth/app/prescriptions/neonatal-dose-calculator'
+import { Route as AuthAppPrescriptionsNewRouteImport } from './routes/_auth/app/prescriptions/new'
+import { Route as AuthAppVisitsIndexRouteImport } from './routes/_auth/app/visits/index'
+import { Route as AuthAppVisitsVisitIdRouteImport } from './routes/_auth/app/visits/$visitId'
+import { Route as AuthAppVisitsNewRouteImport } from './routes/_auth/app/visits/new'
+import { Route as AuthAppClinicsClinicIdEditRouteImport } from './routes/_auth/app/clinics/$clinicId/edit'
+import { Route as AuthAppPatientsPatientIdEditRouteImport } from './routes/_auth/app/patients/$patientId/edit'
+import { Route as AuthAppPatientsPatientIdGrowthRouteImport } from './routes/_auth/app/patients/$patientId/growth'
+import { Route as AuthAppVisitsVisitIdEditRouteImport } from './routes/_auth/app/visits/$visitId.edit'
+import { Route as AuthAppPatientsPatientIdMeasurementsNewRouteImport } from './routes/_auth/app/patients/$patientId/measurements/new'
 
 const IndexRoute = IndexRouteImport.update({
-	id: "/",
-	path: "/",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRouteRoute = AuthRouteRouteImport.update({
-	id: "/_auth",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/_auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GuestRouteRoute = GuestRouteRouteImport.update({
-	id: "/_guest",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/_guest',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthAppRouteRoute = AuthAppRouteRouteImport.update({
-	id: "/app",
-	path: "/app",
-	getParentRoute: () => AuthRouteRoute,
-} as any);
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
 const GuestAboutRoute = GuestAboutRouteImport.update({
-	id: "/about",
-	path: "/about",
-	getParentRoute: () => GuestRouteRoute,
-} as any);
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => GuestRouteRoute,
+} as any)
 const GuestForgotPasswordRoute = GuestForgotPasswordRouteImport.update({
-	id: "/forgot-password",
-	path: "/forgot-password",
-	getParentRoute: () => GuestRouteRoute,
-} as any);
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => GuestRouteRoute,
+} as any)
 const GuestLoginRoute = GuestLoginRouteImport.update({
-	id: "/login",
-	path: "/login",
-	getParentRoute: () => GuestRouteRoute,
-} as any);
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => GuestRouteRoute,
+} as any)
 const GuestPrivacyRoute = GuestPrivacyRouteImport.update({
-	id: "/privacy",
-	path: "/privacy",
-	getParentRoute: () => GuestRouteRoute,
-} as any);
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => GuestRouteRoute,
+} as any)
 const GuestResetPasswordRoute = GuestResetPasswordRouteImport.update({
-	id: "/reset-password",
-	path: "/reset-password",
-	getParentRoute: () => GuestRouteRoute,
-} as any);
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => GuestRouteRoute,
+} as any)
 const GuestSignupRoute = GuestSignupRouteImport.update({
-	id: "/signup",
-	path: "/signup",
-	getParentRoute: () => GuestRouteRoute,
-} as any);
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => GuestRouteRoute,
+} as any)
 const GuestTermsRoute = GuestTermsRouteImport.update({
-	id: "/terms",
-	path: "/terms",
-	getParentRoute: () => GuestRouteRoute,
-} as any);
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => GuestRouteRoute,
+} as any)
+const ApiAssistantRoute = ApiAssistantRouteImport.update({
+  id: '/api/assistant',
+  path: '/api/assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthAppIndexRoute = AuthAppIndexRouteImport.update({
-	id: "/",
-	path: "/",
-	getParentRoute: () => AuthAppRouteRoute,
-} as any);
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthAppRouteRoute,
+} as any)
 const GuestServicesIndexRoute = GuestServicesIndexRouteImport.update({
-	id: "/services/",
-	path: "/services/",
-	getParentRoute: () => GuestRouteRoute,
-} as any);
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => GuestRouteRoute,
+} as any)
 const GuestServicesChronicCareRoute =
-	GuestServicesChronicCareRouteImport.update({
-		id: "/services/chronic-care",
-		path: "/services/chronic-care",
-		getParentRoute: () => GuestRouteRoute,
-	} as any);
+  GuestServicesChronicCareRouteImport.update({
+    id: '/services/chronic-care',
+    path: '/services/chronic-care',
+    getParentRoute: () => GuestRouteRoute,
+  } as any)
 const GuestServicesDevelopmentalScreeningRoute =
-	GuestServicesDevelopmentalScreeningRouteImport.update({
-		id: "/services/developmental-screening",
-		path: "/services/developmental-screening",
-		getParentRoute: () => GuestRouteRoute,
-	} as any);
+  GuestServicesDevelopmentalScreeningRouteImport.update({
+    id: '/services/developmental-screening',
+    path: '/services/developmental-screening',
+    getParentRoute: () => GuestRouteRoute,
+  } as any)
 const GuestServicesImmunizationsRoute =
-	GuestServicesImmunizationsRouteImport.update({
-		id: "/services/immunizations",
-		path: "/services/immunizations",
-		getParentRoute: () => GuestRouteRoute,
-	} as any);
+  GuestServicesImmunizationsRouteImport.update({
+    id: '/services/immunizations',
+    path: '/services/immunizations',
+    getParentRoute: () => GuestRouteRoute,
+  } as any)
 const GuestServicesNewbornCareRoute =
-	GuestServicesNewbornCareRouteImport.update({
-		id: "/services/newborn-care",
-		path: "/services/newborn-care",
-		getParentRoute: () => GuestRouteRoute,
-	} as any);
+  GuestServicesNewbornCareRouteImport.update({
+    id: '/services/newborn-care',
+    path: '/services/newborn-care',
+    getParentRoute: () => GuestRouteRoute,
+  } as any)
 const GuestServicesSickVisitsRoute = GuestServicesSickVisitsRouteImport.update({
-	id: "/services/sick-visits",
-	path: "/services/sick-visits",
-	getParentRoute: () => GuestRouteRoute,
-} as any);
+  id: '/services/sick-visits',
+  path: '/services/sick-visits',
+  getParentRoute: () => GuestRouteRoute,
+} as any)
 const GuestServicesWellChildRoute = GuestServicesWellChildRouteImport.update({
-	id: "/services/well-child",
-	path: "/services/well-child",
-	getParentRoute: () => GuestRouteRoute,
-} as any);
+  id: '/services/well-child',
+  path: '/services/well-child',
+  getParentRoute: () => GuestRouteRoute,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
-	id: "/api/auth/$",
-	path: "/api/auth/$",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthAppAppointmentsIndexRoute =
-	AuthAppAppointmentsIndexRouteImport.update({
-		id: "/appointments/",
-		path: "/appointments/",
-		getParentRoute: () => AuthAppRouteRoute,
-	} as any);
+  AuthAppAppointmentsIndexRouteImport.update({
+    id: '/appointments/',
+    path: '/appointments/',
+    getParentRoute: () => AuthAppRouteRoute,
+  } as any)
 const AuthAppAppointmentsAppointmentIdRoute =
-	AuthAppAppointmentsAppointmentIdRouteImport.update({
-		id: "/appointments/$appointmentId",
-		path: "/appointments/$appointmentId",
-		getParentRoute: () => AuthAppRouteRoute,
-	} as any);
+  AuthAppAppointmentsAppointmentIdRouteImport.update({
+    id: '/appointments/$appointmentId',
+    path: '/appointments/$appointmentId',
+    getParentRoute: () => AuthAppRouteRoute,
+  } as any)
 const AuthAppAppointmentsCalendarRoute =
-	AuthAppAppointmentsCalendarRouteImport.update({
-		id: "/appointments/calendar",
-		path: "/appointments/calendar",
-		getParentRoute: () => AuthAppRouteRoute,
-	} as any);
+  AuthAppAppointmentsCalendarRouteImport.update({
+    id: '/appointments/calendar',
+    path: '/appointments/calendar',
+    getParentRoute: () => AuthAppRouteRoute,
+  } as any)
 const AuthAppAppointmentsNewRoute = AuthAppAppointmentsNewRouteImport.update({
-	id: "/appointments/new",
-	path: "/appointments/new",
-	getParentRoute: () => AuthAppRouteRoute,
-} as any);
+  id: '/appointments/new',
+  path: '/appointments/new',
+  getParentRoute: () => AuthAppRouteRoute,
+} as any)
 const AuthAppClinicsIndexRoute = AuthAppClinicsIndexRouteImport.update({
-	id: "/clinics/",
-	path: "/clinics/",
-	getParentRoute: () => AuthAppRouteRoute,
-} as any);
+  id: '/clinics/',
+  path: '/clinics/',
+  getParentRoute: () => AuthAppRouteRoute,
+} as any)
 const AuthAppClinicsClinicIdRoute = AuthAppClinicsClinicIdRouteImport.update({
-	id: "/clinics/$clinicId",
-	path: "/clinics/$clinicId",
-	getParentRoute: () => AuthAppRouteRoute,
-} as any);
+  id: '/clinics/$clinicId',
+  path: '/clinics/$clinicId',
+  getParentRoute: () => AuthAppRouteRoute,
+} as any)
 const AuthAppClinicsNewRoute = AuthAppClinicsNewRouteImport.update({
-	id: "/clinics/new",
-	path: "/clinics/new",
-	getParentRoute: () => AuthAppRouteRoute,
-} as any);
+  id: '/clinics/new',
+  path: '/clinics/new',
+  getParentRoute: () => AuthAppRouteRoute,
+} as any)
 const AuthAppConflictsConflictIdRoute =
-	AuthAppConflictsConflictIdRouteImport.update({
-		id: "/conflicts/$conflictId",
-		path: "/conflicts/$conflictId",
-		getParentRoute: () => AuthAppRouteRoute,
-	} as any);
+  AuthAppConflictsConflictIdRouteImport.update({
+    id: '/conflicts/$conflictId',
+    path: '/conflicts/$conflictId',
+    getParentRoute: () => AuthAppRouteRoute,
+  } as any)
 const AuthAppDevelopmentIndexRoute = AuthAppDevelopmentIndexRouteImport.update({
-	id: "/development/",
-	path: "/development/",
-	getParentRoute: () => AuthAppRouteRoute,
-} as any);
+  id: '/development/',
+  path: '/development/',
+  getParentRoute: () => AuthAppRouteRoute,
+} as any)
 const AuthAppDevelopmentPatientIdRoute =
-	AuthAppDevelopmentPatientIdRouteImport.update({
-		id: "/development/$patientId",
-		path: "/development/$patientId",
-		getParentRoute: () => AuthAppRouteRoute,
-	} as any);
+  AuthAppDevelopmentPatientIdRouteImport.update({
+    id: '/development/$patientId',
+    path: '/development/$patientId',
+    getParentRoute: () => AuthAppRouteRoute,
+  } as any)
 const AuthAppImmunizationsIndexRoute =
-	AuthAppImmunizationsIndexRouteImport.update({
-		id: "/immunizations/",
-		path: "/immunizations/",
-		getParentRoute: () => AuthAppRouteRoute,
-	} as any);
+  AuthAppImmunizationsIndexRouteImport.update({
+    id: '/immunizations/',
+    path: '/immunizations/',
+    getParentRoute: () => AuthAppRouteRoute,
+  } as any)
 const AuthAppImmunizationsPatientIdRoute =
-	AuthAppImmunizationsPatientIdRouteImport.update({
-		id: "/immunizations/$patientId",
-		path: "/immunizations/$patientId",
-		getParentRoute: () => AuthAppRouteRoute,
-	} as any);
+  AuthAppImmunizationsPatientIdRouteImport.update({
+    id: '/immunizations/$patientId',
+    path: '/immunizations/$patientId',
+    getParentRoute: () => AuthAppRouteRoute,
+  } as any)
 const AuthAppPatientsIndexRoute = AuthAppPatientsIndexRouteImport.update({
-	id: "/patients/",
-	path: "/patients/",
-	getParentRoute: () => AuthAppRouteRoute,
-} as any);
+  id: '/patients/',
+  path: '/patients/',
+  getParentRoute: () => AuthAppRouteRoute,
+} as any)
 const AuthAppPatientsPatientIdRoute =
-	AuthAppPatientsPatientIdRouteImport.update({
-		id: "/patients/$patientId",
-		path: "/patients/$patientId",
-		getParentRoute: () => AuthAppRouteRoute,
-	} as any);
+  AuthAppPatientsPatientIdRouteImport.update({
+    id: '/patients/$patientId',
+    path: '/patients/$patientId',
+    getParentRoute: () => AuthAppRouteRoute,
+  } as any)
 const AuthAppPatientsNewRoute = AuthAppPatientsNewRouteImport.update({
-	id: "/patients/new",
-	path: "/patients/new",
-	getParentRoute: () => AuthAppRouteRoute,
-} as any);
+  id: '/patients/new',
+  path: '/patients/new',
+  getParentRoute: () => AuthAppRouteRoute,
+} as any)
 const AuthAppPrescriptionsIndexRoute =
-	AuthAppPrescriptionsIndexRouteImport.update({
-		id: "/prescriptions/",
-		path: "/prescriptions/",
-		getParentRoute: () => AuthAppRouteRoute,
-	} as any);
+  AuthAppPrescriptionsIndexRouteImport.update({
+    id: '/prescriptions/',
+    path: '/prescriptions/',
+    getParentRoute: () => AuthAppRouteRoute,
+  } as any)
 const AuthAppPrescriptionsPrescriptionIdRoute =
-	AuthAppPrescriptionsPrescriptionIdRouteImport.update({
-		id: "/prescriptions/$prescriptionId",
-		path: "/prescriptions/$prescriptionId",
-		getParentRoute: () => AuthAppRouteRoute,
-	} as any);
+  AuthAppPrescriptionsPrescriptionIdRouteImport.update({
+    id: '/prescriptions/$prescriptionId',
+    path: '/prescriptions/$prescriptionId',
+    getParentRoute: () => AuthAppRouteRoute,
+  } as any)
 const AuthAppPrescriptionsNeonatalDoseCalculatorRoute =
-	AuthAppPrescriptionsNeonatalDoseCalculatorRouteImport.update({
-		id: "/prescriptions/neonatal-dose-calculator",
-		path: "/prescriptions/neonatal-dose-calculator",
-		getParentRoute: () => AuthAppRouteRoute,
-	} as any);
+  AuthAppPrescriptionsNeonatalDoseCalculatorRouteImport.update({
+    id: '/prescriptions/neonatal-dose-calculator',
+    path: '/prescriptions/neonatal-dose-calculator',
+    getParentRoute: () => AuthAppRouteRoute,
+  } as any)
 const AuthAppPrescriptionsNewRoute = AuthAppPrescriptionsNewRouteImport.update({
-	id: "/prescriptions/new",
-	path: "/prescriptions/new",
-	getParentRoute: () => AuthAppRouteRoute,
-} as any);
+  id: '/prescriptions/new',
+  path: '/prescriptions/new',
+  getParentRoute: () => AuthAppRouteRoute,
+} as any)
 const AuthAppVisitsIndexRoute = AuthAppVisitsIndexRouteImport.update({
-	id: "/visits/",
-	path: "/visits/",
-	getParentRoute: () => AuthAppRouteRoute,
-} as any);
+  id: '/visits/',
+  path: '/visits/',
+  getParentRoute: () => AuthAppRouteRoute,
+} as any)
 const AuthAppVisitsVisitIdRoute = AuthAppVisitsVisitIdRouteImport.update({
-	id: "/visits/$visitId",
-	path: "/visits/$visitId",
-	getParentRoute: () => AuthAppRouteRoute,
-} as any);
+  id: '/visits/$visitId',
+  path: '/visits/$visitId',
+  getParentRoute: () => AuthAppRouteRoute,
+} as any)
 const AuthAppVisitsNewRoute = AuthAppVisitsNewRouteImport.update({
-	id: "/visits/new",
-	path: "/visits/new",
-	getParentRoute: () => AuthAppRouteRoute,
-} as any);
+  id: '/visits/new',
+  path: '/visits/new',
+  getParentRoute: () => AuthAppRouteRoute,
+} as any)
 const AuthAppClinicsClinicIdEditRoute =
-	AuthAppClinicsClinicIdEditRouteImport.update({
-		id: "/edit",
-		path: "/edit",
-		getParentRoute: () => AuthAppClinicsClinicIdRoute,
-	} as any);
+  AuthAppClinicsClinicIdEditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => AuthAppClinicsClinicIdRoute,
+  } as any)
 const AuthAppPatientsPatientIdEditRoute =
-	AuthAppPatientsPatientIdEditRouteImport.update({
-		id: "/edit",
-		path: "/edit",
-		getParentRoute: () => AuthAppPatientsPatientIdRoute,
-	} as any);
+  AuthAppPatientsPatientIdEditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => AuthAppPatientsPatientIdRoute,
+  } as any)
 const AuthAppPatientsPatientIdGrowthRoute =
-	AuthAppPatientsPatientIdGrowthRouteImport.update({
-		id: "/growth",
-		path: "/growth",
-		getParentRoute: () => AuthAppPatientsPatientIdRoute,
-	} as any);
+  AuthAppPatientsPatientIdGrowthRouteImport.update({
+    id: '/growth',
+    path: '/growth',
+    getParentRoute: () => AuthAppPatientsPatientIdRoute,
+  } as any)
 const AuthAppVisitsVisitIdEditRoute =
-	AuthAppVisitsVisitIdEditRouteImport.update({
-		id: "/edit",
-		path: "/edit",
-		getParentRoute: () => AuthAppVisitsVisitIdRoute,
-	} as any);
+  AuthAppVisitsVisitIdEditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => AuthAppVisitsVisitIdRoute,
+  } as any)
 const AuthAppPatientsPatientIdMeasurementsNewRoute =
-	AuthAppPatientsPatientIdMeasurementsNewRouteImport.update({
-		id: "/measurements/new",
-		path: "/measurements/new",
-		getParentRoute: () => AuthAppPatientsPatientIdRoute,
-	} as any);
+  AuthAppPatientsPatientIdMeasurementsNewRouteImport.update({
+    id: '/measurements/new',
+    path: '/measurements/new',
+    getParentRoute: () => AuthAppPatientsPatientIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-	"/": typeof IndexRoute;
-	"/app": typeof AuthAppRouteRouteWithChildren;
-	"/about": typeof GuestAboutRoute;
-	"/forgot-password": typeof GuestForgotPasswordRoute;
-	"/login": typeof GuestLoginRoute;
-	"/privacy": typeof GuestPrivacyRoute;
-	"/reset-password": typeof GuestResetPasswordRoute;
-	"/signup": typeof GuestSignupRoute;
-	"/terms": typeof GuestTermsRoute;
-	"/services/chronic-care": typeof GuestServicesChronicCareRoute;
-	"/services/developmental-screening": typeof GuestServicesDevelopmentalScreeningRoute;
-	"/services/immunizations": typeof GuestServicesImmunizationsRoute;
-	"/services/newborn-care": typeof GuestServicesNewbornCareRoute;
-	"/services/sick-visits": typeof GuestServicesSickVisitsRoute;
-	"/services/well-child": typeof GuestServicesWellChildRoute;
-	"/api/auth/$": typeof ApiAuthSplatRoute;
-	"/app/": typeof AuthAppIndexRoute;
-	"/services/": typeof GuestServicesIndexRoute;
-	"/app/appointments/$appointmentId": typeof AuthAppAppointmentsAppointmentIdRoute;
-	"/app/appointments/calendar": typeof AuthAppAppointmentsCalendarRoute;
-	"/app/appointments/new": typeof AuthAppAppointmentsNewRoute;
-	"/app/clinics/$clinicId": typeof AuthAppClinicsClinicIdRouteWithChildren;
-	"/app/clinics/new": typeof AuthAppClinicsNewRoute;
-	"/app/conflicts/$conflictId": typeof AuthAppConflictsConflictIdRoute;
-	"/app/development/$patientId": typeof AuthAppDevelopmentPatientIdRoute;
-	"/app/immunizations/$patientId": typeof AuthAppImmunizationsPatientIdRoute;
-	"/app/patients/$patientId": typeof AuthAppPatientsPatientIdRouteWithChildren;
-	"/app/patients/new": typeof AuthAppPatientsNewRoute;
-	"/app/prescriptions/$prescriptionId": typeof AuthAppPrescriptionsPrescriptionIdRoute;
-	"/app/prescriptions/neonatal-dose-calculator": typeof AuthAppPrescriptionsNeonatalDoseCalculatorRoute;
-	"/app/prescriptions/new": typeof AuthAppPrescriptionsNewRoute;
-	"/app/visits/$visitId": typeof AuthAppVisitsVisitIdRouteWithChildren;
-	"/app/visits/new": typeof AuthAppVisitsNewRoute;
-	"/app/appointments/": typeof AuthAppAppointmentsIndexRoute;
-	"/app/clinics/": typeof AuthAppClinicsIndexRoute;
-	"/app/development/": typeof AuthAppDevelopmentIndexRoute;
-	"/app/immunizations/": typeof AuthAppImmunizationsIndexRoute;
-	"/app/patients/": typeof AuthAppPatientsIndexRoute;
-	"/app/prescriptions/": typeof AuthAppPrescriptionsIndexRoute;
-	"/app/visits/": typeof AuthAppVisitsIndexRoute;
-	"/app/clinics/$clinicId/edit": typeof AuthAppClinicsClinicIdEditRoute;
-	"/app/patients/$patientId/edit": typeof AuthAppPatientsPatientIdEditRoute;
-	"/app/patients/$patientId/growth": typeof AuthAppPatientsPatientIdGrowthRoute;
-	"/app/visits/$visitId/edit": typeof AuthAppVisitsVisitIdEditRoute;
-	"/app/patients/$patientId/measurements/new": typeof AuthAppPatientsPatientIdMeasurementsNewRoute;
+  '/': typeof IndexRoute
+  '/app': typeof AuthAppRouteRouteWithChildren
+  '/about': typeof GuestAboutRoute
+  '/forgot-password': typeof GuestForgotPasswordRoute
+  '/login': typeof GuestLoginRoute
+  '/privacy': typeof GuestPrivacyRoute
+  '/reset-password': typeof GuestResetPasswordRoute
+  '/signup': typeof GuestSignupRoute
+  '/terms': typeof GuestTermsRoute
+  '/api/assistant': typeof ApiAssistantRoute
+  '/services/chronic-care': typeof GuestServicesChronicCareRoute
+  '/services/developmental-screening': typeof GuestServicesDevelopmentalScreeningRoute
+  '/services/immunizations': typeof GuestServicesImmunizationsRoute
+  '/services/newborn-care': typeof GuestServicesNewbornCareRoute
+  '/services/sick-visits': typeof GuestServicesSickVisitsRoute
+  '/services/well-child': typeof GuestServicesWellChildRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/app/': typeof AuthAppIndexRoute
+  '/services/': typeof GuestServicesIndexRoute
+  '/app/appointments/$appointmentId': typeof AuthAppAppointmentsAppointmentIdRoute
+  '/app/appointments/calendar': typeof AuthAppAppointmentsCalendarRoute
+  '/app/appointments/new': typeof AuthAppAppointmentsNewRoute
+  '/app/clinics/$clinicId': typeof AuthAppClinicsClinicIdRouteWithChildren
+  '/app/clinics/new': typeof AuthAppClinicsNewRoute
+  '/app/conflicts/$conflictId': typeof AuthAppConflictsConflictIdRoute
+  '/app/development/$patientId': typeof AuthAppDevelopmentPatientIdRoute
+  '/app/immunizations/$patientId': typeof AuthAppImmunizationsPatientIdRoute
+  '/app/patients/$patientId': typeof AuthAppPatientsPatientIdRouteWithChildren
+  '/app/patients/new': typeof AuthAppPatientsNewRoute
+  '/app/prescriptions/$prescriptionId': typeof AuthAppPrescriptionsPrescriptionIdRoute
+  '/app/prescriptions/neonatal-dose-calculator': typeof AuthAppPrescriptionsNeonatalDoseCalculatorRoute
+  '/app/prescriptions/new': typeof AuthAppPrescriptionsNewRoute
+  '/app/visits/$visitId': typeof AuthAppVisitsVisitIdRouteWithChildren
+  '/app/visits/new': typeof AuthAppVisitsNewRoute
+  '/app/appointments/': typeof AuthAppAppointmentsIndexRoute
+  '/app/clinics/': typeof AuthAppClinicsIndexRoute
+  '/app/development/': typeof AuthAppDevelopmentIndexRoute
+  '/app/immunizations/': typeof AuthAppImmunizationsIndexRoute
+  '/app/patients/': typeof AuthAppPatientsIndexRoute
+  '/app/prescriptions/': typeof AuthAppPrescriptionsIndexRoute
+  '/app/visits/': typeof AuthAppVisitsIndexRoute
+  '/app/clinics/$clinicId/edit': typeof AuthAppClinicsClinicIdEditRoute
+  '/app/patients/$patientId/edit': typeof AuthAppPatientsPatientIdEditRoute
+  '/app/patients/$patientId/growth': typeof AuthAppPatientsPatientIdGrowthRoute
+  '/app/visits/$visitId/edit': typeof AuthAppVisitsVisitIdEditRoute
+  '/app/patients/$patientId/measurements/new': typeof AuthAppPatientsPatientIdMeasurementsNewRoute
 }
 export interface FileRoutesByTo {
-	"/": typeof IndexRoute;
-	"/about": typeof GuestAboutRoute;
-	"/forgot-password": typeof GuestForgotPasswordRoute;
-	"/login": typeof GuestLoginRoute;
-	"/privacy": typeof GuestPrivacyRoute;
-	"/reset-password": typeof GuestResetPasswordRoute;
-	"/signup": typeof GuestSignupRoute;
-	"/terms": typeof GuestTermsRoute;
-	"/services/chronic-care": typeof GuestServicesChronicCareRoute;
-	"/services/developmental-screening": typeof GuestServicesDevelopmentalScreeningRoute;
-	"/services/immunizations": typeof GuestServicesImmunizationsRoute;
-	"/services/newborn-care": typeof GuestServicesNewbornCareRoute;
-	"/services/sick-visits": typeof GuestServicesSickVisitsRoute;
-	"/services/well-child": typeof GuestServicesWellChildRoute;
-	"/api/auth/$": typeof ApiAuthSplatRoute;
-	"/app": typeof AuthAppIndexRoute;
-	"/services": typeof GuestServicesIndexRoute;
-	"/app/appointments/$appointmentId": typeof AuthAppAppointmentsAppointmentIdRoute;
-	"/app/appointments/calendar": typeof AuthAppAppointmentsCalendarRoute;
-	"/app/appointments/new": typeof AuthAppAppointmentsNewRoute;
-	"/app/clinics/$clinicId": typeof AuthAppClinicsClinicIdRouteWithChildren;
-	"/app/clinics/new": typeof AuthAppClinicsNewRoute;
-	"/app/conflicts/$conflictId": typeof AuthAppConflictsConflictIdRoute;
-	"/app/development/$patientId": typeof AuthAppDevelopmentPatientIdRoute;
-	"/app/immunizations/$patientId": typeof AuthAppImmunizationsPatientIdRoute;
-	"/app/patients/$patientId": typeof AuthAppPatientsPatientIdRouteWithChildren;
-	"/app/patients/new": typeof AuthAppPatientsNewRoute;
-	"/app/prescriptions/$prescriptionId": typeof AuthAppPrescriptionsPrescriptionIdRoute;
-	"/app/prescriptions/neonatal-dose-calculator": typeof AuthAppPrescriptionsNeonatalDoseCalculatorRoute;
-	"/app/prescriptions/new": typeof AuthAppPrescriptionsNewRoute;
-	"/app/visits/$visitId": typeof AuthAppVisitsVisitIdRouteWithChildren;
-	"/app/visits/new": typeof AuthAppVisitsNewRoute;
-	"/app/appointments": typeof AuthAppAppointmentsIndexRoute;
-	"/app/clinics": typeof AuthAppClinicsIndexRoute;
-	"/app/development": typeof AuthAppDevelopmentIndexRoute;
-	"/app/immunizations": typeof AuthAppImmunizationsIndexRoute;
-	"/app/patients": typeof AuthAppPatientsIndexRoute;
-	"/app/prescriptions": typeof AuthAppPrescriptionsIndexRoute;
-	"/app/visits": typeof AuthAppVisitsIndexRoute;
-	"/app/clinics/$clinicId/edit": typeof AuthAppClinicsClinicIdEditRoute;
-	"/app/patients/$patientId/edit": typeof AuthAppPatientsPatientIdEditRoute;
-	"/app/patients/$patientId/growth": typeof AuthAppPatientsPatientIdGrowthRoute;
-	"/app/visits/$visitId/edit": typeof AuthAppVisitsVisitIdEditRoute;
-	"/app/patients/$patientId/measurements/new": typeof AuthAppPatientsPatientIdMeasurementsNewRoute;
+  '/': typeof IndexRoute
+  '/about': typeof GuestAboutRoute
+  '/forgot-password': typeof GuestForgotPasswordRoute
+  '/login': typeof GuestLoginRoute
+  '/privacy': typeof GuestPrivacyRoute
+  '/reset-password': typeof GuestResetPasswordRoute
+  '/signup': typeof GuestSignupRoute
+  '/terms': typeof GuestTermsRoute
+  '/api/assistant': typeof ApiAssistantRoute
+  '/services/chronic-care': typeof GuestServicesChronicCareRoute
+  '/services/developmental-screening': typeof GuestServicesDevelopmentalScreeningRoute
+  '/services/immunizations': typeof GuestServicesImmunizationsRoute
+  '/services/newborn-care': typeof GuestServicesNewbornCareRoute
+  '/services/sick-visits': typeof GuestServicesSickVisitsRoute
+  '/services/well-child': typeof GuestServicesWellChildRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/app': typeof AuthAppIndexRoute
+  '/services': typeof GuestServicesIndexRoute
+  '/app/appointments/$appointmentId': typeof AuthAppAppointmentsAppointmentIdRoute
+  '/app/appointments/calendar': typeof AuthAppAppointmentsCalendarRoute
+  '/app/appointments/new': typeof AuthAppAppointmentsNewRoute
+  '/app/clinics/$clinicId': typeof AuthAppClinicsClinicIdRouteWithChildren
+  '/app/clinics/new': typeof AuthAppClinicsNewRoute
+  '/app/conflicts/$conflictId': typeof AuthAppConflictsConflictIdRoute
+  '/app/development/$patientId': typeof AuthAppDevelopmentPatientIdRoute
+  '/app/immunizations/$patientId': typeof AuthAppImmunizationsPatientIdRoute
+  '/app/patients/$patientId': typeof AuthAppPatientsPatientIdRouteWithChildren
+  '/app/patients/new': typeof AuthAppPatientsNewRoute
+  '/app/prescriptions/$prescriptionId': typeof AuthAppPrescriptionsPrescriptionIdRoute
+  '/app/prescriptions/neonatal-dose-calculator': typeof AuthAppPrescriptionsNeonatalDoseCalculatorRoute
+  '/app/prescriptions/new': typeof AuthAppPrescriptionsNewRoute
+  '/app/visits/$visitId': typeof AuthAppVisitsVisitIdRouteWithChildren
+  '/app/visits/new': typeof AuthAppVisitsNewRoute
+  '/app/appointments': typeof AuthAppAppointmentsIndexRoute
+  '/app/clinics': typeof AuthAppClinicsIndexRoute
+  '/app/development': typeof AuthAppDevelopmentIndexRoute
+  '/app/immunizations': typeof AuthAppImmunizationsIndexRoute
+  '/app/patients': typeof AuthAppPatientsIndexRoute
+  '/app/prescriptions': typeof AuthAppPrescriptionsIndexRoute
+  '/app/visits': typeof AuthAppVisitsIndexRoute
+  '/app/clinics/$clinicId/edit': typeof AuthAppClinicsClinicIdEditRoute
+  '/app/patients/$patientId/edit': typeof AuthAppPatientsPatientIdEditRoute
+  '/app/patients/$patientId/growth': typeof AuthAppPatientsPatientIdGrowthRoute
+  '/app/visits/$visitId/edit': typeof AuthAppVisitsVisitIdEditRoute
+  '/app/patients/$patientId/measurements/new': typeof AuthAppPatientsPatientIdMeasurementsNewRoute
 }
 export interface FileRoutesById {
-	__root__: typeof rootRouteImport;
-	"/": typeof IndexRoute;
-	"/_auth": typeof AuthRouteRouteWithChildren;
-	"/_guest": typeof GuestRouteRouteWithChildren;
-	"/_auth/app": typeof AuthAppRouteRouteWithChildren;
-	"/_guest/about": typeof GuestAboutRoute;
-	"/_guest/forgot-password": typeof GuestForgotPasswordRoute;
-	"/_guest/login": typeof GuestLoginRoute;
-	"/_guest/privacy": typeof GuestPrivacyRoute;
-	"/_guest/reset-password": typeof GuestResetPasswordRoute;
-	"/_guest/signup": typeof GuestSignupRoute;
-	"/_guest/terms": typeof GuestTermsRoute;
-	"/_guest/services/chronic-care": typeof GuestServicesChronicCareRoute;
-	"/_guest/services/developmental-screening": typeof GuestServicesDevelopmentalScreeningRoute;
-	"/_guest/services/immunizations": typeof GuestServicesImmunizationsRoute;
-	"/_guest/services/newborn-care": typeof GuestServicesNewbornCareRoute;
-	"/_guest/services/sick-visits": typeof GuestServicesSickVisitsRoute;
-	"/_guest/services/well-child": typeof GuestServicesWellChildRoute;
-	"/api/auth/$": typeof ApiAuthSplatRoute;
-	"/_auth/app/": typeof AuthAppIndexRoute;
-	"/_guest/services/": typeof GuestServicesIndexRoute;
-	"/_auth/app/appointments/$appointmentId": typeof AuthAppAppointmentsAppointmentIdRoute;
-	"/_auth/app/appointments/calendar": typeof AuthAppAppointmentsCalendarRoute;
-	"/_auth/app/appointments/new": typeof AuthAppAppointmentsNewRoute;
-	"/_auth/app/clinics/$clinicId": typeof AuthAppClinicsClinicIdRouteWithChildren;
-	"/_auth/app/clinics/new": typeof AuthAppClinicsNewRoute;
-	"/_auth/app/conflicts/$conflictId": typeof AuthAppConflictsConflictIdRoute;
-	"/_auth/app/development/$patientId": typeof AuthAppDevelopmentPatientIdRoute;
-	"/_auth/app/immunizations/$patientId": typeof AuthAppImmunizationsPatientIdRoute;
-	"/_auth/app/patients/$patientId": typeof AuthAppPatientsPatientIdRouteWithChildren;
-	"/_auth/app/patients/new": typeof AuthAppPatientsNewRoute;
-	"/_auth/app/prescriptions/$prescriptionId": typeof AuthAppPrescriptionsPrescriptionIdRoute;
-	"/_auth/app/prescriptions/neonatal-dose-calculator": typeof AuthAppPrescriptionsNeonatalDoseCalculatorRoute;
-	"/_auth/app/prescriptions/new": typeof AuthAppPrescriptionsNewRoute;
-	"/_auth/app/visits/$visitId": typeof AuthAppVisitsVisitIdRouteWithChildren;
-	"/_auth/app/visits/new": typeof AuthAppVisitsNewRoute;
-	"/_auth/app/appointments/": typeof AuthAppAppointmentsIndexRoute;
-	"/_auth/app/clinics/": typeof AuthAppClinicsIndexRoute;
-	"/_auth/app/development/": typeof AuthAppDevelopmentIndexRoute;
-	"/_auth/app/immunizations/": typeof AuthAppImmunizationsIndexRoute;
-	"/_auth/app/patients/": typeof AuthAppPatientsIndexRoute;
-	"/_auth/app/prescriptions/": typeof AuthAppPrescriptionsIndexRoute;
-	"/_auth/app/visits/": typeof AuthAppVisitsIndexRoute;
-	"/_auth/app/clinics/$clinicId/edit": typeof AuthAppClinicsClinicIdEditRoute;
-	"/_auth/app/patients/$patientId/edit": typeof AuthAppPatientsPatientIdEditRoute;
-	"/_auth/app/patients/$patientId/growth": typeof AuthAppPatientsPatientIdGrowthRoute;
-	"/_auth/app/visits/$visitId/edit": typeof AuthAppVisitsVisitIdEditRoute;
-	"/_auth/app/patients/$patientId/measurements/new": typeof AuthAppPatientsPatientIdMeasurementsNewRoute;
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/_auth': typeof AuthRouteRouteWithChildren
+  '/_guest': typeof GuestRouteRouteWithChildren
+  '/_auth/app': typeof AuthAppRouteRouteWithChildren
+  '/_guest/about': typeof GuestAboutRoute
+  '/_guest/forgot-password': typeof GuestForgotPasswordRoute
+  '/_guest/login': typeof GuestLoginRoute
+  '/_guest/privacy': typeof GuestPrivacyRoute
+  '/_guest/reset-password': typeof GuestResetPasswordRoute
+  '/_guest/signup': typeof GuestSignupRoute
+  '/_guest/terms': typeof GuestTermsRoute
+  '/api/assistant': typeof ApiAssistantRoute
+  '/_guest/services/chronic-care': typeof GuestServicesChronicCareRoute
+  '/_guest/services/developmental-screening': typeof GuestServicesDevelopmentalScreeningRoute
+  '/_guest/services/immunizations': typeof GuestServicesImmunizationsRoute
+  '/_guest/services/newborn-care': typeof GuestServicesNewbornCareRoute
+  '/_guest/services/sick-visits': typeof GuestServicesSickVisitsRoute
+  '/_guest/services/well-child': typeof GuestServicesWellChildRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/_auth/app/': typeof AuthAppIndexRoute
+  '/_guest/services/': typeof GuestServicesIndexRoute
+  '/_auth/app/appointments/$appointmentId': typeof AuthAppAppointmentsAppointmentIdRoute
+  '/_auth/app/appointments/calendar': typeof AuthAppAppointmentsCalendarRoute
+  '/_auth/app/appointments/new': typeof AuthAppAppointmentsNewRoute
+  '/_auth/app/clinics/$clinicId': typeof AuthAppClinicsClinicIdRouteWithChildren
+  '/_auth/app/clinics/new': typeof AuthAppClinicsNewRoute
+  '/_auth/app/conflicts/$conflictId': typeof AuthAppConflictsConflictIdRoute
+  '/_auth/app/development/$patientId': typeof AuthAppDevelopmentPatientIdRoute
+  '/_auth/app/immunizations/$patientId': typeof AuthAppImmunizationsPatientIdRoute
+  '/_auth/app/patients/$patientId': typeof AuthAppPatientsPatientIdRouteWithChildren
+  '/_auth/app/patients/new': typeof AuthAppPatientsNewRoute
+  '/_auth/app/prescriptions/$prescriptionId': typeof AuthAppPrescriptionsPrescriptionIdRoute
+  '/_auth/app/prescriptions/neonatal-dose-calculator': typeof AuthAppPrescriptionsNeonatalDoseCalculatorRoute
+  '/_auth/app/prescriptions/new': typeof AuthAppPrescriptionsNewRoute
+  '/_auth/app/visits/$visitId': typeof AuthAppVisitsVisitIdRouteWithChildren
+  '/_auth/app/visits/new': typeof AuthAppVisitsNewRoute
+  '/_auth/app/appointments/': typeof AuthAppAppointmentsIndexRoute
+  '/_auth/app/clinics/': typeof AuthAppClinicsIndexRoute
+  '/_auth/app/development/': typeof AuthAppDevelopmentIndexRoute
+  '/_auth/app/immunizations/': typeof AuthAppImmunizationsIndexRoute
+  '/_auth/app/patients/': typeof AuthAppPatientsIndexRoute
+  '/_auth/app/prescriptions/': typeof AuthAppPrescriptionsIndexRoute
+  '/_auth/app/visits/': typeof AuthAppVisitsIndexRoute
+  '/_auth/app/clinics/$clinicId/edit': typeof AuthAppClinicsClinicIdEditRoute
+  '/_auth/app/patients/$patientId/edit': typeof AuthAppPatientsPatientIdEditRoute
+  '/_auth/app/patients/$patientId/growth': typeof AuthAppPatientsPatientIdGrowthRoute
+  '/_auth/app/visits/$visitId/edit': typeof AuthAppVisitsVisitIdEditRoute
+  '/_auth/app/patients/$patientId/measurements/new': typeof AuthAppPatientsPatientIdMeasurementsNewRoute
 }
 export interface FileRouteTypes {
-	fileRoutesByFullPath: FileRoutesByFullPath;
-	fullPaths:
-		| "/"
-		| "/app"
-		| "/about"
-		| "/forgot-password"
-		| "/login"
-		| "/privacy"
-		| "/reset-password"
-		| "/signup"
-		| "/terms"
-		| "/services/chronic-care"
-		| "/services/developmental-screening"
-		| "/services/immunizations"
-		| "/services/newborn-care"
-		| "/services/sick-visits"
-		| "/services/well-child"
-		| "/api/auth/$"
-		| "/app/"
-		| "/services/"
-		| "/app/appointments/$appointmentId"
-		| "/app/appointments/calendar"
-		| "/app/appointments/new"
-		| "/app/clinics/$clinicId"
-		| "/app/clinics/new"
-		| "/app/conflicts/$conflictId"
-		| "/app/development/$patientId"
-		| "/app/immunizations/$patientId"
-		| "/app/patients/$patientId"
-		| "/app/patients/new"
-		| "/app/prescriptions/$prescriptionId"
-		| "/app/prescriptions/neonatal-dose-calculator"
-		| "/app/prescriptions/new"
-		| "/app/visits/$visitId"
-		| "/app/visits/new"
-		| "/app/appointments/"
-		| "/app/clinics/"
-		| "/app/development/"
-		| "/app/immunizations/"
-		| "/app/patients/"
-		| "/app/prescriptions/"
-		| "/app/visits/"
-		| "/app/clinics/$clinicId/edit"
-		| "/app/patients/$patientId/edit"
-		| "/app/patients/$patientId/growth"
-		| "/app/visits/$visitId/edit"
-		| "/app/patients/$patientId/measurements/new";
-	fileRoutesByTo: FileRoutesByTo;
-	to:
-		| "/"
-		| "/about"
-		| "/forgot-password"
-		| "/login"
-		| "/privacy"
-		| "/reset-password"
-		| "/signup"
-		| "/terms"
-		| "/services/chronic-care"
-		| "/services/developmental-screening"
-		| "/services/immunizations"
-		| "/services/newborn-care"
-		| "/services/sick-visits"
-		| "/services/well-child"
-		| "/api/auth/$"
-		| "/app"
-		| "/services"
-		| "/app/appointments/$appointmentId"
-		| "/app/appointments/calendar"
-		| "/app/appointments/new"
-		| "/app/clinics/$clinicId"
-		| "/app/clinics/new"
-		| "/app/conflicts/$conflictId"
-		| "/app/development/$patientId"
-		| "/app/immunizations/$patientId"
-		| "/app/patients/$patientId"
-		| "/app/patients/new"
-		| "/app/prescriptions/$prescriptionId"
-		| "/app/prescriptions/neonatal-dose-calculator"
-		| "/app/prescriptions/new"
-		| "/app/visits/$visitId"
-		| "/app/visits/new"
-		| "/app/appointments"
-		| "/app/clinics"
-		| "/app/development"
-		| "/app/immunizations"
-		| "/app/patients"
-		| "/app/prescriptions"
-		| "/app/visits"
-		| "/app/clinics/$clinicId/edit"
-		| "/app/patients/$patientId/edit"
-		| "/app/patients/$patientId/growth"
-		| "/app/visits/$visitId/edit"
-		| "/app/patients/$patientId/measurements/new";
-	id:
-		| "__root__"
-		| "/"
-		| "/_auth"
-		| "/_guest"
-		| "/_auth/app"
-		| "/_guest/about"
-		| "/_guest/forgot-password"
-		| "/_guest/login"
-		| "/_guest/privacy"
-		| "/_guest/reset-password"
-		| "/_guest/signup"
-		| "/_guest/terms"
-		| "/_guest/services/chronic-care"
-		| "/_guest/services/developmental-screening"
-		| "/_guest/services/immunizations"
-		| "/_guest/services/newborn-care"
-		| "/_guest/services/sick-visits"
-		| "/_guest/services/well-child"
-		| "/api/auth/$"
-		| "/_auth/app/"
-		| "/_guest/services/"
-		| "/_auth/app/appointments/$appointmentId"
-		| "/_auth/app/appointments/calendar"
-		| "/_auth/app/appointments/new"
-		| "/_auth/app/clinics/$clinicId"
-		| "/_auth/app/clinics/new"
-		| "/_auth/app/conflicts/$conflictId"
-		| "/_auth/app/development/$patientId"
-		| "/_auth/app/immunizations/$patientId"
-		| "/_auth/app/patients/$patientId"
-		| "/_auth/app/patients/new"
-		| "/_auth/app/prescriptions/$prescriptionId"
-		| "/_auth/app/prescriptions/neonatal-dose-calculator"
-		| "/_auth/app/prescriptions/new"
-		| "/_auth/app/visits/$visitId"
-		| "/_auth/app/visits/new"
-		| "/_auth/app/appointments/"
-		| "/_auth/app/clinics/"
-		| "/_auth/app/development/"
-		| "/_auth/app/immunizations/"
-		| "/_auth/app/patients/"
-		| "/_auth/app/prescriptions/"
-		| "/_auth/app/visits/"
-		| "/_auth/app/clinics/$clinicId/edit"
-		| "/_auth/app/patients/$patientId/edit"
-		| "/_auth/app/patients/$patientId/growth"
-		| "/_auth/app/visits/$visitId/edit"
-		| "/_auth/app/patients/$patientId/measurements/new";
-	fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/about'
+    | '/forgot-password'
+    | '/login'
+    | '/privacy'
+    | '/reset-password'
+    | '/signup'
+    | '/terms'
+    | '/api/assistant'
+    | '/services/chronic-care'
+    | '/services/developmental-screening'
+    | '/services/immunizations'
+    | '/services/newborn-care'
+    | '/services/sick-visits'
+    | '/services/well-child'
+    | '/api/auth/$'
+    | '/app/'
+    | '/services/'
+    | '/app/appointments/$appointmentId'
+    | '/app/appointments/calendar'
+    | '/app/appointments/new'
+    | '/app/clinics/$clinicId'
+    | '/app/clinics/new'
+    | '/app/conflicts/$conflictId'
+    | '/app/development/$patientId'
+    | '/app/immunizations/$patientId'
+    | '/app/patients/$patientId'
+    | '/app/patients/new'
+    | '/app/prescriptions/$prescriptionId'
+    | '/app/prescriptions/neonatal-dose-calculator'
+    | '/app/prescriptions/new'
+    | '/app/visits/$visitId'
+    | '/app/visits/new'
+    | '/app/appointments/'
+    | '/app/clinics/'
+    | '/app/development/'
+    | '/app/immunizations/'
+    | '/app/patients/'
+    | '/app/prescriptions/'
+    | '/app/visits/'
+    | '/app/clinics/$clinicId/edit'
+    | '/app/patients/$patientId/edit'
+    | '/app/patients/$patientId/growth'
+    | '/app/visits/$visitId/edit'
+    | '/app/patients/$patientId/measurements/new'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/about'
+    | '/forgot-password'
+    | '/login'
+    | '/privacy'
+    | '/reset-password'
+    | '/signup'
+    | '/terms'
+    | '/api/assistant'
+    | '/services/chronic-care'
+    | '/services/developmental-screening'
+    | '/services/immunizations'
+    | '/services/newborn-care'
+    | '/services/sick-visits'
+    | '/services/well-child'
+    | '/api/auth/$'
+    | '/app'
+    | '/services'
+    | '/app/appointments/$appointmentId'
+    | '/app/appointments/calendar'
+    | '/app/appointments/new'
+    | '/app/clinics/$clinicId'
+    | '/app/clinics/new'
+    | '/app/conflicts/$conflictId'
+    | '/app/development/$patientId'
+    | '/app/immunizations/$patientId'
+    | '/app/patients/$patientId'
+    | '/app/patients/new'
+    | '/app/prescriptions/$prescriptionId'
+    | '/app/prescriptions/neonatal-dose-calculator'
+    | '/app/prescriptions/new'
+    | '/app/visits/$visitId'
+    | '/app/visits/new'
+    | '/app/appointments'
+    | '/app/clinics'
+    | '/app/development'
+    | '/app/immunizations'
+    | '/app/patients'
+    | '/app/prescriptions'
+    | '/app/visits'
+    | '/app/clinics/$clinicId/edit'
+    | '/app/patients/$patientId/edit'
+    | '/app/patients/$patientId/growth'
+    | '/app/visits/$visitId/edit'
+    | '/app/patients/$patientId/measurements/new'
+  id:
+    | '__root__'
+    | '/'
+    | '/_auth'
+    | '/_guest'
+    | '/_auth/app'
+    | '/_guest/about'
+    | '/_guest/forgot-password'
+    | '/_guest/login'
+    | '/_guest/privacy'
+    | '/_guest/reset-password'
+    | '/_guest/signup'
+    | '/_guest/terms'
+    | '/api/assistant'
+    | '/_guest/services/chronic-care'
+    | '/_guest/services/developmental-screening'
+    | '/_guest/services/immunizations'
+    | '/_guest/services/newborn-care'
+    | '/_guest/services/sick-visits'
+    | '/_guest/services/well-child'
+    | '/api/auth/$'
+    | '/_auth/app/'
+    | '/_guest/services/'
+    | '/_auth/app/appointments/$appointmentId'
+    | '/_auth/app/appointments/calendar'
+    | '/_auth/app/appointments/new'
+    | '/_auth/app/clinics/$clinicId'
+    | '/_auth/app/clinics/new'
+    | '/_auth/app/conflicts/$conflictId'
+    | '/_auth/app/development/$patientId'
+    | '/_auth/app/immunizations/$patientId'
+    | '/_auth/app/patients/$patientId'
+    | '/_auth/app/patients/new'
+    | '/_auth/app/prescriptions/$prescriptionId'
+    | '/_auth/app/prescriptions/neonatal-dose-calculator'
+    | '/_auth/app/prescriptions/new'
+    | '/_auth/app/visits/$visitId'
+    | '/_auth/app/visits/new'
+    | '/_auth/app/appointments/'
+    | '/_auth/app/clinics/'
+    | '/_auth/app/development/'
+    | '/_auth/app/immunizations/'
+    | '/_auth/app/patients/'
+    | '/_auth/app/prescriptions/'
+    | '/_auth/app/visits/'
+    | '/_auth/app/clinics/$clinicId/edit'
+    | '/_auth/app/patients/$patientId/edit'
+    | '/_auth/app/patients/$patientId/growth'
+    | '/_auth/app/visits/$visitId/edit'
+    | '/_auth/app/patients/$patientId/measurements/new'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-	IndexRoute: typeof IndexRoute;
-	AuthRouteRoute: typeof AuthRouteRouteWithChildren;
-	GuestRouteRoute: typeof GuestRouteRouteWithChildren;
-	ApiAuthSplatRoute: typeof ApiAuthSplatRoute;
+  IndexRoute: typeof IndexRoute
+  AuthRouteRoute: typeof AuthRouteRouteWithChildren
+  GuestRouteRoute: typeof GuestRouteRouteWithChildren
+  ApiAssistantRoute: typeof ApiAssistantRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
-declare module "@tanstack/react-router" {
-	interface FileRoutesByPath {
-		"/": {
-			id: "/";
-			path: "/";
-			fullPath: "/";
-			preLoaderRoute: typeof IndexRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/_auth": {
-			id: "/_auth";
-			path: "";
-			fullPath: "/";
-			preLoaderRoute: typeof AuthRouteRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/_guest": {
-			id: "/_guest";
-			path: "";
-			fullPath: "/";
-			preLoaderRoute: typeof GuestRouteRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/_auth/app": {
-			id: "/_auth/app";
-			path: "/app";
-			fullPath: "/app";
-			preLoaderRoute: typeof AuthAppRouteRouteImport;
-			parentRoute: typeof AuthRouteRoute;
-		};
-		"/_guest/about": {
-			id: "/_guest/about";
-			path: "/about";
-			fullPath: "/about";
-			preLoaderRoute: typeof GuestAboutRouteImport;
-			parentRoute: typeof GuestRouteRoute;
-		};
-		"/_guest/forgot-password": {
-			id: "/_guest/forgot-password";
-			path: "/forgot-password";
-			fullPath: "/forgot-password";
-			preLoaderRoute: typeof GuestForgotPasswordRouteImport;
-			parentRoute: typeof GuestRouteRoute;
-		};
-		"/_guest/login": {
-			id: "/_guest/login";
-			path: "/login";
-			fullPath: "/login";
-			preLoaderRoute: typeof GuestLoginRouteImport;
-			parentRoute: typeof GuestRouteRoute;
-		};
-		"/_guest/privacy": {
-			id: "/_guest/privacy";
-			path: "/privacy";
-			fullPath: "/privacy";
-			preLoaderRoute: typeof GuestPrivacyRouteImport;
-			parentRoute: typeof GuestRouteRoute;
-		};
-		"/_guest/reset-password": {
-			id: "/_guest/reset-password";
-			path: "/reset-password";
-			fullPath: "/reset-password";
-			preLoaderRoute: typeof GuestResetPasswordRouteImport;
-			parentRoute: typeof GuestRouteRoute;
-		};
-		"/_guest/signup": {
-			id: "/_guest/signup";
-			path: "/signup";
-			fullPath: "/signup";
-			preLoaderRoute: typeof GuestSignupRouteImport;
-			parentRoute: typeof GuestRouteRoute;
-		};
-		"/_guest/terms": {
-			id: "/_guest/terms";
-			path: "/terms";
-			fullPath: "/terms";
-			preLoaderRoute: typeof GuestTermsRouteImport;
-			parentRoute: typeof GuestRouteRoute;
-		};
-		"/_auth/app/": {
-			id: "/_auth/app/";
-			path: "/";
-			fullPath: "/app/";
-			preLoaderRoute: typeof AuthAppIndexRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_guest/services/": {
-			id: "/_guest/services/";
-			path: "/services";
-			fullPath: "/services/";
-			preLoaderRoute: typeof GuestServicesIndexRouteImport;
-			parentRoute: typeof GuestRouteRoute;
-		};
-		"/_guest/services/chronic-care": {
-			id: "/_guest/services/chronic-care";
-			path: "/services/chronic-care";
-			fullPath: "/services/chronic-care";
-			preLoaderRoute: typeof GuestServicesChronicCareRouteImport;
-			parentRoute: typeof GuestRouteRoute;
-		};
-		"/_guest/services/developmental-screening": {
-			id: "/_guest/services/developmental-screening";
-			path: "/services/developmental-screening";
-			fullPath: "/services/developmental-screening";
-			preLoaderRoute: typeof GuestServicesDevelopmentalScreeningRouteImport;
-			parentRoute: typeof GuestRouteRoute;
-		};
-		"/_guest/services/immunizations": {
-			id: "/_guest/services/immunizations";
-			path: "/services/immunizations";
-			fullPath: "/services/immunizations";
-			preLoaderRoute: typeof GuestServicesImmunizationsRouteImport;
-			parentRoute: typeof GuestRouteRoute;
-		};
-		"/_guest/services/newborn-care": {
-			id: "/_guest/services/newborn-care";
-			path: "/services/newborn-care";
-			fullPath: "/services/newborn-care";
-			preLoaderRoute: typeof GuestServicesNewbornCareRouteImport;
-			parentRoute: typeof GuestRouteRoute;
-		};
-		"/_guest/services/sick-visits": {
-			id: "/_guest/services/sick-visits";
-			path: "/services/sick-visits";
-			fullPath: "/services/sick-visits";
-			preLoaderRoute: typeof GuestServicesSickVisitsRouteImport;
-			parentRoute: typeof GuestRouteRoute;
-		};
-		"/_guest/services/well-child": {
-			id: "/_guest/services/well-child";
-			path: "/services/well-child";
-			fullPath: "/services/well-child";
-			preLoaderRoute: typeof GuestServicesWellChildRouteImport;
-			parentRoute: typeof GuestRouteRoute;
-		};
-		"/api/auth/$": {
-			id: "/api/auth/$";
-			path: "/api/auth/$";
-			fullPath: "/api/auth/$";
-			preLoaderRoute: typeof ApiAuthSplatRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/_auth/app/appointments/": {
-			id: "/_auth/app/appointments/";
-			path: "/appointments";
-			fullPath: "/app/appointments/";
-			preLoaderRoute: typeof AuthAppAppointmentsIndexRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/appointments/$appointmentId": {
-			id: "/_auth/app/appointments/$appointmentId";
-			path: "/appointments/$appointmentId";
-			fullPath: "/app/appointments/$appointmentId";
-			preLoaderRoute: typeof AuthAppAppointmentsAppointmentIdRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/appointments/calendar": {
-			id: "/_auth/app/appointments/calendar";
-			path: "/appointments/calendar";
-			fullPath: "/app/appointments/calendar";
-			preLoaderRoute: typeof AuthAppAppointmentsCalendarRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/appointments/new": {
-			id: "/_auth/app/appointments/new";
-			path: "/appointments/new";
-			fullPath: "/app/appointments/new";
-			preLoaderRoute: typeof AuthAppAppointmentsNewRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/clinics/": {
-			id: "/_auth/app/clinics/";
-			path: "/clinics";
-			fullPath: "/app/clinics/";
-			preLoaderRoute: typeof AuthAppClinicsIndexRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/clinics/$clinicId": {
-			id: "/_auth/app/clinics/$clinicId";
-			path: "/clinics/$clinicId";
-			fullPath: "/app/clinics/$clinicId";
-			preLoaderRoute: typeof AuthAppClinicsClinicIdRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/clinics/new": {
-			id: "/_auth/app/clinics/new";
-			path: "/clinics/new";
-			fullPath: "/app/clinics/new";
-			preLoaderRoute: typeof AuthAppClinicsNewRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/conflicts/$conflictId": {
-			id: "/_auth/app/conflicts/$conflictId";
-			path: "/conflicts/$conflictId";
-			fullPath: "/app/conflicts/$conflictId";
-			preLoaderRoute: typeof AuthAppConflictsConflictIdRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/development/": {
-			id: "/_auth/app/development/";
-			path: "/development";
-			fullPath: "/app/development/";
-			preLoaderRoute: typeof AuthAppDevelopmentIndexRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/development/$patientId": {
-			id: "/_auth/app/development/$patientId";
-			path: "/development/$patientId";
-			fullPath: "/app/development/$patientId";
-			preLoaderRoute: typeof AuthAppDevelopmentPatientIdRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/immunizations/": {
-			id: "/_auth/app/immunizations/";
-			path: "/immunizations";
-			fullPath: "/app/immunizations/";
-			preLoaderRoute: typeof AuthAppImmunizationsIndexRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/immunizations/$patientId": {
-			id: "/_auth/app/immunizations/$patientId";
-			path: "/immunizations/$patientId";
-			fullPath: "/app/immunizations/$patientId";
-			preLoaderRoute: typeof AuthAppImmunizationsPatientIdRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/patients/": {
-			id: "/_auth/app/patients/";
-			path: "/patients";
-			fullPath: "/app/patients/";
-			preLoaderRoute: typeof AuthAppPatientsIndexRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/patients/$patientId": {
-			id: "/_auth/app/patients/$patientId";
-			path: "/patients/$patientId";
-			fullPath: "/app/patients/$patientId";
-			preLoaderRoute: typeof AuthAppPatientsPatientIdRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/patients/new": {
-			id: "/_auth/app/patients/new";
-			path: "/patients/new";
-			fullPath: "/app/patients/new";
-			preLoaderRoute: typeof AuthAppPatientsNewRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/prescriptions/": {
-			id: "/_auth/app/prescriptions/";
-			path: "/prescriptions";
-			fullPath: "/app/prescriptions/";
-			preLoaderRoute: typeof AuthAppPrescriptionsIndexRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/prescriptions/$prescriptionId": {
-			id: "/_auth/app/prescriptions/$prescriptionId";
-			path: "/prescriptions/$prescriptionId";
-			fullPath: "/app/prescriptions/$prescriptionId";
-			preLoaderRoute: typeof AuthAppPrescriptionsPrescriptionIdRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/prescriptions/neonatal-dose-calculator": {
-			id: "/_auth/app/prescriptions/neonatal-dose-calculator";
-			path: "/prescriptions/neonatal-dose-calculator";
-			fullPath: "/app/prescriptions/neonatal-dose-calculator";
-			preLoaderRoute: typeof AuthAppPrescriptionsNeonatalDoseCalculatorRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/prescriptions/new": {
-			id: "/_auth/app/prescriptions/new";
-			path: "/prescriptions/new";
-			fullPath: "/app/prescriptions/new";
-			preLoaderRoute: typeof AuthAppPrescriptionsNewRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/visits/": {
-			id: "/_auth/app/visits/";
-			path: "/visits";
-			fullPath: "/app/visits/";
-			preLoaderRoute: typeof AuthAppVisitsIndexRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/visits/$visitId": {
-			id: "/_auth/app/visits/$visitId";
-			path: "/visits/$visitId";
-			fullPath: "/app/visits/$visitId";
-			preLoaderRoute: typeof AuthAppVisitsVisitIdRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/visits/new": {
-			id: "/_auth/app/visits/new";
-			path: "/visits/new";
-			fullPath: "/app/visits/new";
-			preLoaderRoute: typeof AuthAppVisitsNewRouteImport;
-			parentRoute: typeof AuthAppRouteRoute;
-		};
-		"/_auth/app/clinics/$clinicId/edit": {
-			id: "/_auth/app/clinics/$clinicId/edit";
-			path: "/edit";
-			fullPath: "/app/clinics/$clinicId/edit";
-			preLoaderRoute: typeof AuthAppClinicsClinicIdEditRouteImport;
-			parentRoute: typeof AuthAppClinicsClinicIdRoute;
-		};
-		"/_auth/app/patients/$patientId/edit": {
-			id: "/_auth/app/patients/$patientId/edit";
-			path: "/edit";
-			fullPath: "/app/patients/$patientId/edit";
-			preLoaderRoute: typeof AuthAppPatientsPatientIdEditRouteImport;
-			parentRoute: typeof AuthAppPatientsPatientIdRoute;
-		};
-		"/_auth/app/patients/$patientId/growth": {
-			id: "/_auth/app/patients/$patientId/growth";
-			path: "/growth";
-			fullPath: "/app/patients/$patientId/growth";
-			preLoaderRoute: typeof AuthAppPatientsPatientIdGrowthRouteImport;
-			parentRoute: typeof AuthAppPatientsPatientIdRoute;
-		};
-		"/_auth/app/visits/$visitId/edit": {
-			id: "/_auth/app/visits/$visitId/edit";
-			path: "/edit";
-			fullPath: "/app/visits/$visitId/edit";
-			preLoaderRoute: typeof AuthAppVisitsVisitIdEditRouteImport;
-			parentRoute: typeof AuthAppVisitsVisitIdRoute;
-		};
-		"/_auth/app/patients/$patientId/measurements/new": {
-			id: "/_auth/app/patients/$patientId/measurements/new";
-			path: "/measurements/new";
-			fullPath: "/app/patients/$patientId/measurements/new";
-			preLoaderRoute: typeof AuthAppPatientsPatientIdMeasurementsNewRouteImport;
-			parentRoute: typeof AuthAppPatientsPatientIdRoute;
-		};
-	}
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_guest': {
+      id: '/_guest'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof GuestRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/app': {
+      id: '/_auth/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AuthAppRouteRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_guest/about': {
+      id: '/_guest/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof GuestAboutRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/_guest/forgot-password': {
+      id: '/_guest/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof GuestForgotPasswordRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/_guest/login': {
+      id: '/_guest/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof GuestLoginRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/_guest/privacy': {
+      id: '/_guest/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof GuestPrivacyRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/_guest/reset-password': {
+      id: '/_guest/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof GuestResetPasswordRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/_guest/signup': {
+      id: '/_guest/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof GuestSignupRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/_guest/terms': {
+      id: '/_guest/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof GuestTermsRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/api/assistant': {
+      id: '/api/assistant'
+      path: '/api/assistant'
+      fullPath: '/api/assistant'
+      preLoaderRoute: typeof ApiAssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/app/': {
+      id: '/_auth/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AuthAppIndexRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_guest/services/': {
+      id: '/_guest/services/'
+      path: '/services'
+      fullPath: '/services/'
+      preLoaderRoute: typeof GuestServicesIndexRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/_guest/services/chronic-care': {
+      id: '/_guest/services/chronic-care'
+      path: '/services/chronic-care'
+      fullPath: '/services/chronic-care'
+      preLoaderRoute: typeof GuestServicesChronicCareRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/_guest/services/developmental-screening': {
+      id: '/_guest/services/developmental-screening'
+      path: '/services/developmental-screening'
+      fullPath: '/services/developmental-screening'
+      preLoaderRoute: typeof GuestServicesDevelopmentalScreeningRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/_guest/services/immunizations': {
+      id: '/_guest/services/immunizations'
+      path: '/services/immunizations'
+      fullPath: '/services/immunizations'
+      preLoaderRoute: typeof GuestServicesImmunizationsRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/_guest/services/newborn-care': {
+      id: '/_guest/services/newborn-care'
+      path: '/services/newborn-care'
+      fullPath: '/services/newborn-care'
+      preLoaderRoute: typeof GuestServicesNewbornCareRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/_guest/services/sick-visits': {
+      id: '/_guest/services/sick-visits'
+      path: '/services/sick-visits'
+      fullPath: '/services/sick-visits'
+      preLoaderRoute: typeof GuestServicesSickVisitsRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/_guest/services/well-child': {
+      id: '/_guest/services/well-child'
+      path: '/services/well-child'
+      fullPath: '/services/well-child'
+      preLoaderRoute: typeof GuestServicesWellChildRouteImport
+      parentRoute: typeof GuestRouteRoute
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/app/appointments/': {
+      id: '/_auth/app/appointments/'
+      path: '/appointments'
+      fullPath: '/app/appointments/'
+      preLoaderRoute: typeof AuthAppAppointmentsIndexRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/appointments/$appointmentId': {
+      id: '/_auth/app/appointments/$appointmentId'
+      path: '/appointments/$appointmentId'
+      fullPath: '/app/appointments/$appointmentId'
+      preLoaderRoute: typeof AuthAppAppointmentsAppointmentIdRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/appointments/calendar': {
+      id: '/_auth/app/appointments/calendar'
+      path: '/appointments/calendar'
+      fullPath: '/app/appointments/calendar'
+      preLoaderRoute: typeof AuthAppAppointmentsCalendarRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/appointments/new': {
+      id: '/_auth/app/appointments/new'
+      path: '/appointments/new'
+      fullPath: '/app/appointments/new'
+      preLoaderRoute: typeof AuthAppAppointmentsNewRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/clinics/': {
+      id: '/_auth/app/clinics/'
+      path: '/clinics'
+      fullPath: '/app/clinics/'
+      preLoaderRoute: typeof AuthAppClinicsIndexRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/clinics/$clinicId': {
+      id: '/_auth/app/clinics/$clinicId'
+      path: '/clinics/$clinicId'
+      fullPath: '/app/clinics/$clinicId'
+      preLoaderRoute: typeof AuthAppClinicsClinicIdRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/clinics/new': {
+      id: '/_auth/app/clinics/new'
+      path: '/clinics/new'
+      fullPath: '/app/clinics/new'
+      preLoaderRoute: typeof AuthAppClinicsNewRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/conflicts/$conflictId': {
+      id: '/_auth/app/conflicts/$conflictId'
+      path: '/conflicts/$conflictId'
+      fullPath: '/app/conflicts/$conflictId'
+      preLoaderRoute: typeof AuthAppConflictsConflictIdRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/development/': {
+      id: '/_auth/app/development/'
+      path: '/development'
+      fullPath: '/app/development/'
+      preLoaderRoute: typeof AuthAppDevelopmentIndexRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/development/$patientId': {
+      id: '/_auth/app/development/$patientId'
+      path: '/development/$patientId'
+      fullPath: '/app/development/$patientId'
+      preLoaderRoute: typeof AuthAppDevelopmentPatientIdRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/immunizations/': {
+      id: '/_auth/app/immunizations/'
+      path: '/immunizations'
+      fullPath: '/app/immunizations/'
+      preLoaderRoute: typeof AuthAppImmunizationsIndexRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/immunizations/$patientId': {
+      id: '/_auth/app/immunizations/$patientId'
+      path: '/immunizations/$patientId'
+      fullPath: '/app/immunizations/$patientId'
+      preLoaderRoute: typeof AuthAppImmunizationsPatientIdRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/patients/': {
+      id: '/_auth/app/patients/'
+      path: '/patients'
+      fullPath: '/app/patients/'
+      preLoaderRoute: typeof AuthAppPatientsIndexRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/patients/$patientId': {
+      id: '/_auth/app/patients/$patientId'
+      path: '/patients/$patientId'
+      fullPath: '/app/patients/$patientId'
+      preLoaderRoute: typeof AuthAppPatientsPatientIdRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/patients/new': {
+      id: '/_auth/app/patients/new'
+      path: '/patients/new'
+      fullPath: '/app/patients/new'
+      preLoaderRoute: typeof AuthAppPatientsNewRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/prescriptions/': {
+      id: '/_auth/app/prescriptions/'
+      path: '/prescriptions'
+      fullPath: '/app/prescriptions/'
+      preLoaderRoute: typeof AuthAppPrescriptionsIndexRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/prescriptions/$prescriptionId': {
+      id: '/_auth/app/prescriptions/$prescriptionId'
+      path: '/prescriptions/$prescriptionId'
+      fullPath: '/app/prescriptions/$prescriptionId'
+      preLoaderRoute: typeof AuthAppPrescriptionsPrescriptionIdRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/prescriptions/neonatal-dose-calculator': {
+      id: '/_auth/app/prescriptions/neonatal-dose-calculator'
+      path: '/prescriptions/neonatal-dose-calculator'
+      fullPath: '/app/prescriptions/neonatal-dose-calculator'
+      preLoaderRoute: typeof AuthAppPrescriptionsNeonatalDoseCalculatorRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/prescriptions/new': {
+      id: '/_auth/app/prescriptions/new'
+      path: '/prescriptions/new'
+      fullPath: '/app/prescriptions/new'
+      preLoaderRoute: typeof AuthAppPrescriptionsNewRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/visits/': {
+      id: '/_auth/app/visits/'
+      path: '/visits'
+      fullPath: '/app/visits/'
+      preLoaderRoute: typeof AuthAppVisitsIndexRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/visits/$visitId': {
+      id: '/_auth/app/visits/$visitId'
+      path: '/visits/$visitId'
+      fullPath: '/app/visits/$visitId'
+      preLoaderRoute: typeof AuthAppVisitsVisitIdRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/visits/new': {
+      id: '/_auth/app/visits/new'
+      path: '/visits/new'
+      fullPath: '/app/visits/new'
+      preLoaderRoute: typeof AuthAppVisitsNewRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
+    '/_auth/app/clinics/$clinicId/edit': {
+      id: '/_auth/app/clinics/$clinicId/edit'
+      path: '/edit'
+      fullPath: '/app/clinics/$clinicId/edit'
+      preLoaderRoute: typeof AuthAppClinicsClinicIdEditRouteImport
+      parentRoute: typeof AuthAppClinicsClinicIdRoute
+    }
+    '/_auth/app/patients/$patientId/edit': {
+      id: '/_auth/app/patients/$patientId/edit'
+      path: '/edit'
+      fullPath: '/app/patients/$patientId/edit'
+      preLoaderRoute: typeof AuthAppPatientsPatientIdEditRouteImport
+      parentRoute: typeof AuthAppPatientsPatientIdRoute
+    }
+    '/_auth/app/patients/$patientId/growth': {
+      id: '/_auth/app/patients/$patientId/growth'
+      path: '/growth'
+      fullPath: '/app/patients/$patientId/growth'
+      preLoaderRoute: typeof AuthAppPatientsPatientIdGrowthRouteImport
+      parentRoute: typeof AuthAppPatientsPatientIdRoute
+    }
+    '/_auth/app/visits/$visitId/edit': {
+      id: '/_auth/app/visits/$visitId/edit'
+      path: '/edit'
+      fullPath: '/app/visits/$visitId/edit'
+      preLoaderRoute: typeof AuthAppVisitsVisitIdEditRouteImport
+      parentRoute: typeof AuthAppVisitsVisitIdRoute
+    }
+    '/_auth/app/patients/$patientId/measurements/new': {
+      id: '/_auth/app/patients/$patientId/measurements/new'
+      path: '/measurements/new'
+      fullPath: '/app/patients/$patientId/measurements/new'
+      preLoaderRoute: typeof AuthAppPatientsPatientIdMeasurementsNewRouteImport
+      parentRoute: typeof AuthAppPatientsPatientIdRoute
+    }
+  }
 }
 
 interface AuthAppClinicsClinicIdRouteChildren {
-	AuthAppClinicsClinicIdEditRoute: typeof AuthAppClinicsClinicIdEditRoute;
+  AuthAppClinicsClinicIdEditRoute: typeof AuthAppClinicsClinicIdEditRoute
 }
 
 const AuthAppClinicsClinicIdRouteChildren: AuthAppClinicsClinicIdRouteChildren =
-	{
-		AuthAppClinicsClinicIdEditRoute: AuthAppClinicsClinicIdEditRoute,
-	};
+  {
+    AuthAppClinicsClinicIdEditRoute: AuthAppClinicsClinicIdEditRoute,
+  }
 
 const AuthAppClinicsClinicIdRouteWithChildren =
-	AuthAppClinicsClinicIdRoute._addFileChildren(
-		AuthAppClinicsClinicIdRouteChildren,
-	);
+  AuthAppClinicsClinicIdRoute._addFileChildren(
+    AuthAppClinicsClinicIdRouteChildren,
+  )
 
 interface AuthAppPatientsPatientIdRouteChildren {
-	AuthAppPatientsPatientIdEditRoute: typeof AuthAppPatientsPatientIdEditRoute;
-	AuthAppPatientsPatientIdGrowthRoute: typeof AuthAppPatientsPatientIdGrowthRoute;
-	AuthAppPatientsPatientIdMeasurementsNewRoute: typeof AuthAppPatientsPatientIdMeasurementsNewRoute;
+  AuthAppPatientsPatientIdEditRoute: typeof AuthAppPatientsPatientIdEditRoute
+  AuthAppPatientsPatientIdGrowthRoute: typeof AuthAppPatientsPatientIdGrowthRoute
+  AuthAppPatientsPatientIdMeasurementsNewRoute: typeof AuthAppPatientsPatientIdMeasurementsNewRoute
 }
 
 const AuthAppPatientsPatientIdRouteChildren: AuthAppPatientsPatientIdRouteChildren =
-	{
-		AuthAppPatientsPatientIdEditRoute: AuthAppPatientsPatientIdEditRoute,
-		AuthAppPatientsPatientIdGrowthRoute: AuthAppPatientsPatientIdGrowthRoute,
-		AuthAppPatientsPatientIdMeasurementsNewRoute:
-			AuthAppPatientsPatientIdMeasurementsNewRoute,
-	};
+  {
+    AuthAppPatientsPatientIdEditRoute: AuthAppPatientsPatientIdEditRoute,
+    AuthAppPatientsPatientIdGrowthRoute: AuthAppPatientsPatientIdGrowthRoute,
+    AuthAppPatientsPatientIdMeasurementsNewRoute:
+      AuthAppPatientsPatientIdMeasurementsNewRoute,
+  }
 
 const AuthAppPatientsPatientIdRouteWithChildren =
-	AuthAppPatientsPatientIdRoute._addFileChildren(
-		AuthAppPatientsPatientIdRouteChildren,
-	);
+  AuthAppPatientsPatientIdRoute._addFileChildren(
+    AuthAppPatientsPatientIdRouteChildren,
+  )
 
 interface AuthAppVisitsVisitIdRouteChildren {
-	AuthAppVisitsVisitIdEditRoute: typeof AuthAppVisitsVisitIdEditRoute;
+  AuthAppVisitsVisitIdEditRoute: typeof AuthAppVisitsVisitIdEditRoute
 }
 
 const AuthAppVisitsVisitIdRouteChildren: AuthAppVisitsVisitIdRouteChildren = {
-	AuthAppVisitsVisitIdEditRoute: AuthAppVisitsVisitIdEditRoute,
-};
+  AuthAppVisitsVisitIdEditRoute: AuthAppVisitsVisitIdEditRoute,
+}
 
 const AuthAppVisitsVisitIdRouteWithChildren =
-	AuthAppVisitsVisitIdRoute._addFileChildren(AuthAppVisitsVisitIdRouteChildren);
+  AuthAppVisitsVisitIdRoute._addFileChildren(AuthAppVisitsVisitIdRouteChildren)
 
 interface AuthAppRouteRouteChildren {
-	AuthAppIndexRoute: typeof AuthAppIndexRoute;
-	AuthAppAppointmentsAppointmentIdRoute: typeof AuthAppAppointmentsAppointmentIdRoute;
-	AuthAppAppointmentsCalendarRoute: typeof AuthAppAppointmentsCalendarRoute;
-	AuthAppAppointmentsNewRoute: typeof AuthAppAppointmentsNewRoute;
-	AuthAppClinicsClinicIdRoute: typeof AuthAppClinicsClinicIdRouteWithChildren;
-	AuthAppClinicsNewRoute: typeof AuthAppClinicsNewRoute;
-	AuthAppConflictsConflictIdRoute: typeof AuthAppConflictsConflictIdRoute;
-	AuthAppDevelopmentPatientIdRoute: typeof AuthAppDevelopmentPatientIdRoute;
-	AuthAppImmunizationsPatientIdRoute: typeof AuthAppImmunizationsPatientIdRoute;
-	AuthAppPatientsPatientIdRoute: typeof AuthAppPatientsPatientIdRouteWithChildren;
-	AuthAppPatientsNewRoute: typeof AuthAppPatientsNewRoute;
-	AuthAppPrescriptionsPrescriptionIdRoute: typeof AuthAppPrescriptionsPrescriptionIdRoute;
-	AuthAppPrescriptionsNeonatalDoseCalculatorRoute: typeof AuthAppPrescriptionsNeonatalDoseCalculatorRoute;
-	AuthAppPrescriptionsNewRoute: typeof AuthAppPrescriptionsNewRoute;
-	AuthAppVisitsVisitIdRoute: typeof AuthAppVisitsVisitIdRouteWithChildren;
-	AuthAppVisitsNewRoute: typeof AuthAppVisitsNewRoute;
-	AuthAppAppointmentsIndexRoute: typeof AuthAppAppointmentsIndexRoute;
-	AuthAppClinicsIndexRoute: typeof AuthAppClinicsIndexRoute;
-	AuthAppDevelopmentIndexRoute: typeof AuthAppDevelopmentIndexRoute;
-	AuthAppImmunizationsIndexRoute: typeof AuthAppImmunizationsIndexRoute;
-	AuthAppPatientsIndexRoute: typeof AuthAppPatientsIndexRoute;
-	AuthAppPrescriptionsIndexRoute: typeof AuthAppPrescriptionsIndexRoute;
-	AuthAppVisitsIndexRoute: typeof AuthAppVisitsIndexRoute;
+  AuthAppIndexRoute: typeof AuthAppIndexRoute
+  AuthAppAppointmentsAppointmentIdRoute: typeof AuthAppAppointmentsAppointmentIdRoute
+  AuthAppAppointmentsCalendarRoute: typeof AuthAppAppointmentsCalendarRoute
+  AuthAppAppointmentsNewRoute: typeof AuthAppAppointmentsNewRoute
+  AuthAppClinicsClinicIdRoute: typeof AuthAppClinicsClinicIdRouteWithChildren
+  AuthAppClinicsNewRoute: typeof AuthAppClinicsNewRoute
+  AuthAppConflictsConflictIdRoute: typeof AuthAppConflictsConflictIdRoute
+  AuthAppDevelopmentPatientIdRoute: typeof AuthAppDevelopmentPatientIdRoute
+  AuthAppImmunizationsPatientIdRoute: typeof AuthAppImmunizationsPatientIdRoute
+  AuthAppPatientsPatientIdRoute: typeof AuthAppPatientsPatientIdRouteWithChildren
+  AuthAppPatientsNewRoute: typeof AuthAppPatientsNewRoute
+  AuthAppPrescriptionsPrescriptionIdRoute: typeof AuthAppPrescriptionsPrescriptionIdRoute
+  AuthAppPrescriptionsNeonatalDoseCalculatorRoute: typeof AuthAppPrescriptionsNeonatalDoseCalculatorRoute
+  AuthAppPrescriptionsNewRoute: typeof AuthAppPrescriptionsNewRoute
+  AuthAppVisitsVisitIdRoute: typeof AuthAppVisitsVisitIdRouteWithChildren
+  AuthAppVisitsNewRoute: typeof AuthAppVisitsNewRoute
+  AuthAppAppointmentsIndexRoute: typeof AuthAppAppointmentsIndexRoute
+  AuthAppClinicsIndexRoute: typeof AuthAppClinicsIndexRoute
+  AuthAppDevelopmentIndexRoute: typeof AuthAppDevelopmentIndexRoute
+  AuthAppImmunizationsIndexRoute: typeof AuthAppImmunizationsIndexRoute
+  AuthAppPatientsIndexRoute: typeof AuthAppPatientsIndexRoute
+  AuthAppPrescriptionsIndexRoute: typeof AuthAppPrescriptionsIndexRoute
+  AuthAppVisitsIndexRoute: typeof AuthAppVisitsIndexRoute
 }
 
 const AuthAppRouteRouteChildren: AuthAppRouteRouteChildren = {
-	AuthAppIndexRoute: AuthAppIndexRoute,
-	AuthAppAppointmentsAppointmentIdRoute: AuthAppAppointmentsAppointmentIdRoute,
-	AuthAppAppointmentsCalendarRoute: AuthAppAppointmentsCalendarRoute,
-	AuthAppAppointmentsNewRoute: AuthAppAppointmentsNewRoute,
-	AuthAppClinicsClinicIdRoute: AuthAppClinicsClinicIdRouteWithChildren,
-	AuthAppClinicsNewRoute: AuthAppClinicsNewRoute,
-	AuthAppConflictsConflictIdRoute: AuthAppConflictsConflictIdRoute,
-	AuthAppDevelopmentPatientIdRoute: AuthAppDevelopmentPatientIdRoute,
-	AuthAppImmunizationsPatientIdRoute: AuthAppImmunizationsPatientIdRoute,
-	AuthAppPatientsPatientIdRoute: AuthAppPatientsPatientIdRouteWithChildren,
-	AuthAppPatientsNewRoute: AuthAppPatientsNewRoute,
-	AuthAppPrescriptionsPrescriptionIdRoute:
-		AuthAppPrescriptionsPrescriptionIdRoute,
-	AuthAppPrescriptionsNeonatalDoseCalculatorRoute:
-		AuthAppPrescriptionsNeonatalDoseCalculatorRoute,
-	AuthAppPrescriptionsNewRoute: AuthAppPrescriptionsNewRoute,
-	AuthAppVisitsVisitIdRoute: AuthAppVisitsVisitIdRouteWithChildren,
-	AuthAppVisitsNewRoute: AuthAppVisitsNewRoute,
-	AuthAppAppointmentsIndexRoute: AuthAppAppointmentsIndexRoute,
-	AuthAppClinicsIndexRoute: AuthAppClinicsIndexRoute,
-	AuthAppDevelopmentIndexRoute: AuthAppDevelopmentIndexRoute,
-	AuthAppImmunizationsIndexRoute: AuthAppImmunizationsIndexRoute,
-	AuthAppPatientsIndexRoute: AuthAppPatientsIndexRoute,
-	AuthAppPrescriptionsIndexRoute: AuthAppPrescriptionsIndexRoute,
-	AuthAppVisitsIndexRoute: AuthAppVisitsIndexRoute,
-};
+  AuthAppIndexRoute: AuthAppIndexRoute,
+  AuthAppAppointmentsAppointmentIdRoute: AuthAppAppointmentsAppointmentIdRoute,
+  AuthAppAppointmentsCalendarRoute: AuthAppAppointmentsCalendarRoute,
+  AuthAppAppointmentsNewRoute: AuthAppAppointmentsNewRoute,
+  AuthAppClinicsClinicIdRoute: AuthAppClinicsClinicIdRouteWithChildren,
+  AuthAppClinicsNewRoute: AuthAppClinicsNewRoute,
+  AuthAppConflictsConflictIdRoute: AuthAppConflictsConflictIdRoute,
+  AuthAppDevelopmentPatientIdRoute: AuthAppDevelopmentPatientIdRoute,
+  AuthAppImmunizationsPatientIdRoute: AuthAppImmunizationsPatientIdRoute,
+  AuthAppPatientsPatientIdRoute: AuthAppPatientsPatientIdRouteWithChildren,
+  AuthAppPatientsNewRoute: AuthAppPatientsNewRoute,
+  AuthAppPrescriptionsPrescriptionIdRoute:
+    AuthAppPrescriptionsPrescriptionIdRoute,
+  AuthAppPrescriptionsNeonatalDoseCalculatorRoute:
+    AuthAppPrescriptionsNeonatalDoseCalculatorRoute,
+  AuthAppPrescriptionsNewRoute: AuthAppPrescriptionsNewRoute,
+  AuthAppVisitsVisitIdRoute: AuthAppVisitsVisitIdRouteWithChildren,
+  AuthAppVisitsNewRoute: AuthAppVisitsNewRoute,
+  AuthAppAppointmentsIndexRoute: AuthAppAppointmentsIndexRoute,
+  AuthAppClinicsIndexRoute: AuthAppClinicsIndexRoute,
+  AuthAppDevelopmentIndexRoute: AuthAppDevelopmentIndexRoute,
+  AuthAppImmunizationsIndexRoute: AuthAppImmunizationsIndexRoute,
+  AuthAppPatientsIndexRoute: AuthAppPatientsIndexRoute,
+  AuthAppPrescriptionsIndexRoute: AuthAppPrescriptionsIndexRoute,
+  AuthAppVisitsIndexRoute: AuthAppVisitsIndexRoute,
+}
 
 const AuthAppRouteRouteWithChildren = AuthAppRouteRoute._addFileChildren(
-	AuthAppRouteRouteChildren,
-);
+  AuthAppRouteRouteChildren,
+)
 
 interface AuthRouteRouteChildren {
-	AuthAppRouteRoute: typeof AuthAppRouteRouteWithChildren;
+  AuthAppRouteRoute: typeof AuthAppRouteRouteWithChildren
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
-	AuthAppRouteRoute: AuthAppRouteRouteWithChildren,
-};
+  AuthAppRouteRoute: AuthAppRouteRouteWithChildren,
+}
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
-	AuthRouteRouteChildren,
-);
+  AuthRouteRouteChildren,
+)
 
 interface GuestRouteRouteChildren {
-	GuestAboutRoute: typeof GuestAboutRoute;
-	GuestForgotPasswordRoute: typeof GuestForgotPasswordRoute;
-	GuestLoginRoute: typeof GuestLoginRoute;
-	GuestPrivacyRoute: typeof GuestPrivacyRoute;
-	GuestResetPasswordRoute: typeof GuestResetPasswordRoute;
-	GuestSignupRoute: typeof GuestSignupRoute;
-	GuestTermsRoute: typeof GuestTermsRoute;
-	GuestServicesChronicCareRoute: typeof GuestServicesChronicCareRoute;
-	GuestServicesDevelopmentalScreeningRoute: typeof GuestServicesDevelopmentalScreeningRoute;
-	GuestServicesImmunizationsRoute: typeof GuestServicesImmunizationsRoute;
-	GuestServicesNewbornCareRoute: typeof GuestServicesNewbornCareRoute;
-	GuestServicesSickVisitsRoute: typeof GuestServicesSickVisitsRoute;
-	GuestServicesWellChildRoute: typeof GuestServicesWellChildRoute;
-	GuestServicesIndexRoute: typeof GuestServicesIndexRoute;
+  GuestAboutRoute: typeof GuestAboutRoute
+  GuestForgotPasswordRoute: typeof GuestForgotPasswordRoute
+  GuestLoginRoute: typeof GuestLoginRoute
+  GuestPrivacyRoute: typeof GuestPrivacyRoute
+  GuestResetPasswordRoute: typeof GuestResetPasswordRoute
+  GuestSignupRoute: typeof GuestSignupRoute
+  GuestTermsRoute: typeof GuestTermsRoute
+  GuestServicesChronicCareRoute: typeof GuestServicesChronicCareRoute
+  GuestServicesDevelopmentalScreeningRoute: typeof GuestServicesDevelopmentalScreeningRoute
+  GuestServicesImmunizationsRoute: typeof GuestServicesImmunizationsRoute
+  GuestServicesNewbornCareRoute: typeof GuestServicesNewbornCareRoute
+  GuestServicesSickVisitsRoute: typeof GuestServicesSickVisitsRoute
+  GuestServicesWellChildRoute: typeof GuestServicesWellChildRoute
+  GuestServicesIndexRoute: typeof GuestServicesIndexRoute
 }
 
 const GuestRouteRouteChildren: GuestRouteRouteChildren = {
-	GuestAboutRoute: GuestAboutRoute,
-	GuestForgotPasswordRoute: GuestForgotPasswordRoute,
-	GuestLoginRoute: GuestLoginRoute,
-	GuestPrivacyRoute: GuestPrivacyRoute,
-	GuestResetPasswordRoute: GuestResetPasswordRoute,
-	GuestSignupRoute: GuestSignupRoute,
-	GuestTermsRoute: GuestTermsRoute,
-	GuestServicesChronicCareRoute: GuestServicesChronicCareRoute,
-	GuestServicesDevelopmentalScreeningRoute:
-		GuestServicesDevelopmentalScreeningRoute,
-	GuestServicesImmunizationsRoute: GuestServicesImmunizationsRoute,
-	GuestServicesNewbornCareRoute: GuestServicesNewbornCareRoute,
-	GuestServicesSickVisitsRoute: GuestServicesSickVisitsRoute,
-	GuestServicesWellChildRoute: GuestServicesWellChildRoute,
-	GuestServicesIndexRoute: GuestServicesIndexRoute,
-};
+  GuestAboutRoute: GuestAboutRoute,
+  GuestForgotPasswordRoute: GuestForgotPasswordRoute,
+  GuestLoginRoute: GuestLoginRoute,
+  GuestPrivacyRoute: GuestPrivacyRoute,
+  GuestResetPasswordRoute: GuestResetPasswordRoute,
+  GuestSignupRoute: GuestSignupRoute,
+  GuestTermsRoute: GuestTermsRoute,
+  GuestServicesChronicCareRoute: GuestServicesChronicCareRoute,
+  GuestServicesDevelopmentalScreeningRoute:
+    GuestServicesDevelopmentalScreeningRoute,
+  GuestServicesImmunizationsRoute: GuestServicesImmunizationsRoute,
+  GuestServicesNewbornCareRoute: GuestServicesNewbornCareRoute,
+  GuestServicesSickVisitsRoute: GuestServicesSickVisitsRoute,
+  GuestServicesWellChildRoute: GuestServicesWellChildRoute,
+  GuestServicesIndexRoute: GuestServicesIndexRoute,
+}
 
 const GuestRouteRouteWithChildren = GuestRouteRoute._addFileChildren(
-	GuestRouteRouteChildren,
-);
+  GuestRouteRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
-	IndexRoute: IndexRoute,
-	AuthRouteRoute: AuthRouteRouteWithChildren,
-	GuestRouteRoute: GuestRouteRouteWithChildren,
-	ApiAuthSplatRoute: ApiAuthSplatRoute,
-};
+  IndexRoute: IndexRoute,
+  AuthRouteRoute: AuthRouteRouteWithChildren,
+  GuestRouteRoute: GuestRouteRouteWithChildren,
+  ApiAssistantRoute: ApiAssistantRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
+}
 export const routeTree = rootRouteImport
-	._addFileChildren(rootRouteChildren)
-	._addFileTypes<FileRouteTypes>();
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
-import type { getRouter } from "./router.tsx";
-import type { createStart } from "@tanstack/react-start";
-declare module "@tanstack/react-start" {
-	interface Register {
-		ssr: true;
-		router: Awaited<ReturnType<typeof getRouter>>;
-	}
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
 }

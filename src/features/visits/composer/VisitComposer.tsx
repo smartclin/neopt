@@ -9,6 +9,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { AssistantPanel } from "@/features/assistant/components/AssistantPanel";
+import { canUseAssistantRole } from "@/features/assistant/scope";
+import { useAuthSuspense } from "@/lib/auth/hooks";
 
 import type { VisitSnapshot } from "./queries";
 import type { VisitComposerValues } from "./schema";
@@ -44,12 +47,13 @@ export function VisitComposer({
   onSuccess,
 }: VisitComposerProps) {
   const { state, patch, save } = useVisitComposer(initial, visitId);
+  const { user } = useAuthSuspense();
 
   const [openSections, setOpenSections] = useState<SectionId[]>([...SECTION_IDS]);
 
   const handleSave = useCallback(async () => {
     const result = await save();
-    if (result?.visitId) {
+    if (result?.ok) {
       onSuccess?.(result.visitId);
     }
   }, [save, onSuccess]);
@@ -135,6 +139,10 @@ export function VisitComposer({
           <RightRail saveState={state} snapshot={snapshot} values={state.values} />
         </aside>
       </div>
+
+      {state.values.patientId && canUseAssistantRole(user?.role) && (
+        <AssistantPanel patientId={state.values.patientId} />
+      )}
     </div>
   );
 }

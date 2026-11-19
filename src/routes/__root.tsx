@@ -105,17 +105,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         media: "(prefers-color-scheme: dark)",
       },
     ],
-    links: [
-      { rel: "stylesheet", href: appCss },
-      // Preconnect kept because `styles.css` @imports a Google
-      // Fonts stylesheet. Remove if that stops being true — a
-      // stray preconnect is a DNS + TLS handshake paid for nothing.
-      {
-        rel: "preconnect",
-        href: "https://fonts.gstatic.com",
-        crossOrigin: "",
-      },
-    ],
+    links: [{ rel: "stylesheet", href: appCss }],
     // Executed synchronously inside <head> by `<HeadContent />`,
     // before the body paints. See theme-init.ts for the contract.
     scripts: [{ children: THEME_INIT_SCRIPT }],

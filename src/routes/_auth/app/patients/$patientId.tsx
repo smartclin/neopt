@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "#/components/ui/card.t
 import { InfoRow } from "#/components/ui/info-row.tsx";
 import { Skeleton } from "#/components/ui/skeleton.tsx";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "#/components/ui/tabs.tsx";
+import { AssistantPanel } from "#/features/assistant/components/AssistantPanel";
 import {
   AppointmentForm,
   AppointmentsTable,
@@ -230,6 +231,11 @@ function PatientLayout() {
               </CardContent>
             </Card>
           </div>
+          {["admin", "doctor", "staff"].includes(user.role ?? "") && (
+            <div className="mt-6">
+              <AssistantPanel patientId={patientId} />
+            </div>
+          )}
         </TabsContent>
 
         <TabsContent value="visits">

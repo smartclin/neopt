@@ -141,16 +141,16 @@ describe("ClinicSessionSync", () => {
     }
   });
 
-  it("falls back to the user id when clinicId is absent", async () => {
+  it("clears the active clinic when clinicId is absent", async () => {
     currentUser = { ...BASE_USER, clinicId: "" } as unknown as FakeUser;
-    // Simulate a user without a clinicId by passing undefined.
+    // Simulate a user without a clinicId.
     (currentUser as Record<string, unknown>).clinicId = undefined;
 
     await act(async () => {
       wrapWithQueryClient(<ClinicSessionSync />);
     });
 
-    expect(getClinicStore().state.active?.id).toBe("u_1");
+    expect(getClinicStore().state.active).toBeNull();
   });
 
   it("does not set the clinic while isPending is true", async () => {

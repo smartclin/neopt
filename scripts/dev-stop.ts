@@ -11,7 +11,7 @@ import { git } from "./worktree-port.ts";
 // matching a command line: `pkill -f <pattern>` also matches the shell that
 // issued it, which is how a session kills its own Bash call.
 //
-// Usage: pnpm dev:stop. Exit 0 when the port ends up free or was already, 1
+// Usage: bun run dev:stop. Exit 0 when the port ends up free or was already, 1
 // when it is held from outside this worktree or the server ignored SIGTERM.
 
 const DEFAULT_PORT = 3000;
@@ -46,13 +46,30 @@ function listeningPids(port: number): number[] {
       .filter(Boolean)
       .map(Number);
   } catch (error) {
-    if ((error as { status?: number }).status === 1) return [];
+    const err = error as { status?: number; code?: string };
+    if (err.status === 1) return [];
+    if (err.code === "ENOENT") {
+      throw new Error(
+        "`lsof` is required to find the dev server; install it (e.g. apt install lsof)",
+      );
+    }
     throw error;
   }
 }
 
-/** The process's working directory, read through `lsof` so macOS answers too. */
+/** The process's working directory; /proc on Linux, `lsof` elsewhere. */
 function workingDirectory(pid: number): string | null {
+  if (process.platform === "linux") {
+    try {
+      const linked = execFileSync("readlink", ["-f", `/proc/${pid}/cwd`], {
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+      }).trim();
+      if (linked) return linked;
+    } catch {
+      // No /proc entry (permissions or exit race): fall through to lsof.
+    }
+  }
   try {
     const output = execFileSync("lsof", ["-a", "-p", String(pid), "-d", "cwd", "-Fn"], {
       encoding: "utf8",
@@ -98,14 +115,20 @@ async function stopListeners(port: number, pids: number[], foreign: number[]): P
 
 async function main() {
   const port = Number(process.env.PORT) || DEFAULT_PORT;
+
+  let root: string;
+  try {
+    root = git(["rev-parse", "--show-toplevel"]);
+  } catch {
+    console.error("dev:stop must run inside a git worktree (git rev-parse --show-toplevel failed)");
+    process.exit(1);
+  }
+
   const listeners = listeningPids(port).map((pid) => ({
     pid,
     cwd: workingDirectory(pid),
   }));
-  const { stop, foreign } = planStop({
-    root: git(["rev-parse", "--show-toplevel"]),
-    listeners,
-  });
+  const { stop, foreign } = planStop({ root, listeners });
 
   if (listeners.length === 0) console.log(`nothing listening on ${port}`);
   for (const listener of foreign) {

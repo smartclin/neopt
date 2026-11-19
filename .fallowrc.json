@@ -1,45 +1,89 @@
 {
-  "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
-  // `shadcn` is a CLI run by hand to add components (docs/agents/shadcn.md);
-  // nothing imports it.
-  // `skills` is a CLI run by the weekly dependency task to copy the dependency
-  // skills again (docs/agents/dependency-updates.md); nothing imports it either.
-  // `@shadcn/lint` is an Oxlint JS plugin `vite.config.ts` loads by name.
-  "ignoreDependencies": ["shadcn", "skills", "@shadcn/lint"],
-  // The repo's own Oxlint JS plugin, and the Worker the object tests run
-  // against, both loaded by path from `vite.config.ts`.
-  "entry": ["scripts/oxlint-ui-plugin.mjs", "src/organization/test-worker.ts"],
-  // A Durable Object's public methods are its RPC interface: the Worker calls
-  // them through the binding's stub, which fallow cannot follow. The object
-  // class extends `OrganizationWhatsapp` (`src/organization/organization-whatsapp.ts`),
-  // which extends `OrganizationRuntime` (`src/organization/organization-runtime.ts`).
-  // promptfoo calls a provider's `id` and `callApi` (tests/evals/).
-  "usedClassMembers": [
-    { "extends": "DurableObject", "members": ["*"] },
-    { "extends": "OrganizationRuntime", "members": ["*"] },
-    { "extends": "OrganizationWhatsapp", "members": ["*"] },
-    { "implements": "ApiProvider", "members": ["id", "callApi"] }
-  ],
-  // shadcn components are vendored whole (docs/agents/shadcn.md): a screen uses
-  // some of a component's parts, and trimming the rest would fight every re-sync.
-  "ignoreExports": [{ "file": "src/components/ui/**", "exports": ["*"] }],
-  "health": {
-    // Likewise for their complexity: vendored code keeps shadcn's shape.
-    "ignore": ["src/components/ui/**"]
-  },
+  "$schema": "./node_modules/fallow/schema.json",
   "duplicates": {
-    // Pair-only clones are hidden; widespread copy-paste is what is worth a refactor.
     "minOccurrences": 3,
-    // `fallow dupes` (`pnpm check:dupes`) fails above this share of duplicated
-    // lines across the whole codebase; `fallow audit` ignores it. 1.2% on
-    // 2026-11-09: 3 leaves room for ordinary growth and stops copy-paste from
-    // accumulating one warning at a time.
-    "threshold": 3
+    "threshold": 3.0
   },
+  "entry": [
+    "src/db/test-worker.ts",
+    "src/db/index.ts",
+    "src/db/schema.ts",
+    "src/lib/auth.ts",
+    "src/env.ts",
+    "src/db/seed/seed-*.ts"
+  ],
+  "framework": [
+    {
+      "detection": {
+        "package": "@tanstack/react-start",
+        "type": "dependency"
+      },
+      "name": "tanstack-start-server-fns",
+      "usedExports": [
+        {
+          "exports": [
+            "*"
+          ],
+          "pattern": "src/db/queries/*.queries.ts"
+        },
+        {
+          "exports": [
+            "*"
+          ],
+          "pattern": "src/features/**/functions.ts"
+        }
+      ]
+    }
+  ],
+  "health": {
+    "ignore": [
+      "src/components/ui/**"
+    ]
+  },
+  "ignoreDependencies": [
+    "@faker-js/faker",
+    "@fontsource-variable/noto-sans",
+    "@tanstack/ai-client",
+    "@tanstack/match-sorter-utils",
+    "@tanstack/store",
+    "nitro",
+    "@tailwindcss/typography",
+    "@shadcn/lint"
+  ],
+  // Keep shadcn in analysis (so deps stay tracked), only silence the
+  // exports + health noise on it.
+  "ignoreExports": [
+    {
+      "exports": [
+        "*"
+      ],
+      "file": "src/components/ui/**"
+    }
+  ],
   "rules": {
-    // ADR-0001 dependencies land before the features that import them (zod,
-    // date-fns, TanStack Form...). Reported, not failed; the list empties as
-    // features arrive, and anything still on it later is a candidate to remove.
-    "unused-dependencies": "warn"
-  }
+    "unused-dependencies": "warn",
+    "unused-dev-dependencies": "warn"
+  },
+  "supportEntry": [
+    "src/features/transcription/**/*.{ts,tsx}",
+    "scripts/oxlint-ui-plugin.mjs",
+    "src/routes/_auth/app/playground/**",
+    "src/hooks/**",
+    "public/models/**",
+    "scripts/migrate-zod-uuid.ts",
+    "scripts/setup-organization.ts",
+    "drizzle.config.ts",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "playwright.config.ts"
+  ],
+  "usedClassMembers": [
+    {
+      "implements": "ApiProvider",
+      "members": [
+        "id",
+        "callApi"
+      ]
+    }
+  ]
 }

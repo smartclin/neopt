@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { statSync } from "node:fs";
+import { lstatSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
@@ -46,6 +46,8 @@ export function findOversizedFiles(
     .sort((left, right) => right.estimatedTokens - left.estimatedTokens);
 }
 
+// ─── Reading: tracked files and their sizes ─────────────────────────────────
+
 function trackedFiles(rootDirectory: string): string[] {
   return execFileSync("git", ["ls-files", "-z", "src"], {
     cwd: rootDirectory,
@@ -55,27 +57,52 @@ function trackedFiles(rootDirectory: string): string[] {
     .filter(Boolean);
 }
 
+/** Bytes an agent reading the path actually gets; a symlink is its own text. */
+function byteLengthOf(rootDirectory: string, filePath: string): number {
+  try {
+    return lstatSync(path.join(rootDirectory, filePath)).size;
+  } catch (error) {
+    if ((error as { code?: string }).code === "ENOENT") return 0; // tracked but absent
+    throw error;
+  }
+}
+
+// ─── Report ─────────────────────────────────────────────────────────────────
+
+function formatViolations(violations: FileTokenViolation[]): string {
+  return [
+    `Source files above ${maxEstimatedTokens} estimated tokens (bytes / 4):`,
+    ...violations.map((v) => `- ${v.filePath}: ${v.estimatedTokens}`),
+    "",
+    "Split each at a clear module boundary (docs/agents/coding-standards.md).",
+  ].join("\n");
+}
+
+// ─── CLI ────────────────────────────────────────────────────────────────────
+
 function main(): void {
   const rootDirectory = process.cwd();
+
+  let files: string[];
+  try {
+    files = trackedFiles(rootDirectory);
+  } catch (error) {
+    const err = error as { code?: string; status?: number };
+    const why = err.code === "ENOENT" ? "`git` is not installed" : "not a git checkout";
+    console.error(`check:source-size cannot list tracked files: ${why}`);
+    process.exit(1);
+  }
+
   const violations = findOversizedFiles(
-    trackedFiles(rootDirectory)
-      .filter(isCheckedSourceFile)
-      .map((filePath) => ({
-        byteLength: statSync(path.join(rootDirectory, filePath)).size,
-        filePath,
-      })),
+    files.filter(isCheckedSourceFile).map((filePath) => ({
+      byteLength: byteLengthOf(rootDirectory, filePath),
+      filePath,
+    })),
   );
 
   if (violations.length === 0) return;
 
-  console.error(
-    [
-      `Source files above ${maxEstimatedTokens} estimated tokens (bytes / 4):`,
-      ...violations.map((v) => `- ${v.filePath}: ${v.estimatedTokens}`),
-      "",
-      "Split each at a clear module boundary (docs/agents/coding-standards.md).",
-    ].join("\n"),
-  );
+  console.error(formatViolations(violations));
   process.exitCode = 1;
 }
 

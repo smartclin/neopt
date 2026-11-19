@@ -1,42 +1,40 @@
-import { useForm } from "@tanstack/react-form";
-import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import {useForm} from "@tanstack/react-form";
+import {useQuery} from "@tanstack/react-query";
 import {
-  AlertCircleIcon,
-  CalendarIcon,
-  ClockIcon,
-  PlusIcon,
-  SaveIcon,
-  SearchIcon,
-  SparklesIcon,
-  UserIcon,
-  XIcon,
+    AlertCircleIcon,
+    CalendarIcon,
+    ClockIcon,
+    PlusIcon,
+    SaveIcon,
+    SearchIcon,
+    SparklesIcon,
+    UserIcon,
+    XIcon,
 } from "lucide-react";
 import * as React from "react";
 
-import { roundToNextSlot, toLocalDateTimeString } from "#/lib/dates.ts";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Spinner } from "@/components/ui/spinner";
-import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/toast";
-// ── patients ──────────────────────────────────────────────────────────
-import { getPatientQueryOptions, searchPatientsQuery } from "@/features/patients/queries";
+import {roundToNextSlot, toLocalDateTimeString} from "#/lib/dates.ts";
+import {Avatar, AvatarFallback} from "@/components/ui/avatar";
+import {Badge} from "@/components/ui/badge";
+import {Button} from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {Label} from "@/components/ui/label";
+import {ScrollArea} from "@/components/ui/scroll-area";
+import {Separator} from "@/components/ui/separator";
+import {Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle} from "@/components/ui/sheet";
+import {Spinner} from "@/components/ui/spinner";
+import {Textarea} from "@/components/ui/textarea";
+import {toast} from "@/components/ui/toast";
 
-// ── appointments ──────────────────────────────────────────────────────
+import {getPatientQueryOptions, searchPatientsQuery} from "@/features/patients/queries";
+
 import {
-  appointmentByIdQuery,
-  useCreateAppointmentMutation,
-  useUpdateAppointmentMutation,
+    appointmentByIdQuery,
+    useCreateAppointmentMutation,
+    useUpdateAppointmentMutation,
 } from "../queries";
-import { PatientSearchResult } from "../types";
-import { AppointmentStatusBadge } from "./AppointmentStatusBadge";
+import {PatientSearchResult} from "../types";
+import {AppointmentStatusBadge} from "./AppointmentStatusBadge";
 
 // ── Types ──────────────────────────────────────────────────────────────
 
@@ -50,7 +48,6 @@ interface AppointmentSheetProps {
   onClosed?: () => void;
 }
 
-/** Unwrap TanStack Form's error map shape. */
 function formErrorMessage(err: unknown): string | null {
   if (!err) return null;
   if (typeof err === "string") return err;
@@ -67,38 +64,28 @@ function formErrorMessage(err: unknown): string | null {
 
 function ageLabel(dateOfBirth: string | null | undefined): string {
   if (!dateOfBirth) return "Unknown";
-
   const birth = new Date(dateOfBirth);
   if (Number.isNaN(birth.getTime())) return "Unknown";
 
   const today = new Date();
   let ageYears = today.getFullYear() - birth.getFullYear();
-  const hasHadBirthdayThisYear =
+  const hadBirthday =
     today.getMonth() > birth.getMonth() ||
     (today.getMonth() === birth.getMonth() && today.getDate() >= birth.getDate());
-
-  if (!hasHadBirthdayThisYear) {
-    ageYears -= 1;
-  }
-
-  if (ageYears > 0) {
-    return `${ageYears}y`;
-  }
+  if (!hadBirthday) ageYears -= 1;
+  if (ageYears > 0) return `${ageYears}y`;
 
   const diffMonths =
     (today.getFullYear() - birth.getFullYear()) * 12 +
     (today.getMonth() - birth.getMonth()) -
     (today.getDate() < birth.getDate() ? 1 : 0);
-
-  if (diffMonths > 0) {
-    return `${diffMonths}mo`;
-  }
+  if (diffMonths > 0) return `${diffMonths}mo`;
 
   const diffDays = Math.max(0, Math.floor((today.getTime() - birth.getTime()) / 86400000));
   return `${diffDays}d`;
 }
 
-// ── Patient preview panel ──────────────────────────────────────────────
+// ── Patient preview ───────────────────────────────────────────────────
 
 function PatientPreview({ patientId }: { patientId: string }) {
   const q = useQuery(getPatientQueryOptions(patientId));
@@ -110,7 +97,6 @@ function PatientPreview({ patientId }: { patientId: string }) {
       </div>
     );
   }
-
   if (q.isError) {
     return (
       <div className="text-destructive rounded-lg border border-dashed p-3 text-sm">
@@ -118,9 +104,8 @@ function PatientPreview({ patientId }: { patientId: string }) {
       </div>
     );
   }
-
   if (!q.data) {
-    return <p className=" text-sm">Patient not found (may have been deleted).</p>;
+    return <p className="text-sm">Patient not found (may have been deleted).</p>;
   }
 
   const p = q.data;
@@ -136,21 +121,21 @@ function PatientPreview({ patientId }: { patientId: string }) {
           <span className="truncate font-semibold">
             {p.firstName} {p.lastName}
           </span>
-          <span className=" font-mono text-xs">MRN {p.mrn}</span>
+          <span className="font-mono text-xs">MRN {p.mrn}</span>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
         <div>
-          <span className=" block">Age</span>
+          <span className="block">Age</span>
           <span>{ageLabel(p.dateOfBirth)}</span>
         </div>
         <div>
-          <span className=" block">Sex</span>
+          <span className="block">Sex</span>
           <span className="capitalize">{p.sex}</span>
         </div>
         {p.allergies ? (
           <div className="col-span-2">
-            <span className=" block">Allergies</span>
+            <span className="block">Allergies</span>
             <Badge className="mt-0.5" variant="destructive">
               <AlertCircleIcon aria-hidden="true" className="size-3" />
               {p.allergies}
@@ -162,16 +147,15 @@ function PatientPreview({ patientId }: { patientId: string }) {
   );
 }
 
-// ── Patient search combobox ────────────────────────────────────────────
+// ── Patient search ────────────────────────────────────────────────────
 
 interface PatientSearchProps {
   clinicId: string;
-  value: string;
   onSelect: (patient: PatientSearchResult) => void;
   onClear?: () => void;
 }
 
-function PatientSearch({ clinicId, value, onSelect, onClear }: PatientSearchProps) {
+function PatientSearch({ clinicId, onSelect, onClear }: PatientSearchProps) {
   const [q, setQ] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const wrapperRef = React.useRef<HTMLDivElement>(null);
@@ -179,16 +163,13 @@ function PatientSearch({ clinicId, value, onSelect, onClear }: PatientSearchProp
   React.useEffect(() => {
     if (!open) return;
     const handler = (event: PointerEvent) => {
-      if (!wrapperRef.current?.contains(event.target as Node)) {
-        setOpen(false);
-      }
+      if (!wrapperRef.current?.contains(event.target as Node)) setOpen(false);
     };
     document.addEventListener("pointerdown", handler);
     return () => document.removeEventListener("pointerdown", handler);
   }, [open]);
 
   const searchQuery = useQuery(searchPatientsQuery(clinicId, q));
-
   const results = (searchQuery.data ?? []) as PatientSearchResult[];
   const showDropdown = open && q.trim().length >= 2;
 
@@ -206,11 +187,11 @@ function PatientSearch({ clinicId, value, onSelect, onClear }: PatientSearchProp
   return (
     <div className="relative" ref={wrapperRef}>
       <div className="relative">
-        <SearchIcon className=" absolute top-1/2 left-0 size-3.5 -translate-y-1/2" />
+        <SearchIcon className="absolute top-1/2 left-0 size-3.5 -translate-y-1/2" />
         <Input
           aria-expanded={showDropdown}
           aria-haspopup="listbox"
-
+          aria-label="Search patient"
           onChange={(e) => {
             setQ(e.target.value);
             setOpen(true);
@@ -219,10 +200,10 @@ function PatientSearch({ clinicId, value, onSelect, onClear }: PatientSearchProp
           placeholder="Search patient by name or MRN…"
           value={q}
         />
-        {(q || value) && (
+        {q && (
           <button
             aria-label="Clear patient"
-            className=" hover:text-foreground absolute top-1/2 right-1 -translate-y-1/2 rounded-md p-1"
+            className="hover:text-foreground absolute top-1/2 right-1 -translate-y-1/2 rounded-md p-1"
             onClick={clear}
             type="button"
           >
@@ -237,13 +218,13 @@ function PatientSearch({ clinicId, value, onSelect, onClear }: PatientSearchProp
           role="listbox"
         >
           {searchQuery.isPending ? (
-            <div className=" px-3 py-2 text-sm">Searching…</div>
+            <div className="px-3 py-2 text-sm">Searching…</div>
           ) : searchQuery.isError ? (
             <div className="text-destructive px-3 py-2 text-sm">
               {searchQuery.error instanceof Error ? searchQuery.error.message : "Search failed."}
             </div>
           ) : results.length === 0 ? (
-            <div className=" px-3 py-2 text-sm">No patients match.</div>
+            <div className="px-3 py-2 text-sm">No patients match.</div>
           ) : (
             results.map((p) => (
               <button
@@ -263,7 +244,7 @@ function PatientSearch({ clinicId, value, onSelect, onClear }: PatientSearchProp
                   <span className="truncate font-medium">
                     {p.firstName} {p.lastName}
                   </span>
-                  <span className=" font-mono text-xs">
+                  <span className="font-mono text-xs">
                     MRN {p.mrn} · {ageLabel(p.dateOfBirth)}
                   </span>
                 </div>
@@ -276,19 +257,20 @@ function PatientSearch({ clinicId, value, onSelect, onClear }: PatientSearchProp
   );
 }
 
-// ── Duration stepper (unchanged) ──────────────────────────────────────
+// ── Duration stepper ──────────────────────────────────────────────────
 
 const DURATION_STEPS = [10, 15, 20, 30, 45, 60, 90] as const;
 
 function DurationStepper({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   const currentIdx = DURATION_STEPS.indexOf(value as (typeof DURATION_STEPS)[number]);
-
   const dec = () => {
     if (currentIdx > 0) onChange(DURATION_STEPS[currentIdx - 1]);
   };
   const inc = () => {
-    if (currentIdx < DURATION_STEPS.length - 1) {
+    if (currentIdx >= 0 && currentIdx < DURATION_STEPS.length - 1) {
       onChange(DURATION_STEPS[currentIdx + 1]);
+    } else if (currentIdx === -1) {
+      onChange(DURATION_STEPS[0]);
     }
   };
 
@@ -317,7 +299,7 @@ function DurationStepper({ value, onChange }: { value: number; onChange: (v: num
   );
 }
 
-// ── Main sheet ─────────────────────────────────────────────────────────
+// ── Sheet ─────────────────────────────────────────────────────────────
 
 export function AppointmentSheet({
   open,
@@ -328,22 +310,17 @@ export function AppointmentSheet({
   onSaved,
   onClosed,
 }: AppointmentSheetProps) {
-  const navigate = useNavigate();
   const isEdit = Boolean(appointmentId);
 
-  // ── reads ──────────────────────────────────────────────────────────
   const existingQuery = useQuery({
     ...appointmentByIdQuery(appointmentId ?? ""),
     enabled: isEdit && open,
   });
-
   const existing = existingQuery.data;
 
-  // ── mutations ──────────────────────────────────────────────────────
   const createMutation = useCreateAppointmentMutation();
   const updateMutation = useUpdateAppointmentMutation();
 
-  // ── local state ────────────────────────────────────────────────────
   const [localSelectedPatientId, setLocalSelectedPatientId] = React.useState(
     defaultPatientId ?? "",
   );
@@ -354,13 +331,10 @@ export function AppointmentSheet({
   const form = useForm({
     defaultValues: {
       patientId: defaultPatientId ?? "",
-      scheduledAt:
-        isEdit && existing?.scheduledAt
-          ? toLocalDateTimeString(new Date(existing.scheduledAt))
-          : defaultScheduledAt,
-      durationMinutes: existing?.durationMinutes ?? 15,
-      reason: existing?.reason ?? "",
-      notes: existing?.notes ?? "",
+      scheduledAt: defaultScheduledAt,
+      durationMinutes: 15,
+      reason: "",
+      notes: "",
     },
     validators: {
       onSubmitAsync: async ({ value }) => {
@@ -377,17 +351,10 @@ export function AppointmentSheet({
                 },
               },
             });
-            toast.add({
-              type: "success",
-              description: "Appointment updated",
-            });
+            toast.add({ type: "success", description: "Appointment updated" });
           } else {
-            if (!value.patientId) {
-              return { form: "Select a patient first" };
-            }
-            if (!value.scheduledAt) {
-              return { form: "Choose a date and time" };
-            }
+            if (!value.patientId) return { form: "Select a patient first" };
+            if (!value.scheduledAt) return { form: "Choose a date and time" };
             await createMutation.mutateAsync({
               data: {
                 patientId: value.patientId,
@@ -399,10 +366,7 @@ export function AppointmentSheet({
                 notes: value.notes || null,
               },
             });
-            toast.add({
-              type: "success",
-              description: "Appointment scheduled",
-            });
+            toast.add({ type: "success", description: "Appointment scheduled" });
           }
           onSaved?.();
           onOpenChange(false);
@@ -416,11 +380,13 @@ export function AppointmentSheet({
     },
   });
 
+  // Sync loaded appointment into form (once per id).
   const lastSyncedIdRef = React.useRef<string | null>(null);
   React.useEffect(() => {
     if (!existing) return;
     if (lastSyncedIdRef.current === existing.id) return;
     lastSyncedIdRef.current = existing.id;
+    form.setFieldValue("patientId", existing.patientId);
     form.setFieldValue("scheduledAt", toLocalDateTimeString(new Date(existing.scheduledAt)));
     form.setFieldValue("durationMinutes", existing.durationMinutes);
     form.setFieldValue("reason", existing.reason ?? "");
@@ -433,22 +399,18 @@ export function AppointmentSheet({
 
   const handleOpenChange = (next: boolean) => {
     if (!next) {
+      // Reset to a clean slate so a reopened sheet doesn't show stale data.
       form.reset();
+      lastSyncedIdRef.current = null;
       setLocalSelectedPatientId(defaultPatientId ?? "");
     }
     onOpenChange(next);
-    if (!next) {
-      if (onClosed) {
-        onClosed();
-      } else {
-        void navigate({ to: "/app/appointments" });
-      }
-    }
+    if (!next) onClosed?.();
   };
 
   return (
     <Sheet onOpenChange={handleOpenChange} open={open}>
-      <SheetContent className="flex w-full flex-col  sm:max-w-lg" side="right">
+      <SheetContent className="flex w-full flex-col sm:max-w-lg" side="right">
         <SheetHeader className="mx-6 my-4 flex-row items-center justify-between">
           <SheetTitle>{isEdit ? "Edit Appointment" : "New Appointment"}</SheetTitle>
           <div className="flex items-center gap-2">
@@ -469,7 +431,7 @@ export function AppointmentSheet({
             <div className="flex flex-col gap-6 p-6">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2">
-                  <UserIcon className=" size-3.5" />
+                  <UserIcon className="size-3.5" />
                   <span className="text-xs font-semibold tracking-wider uppercase">Patient</span>
                 </div>
 
@@ -484,7 +446,6 @@ export function AppointmentSheet({
                       setLocalSelectedPatientId(p.id);
                       form.setFieldValue("patientId", p.id);
                     }}
-                    value={selectedPatientId}
                   />
                 ) : null}
 
@@ -503,7 +464,7 @@ export function AppointmentSheet({
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <CalendarIcon className=" size-3.5" />
+                    <CalendarIcon className="size-3.5" />
                     <span className="text-xs font-semibold tracking-wider uppercase">Schedule</span>
                   </div>
                   <button
@@ -554,7 +515,7 @@ export function AppointmentSheet({
                   {(field) => (
                     <div className="flex flex-col gap-1.5">
                       <Label htmlFor={field.name}>
-                        Reason <span className=" font-normal normal-case">(optional)</span>
+                        Reason <span className="font-normal normal-case">(optional)</span>
                       </Label>
                       <Input
                         id={field.name}
@@ -571,7 +532,7 @@ export function AppointmentSheet({
                   {(field) => (
                     <div className="flex flex-col gap-1.5">
                       <Label htmlFor={field.name}>
-                        Notes <span className=" font-normal normal-case">(optional)</span>
+                        Notes <span className="font-normal normal-case">(optional)</span>
                       </Label>
                       <Textarea
                         id={field.name}
