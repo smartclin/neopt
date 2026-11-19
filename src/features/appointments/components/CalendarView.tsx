@@ -1,29 +1,29 @@
-import { useQuery } from "@tanstack/react-query";
-import { ChevronLeftIcon, ChevronRightIcon, PlusIcon } from "lucide-react";
+import {useQuery} from "@tanstack/react-query";
+import {ChevronLeftIcon, ChevronRightIcon, PlusIcon} from "lucide-react";
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Spinner } from "@/components/ui/spinner";
+import {Button} from "@/components/ui/button";
+import {ScrollArea} from "@/components/ui/scroll-area";
+import {Skeleton} from "@/components/ui/skeleton";
+import {Spinner} from "@/components/ui/spinner";
 // ── dates & format ─────────────────────────────────────────────────────
-import { formatDayHeading, formatMonth, formatShortDay, formatWeekRange } from "@/lib/dates";
+import {formatDayHeading, formatMonth, formatShortDay, formatWeekRange} from "@/lib/dates";
 import {
-  addDays,
-  groupByDay,
-  isEditableTarget,
-  isSameDay,
-  startOfDay,
-  startOfMonth,
-  startOfWeek,
-  toDateKey,
+    addDays,
+    groupByDay,
+    isEditableTarget,
+    isSameDay,
+    startOfDay,
+    startOfMonth,
+    startOfWeek,
+    toDateKey,
 } from "@/lib/dates";
-import { cn } from "@/lib/utils";
+import {cn} from "@/lib/utils";
 
-import type { AppointmentInRange } from "../types";
+import type {AppointmentInRange} from "../types";
 
-import { appointmentsInRangeQuery } from "../queries";
-import { AppointmentStatusPill } from "./AppointmentStatusPill";
+import {appointmentsInRangeQuery} from "../queries";
+import {AppointmentStatusPill} from "./AppointmentStatusPill";
 
 // ── Local types ────────────────────────────────────────────────────────
 
@@ -371,14 +371,14 @@ function MonthView({ monthStart, byDay, isLoading, onEdit, onNewAt }: MonthViewP
                   <AppointmentPill appt={appt} compact key={appt.id} onEdit={onEdit} />
                 ))}
                 {overflow > 0 && (
-                  <button
-                    aria-label={`Show all ${dayAppts.length} appointments on ${formatDayHeading(day)}`}
-                    className="hover:text-foreground focus-visible:ring-ring rounded-sm text-[0.6rem] hover:underline focus-visible:ring-2 focus-visible:outline-none"
-                    onClick={() => onNewAt(day)}
-                    type="button"
-                  >
-                    +{overflow} more
-                  </button>
+                <button
+  aria-label={`Show all ${dayAppts.length} appointments on ${formatDayHeading(day)}`}
+  className="hover:text-foreground focus-visible:ring-ring rounded-sm text-[0.6rem] hover:underline focus-visible:ring-2 focus-visible:outline-none"
+  onClick={() => onEdit(dayAppts[0]?.id ?? "")}
+  type="button"
+>
+  +{overflow} more
+</button>
                 )}
               </div>
             )}

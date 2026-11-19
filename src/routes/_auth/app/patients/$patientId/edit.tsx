@@ -9,12 +9,13 @@ import { PageHeader } from "#/components/blocks/page-header.tsx";
 import { Button } from "#/components/ui/button.tsx";
 import { Card, CardContent } from "#/components/ui/card.tsx";
 import { Input } from "#/components/ui/input.tsx";
-import { Spinner } from "#/components/ui/spinner.tsx";
+import { Skeleton } from "#/components/ui/skeleton.tsx";
 import { Textarea } from "#/components/ui/textarea.tsx";
 import { toast } from "#/components/ui/toast.tsx";
 // ── reads + mutations ────────────────────────────────────────────────
 import { getPatientQueryOptions, useUpdatePatientMutation } from "#/features/patients/queries";
 import { useAuthSuspense } from "#/lib/auth/hooks.ts";
+import { fieldErrorMessage } from "@/components/forms/field-error";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Route
@@ -41,6 +42,7 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/_auth/app/patients/$patientId/edit")({
   validateSearch: searchSchema,
   component: EditPatientPage,
+  pendingComponent: () => <Skeleton className="h-96" />,
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -57,16 +59,6 @@ const editSchema = z.object({
 });
 
 type EditFormValues = z.infer<typeof editSchema>;
-
-function fieldErrorMessage(err: unknown): string | undefined {
-  if (!err) return undefined;
-  if (typeof err === "string") return err;
-  if (typeof err === "object" && "message" in err) {
-    const m = (err as { message: unknown }).message;
-    if (typeof m === "string") return m;
-  }
-  return undefined;
-}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Page
@@ -103,11 +95,7 @@ function EditPatientPage() {
       />
       <Card>
         <CardContent>
-          <PatientEditFields
-            clinicId={user.clinicId}
-            onDone={backToPatient}
-            patientId={patientId}
-          />
+          <PatientEditFields onDone={backToPatient} patientId={patientId} />
         </CardContent>
       </Card>
     </div>
@@ -118,23 +106,11 @@ function EditPatientPage() {
 // Fields loader
 // ─────────────────────────────────────────────────────────────────────────────
 
-function PatientEditFields({
-  patientId,
-  clinicId,
-  onDone,
-}: {
-  patientId: string;
-  clinicId: string;
-  onDone: () => void;
-}) {
+function PatientEditFields({ patientId, onDone }: { patientId: string; onDone: () => void }) {
   const patientQuery = useQuery(getPatientQueryOptions(patientId));
 
   if (patientQuery.isPending) {
-    return (
-      <div className="flex justify-center py-12">
-        <Spinner />
-      </div>
-    );
+    return <Skeleton className="h-96" />;
   }
 
   if (patientQuery.isError) {
@@ -163,7 +139,7 @@ function PatientEditFields({
     );
   }
 
-  return <PatientEditForm clinicId={clinicId} onDone={onDone} patient={patientQuery.data} />;
+  return <PatientEditForm onDone={onDone} patient={patientQuery.data} />;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -181,18 +157,9 @@ interface EditablePatient {
   updatedAt: string | Date;
 }
 
-function PatientEditForm({
-  patient,
-  clinicId,
-  onDone,
-}: {
-  patient: EditablePatient;
-  clinicId: string;
-  onDone: () => void;
-}) {
+function PatientEditForm({ patient, onDone }: { patient: EditablePatient; onDone: () => void }) {
   const updateMutation = useUpdatePatientMutation({
     patientId: patient.id,
-    clinicId,
   });
 
   const form = useForm({
@@ -242,14 +209,29 @@ function PatientEditForm({
         onDone();
         return undefined;
       } catch (err) {
+        const message =
+          err instanceof Error
+            ? err.message
+            : typeof err === "string"
+              ? err
+              : "Failed to save patient";
+        const status =
+          typeof err === "object" && err !== null && "status" in err
+            ? (err as { status?: unknown }).status
+            : undefined;
+
+        if (/conflict|409/i.test(message) || status === 409) {
+          return {
+            form: "Someone else edited this patient. Reload the page to see their changes.",
+          };
+        }
+
         return {
-          form: err instanceof Error ? err.message : "Failed to save patient",
+          form: message,
         };
       }
     },
   });
-
-  const submittingRef = React.useRef(false);
 
   return (
     <form
@@ -258,11 +240,7 @@ function PatientEditForm({
       onSubmit={(event) => {
         event.preventDefault();
         event.stopPropagation();
-        if (submittingRef.current) return;
-        submittingRef.current = true;
-        void form.handleSubmit().finally(() => {
-          submittingRef.current = false;
-        });
+        void form.handleSubmit();
       }}
     >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

@@ -13,6 +13,7 @@ import { Input } from "#/components/ui/input.tsx";
 import { toast } from "#/components/ui/toast.tsx";
 import { authClient } from "#/lib/auth-client.ts";
 import { authQueryOptions } from "#/lib/auth/queries.ts";
+import { fieldErrorMessage } from "@/components/forms/field-error";
 
 export const Route = createFileRoute("/_guest/login")({
   component: LoginForm,
@@ -23,16 +24,6 @@ const loginSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
-/** TanStack Form's `field.state.meta.errors` is `unknown[]`. Normalize it. */
-function fieldErrorMessage(err: unknown): string | undefined {
-  if (!err) return undefined;
-  if (typeof err === "string") return err;
-  if (typeof err === "object" && "message" in err) {
-    const m = (err as { message: unknown }).message;
-    if (typeof m === "string") return m;
-  }
-  return undefined;
-}
 
 function LoginForm() {
   const { redirectUrl } = Route.useRouteContext();

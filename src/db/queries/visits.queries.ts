@@ -54,6 +54,7 @@ export async function listVisitsForPatient(patientId: string) {
       measurements: true,
       diagnoses: true,
       prescriptions: true,
+      doctor: { columns: { id: true, name: true } },
     },
   });
 }

@@ -3,16 +3,27 @@ import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { ArrowLeftIcon, PencilIcon } from "lucide-react";
 
 import { PageHeader } from "#/components/blocks/page-header.tsx";
+import { RouteError } from "#/components/blocks/route-error.tsx";
 import { Section } from "#/components/blocks/section.tsx";
 import { Button } from "#/components/ui/button.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "#/components/ui/card.tsx";
 import { InfoRow } from "#/components/ui/info-row.tsx";
+import { Skeleton } from "#/components/ui/skeleton.tsx";
 // ── read: query factory from queries.ts ────────────────────────────────
 import { clinicWithStatsQuery } from "#/features/clinics/queries";
 import { useAuthSuspense } from "#/lib/auth/hooks.ts";
 
 export const Route = createFileRoute("/_auth/app/clinics/$clinicId")({
   component: ClinicLayout,
+  errorComponent: ({ error, reset }) => (
+    <RouteError
+      kind="unknown"
+      message={errorMessage(error)}
+      onRetry={reset}
+      title="Couldn't load this clinic"
+    />
+  ),
+  pendingComponent: () => <ClinicDetailSkeleton />,
 });
 
 function ClinicLayout() {
@@ -52,12 +63,7 @@ function ClinicDetail({ clinicId }: { clinicId: string }) {
   }
 
   const patientCount = clinic.patients?.length ?? 0;
-  const clinicUsers =
-    (
-      clinic as typeof clinic & {
-        users?: { id: string; name: string | null; role: string | null }[];
-      }
-    ).users ?? [];
+  const clinicUsers = clinic.staff ?? [];
   const staffCount = clinicUsers.length;
   const upcomingCount = clinic.appointments?.length ?? 0;
 
@@ -97,7 +103,7 @@ function ClinicDetail({ clinicId }: { clinicId: string }) {
 
       <Section description="Users linked to this clinic." title="Staff">
         {clinicUsers.length === 0 ? (
-          <p className=" py-6 text-center text-sm">No staff linked to this clinic yet.</p>
+          <p className=" py-6 text-center text-sm">No staff linked yet.</p>
         ) : (
           <ul className="divide-y rounded-md border">
             {clinicUsers.map((u) => (
@@ -111,6 +117,30 @@ function ClinicDetail({ clinicId }: { clinicId: string }) {
       </Section>
     </div>
   );
+}
+
+function ClinicDetailSkeleton() {
+  return (
+    <div aria-busy="true" aria-label="Loading clinic" className="flex flex-col gap-6">
+      <Skeleton className="h-8 w-64" />
+      <Skeleton className="h-32 w-full" />
+      <div className="grid gap-3 sm:grid-cols-3">
+        <Skeleton className="h-24" />
+        <Skeleton className="h-24" />
+        <Skeleton className="h-24" />
+      </div>
+      <Skeleton className="h-40 w-full" />
+    </div>
+  );
+}
+
+function errorMessage(error: unknown): string {
+  if (error instanceof Error && error.message.length < 200) {
+    if (!/^(error:|duplicate key|violates|relation|column|syntax)/i.test(error.message)) {
+      return error.message;
+    }
+  }
+  return "No changes were made. Check your connection and retry.";
 }
 
 function StatCard({ label, value }: { label: string; value: number }) {

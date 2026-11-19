@@ -35,6 +35,8 @@ import {
 } from "../queries";
 import {PatientSearchResult} from "../types";
 import {AppointmentStatusBadge} from "./AppointmentStatusBadge";
+import {formErrorMessage} from '../lib/forms';
+import {ageLabel} from '../status';
 
 // ── Types ──────────────────────────────────────────────────────────────
 
@@ -43,49 +45,12 @@ interface AppointmentSheetProps {
   onOpenChange: (open: boolean) => void;
   appointmentId?: string;
   defaultPatientId?: string;
+  defaultScheduledAt?: Date;
   clinicId: string;
   onSaved?: () => void;
   onClosed?: () => void;
 }
 
-function formErrorMessage(err: unknown): string | null {
-  if (!err) return null;
-  if (typeof err === "string") return err;
-  if (typeof err === "object" && "form" in err) {
-    const f = (err as { form: unknown }).form;
-    if (typeof f === "string") return f;
-  }
-  if (typeof err === "object" && "message" in err) {
-    const m = (err as { message: unknown }).message;
-    if (typeof m === "string") return m;
-  }
-  return null;
-}
-
-function ageLabel(dateOfBirth: string | null | undefined): string {
-  if (!dateOfBirth) return "Unknown";
-  const birth = new Date(dateOfBirth);
-  if (Number.isNaN(birth.getTime())) return "Unknown";
-
-  const today = new Date();
-  let ageYears = today.getFullYear() - birth.getFullYear();
-  const hadBirthday =
-    today.getMonth() > birth.getMonth() ||
-    (today.getMonth() === birth.getMonth() && today.getDate() >= birth.getDate());
-  if (!hadBirthday) ageYears -= 1;
-  if (ageYears > 0) return `${ageYears}y`;
-
-  const diffMonths =
-    (today.getFullYear() - birth.getFullYear()) * 12 +
-    (today.getMonth() - birth.getMonth()) -
-    (today.getDate() < birth.getDate() ? 1 : 0);
-  if (diffMonths > 0) return `${diffMonths}mo`;
-
-  const diffDays = Math.max(0, Math.floor((today.getTime() - birth.getTime()) / 86400000));
-  return `${diffDays}d`;
-}
-
-// ── Patient preview ───────────────────────────────────────────────────
 
 function PatientPreview({ patientId }: { patientId: string }) {
   const q = useQuery(getPatientQueryOptions(patientId));
@@ -244,9 +209,14 @@ function PatientSearch({ clinicId, onSelect, onClear }: PatientSearchProps) {
                   <span className="truncate font-medium">
                     {p.firstName} {p.lastName}
                   </span>
-                  <span className="font-mono text-xs">
-                    MRN {p.mrn} · {ageLabel(p.dateOfBirth)}
-                  </span>
+                <span className="font-mono text-xs">
+  MRN {p.mrn} · {ageLabel(p.dateOfBirth)}
+</span>
+{p.allergies ? (
+  <span className="bg-destructive/10 text-destructive mt-0.5 w-fit rounded px-1.5 py-0.5 text-[0.6rem] font-medium">
+    Allergy: {p.allergies}
+  </span>
+) : null}
                 </div>
               </button>
             ))
@@ -263,16 +233,21 @@ const DURATION_STEPS = [10, 15, 20, 30, 45, 60, 90] as const;
 
 function DurationStepper({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   const currentIdx = DURATION_STEPS.indexOf(value as (typeof DURATION_STEPS)[number]);
-  const dec = () => {
-    if (currentIdx > 0) onChange(DURATION_STEPS[currentIdx - 1]);
-  };
-  const inc = () => {
-    if (currentIdx >= 0 && currentIdx < DURATION_STEPS.length - 1) {
-      onChange(DURATION_STEPS[currentIdx + 1]);
-    } else if (currentIdx === -1) {
-      onChange(DURATION_STEPS[0]);
-    }
-  };
+const dec = () => {
+  if (currentIdx > 0) {
+    onChange(DURATION_STEPS[currentIdx - 1]);
+  } else if (currentIdx === -1) {
+    const lower = [...DURATION_STEPS].reverse().find((s) => s < value);
+    onChange(lower ?? DURATION_STEPS[0]);
+  }
+};
+const inc = () => {
+  if (currentIdx >= 0 && currentIdx < DURATION_STEPS.length - 1) {
+    onChange(DURATION_STEPS[currentIdx + 1]);
+  } else if (currentIdx === -1) {
+    onChange(DURATION_STEPS.find((s) => s > value) ?? DURATION_STEPS[DURATION_STEPS.length - 1]);
+  }
+};
 
   return (
     <div className="flex items-center gap-2">
@@ -306,6 +281,7 @@ export function AppointmentSheet({
   onOpenChange,
   appointmentId,
   defaultPatientId,
+  defaultScheduledAt,
   clinicId,
   onSaved,
   onClosed,
@@ -326,12 +302,18 @@ export function AppointmentSheet({
   );
   const selectedPatientId = existing?.patientId ?? localSelectedPatientId;
 
-  const defaultScheduledAt = React.useMemo(() => roundToNextSlot(30), []);
+  const scheduledAtDefault = React.useMemo(
+    () =>
+      defaultScheduledAt
+        ? toLocalDateTimeString(defaultScheduledAt)
+        : roundToNextSlot(30),
+    [defaultScheduledAt],
+  );
 
   const form = useForm({
     defaultValues: {
       patientId: defaultPatientId ?? "",
-      scheduledAt: defaultScheduledAt,
+      scheduledAt: scheduledAtDefault,
       durationMinutes: 15,
       reason: "",
       notes: "",
@@ -380,6 +362,11 @@ export function AppointmentSheet({
     },
   });
 
+  React.useEffect(() => {
+    if (!open || isEdit) return;
+    form.setFieldValue("scheduledAt", scheduledAtDefault);
+  }, [form, isEdit, open, scheduledAtDefault]);
+
   // Sync loaded appointment into form (once per id).
   const lastSyncedIdRef = React.useRef<string | null>(null);
   React.useEffect(() => {
@@ -422,11 +409,11 @@ export function AppointmentSheet({
           </div>
         </SheetHeader>
 
-        {isEdit && existingQuery.isPending ? (
-          <div className="flex flex-1 items-center justify-center">
-            <Spinner />
-          </div>
-        ) : (
+     {isEdit && (existingQuery.isPending || !existing) ? (
+  <div className="flex flex-1 items-center justify-center">
+    <Spinner />
+  </div>
+) : (
           <ScrollArea className="flex-1">
             <div className="flex flex-col gap-6 p-6">
               <div className="flex flex-col gap-3">

@@ -1,0 +1,22 @@
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install gitleaks
+        run: |
+          GITLEAKS_VERSION="8.30.1"
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            | tar -xz -C /usr/local/bin gitleaks
+
+      - name: Secret scan (origin/main..HEAD)
+        run: |
+          if git rev-parse --verify origin/main >/dev/null 2>&1; then
+            gitleaks git --redact --verbose --log-opts="origin/main..HEAD" .
+          else
+            gitleaks git --redact --verbose .
+          fi

@@ -1,28 +1,62 @@
-import { useQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
-import { cn } from "cn";
-import { CalendarClockIcon, CheckIcon, UserXIcon, XIcon } from "lucide-react";
+import {useQuery} from "@tanstack/react-query";
+import {Link} from "@tanstack/react-router";
+import {CalendarClockIcon, CheckIcon, UserXIcon, XIcon} from "lucide-react";
 import * as React from "react";
 
-import { SectionState } from "@/components/blocks/state-view";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
-import { toast } from "@/components/ui/toast";
-import { formatDayHeading, isEditableTarget, toLocalDateTimeString } from "@/lib/dates";
+import {SectionState} from "@/components/blocks/state-view";
+import {Avatar, AvatarFallback} from "@/components/ui/avatar";
+import {Button} from "@/components/ui/button";
+import {Spinner} from "@/components/ui/spinner";
+import {toast} from "@/components/ui/toast";
+import {formatDayHeading, formatTime, isEditableTarget} from "@/lib/dates";
+import {cn} from "@/lib/utils";
 
 // ── reads + mutations ──────────────────────────────────────────────────
 import {
-  todayAppointmentsQuery,
-  useCancelAppointmentMutation,
-  useCompleteAppointmentMutation,
-  useMarkNoShowMutation,
+    todayAppointmentsQuery,
+    useCancelAppointmentMutation,
+    useCompleteAppointmentMutation,
+    useMarkNoShowMutation,
 } from "../queries";
-import { type AppointmentStatus, normalizeStatus } from "../status";
-import { AppointmentRow } from "../types";
-import { AppointmentStatusBadge } from "./AppointmentStatusBadge";
+import {ageLabel, type AppointmentStatus, normalizeStatus, STATUS_CONFIG} from "../status";
+import type {AppointmentRow} from "../types";
+import {AppointmentStatusBadge} from "./AppointmentStatusBadge";
 
-// ── Time helpers ───────────────────────────────────────────────────────
+// ── Shared action interface ────────────────────────────────────────────
+
+interface QueueActions {
+  complete: { mutate: (id: string) => void; isPending: boolean };
+  noShow: { mutate: (id: string) => void; isPending: boolean };
+  cancel: { mutate: (id: string) => void; isPending: boolean };
+}
+
+// ── Small action button ────────────────────────────────────────────────
+
+interface ActionButtonProps {
+  icon: React.ComponentType<{ className?: string }>;
+  iconClassName: string;
+  label: string;
+  onClick: () => void;
+  disabled?: boolean;
+}
+
+function ActionButton({ icon: Icon, iconClassName, label, onClick, disabled }: ActionButtonProps) {
+  return (
+    <Button
+      aria-label={label}
+      disabled={disabled}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
+      size="icon-xs"
+      title={label}
+      variant="ghost"
+    >
+      <Icon className={cn("size-3", iconClassName)} />
+    </Button>
+  );
+}
 
 // ── Queue item ─────────────────────────────────────────────────────────
 
@@ -36,12 +70,15 @@ interface QueueItemProps {
 }
 
 function QueueItem({ appt, isActive, rowRef, onFocus, onEdit, actions }: QueueItemProps) {
-  const initials = appt.patient
-    ? `${appt.patient.firstName[0]}${appt.patient.lastName[0]}`.toUpperCase()
+  const patient = appt.patient;
+  const initials = patient
+    ? `${patient.firstName[0]}${patient.lastName[0]}`.toUpperCase()
     : "?";
 
   const isDone =
     appt.status === "completed" || appt.status === "cancelled" || appt.status === "no-show";
+
+  const timeText = formatTime(new Date(appt.scheduledAt));
 
   return (
     <div
@@ -56,10 +93,9 @@ function QueueItem({ appt, isActive, rowRef, onFocus, onEdit, actions }: QueueIt
       ref={rowRef}
       role="listitem"
     >
+      {/* Time column */}
       <div className="flex w-10 shrink-0 flex-col items-center pt-0.5">
-        <span className="font-mono text-[0.65rem] leading-tight tabular-nums">
-          {toLocalDateTimeString(appt.scheduledAt)}
-        </span>
+        <span className="font-mono text-xs leading-tight tabular-nums">{timeText}</span>
         <div aria-hidden="true" className="bg-border mt-1 w-px flex-1" />
       </div>
 
@@ -67,34 +103,50 @@ function QueueItem({ appt, isActive, rowRef, onFocus, onEdit, actions }: QueueIt
         <AvatarFallback>{initials}</AvatarFallback>
       </Avatar>
 
+      {/* Body */}
       <div className="flex min-w-0 flex-1 flex-col gap-1">
+        {/* Name + age + allergy + status */}
         <div className="flex items-center justify-between gap-2">
-          <Link
-            className="focus-visible:ring-ring truncate rounded-sm text-sm font-medium underline-offset-4 hover:underline focus-visible:ring-2 focus-visible:outline-none"
-            onClick={(e) => e.stopPropagation()}
-            params={{ patientId: appt.patient?.id ?? "" }}
-            search={{ tab: "appointments" }}
-            to="/app/patients/$patientId"
-          >
-            {appt.patient
-              ? `${appt.patient.firstName} ${appt.patient.lastName}`
-              : "Unknown patient"}
-          </Link>
+          <div className="flex min-w-0 items-center gap-2">
+            <Link
+              className="focus-visible:ring-ring truncate rounded-sm text-sm font-medium underline-offset-4 hover:underline focus-visible:ring-2 focus-visible:outline-none"
+              onClick={(e) => e.stopPropagation()}
+              params={{ patientId: patient?.id ?? "" }}
+              search={{ tab: "appointments" }}
+              to="/app/patients/$patientId"
+            >
+              {patient ? `${patient.firstName} ${patient.lastName}` : "Unknown patient"}
+            </Link>
+
+            {patient && (
+              <span className="bg-muted rounded px-1.5 py-0.5 font-mono text-[0.6rem]">
+                {ageLabel(patient.dateOfBirth)}
+              </span>
+            )}
+
+            {patient?.allergies && (
+              <span className="bg-destructive/10 text-destructive rounded px-1.5 py-0.5 text-[0.6rem] font-medium">
+                Allergy
+              </span>
+            )}
+          </div>
+
           <AppointmentStatusBadge status={appt.status} />
         </div>
 
-        {appt.reason && <p className=" truncate text-xs">{appt.reason}</p>}
-
-        {appt.doctor && <span className=" text-xs">{appt.doctor.name}</span>}
+        {appt.reason && <p className="truncate text-xs">{appt.reason}</p>}
+        {appt.doctor && <span className="text-xs">{appt.doctor.name}</span>}
       </div>
 
+      {/* Status actions */}
       {!isDone && (
         <div
-          className={cn(
-            "absolute top-2 right-2 flex items-center gap-1 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100",
-            isActive && "opacity-100",
-          )}
-        >
+  className={cn(
+    "absolute top-2 right-2 flex items-center gap-1 transition-opacity",
+    "opacity-100 md:opacity-0 md:group-focus-within:opacity-100 md:group-hover:opacity-100",
+    isActive && "md:opacity-100",
+  )}
+>
           <ActionButton
             disabled={actions.complete.isPending}
             icon={CheckIcon}
@@ -119,8 +171,9 @@ function QueueItem({ appt, isActive, rowRef, onFocus, onEdit, actions }: QueueIt
         </div>
       )}
 
+      {/* Screen-reader-only edit affordance */}
       <button
-        aria-label={`Edit appointment for ${appt.patient?.firstName ?? "unknown"} ${appt.patient?.lastName ?? ""} at ${toLocalDateTimeString(appt.scheduledAt)}`}
+        aria-label={`Edit appointment for ${patient?.firstName ?? "unknown"} ${patient?.lastName ?? ""} at ${timeText}`}
         className="focus:ring-ring sr-only focus:not-sr-only focus:ring-2 focus:ring-offset-2"
         onClick={(e) => {
           e.stopPropagation();
@@ -135,54 +188,18 @@ function QueueItem({ appt, isActive, rowRef, onFocus, onEdit, actions }: QueueIt
   );
 }
 
-function ActionButton({
-  icon: Icon,
-  iconClassName,
-  label,
-  onClick,
-  disabled,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  iconClassName: string;
-  label: string;
-  onClick: () => void;
-  disabled?: boolean;
-}) {
-  return (
-    <Button
-      aria-label={label}
-      disabled={disabled}
-      onClick={(e) => {
-        e.stopPropagation();
-        onClick();
-      }}
-      size="icon-xs"
-      title={label}
-      variant="ghost"
-    >
-      <Icon className={cn("size-3", iconClassName)} />
-    </Button>
-  );
-}
-
-// ── Shared queue actions ───────────────────────────────────────────────
-//
-// The mutation hooks from `../queries` already:
-//   - invalidate the today queue and the patient's appointment history
-//   - invalidate the clinic's list and range caches
-//
-// All that's left here is presenting `mutate` and `isPending` per action.
-
-interface QueueActions {
-  complete: { mutate: (id: string) => void; isPending: boolean };
-  noShow: { mutate: (id: string) => void; isPending: boolean };
-  cancel: { mutate: (id: string) => void; isPending: boolean };
-}
+// ── Mutation wiring ────────────────────────────────────────────────────
 
 function useQueueActions(): QueueActions {
   const completeMutation = useCompleteAppointmentMutation();
   const noShowMutation = useMarkNoShowMutation();
   const cancelMutation = useCancelAppointmentMutation();
+
+  const onError = (err: unknown) =>
+    toast.add({
+      type: "error",
+      description: err instanceof Error ? err.message : "Update failed",
+    });
 
   return {
     complete: {
@@ -190,16 +207,8 @@ function useQueueActions(): QueueActions {
         completeMutation.mutate(
           { data: { appointmentId: id } },
           {
-            onSuccess: () =>
-              toast.add({
-                type: "success",
-                description: "Marked as completed",
-              }),
-            onError: (err) =>
-              toast.add({
-                type: "error",
-                description: err instanceof Error ? err.message : "Update failed",
-              }),
+            onSuccess: () => toast.add({ type: "success", description: "Marked as completed" }),
+            onError,
           },
         );
       },
@@ -210,16 +219,8 @@ function useQueueActions(): QueueActions {
         noShowMutation.mutate(
           { data: { appointmentId: id } },
           {
-            onSuccess: () =>
-              toast.add({
-                type: "warning",
-                description: "Marked as no-show",
-              }),
-            onError: (err) =>
-              toast.add({
-                type: "error",
-                description: err instanceof Error ? err.message : "Update failed",
-              }),
+            onSuccess: () => toast.add({ type: "warning", description: "Marked as no-show" }),
+            onError,
           },
         );
       },
@@ -230,22 +231,100 @@ function useQueueActions(): QueueActions {
         cancelMutation.mutate(
           { data: { appointmentId: id } },
           {
-            onSuccess: () =>
-              toast.add({
-                type: "info",
-                description: "Appointment cancelled",
-              }),
-            onError: (err) =>
-              toast.add({
-                type: "error",
-                description: err instanceof Error ? err.message : "Update failed",
-              }),
+            onSuccess: () => toast.add({ type: "info", description: "Appointment cancelled" }),
+            onError,
           },
         );
       },
       isPending: cancelMutation.isPending,
     },
   };
+}
+
+// ── Summary strip ──────────────────────────────────────────────────────
+
+const SUMMARY_ORDER = ["scheduled", "completed", "no-show", "cancelled"] as const;
+
+function QueueSummary({ counts }: { counts: Record<AppointmentStatus, number> }) {
+  const visible = SUMMARY_ORDER.filter((s) => counts[s] > 0);
+  if (visible.length === 0) return null;
+
+  return (
+   <output
+  aria-label="Appointment counts by status"
+  aria-live="polite"
+  className="mb-3 flex flex-wrap gap-1.5"
+>
+  {(["scheduled", "completed", "no-show", "cancelled"] as const).map((s) => {
+    if (counts[s] === 0) return null;
+    const cfg = STATUS_CONFIG[s];
+    return (
+      <span
+        key={s}
+        className={cn(
+          "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xss font-medium",
+          cfg.pillClass,
+        )}
+      >
+        <span className={cn("inline-block size-1.5 rounded-full", cfg.dotClass)} />
+        {counts[s]} {cfg.label.toLowerCase()}
+      </span>
+    );
+  })}
+</output>
+  );
+}
+
+// ── Keyboard navigation hook ───────────────────────────────────────────
+
+function useQueueKeyboard(
+  ids: string[],
+  setActiveId: React.Dispatch<React.SetStateAction<string | null>>,
+  onNew: () => void,
+) {
+  const idsRef = React.useRef(ids);
+  const onNewRef = React.useRef(onNew);
+
+  React.useEffect(() => {
+    idsRef.current = ids;
+  }, [ids]);
+
+  React.useEffect(() => {
+    onNewRef.current = onNew;
+  }, [onNew]);
+
+  React.useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if (isEditableTarget(document.activeElement)) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      const current = idsRef.current;
+      if (current.length === 0 && e.key !== "n") return;
+
+      if (e.key === "j" || e.key === "ArrowDown") {
+        e.preventDefault();
+        setActiveId((prev) => {
+          const i = prev ? current.indexOf(prev) : -1;
+          const next = Math.min(i + 1, current.length - 1);
+          return current[next] ?? null;
+        });
+      } else if (e.key === "k" || e.key === "ArrowUp") {
+        e.preventDefault();
+        setActiveId((prev) => {
+          const i = prev ? current.indexOf(prev) : 0;
+          const next = Math.max(i - 1, 0);
+          return current[next] ?? null;
+        });
+      } else if (e.key === "n") {
+        e.preventDefault();
+        onNewRef.current();
+      } else if (e.key === "Escape") {
+        setActiveId(null);
+      }
+    }
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [setActiveId]);
 }
 
 // ── Main component ─────────────────────────────────────────────────────
@@ -262,68 +341,28 @@ export function TodayQueue({ clinicId, onEdit, onNew }: TodayQueueProps) {
 
   const query = useQuery({
     ...todayAppointmentsQuery(clinicId),
-    // Override the factory's stale time to poll while the queue is open.
-    // If you prefer a polling query, this is the one place to change it.
     refetchInterval: 60_000,
   });
 
+  const appointments = React.useMemo(() => query.data ?? [], [query.data]);
   const appointmentsData = query.data;
-  const appointments = appointmentsData ?? [];
   const actions = useQueueActions();
 
   const activeIdx = React.useMemo(() => {
     if (!activeId) return -1;
-    return (appointmentsData ?? []).findIndex((a) => a.id === activeId);
-  }, [activeId, appointmentsData]);
+    return appointments.findIndex((a) => a.id === activeId);
+  }, [activeId, appointments]);
 
   React.useEffect(() => {
     if (!activeId) return;
-    const el = rowsRef.current.get(activeId);
-    el?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    rowsRef.current.get(activeId)?.scrollIntoView({ block: "nearest", behavior: "smooth" });
   }, [activeId]);
 
-  const onNewRef = React.useRef(onNew);
-  React.useEffect(() => {
-    onNewRef.current = onNew;
-  }, [onNew]);
-
-  const idsRef = React.useRef<string[]>([]);
-  React.useEffect(() => {
-    idsRef.current = (appointmentsData ?? []).map((a) => a.id);
-  }, [appointmentsData]);
-
-  React.useEffect(() => {
-    function handleKey(e: KeyboardEvent) {
-      if (isEditableTarget(document.activeElement)) return;
-      if (e.metaKey || e.ctrlKey || e.altKey) return;
-
-      const ids = idsRef.current;
-      if (ids.length === 0 && e.key !== "n") return;
-
-      if (e.key === "j" || e.key === "ArrowDown") {
-        e.preventDefault();
-        setActiveId((prev) => {
-          const i = prev ? ids.indexOf(prev) : -1;
-          const next = Math.min(i + 1, ids.length - 1);
-          return ids[next] ?? null;
-        });
-      } else if (e.key === "k" || e.key === "ArrowUp") {
-        e.preventDefault();
-        setActiveId((prev) => {
-          const i = prev ? ids.indexOf(prev) : 0;
-          const next = Math.max(i - 1, 0);
-          return ids[next] ?? null;
-        });
-      } else if (e.key === "n") {
-        e.preventDefault();
-        onNewRef.current();
-      } else if (e.key === "Escape") {
-        setActiveId(null);
-      }
-    }
-    document.addEventListener("keydown", handleKey);
-    return () => document.removeEventListener("keydown", handleKey);
-  }, []);
+  useQueueKeyboard(
+    appointments.map((a) => a.id),
+    setActiveId,
+    onNew,
+  );
 
   const counts = React.useMemo(() => {
     const c: Record<AppointmentStatus, number> = {
@@ -334,8 +373,7 @@ export function TodayQueue({ clinicId, onEdit, onNew }: TodayQueueProps) {
       "no-show": 0,
     };
     for (const a of appointmentsData ?? []) {
-      const s = normalizeStatus(a.status);
-      c[s]++;
+      c[normalizeStatus(a.status)]++;
     }
     return c;
   }, [appointmentsData]);
@@ -349,44 +387,21 @@ export function TodayQueue({ clinicId, onEdit, onNew }: TodayQueueProps) {
   );
 
   return (
-    <div className="flex flex-col gap-0">
+    <div className="flex flex-col">
+      {/* Header */}
       <div className="flex items-center justify-between pb-3">
         <div className="flex flex-col gap-0.5">
           <h2 className="text-sm font-semibold">Today&rsquo;s Queue</h2>
-          <p className=" text-xs">{formatDayHeading(new Date())}</p>
+          <p className="text-xs">{formatDayHeading(new Date())}</p>
         </div>
         <Button onClick={onNew} size="xs" title="New appointment (N)" variant="outline">
           New
         </Button>
       </div>
 
-      {appointments.length > 0 && (
-        <output
-          aria-label="Appointment counts by status"
-          aria-live="polite"
-          className="mb-3 flex flex-wrap gap-1.5"
-        >
-          {counts.scheduled > 0 && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-xss font-medium text-primary">
-              <span className="inline-block size-1.5 rounded-full bg-primary" />
-              {counts.scheduled} scheduled
-            </span>
-          )}
-          {counts.completed > 0 && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-module-encounters/10 px-2 py-0.5 text-xss font-medium text-module-encounters">
-              <span className="inline-block size-1.5 rounded-full bg-module-encounters" />
-              {counts.completed} done
-            </span>
-          )}
-          {counts["no-show"] > 0 && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-warning/10 px-2 py-0.5 text-xss font-medium text-warning">
-              <span className="inline-block size-1.5 rounded-full bg-warning" />
-              {counts["no-show"]} no-show
-            </span>
-          )}
-        </output>
-      )}
+      <QueueSummary counts={counts} />
 
+      {/* Body */}
       {query.isPending ? (
         <div className="flex justify-center py-8">
           <Spinner />
@@ -407,11 +422,11 @@ export function TodayQueue({ clinicId, onEdit, onNew }: TodayQueueProps) {
       ) : appointments.length === 0 ? (
         <div className="flex flex-col items-center gap-3 py-12 text-center">
           <div className="bg-muted rounded-full p-3">
-            <CalendarClockIcon className=" size-6" />
+            <CalendarClockIcon className="size-6" />
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-sm font-medium">No appointments today</p>
-            <p className=" text-xs">The schedule is clear. Block a slot to get started.</p>
+            <p className="text-xs">The schedule is clear. Block a slot to get started.</p>
           </div>
           <Button onClick={onNew} size="sm" variant="outline">
             Block a slot
@@ -433,12 +448,13 @@ export function TodayQueue({ clinicId, onEdit, onNew }: TodayQueueProps) {
         </div>
       )}
 
+      {/* Keyboard hint */}
       {appointments.length > 0 && (
-        <p className=" mt-3 text-center text-[0.65rem]">
-          <kbd className="bg-muted rounded  py-0.5 font-mono text-[0.6rem]">j</kbd>
+        <p className="mt-3 text-center text-[0.65rem]">
+          <kbd className="bg-muted rounded py-0.5 font-mono text-[0.6rem]">j</kbd>
           {" / "}
-          <kbd className="bg-muted rounded  py-0.5 font-mono text-[0.6rem]">k</kbd> navigate
-          &middot; <kbd className="bg-muted rounded  py-0.5 font-mono text-[0.6rem]">n</kbd> new
+          <kbd className="bg-muted rounded py-0.5 font-mono text-[0.6rem]">k</kbd> navigate
+          &middot; <kbd className="bg-muted rounded py-0.5 font-mono text-[0.6rem]">n</kbd> new
         </p>
       )}
     </div>

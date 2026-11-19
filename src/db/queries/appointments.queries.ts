@@ -1,10 +1,10 @@
-import { and, db, eq, gte, lte, sql } from "@/db";
-import { appointments } from "@/db/schema";
+import {and, db, eq, gte, lte, sql} from "@/db";
+import {appointments} from "@/db/schema";
 
 import type {
-  AppointmentInput,
-  AppointmentUpdate,
-  Status,
+    AppointmentInput,
+    AppointmentUpdate,
+    Status,
 } from "../../features/appointments/schema";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -124,6 +124,19 @@ export async function listAppointmentsForPatient(patientId: string, status?: Sta
   return db.query.appointments.findMany({
     where: status ? { patientId, status } : { patientId },
     orderBy: (t, { desc }) => [desc(t.scheduledAt)],
+    with: {
+      patient: {
+        columns: {
+          id: true,
+          mrn: true,
+          firstName: true,
+          lastName: true,
+          dateOfBirth: true,
+          allergies: true,
+        },
+      },
+      doctor: { columns: { id: true, name: true } },
+    },
   });
 }
 
@@ -144,7 +157,7 @@ export async function listTodayAppointmentsForClinic(clinicId: string, now = new
     orderBy: (t, { asc }) => [asc(t.scheduledAt)],
     with: {
       patient: {
-        columns: { id: true, mrn: true, firstName: true, lastName: true },
+        columns: { id: true, mrn: true, firstName: true, lastName: true, dateOfBirth:true, allergies:true },
       },
       doctor: { columns: { id: true, name: true } },
     },

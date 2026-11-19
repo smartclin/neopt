@@ -4,6 +4,7 @@ export * from "./components/AppointmentForm";
 export * from "./components/AppointmentSheet";
 export * from "./components/AppointmentStatusBadge";
 export * from "./components/AppointmentsTable";
+export * from "./components/PatientAppointmentsTable";
 export * from "./components/CalendarView";
 export * from "./components/FiltersRail";
 export * from "./components/TodayQueue";

@@ -21,19 +21,8 @@ import { toast } from "@/components/ui/toast";
 import { useCreatePrescriptionsMutation } from "../queries";
 import { FormularyMedicationPicker } from "./FormularyMedicationPicker";
 import { PediatricDosingCalculator } from "./PediatricDosingCalculator";
+import { fieldErrorMessage } from "@/components/forms/field-error";
 
-// ── helpers ────────────────────────────────────────────────────────────
-
-/** TanStack Form hands back `unknown[]`; pull a readable string out. */
-function fieldErrorMessage(err: unknown): string | undefined {
-  if (!err) return undefined;
-  if (typeof err === "string") return err;
-  if (typeof err === "object" && "message" in err) {
-    const m = (err as { message: unknown }).message;
-    if (typeof m === "string") return m;
-  }
-  return undefined;
-}
 
 // ── schema ─────────────────────────────────────────────────────────────
 

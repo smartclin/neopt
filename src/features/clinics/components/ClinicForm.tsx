@@ -19,6 +19,7 @@ import { toast } from "@/components/ui/toast";
 
 // ── mutation ───────────────────────────────────────────────────────────
 import { useCreateClinicMutation } from "../queries";
+import { fieldErrorMessage } from "@/components/forms/field-error";
 
 const clinicSchema = z.object({
   name: z.string().trim().min(2, "Name is required").max(120, "Name is too long"),
@@ -32,16 +33,6 @@ const clinicSchema = z.object({
 
 export type ClinicFormValues = z.infer<typeof clinicSchema>;
 
-/** TanStack Form hands back `unknown[]`; pull a readable string out. */
-function fieldErrorMessage(err: unknown): string | undefined {
-  if (!err) return undefined;
-  if (typeof err === "string") return err;
-  if (typeof err === "object" && "message" in err) {
-    const m = (err as { message: unknown }).message;
-    if (typeof m === "string") return m;
-  }
-  return undefined;
-}
 
 interface ClinicFormProps {
   inline?: boolean;

@@ -1,26 +1,26 @@
-import type { z } from "zod";
-
+import type {z} from "zod";
+import type {QueryClient} from "@tanstack/react-query";
 // src/features/appointments/queries.ts
-import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useServerFn } from "@tanstack/react-start";
+import {queryOptions, useMutation, useQueryClient} from "@tanstack/react-query";
+import {useServerFn} from "@tanstack/react-start";
 
-import type { appointmentStatusSchema } from "./schema";
+import type {appointmentStatusSchema} from "./schema";
 
 import {
-  cancelAppointmentFn,
-  completeAppointmentFn,
-  createAppointmentFn,
-  deleteAppointmentFn,
-  fetchAppointmentById,
-  fetchAppointmentStatusCounts,
-  fetchAppointments,
-  fetchAppointmentsForPatient,
-  fetchAppointmentsInRange,
-  fetchPatientAppointmentCount,
-  fetchTodayAppointments,
-  fetchUpcomingForDoctor,
-  markAppointmentNoShowFn,
-  updateAppointmentFn,
+    cancelAppointmentFn,
+    completeAppointmentFn,
+    createAppointmentFn,
+    deleteAppointmentFn,
+    fetchAppointmentById,
+    fetchAppointmentStatusCounts,
+    fetchAppointments,
+    fetchAppointmentsForPatient,
+    fetchAppointmentsInRange,
+    fetchPatientAppointmentCount,
+    fetchTodayAppointments,
+    fetchUpcomingForDoctor,
+    markAppointmentNoShowFn,
+    updateAppointmentFn,
 } from "./functions";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -159,11 +159,8 @@ interface AppointmentWriteResult {
   clinicId: string;
   patientId: string;
 }
-
 function invalidateAfterAppointmentWrite(
-  queryClient: {
-    invalidateQueries: (opts: { queryKey: readonly unknown[] }) => unknown;
-  },
+  queryClient: QueryClient,
   row: AppointmentWriteResult,
 ): Promise<unknown> {
   return Promise.all([
@@ -284,29 +281,6 @@ export function useMarkNoShowMutation() {
     },
   });
 }
-
-/**
- * Delete an appointment.
- *
- * The delete endpoint returns `{ ok: true }` rather than the deleted row,
- * so we can't derive `clinicId`/`patientId` from the result. The caller
- * must pass them in `onSuccess`'s second argument (the mutation's
- * variables) — or, more ergonomically, wrap `mutate` in a closure that
- * captures them.
- *
- * Typical usage:
- *
- *     const deleteMutation = useDeleteAppointmentMutation();
- *     deleteMutation.mutate(
- *       { data: { appointmentId } },
- *       {
- *         onSuccess: () => {
- *           // The hook has already invalidated the detail and the clinic
- *           // tree; nothing else to do.
- *         }
- *       }
- *     );
- */
 export function useDeleteAppointmentMutation() {
   const queryClient = useQueryClient();
   const deleteAppointment = useServerFn(deleteAppointmentFn);
@@ -318,12 +292,11 @@ export function useDeleteAppointmentMutation() {
       void queryClient.invalidateQueries({
         queryKey: appointmentKeys.detail(appointmentId),
       });
-      // We can't know which clinic or patient the deleted row belonged
-      // to without reading it first. The detail invalidation above
-      // removes the cached row; any list that referenced it will
-      // refetch on next focus because we also invalidate the clinic
-      // prefix. To be precise about clinic/patient, the caller
-      // should invalidate those keys in its own `onSuccess`.
+      // Refresh every appointments list so the deleted row disappears
+      // from the queue and calendar immediately.
+      void queryClient.invalidateQueries({
+        queryKey: appointmentKeys.all(),
+      });
     },
   });
 }

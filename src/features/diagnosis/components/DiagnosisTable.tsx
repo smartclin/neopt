@@ -17,7 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatDate, formatStatusLabel } from "@/lib/dates";
 
 // ── read ───────────────────────────────────────────────────────────────
-import { diagnosesForVisitQuery } from "../queries";
+import { diagnosesForPatientQuery, diagnosesForVisitQuery } from "../queries";
 
 // ── row type — derived from the query factory's concrete queryFn ───────
 //
@@ -104,23 +104,24 @@ const columns = column.columns([
 
 // ── Component ──────────────────────────────────────────────────────────
 
-interface DiagnosisTableProps<TRoute extends AnyRoute> {
+type DiagnosisTableProps<TRoute extends AnyRoute> = {
   route?: TRoute;
-  visitId: string;
   page?: number;
   size?: PageSize;
-}
+} & (
+  | { visitId: string; patientId?: never }
+  | { patientId: string; visitId?: never }
+);
 
-export function DiagnosisTable<TRoute extends AnyRoute>({
-  route,
-  visitId,
-  page = 1,
-  size = 20,
-}: DiagnosisTableProps<TRoute>) {
-  const query = useQuery({
-    ...diagnosesForVisitQuery(visitId),
-    enabled: Boolean(visitId),
-  });
+export function DiagnosisTable<TRoute extends AnyRoute>(props: DiagnosisTableProps<TRoute>) {
+  const { route, page = 1, size = 20 } = props;
+  const patientId = props.patientId;
+  const visitId = props.visitId;
+  const query = useQuery(
+    patientId
+      ? diagnosesForPatientQuery(patientId)
+      : getVisitDiagnosisQuery(visitId),
+  );
 
   const all = query.data ?? EMPTY_DIAGNOSES;
 
@@ -129,7 +130,12 @@ export function DiagnosisTable<TRoute extends AnyRoute>({
     columns,
     features,
     getRowId: (row) => row.id,
-    state: { pagination: { pageIndex: page - 1, pageSize: size } },
+    state: {
+      pagination: {
+        pageIndex: page - 1,
+        pageSize: patientId ? Math.max(all.length, 1) : size,
+      },
+    },
   });
 
   const pageCount = table.getPageCount();
@@ -137,7 +143,11 @@ export function DiagnosisTable<TRoute extends AnyRoute>({
   return (
     <DataTable
       ariaLabel="Diagnoses"
-      emptyMessage="No diagnoses recorded for this visit yet."
+      emptyMessage={
+        patientId
+          ? "No diagnoses recorded for this patient yet."
+          : "No diagnoses recorded for this visit yet."
+      }
       errorDescription={
         query.error instanceof Error ? query.error.message : "An unexpected error occurred."
       }
@@ -145,22 +155,37 @@ export function DiagnosisTable<TRoute extends AnyRoute>({
       outOfRange={
         all.length > 0 && page > pageCount
           ? {
-              backTo: () => (
-                <Link
-                  className={buttonVariants()}
-                  params={{ visitId } as never}
-                  to={route?.fullPath ?? ("/app/visits/$visitId" as never)}
-                >
-                  Back To First Page
-                </Link>
-              ),
+              backTo: () =>
+                patientId ? (
+                  <Link
+                    className={buttonVariants()}
+                    params={{ patientId }}
+                    search={{ tab: "diagnoses" }}
+                    to="/app/patients/$patientId"
+                  >
+                    Back To First Page
+                  </Link>
+                ) : visitId ? (
+                  <Link
+                    className={buttonVariants()}
+                    params={{ visitId } as never}
+                    to={route?.fullPath ?? ("/app/visits/$visitId" as never)}
+                  >
+                    Back To First Page
+                  </Link>
+                ) : null,
             }
           : undefined
       }
-      pagination={{ page, pageCount, route, size }}
+      pagination={patientId ? undefined : { page, pageCount, route, size }}
       query={query}
       skeletonRowCount={Math.min(size, 3)}
       table={table}
     />
   );
+}
+
+function getVisitDiagnosisQuery(visitId: string | undefined) {
+  if (!visitId) throw new Error("A visit ID is required to load visit diagnoses.");
+  return diagnosesForVisitQuery(visitId);
 }

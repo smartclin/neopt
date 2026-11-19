@@ -1,0 +1,132 @@
+{
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/node_modules",
+    "**/.tanstack",
+    "**/.nitro",
+    "**/.output",
+    "**/.vite",
+    "**/.fallow",
+    "**/dist",
+    "**/coverage",
+    "**/playwright-report",
+    "**/test-results"
+  ],
+  "tab_size": 2,
+  "hard_tabs": false,
+  "autosave": "on_focus_change",
+  "show_whitespaces": "boundary",
+  "inlay_hints": {
+    "enabled": true,
+    "show_type_hints": true,
+    "show_parameter_hints": true,
+    "show_other_hints": true
+  },
+  "file_types": {
+    "JSONC": ["tsconfig*.json", ".zed/*.json"],
+    "CSS": ["src/**/*.css"],
+    "SQL": ["**/*.sql", "drizzle/**/*.sql"]
+  },
+  "formatter": {
+    "language_server": {
+      "name": "biome"
+    }
+  },
+  "format_on_save": "on",
+  "code_actions_on_format": {
+    "source.fixAll.biome": true,
+    "source.organizeImports.biome": true
+  },
+  "code_actions_on_save": {
+    "source.fixAll.biome": true,
+    "source.organizeImports.biome": true
+  },
+  "lsp": {
+    "vtsls": {
+      "settings": {
+        "typescript": {
+          "tsdk": "node_modules/typescript/lib",
+          "preferGoToSourceDefinition": true,
+          "inlayHints": {
+            "parameterNames": {
+              "enabled": "literals",
+              "suppressWhenArgumentMatchesName": true
+            },
+            "parameterTypes": { "enabled": true },
+            "variableTypes": { "enabled": true },
+            "propertyDeclarationTypes": { "enabled": true },
+            "functionLikeReturnTypes": { "enabled": true },
+            "enumMemberValues": { "enabled": true }
+          }
+        },
+        "vtsls": {
+          "autoUseWorkspaceTsdk": true
+        }
+      }
+    },
+    "tailwindcss-language-server": {
+      "settings": {
+        "classFunctions": ["cva", "cn", "clsx", "twMerge"],
+        "experimental": {
+          "classRegex": [
+            ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+            ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+          ]
+        }
+      }
+    }
+  },
+  "languages": {
+    "TypeScript": {
+      "language_servers": ["vtsls", "biome", "!typescript-language-server", "!eslint"],
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      }
+    },
+    "TSX": {
+      "language_servers": ["vtsls", "biome", "!typescript-language-server", "!eslint"],
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      }
+    },
+    "JavaScript": {
+      "language_servers": ["vtsls", "biome", "!typescript-language-server", "!eslint"],
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      }
+    },
+    "JSON": {
+      "language_servers": ["biome", "!json-language-server"],
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      }
+    },
+    "JSONC": {
+      "language_servers": ["biome", "!json-language-server"],
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      }
+    },
+    "CSS": {
+      "language_servers": ["tailwindcss-language-server", "biome"],
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      }
+    }
+  },
+  "terminal": {
+    "detect_venv": "off"
+  }
+}

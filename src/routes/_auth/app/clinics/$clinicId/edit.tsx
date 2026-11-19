@@ -15,6 +15,7 @@ import { toast } from "#/components/ui/toast.tsx";
 // ── reads + mutations ────────────────────────────────────────────────
 import { clinicByIdQuery, useUpdateClinicMutation } from "#/features/clinics/queries";
 import { useAuthSuspense } from "#/lib/auth/hooks.ts";
+import { fieldErrorMessage } from "@/components/forms/field-error";
 
 export const Route = createFileRoute("/_auth/app/clinics/$clinicId/edit")({
   component: EditClinicPage,
@@ -32,17 +33,6 @@ const updateSchema = z.object({
   address: z.string().trim().max(500).or(z.literal("")),
 });
 
-/** TanStack Form hands back `unknown[]`; pull a readable string out. */
-function fieldErrorMessage(err: unknown): string | undefined {
-  if (!err) return undefined;
-  if (typeof err === "string") return err;
-  if (typeof err === "object" && "message" in err) {
-    const m = (err as { message: unknown }).message;
-    if (typeof m === "string") return m;
-  }
-  return undefined;
-}
-
 function EditClinicPage() {
   const { clinicId } = Route.useParams();
   const navigate = useNavigate();
@@ -57,11 +47,6 @@ function EditClinicPage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        actions={
-          <Button nativeButton onClick={cancel} variant="outline">
-            Cancel
-          </Button>
-        }
         description={`Clinic ${clinicId}`}
         title="Edit Clinic"
       />
@@ -106,7 +91,6 @@ function EditClinicForm({ clinicId, onDone }: { clinicId: string; onDone: () => 
     return <p className=" py-6 text-center text-sm">This clinic no longer exists.</p>;
   }
 
-  // useForm lives below — we can't call it conditionally, so the split is required.
   return <ClinicEditFields clinic={clinicQuery.data} clinicId={clinicId} onDone={onDone} />;
 }
 
@@ -147,7 +131,7 @@ function ClinicEditFields({
             },
           },
         });
-        toast.add({ type: "success", data: "Clinic updated" });
+        toast.add({ type: "success", description: "Clinic updated" });
         onDone();
         return undefined;
       } catch (err) {

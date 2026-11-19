@@ -1,6 +1,6 @@
 import {useForm} from "@tanstack/react-form";
 import {Plus} from "lucide-react";
-import {useEffect, useMemo, useState, type ComponentProps} from "react";
+import {useMemo, useState, type ComponentProps} from "react";
 import {z} from "zod";
 
 import {fieldErrorMessage} from "@/components/forms/field-error";
@@ -114,10 +114,6 @@ export function AppointmentForm({
     },
   });
 
-  // Keep the form aligned with prop-driven default changes.
-  useEffect(() => {
-    form.reset(defaultValues);
-  }, [defaultValues, form]);
 
   const handleOpenChange = (next: boolean) => {
     setOpen(next);

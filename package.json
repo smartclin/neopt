@@ -148,6 +148,9 @@
     "test:ui": "vp test --ui",
     "test:unit": "vp test --run --project unit",
     "test:watch": "vp test --watch",
+    "secrets:staged": "gitleaks git --staged --pre-commit --redact --verbose",
+    "secrets:branch": "gitleaks git --redact --verbose --log-opts=\"origin/main..HEAD\" .",
+    "secrets:history": "gitleaks git --redact --verbose .",
     "type": "vp check --no-fmt --no-lint",
     "typecheck": "bun type && tsc --noEmit --skipLibCheck --pretty",
     "ui": "bunx shadcn@canary add -o -y"

@@ -16,7 +16,7 @@ function AppointmentsCalendarPage() {
   const { user } = useAuthSuspense();
   const [sheetOpen, setSheetOpen] = React.useState(false);
   const [editId, setEditId] = React.useState<string | undefined>(undefined);
-  const [_prefilledDate, setPrefilledDate] = React.useState<Date | undefined>(undefined);
+  const [prefilledDate, setPrefilledDate] = React.useState<Date | undefined>(undefined);
 
   if (!user?.clinicId) {
     return <PageHeader description="No clinic is assigned to your account." title="Calendar" />;
@@ -65,8 +65,10 @@ function AppointmentsCalendarPage() {
       </div>
 
       <AppointmentSheet
+        key={editId ?? "new"}
         appointmentId={editId}
         clinicId={clinicId}
+        defaultScheduledAt={prefilledDate}
         onOpenChange={(open) => {
           setSheetOpen(open);
           if (!open) {
@@ -74,6 +76,7 @@ function AppointmentsCalendarPage() {
             setPrefilledDate(undefined);
           }
         }}
+        onSaved={() => setSheetOpen(false)}
         open={sheetOpen}
       />
     </>

@@ -45,6 +45,7 @@ import { Route as AuthAppImmunizationsPatientIdRouteImport } from './routes/_aut
 import { Route as AuthAppPatientsIndexRouteImport } from './routes/_auth/app/patients/index'
 import { Route as AuthAppPatientsPatientIdRouteImport } from './routes/_auth/app/patients/$patientId'
 import { Route as AuthAppPatientsNewRouteImport } from './routes/_auth/app/patients/new'
+import { Route as AuthAppPlaygroundIndexRouteImport } from './routes/_auth/app/playground/index'
 import { Route as AuthAppPrescriptionsIndexRouteImport } from './routes/_auth/app/prescriptions/index'
 import { Route as AuthAppPrescriptionsPrescriptionIdRouteImport } from './routes/_auth/app/prescriptions/$prescriptionId'
 import { Route as AuthAppPrescriptionsNeonatalDoseCalculatorRouteImport } from './routes/_auth/app/prescriptions/neonatal-dose-calculator'
@@ -248,6 +249,11 @@ const AuthAppPatientsNewRoute = AuthAppPatientsNewRouteImport.update({
   path: '/patients/new',
   getParentRoute: () => AuthAppRouteRoute,
 } as any)
+const AuthAppPlaygroundIndexRoute = AuthAppPlaygroundIndexRouteImport.update({
+  id: '/playground/',
+  path: '/playground/',
+  getParentRoute: () => AuthAppRouteRoute,
+} as any)
 const AuthAppPrescriptionsIndexRoute =
   AuthAppPrescriptionsIndexRouteImport.update({
     id: '/prescriptions/',
@@ -357,6 +363,7 @@ export interface FileRoutesByFullPath {
   '/app/development/': typeof AuthAppDevelopmentIndexRoute
   '/app/immunizations/': typeof AuthAppImmunizationsIndexRoute
   '/app/patients/': typeof AuthAppPatientsIndexRoute
+  '/app/playground/': typeof AuthAppPlaygroundIndexRoute
   '/app/prescriptions/': typeof AuthAppPrescriptionsIndexRoute
   '/app/visits/': typeof AuthAppVisitsIndexRoute
   '/app/clinics/$clinicId/edit': typeof AuthAppClinicsClinicIdEditRoute
@@ -404,6 +411,7 @@ export interface FileRoutesByTo {
   '/app/development': typeof AuthAppDevelopmentIndexRoute
   '/app/immunizations': typeof AuthAppImmunizationsIndexRoute
   '/app/patients': typeof AuthAppPatientsIndexRoute
+  '/app/playground': typeof AuthAppPlaygroundIndexRoute
   '/app/prescriptions': typeof AuthAppPrescriptionsIndexRoute
   '/app/visits': typeof AuthAppVisitsIndexRoute
   '/app/clinics/$clinicId/edit': typeof AuthAppClinicsClinicIdEditRoute
@@ -455,6 +463,7 @@ export interface FileRoutesById {
   '/_auth/app/development/': typeof AuthAppDevelopmentIndexRoute
   '/_auth/app/immunizations/': typeof AuthAppImmunizationsIndexRoute
   '/_auth/app/patients/': typeof AuthAppPatientsIndexRoute
+  '/_auth/app/playground/': typeof AuthAppPlaygroundIndexRoute
   '/_auth/app/prescriptions/': typeof AuthAppPrescriptionsIndexRoute
   '/_auth/app/visits/': typeof AuthAppVisitsIndexRoute
   '/_auth/app/clinics/$clinicId/edit': typeof AuthAppClinicsClinicIdEditRoute
@@ -505,6 +514,7 @@ export interface FileRouteTypes {
     | '/app/development/'
     | '/app/immunizations/'
     | '/app/patients/'
+    | '/app/playground/'
     | '/app/prescriptions/'
     | '/app/visits/'
     | '/app/clinics/$clinicId/edit'
@@ -552,6 +562,7 @@ export interface FileRouteTypes {
     | '/app/development'
     | '/app/immunizations'
     | '/app/patients'
+    | '/app/playground'
     | '/app/prescriptions'
     | '/app/visits'
     | '/app/clinics/$clinicId/edit'
@@ -602,6 +613,7 @@ export interface FileRouteTypes {
     | '/_auth/app/development/'
     | '/_auth/app/immunizations/'
     | '/_auth/app/patients/'
+    | '/_auth/app/playground/'
     | '/_auth/app/prescriptions/'
     | '/_auth/app/visits/'
     | '/_auth/app/clinics/$clinicId/edit'
@@ -873,6 +885,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAppPatientsNewRouteImport
       parentRoute: typeof AuthAppRouteRoute
     }
+    '/_auth/app/playground/': {
+      id: '/_auth/app/playground/'
+      path: '/playground'
+      fullPath: '/app/playground/'
+      preLoaderRoute: typeof AuthAppPlaygroundIndexRouteImport
+      parentRoute: typeof AuthAppRouteRoute
+    }
     '/_auth/app/prescriptions/': {
       id: '/_auth/app/prescriptions/'
       path: '/prescriptions'
@@ -1026,6 +1045,7 @@ interface AuthAppRouteRouteChildren {
   AuthAppDevelopmentIndexRoute: typeof AuthAppDevelopmentIndexRoute
   AuthAppImmunizationsIndexRoute: typeof AuthAppImmunizationsIndexRoute
   AuthAppPatientsIndexRoute: typeof AuthAppPatientsIndexRoute
+  AuthAppPlaygroundIndexRoute: typeof AuthAppPlaygroundIndexRoute
   AuthAppPrescriptionsIndexRoute: typeof AuthAppPrescriptionsIndexRoute
   AuthAppVisitsIndexRoute: typeof AuthAppVisitsIndexRoute
 }
@@ -1054,6 +1074,7 @@ const AuthAppRouteRouteChildren: AuthAppRouteRouteChildren = {
   AuthAppDevelopmentIndexRoute: AuthAppDevelopmentIndexRoute,
   AuthAppImmunizationsIndexRoute: AuthAppImmunizationsIndexRoute,
   AuthAppPatientsIndexRoute: AuthAppPatientsIndexRoute,
+  AuthAppPlaygroundIndexRoute: AuthAppPlaygroundIndexRoute,
   AuthAppPrescriptionsIndexRoute: AuthAppPrescriptionsIndexRoute,
   AuthAppVisitsIndexRoute: AuthAppVisitsIndexRoute,
 }
@@ -1123,12 +1144,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

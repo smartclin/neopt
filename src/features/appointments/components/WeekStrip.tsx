@@ -1,11 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { cn } from "cn";
+import {useQuery} from "@tanstack/react-query";
+import {cn} from "cn";
 import * as React from "react";
 
-import { addDays, formatDayHeading, formatShortDay, startOfDay } from "@/lib/dates";
+import {addDays, formatDayHeading, formatShortDay, startOfDay, toDateKey} from "@/lib/dates";
 
 // ── read: query factory ────────────────────────────────────────────────
-import { appointmentsInRangeQuery } from "../queries";
+import {appointmentsInRangeQuery} from "../queries";
 
 // ── Helpers ────────────────────────────────────────────────────────────
 const MAX_DOTS = 8;
@@ -117,7 +117,7 @@ export function WeekStrip({ clinicId, selectedDate, onSelectDate }: WeekStripPro
     const map: Record<string, number> = {};
     for (const appt of rangeQuery.data ?? []) {
       const d = new Date(appt.scheduledAt);
-      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+const key = toDateKey(d);
       map[key] = (map[key] ?? 0) + 1;
     }
     return map;
@@ -125,11 +125,7 @@ export function WeekStrip({ clinicId, selectedDate, onSelectDate }: WeekStripPro
 
   const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 
-  const dateKey = (d: Date) =>
-    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-
-  const selKey = selectedDate ? dateKey(selectedDate) : null;
-
+const selKey = selectedDate ? toDateKey(selectedDate) : null;
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
@@ -149,12 +145,12 @@ export function WeekStrip({ clinicId, selectedDate, onSelectDate }: WeekStripPro
       <div className="flex gap-0.5">
         {days.map((day) => (
           <DayCell
-            count={countByDay[dateKey(day)] ?? 0}
-            date={day}
-            isToday={dateKey(day) === dateKey(today)}
-            key={dateKey(day)}
-            onSelect={(d) => onSelectDate?.(d)}
-            selected={selKey === dateKey(day)}
+            count={countByDay[toDateKey(day)] ?? 0}
+date={day}
+isToday={toDateKey(day) === toDateKey(today)}
+key={toDateKey(day)}
+onSelect={(d) => onSelectDate?.(d)}
+selected={selKey === toDateKey(day)}
           />
         ))}
       </div>

@@ -101,7 +101,10 @@ export function clinicByIdQuery(clinicId: string) {
 export function clinicWithStatsQuery(clinicId: string) {
   return queryOptions({
     queryKey: clinicKeys.stats(clinicId),
-    queryFn: () => fetchClinicWithStats({ data: { clinicId } }),
+    queryFn: async () => {
+      const clinic = await fetchClinicWithStats({ data: { clinicId } });
+      return clinic ? { ...clinic, staff: clinic.users } : clinic;
+    },
     staleTime: STALE_TIMES.STATS,
   });
 }

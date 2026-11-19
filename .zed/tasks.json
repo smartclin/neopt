@@ -1,0 +1,52 @@
+[
+  {
+    "label": "dev (vite-plus)",
+    "command": "bun",
+    "args": ["run", "dev"],
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always"
+  },
+  {
+    "label": "routes: generate (tsr)",
+    "command": "bun",
+    "args": ["run", "routes:generate"],
+    "reveal": "no_focus"
+  },
+  {
+    "label": "typecheck",
+    "command": "bun",
+    "args": ["run", "typecheck"],
+    "reveal": "always"
+  },
+  {
+    "label": "check: fix (vp check --fix)",
+    "command": "bun",
+    "args": ["run", "check:fix"],
+    "reveal": "always"
+  },
+  {
+    "label": "test: unit (vitest)",
+    "command": "bun",
+    "args": ["run", "test:unit"],
+    "reveal": "always"
+  },
+  {
+    "label": "test: current file (vitest)",
+    "command": "bunx",
+    "args": ["vp", "test", "run", "$ZED_RELATIVE_FILE"],
+    "reveal": "always"
+  },
+  {
+    "label": "db: generate & migrate",
+    "command": "bun",
+    "args": ["run", "db:generate", "&&", "bun", "run", "db:migrate"],
+    "reveal": "always"
+  },
+  {
+    "label": "fallow: dead-code & health",
+    "command": "bun",
+    "args": ["run", "check:all"],
+    "reveal": "always"
+  }
+]

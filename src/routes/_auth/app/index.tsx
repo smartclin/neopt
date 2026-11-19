@@ -5,7 +5,6 @@ import {
   ArrowRightIcon,
   CalendarClockIcon,
   ClipboardListIcon,
-  RulerIcon,
   SyringeIcon,
   UserPlusIcon,
   UsersIcon,
@@ -74,7 +73,7 @@ const NAV_CARDS: NavCard[] = [
     actionLabel: "View Visits",
   },
   {
-    title: "Prescriptions & Dosing",
+    title: "Pediatric Dosing",
     description: "Calculate pediatric drug dosages and manage active medications.",
     icon: SyringeIcon,
     to: "/app/prescriptions/neonatal-dose-calculator",
@@ -90,10 +89,10 @@ const QUICK_ACTIONS: QuickAction[] = [
     to: "/app/patients/new",
   },
   {
-    label: "Growth Measurement",
-    description: "Log height, weight, and head circumference",
-    icon: RulerIcon,
-    to: "/app/patients/$patientId/measurements/new",
+    label: "New Appointment",
+    description: "Schedule a new clinic appointment",
+    icon: CalendarClockIcon,
+    to: "/app/appointments/new",
   },
   {
     label: "Dose Calculator",
@@ -109,6 +108,12 @@ const QUICK_ACTIONS: QuickAction[] = [
 
 function DashboardPage() {
   const { user } = useAuthSuspense();
+
+  if (!user?.clinicId) {
+    return <PageHeader description="No clinic is assigned to your account." title="Dashboard" />;
+  }
+
+  const clinicId = user.clinicId;
 
   return (
     <div className="flex flex-col gap-8">
@@ -128,7 +133,7 @@ function DashboardPage() {
             </div>
           }
         >
-          <ClinicPulse clinicId={user?.clinicId ?? undefined} />
+          <ClinicPulse clinicId={clinicId} />
         </Suspense>
       </section>
 
@@ -184,10 +189,10 @@ function DashboardPage() {
               <ArrowRightIcon className="ml-1.5 size-3.5" />
             </Button>
           </div>
-          <AppointmentsTable clinicId={user?.clinicId ?? undefined} />
+          <AppointmentsTable clinicId={clinicId} />
         </section>
         <Suspense fallback={<RecentGrowthSkeleton />}>
-          <RecentGrowthCard clinicId={user?.clinicId ?? undefined} />
+          <RecentGrowthCard clinicId={clinicId} />
         </Suspense>
       </div>
 

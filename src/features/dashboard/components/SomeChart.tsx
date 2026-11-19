@@ -7,7 +7,7 @@ import {
     type ChartConfig,
     type ChartDataPoint,
     LineChart,
-} from "@/components/chart";
+} from "@/components/ui/chart";
 import {useState} from "react";
 
 // ============================================================

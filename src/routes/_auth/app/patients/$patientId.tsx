@@ -15,11 +15,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "#/components/ui/tabs.t
 import { AssistantPanel } from "#/features/assistant/components/AssistantPanel";
 import {
   AppointmentForm,
-  AppointmentsTable,
   DiagnosisTable,
   ImmunizationCard,
   MilestoneChecklist,
   PatientGrowthPanel,
+  PatientAppointmentsTable,
   PrescriptionTable,
   VisitForm,
   VisitsTable,
@@ -214,7 +214,7 @@ function PatientLayout() {
                       value={new Date(latestVisit.visitedAt).toLocaleString("en-US")}
                     />
                     <InfoRow label="Age" value={`${latestVisit.ageMonths.toFixed(1)} months`} />
-                    <InfoRow label="Doctor" value={latestVisit.doctorId ?? null} />
+                    <InfoRow label="Doctor" value={latestVisit.doctor?.name ?? "—"} />
                     <Button
                       nativeButton={false}
                       render={
@@ -283,11 +283,7 @@ function PatientLayout() {
         </TabsContent>
 
         <TabsContent value="diagnoses">
-          {latestVisit ? (
-            <DiagnosisTable page={1} size={20} visitId={latestVisit.id} />
-          ) : (
-            <p className=" text-sm">Record a visit before adding diagnoses.</p>
-          )}
+          <DiagnosisTable page={1} patientId={patientId} size={20} />
         </TabsContent>
 
         <TabsContent value="prescriptions">
@@ -295,7 +291,7 @@ function PatientLayout() {
         </TabsContent>
 
         <TabsContent value="appointments">
-          <AppointmentsTable clinicId={clinicId} />
+          <PatientAppointmentsTable patientId={patientId} />
         </TabsContent>
       </Tabs>
 

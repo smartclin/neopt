@@ -1,21 +1,20 @@
-import { cn } from "cn";
-import { CalendarIcon, FilterIcon, RotateCcwIcon, SearchIcon, UserIcon } from "lucide-react";
-import { useMemo } from "react";
+import {cn} from "cn";
+import {CalendarIcon, FilterIcon, RotateCcwIcon, SearchIcon, UserIcon} from "lucide-react";
+import {useMemo} from "react";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
+import {Badge} from "@/components/ui/badge";
+import {Button} from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {Label} from "@/components/ui/label";
+import {Separator} from "@/components/ui/separator";
 
 import {
-  type AppointmentFilters,
-  DEFAULT_FILTERS,
-  patchFilters,
-  resetFilters,
-  useAppointmentFilters,
+    type AppointmentFilters,
+    patchFilters,
+    resetFilters,
+    useAppointmentFilters
 } from "../filters-store";
-import { type AppointmentStatus, STATUS_CONFIG } from "../status";
+import {type AppointmentStatus, STATUS_CONFIG} from "../status";
 
 const STATUSES: Array<{ value: AppointmentStatus; label: string }> = [
   { value: "scheduled", label: "Scheduled" },
@@ -160,5 +159,3 @@ export function FiltersRail({
     </div>
   );
 }
-
-export { DEFAULT_FILTERS };

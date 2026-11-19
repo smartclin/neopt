@@ -24,6 +24,7 @@ import { toast } from "@/components/ui/toast";
 
 // ── mutation ───────────────────────────────────────────────────────────
 import { useCreateDiagnosesMutation } from "../queries";
+import { fieldErrorMessage } from "@/components/forms/field-error";
 
 const ICD_REGEX = /^[A-Z]\d{2}(\.\d{1,4})?$/;
 
@@ -56,16 +57,6 @@ function randomId(): string {
   return `dx-${Math.random().toString(36).slice(2)}-${Date.now().toString(36)}`;
 }
 
-/** TanStack Form hands back `unknown[]`; pull a readable string out. */
-function fieldErrorMessage(err: unknown): string | undefined {
-  if (!err) return undefined;
-  if (typeof err === "string") return err;
-  if (typeof err === "object" && "message" in err) {
-    const m = (err as { message: unknown }).message;
-    if (typeof m === "string") return m;
-  }
-  return undefined;
-}
 
 interface DiagnosisFormProps {
   visitId: string;

@@ -1,7 +1,8 @@
 // Shared status metadata: colors, icons, labels.
 // Import this wherever you need a consistent representation of appointment status.
 
-import { CheckCircle2Icon, CircleDashedIcon, CircleSlashIcon, UserXIcon } from "lucide-react";
+import {CheckCircle2Icon, CircleDashedIcon, CircleSlashIcon, UserXIcon} from "lucide-react";
+import {ComponentType, SVGProps} from 'react';
 
 export type AppointmentStatus = "scheduled" | "in-progress" | "completed" | "cancelled" | "no-show";
 
@@ -50,7 +51,7 @@ export const STATUS_CONFIG = {
   AppointmentStatus,
   {
     label: string;
-    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+icon: ComponentType<SVGProps<SVGSVGElement>>;
     badgeVariant: "info" | "warning" | "success" | "destructive" | "secondary";
     dotClass: string;
     pillClass: string;
@@ -61,4 +62,24 @@ export const STATUS_CONFIG = {
 export function normalizeStatus(raw: string): AppointmentStatus {
   if (raw in STATUS_CONFIG) return raw as AppointmentStatus;
   return "scheduled";
+}
+
+export function ageLabel(dateOfBirth: string | null | undefined): string {
+  if (!dateOfBirth) return "—";
+  const birth = new Date(dateOfBirth);
+  if (Number.isNaN(birth.getTime())) return "—";
+  const today = new Date();
+  let years = today.getFullYear() - birth.getFullYear();
+  const hadBirthday =
+    today.getMonth() > birth.getMonth() ||
+    (today.getMonth() === birth.getMonth() && today.getDate() >= birth.getDate());
+  if (!hadBirthday) years -= 1;
+  if (years > 0) return `${years}y`;
+  const months =
+    (today.getFullYear() - birth.getFullYear()) * 12 +
+    (today.getMonth() - birth.getMonth()) -
+    (today.getDate() < birth.getDate() ? 1 : 0);
+  if (months > 0) return `${months}mo`;
+  const days = Math.max(0, Math.floor((today.getTime() - birth.getTime()) / 86400000));
+  return `${days}d`;
 }
