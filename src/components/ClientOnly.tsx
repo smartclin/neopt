@@ -51,6 +51,7 @@ export function ClientOnly({
 export function ClinicSessionSync() {
   const { user, isPending } = useAuth();
 
+  const userId = user?.id ?? null;
   const clinicId = user?.clinicId ?? null;
   const name = user?.name ?? null;
   const email = user?.email ?? null;
@@ -66,8 +67,12 @@ export function ClinicSessionSync() {
 
   useEffect(() => {
     if (isPending) return;
-    clinicActions.setActiveClinic(clinic);
-  }, [isPending, clinic]);
+    if (!userId) {
+      clinicActions.clearActiveClinic();
+      return;
+    }
+    clinicActions.setActiveClinic(clinic, { source: "sync", userId });
+  }, [isPending, userId, clinic]);
 
   return null;
 }

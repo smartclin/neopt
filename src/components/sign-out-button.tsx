@@ -3,6 +3,7 @@ import { useRouter } from "@tanstack/react-router";
 import * as React from "react";
 
 import { Button } from "#/components/ui/button";
+import { clinicActions } from "#/features/clinics/clinic-store.ts";
 import { authClient } from "#/lib/auth-client";
 import { cn } from "#/lib/utils";
 
@@ -14,6 +15,7 @@ export function useSignOut() {
   const signOut = React.useCallback(async () => {
     setPending(true);
     try {
+      clinicActions.clearActiveClinic();
       await authClient.signOut();
       await router.invalidate();
     } finally {

@@ -88,9 +88,8 @@ function isSameClinic(a: ActiveClinic | null, b: ActiveClinic | null): boolean {
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Store factory — SSR-safe
-// ─────────────────────────────────────────────────────────────────────────────
+let trackedUserId: string | null = null;
+let hasManuallySwitched = false;
 
 const INITIAL_STATE: ClinicState = { active: null };
 
@@ -144,9 +143,32 @@ export const clinicActions = {
    * is the property `ClinicSessionSync` relies on — it can call this on every
    * `useAuth()` refresh without causing a downstream refetch storm.
    */
-  setActiveClinic(next: ActiveClinic | null): void {
+export type ClinicSource = "sync" | "user";
+
+  setActiveClinic(
+    next: ActiveClinic | null,
+    options?: ClinicSource | { source?: ClinicSource; userId?: string | null },
+  ): void {
+    const source = typeof options === "string" ? options : options?.source ?? "user";
+    const userId = typeof options === "object" && options !== null ? options.userId : undefined;
+
     const store = getClinicStore();
+
+    if (userId !== undefined) {
+      if (trackedUserId !== userId) {
+        trackedUserId = userId ?? null;
+        hasManuallySwitched = false;
+      }
+    }
+
+    if (source === "user") {
+      hasManuallySwitched = true;
+    }
+
     store.setState((prev) => {
+      if (source === "sync" && hasManuallySwitched) {
+        return prev;
+      }
       if (isSameClinic(prev.active, next)) return prev;
       return {
         ...prev,
@@ -159,7 +181,13 @@ export const clinicActions = {
 
   /** Clear the active clinic. Equivalent to `setActiveClinic(null)`. */
   clearActiveClinic(): void {
-    clinicActions.setActiveClinic(null);
+    trackedUserId = null;
+    hasManuallySwitched = false;
+    const store = getClinicStore();
+    store.setState((prev) => {
+      if (prev.active === null) return prev;
+      return { ...prev, active: null };
+    });
   },
 };
 
